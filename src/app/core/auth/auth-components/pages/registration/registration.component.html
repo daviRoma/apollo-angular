@@ -1,0 +1,77 @@
+<!-- Registration Component -->
+
+<!-- Register -->
+<div class="min-vh-100 py-5 d-flex align-items-center">
+
+  <div class="w-100">
+
+    <div class="row justify-content-center">
+
+      <div class="col-sm-8 col-lg-5">
+        <div class="card shadow zindex-100 mb-0">
+          <div class="card-body px-md-5 py-5">
+            <div class="mb-5">
+              <h6 class="h3">Create Apollo account</h6>
+            </div>
+            <span class="clearfix"></span>
+
+            <!-- Registration form -->
+            <form role="form" action="#" method="post" [formGroup]="registrationForm" (ngSubmit)="onSubmit($event)">
+							<div class="form-group">
+								<label class="form-control-label">Username</label>
+								<div class="input-group input-group-merge">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="far fa-user"></i></span>
+									</div>
+									<input type="text" formControlName="username" class="form-control" placeholder="Username" required />
+								</div>
+							</div>
+
+              <div class="form-group">
+								<label class="form-control-label">Email address</label>
+								<div class="input-group input-group-merge">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="far fa-at"></i></span>
+									</div>
+									<input type="email" class="form-control" formControlName="email" placeholder="name@example.com" required />
+								</div>
+              </div>
+
+							<div class="form-group mb-4">
+								<label class="form-control-label">Password</label>
+								<div class="input-group input-group-merge">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="far fa-key"></i></span>
+									</div>
+									<input type="password" formControlName="password" class="form-control" placeholder="********" required />
+								</div>
+              </div>
+
+              <div class="form-group mb-4">
+                <label class="form-control-label">Password Confirm</label>
+                <div class="input-group input-group-merge">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-key"></i></span>
+                  </div>
+                  <input type="password" formControlName="passwordConfirm" class="form-control" placeholder="********" required />
+                  <div class="input-group-append"></div>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <button type="submit" class="btn btn-sm btn-primary btn-icon rounded-pill">
+                  <span class="btn-inner--text">Create account</span> <span class="btn-inner--icon"><i class="far fa-long-arrow-alt-right"></i></span>
+                </button>
+              </div>
+            </form>
+
+          </div>
+
+					<div class="card-footer px-md-5">
+							<small>Già registrato? </small> <a [routerLink]="['/log-in']" class="small font-weight-bold">Sing In!</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

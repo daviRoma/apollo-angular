@@ -1,3 +1,8 @@
 export const environment = {
-  production: true
+  production: true,
+
+  name: 'apollo',
+  appTitle: 'Apollo',
+
+  environmentPrefix: 'apollo_prod'
 };

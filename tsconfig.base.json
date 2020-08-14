@@ -8,13 +8,18 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
+    "types": [],
     "lib": [
       "es2018",
       "dom"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
     ]
   }
 }
