@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
+
 import { Observable } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
+import { serverConfiguration } from 'src/app/shared/server.conf';
 
 import * as moment from 'moment';
 
@@ -12,12 +15,14 @@ import { User } from 'src/app/models/user.model';
 @Injectable()
 export class AuthService {
 
+  private BASE_URL = serverConfiguration.api;
+
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private jwtHelper: JwtHelperService
   ) {}
 
-  private BASE_URL = 'http://localhost:4200';
 
   /**
    * Login the given user:
@@ -26,29 +31,16 @@ export class AuthService {
    * @param password password
    */
   public doLogin(
-    username: string,
+    email: string,
     password: string,
     redirectUrl: string
   ): Observable<User> {
-    // this.http
-    //   .post<User>('/api/login', { username, password })
-    //   .subscribe(
-    //     (result) => {
-    //       this.userSessionService.setSession(result);
-    //       this.router.navigate([redirectUrl]);
-    //     },
-    //     (error) => {
-    //       console.error(error);
-    //     },
-    //     () => console.log('Login complete!')
-    //   )
-    //   .unsubscribe();
-    const url = `${this.BASE_URL}/login`;
-    return this.http.post<User>(url, { username, password });
+    const url = `${this.BASE_URL}/auth/login`;
+    return this.http.post<User>(url, { email, password });
   }
 
   public signUp(username: string, email: string,  password: string): Observable<User> {
-    const url = `${this.BASE_URL}/register`;
+    const url = `${this.BASE_URL}/auth/register`;
     return this.http.post<User>(url, { username, email, password });
   }
 
@@ -56,17 +48,22 @@ export class AuthService {
     // this.router.navigate(['/auth/login']);
   }
 
-  public isAuthenticated(redirectUrl: string): boolean {
-    return true;
-    // return moment().isBefore(this.getExpiration());
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    // Check whether the token is expired and return true or false
+    return !this.jwtHelper.isTokenExpired(token);
   }
 
   public isLoggedOut(): void {
     // TO DO: check when the user is logged out
   }
 
+  public hasValidToken(): boolean {
+    return !this.jwtHelper.isTokenExpired(localStorage.getItem('token'));
+  }
+
   public getExpiration(): any {
-    const expiration = localStorage.getItem('expires_at');
+    const expiration = localStorage.getItem('expires_in');
     const expiresAt = JSON.parse(expiration);
     return moment(expiresAt);
   }

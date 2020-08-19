@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -41,6 +42,11 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     AuthLayoutsModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('token'),
+      },
+    }),
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
       serverLogLevel: NgxLoggerLevel.ERROR,

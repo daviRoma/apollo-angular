@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     this.getState = this.store.select(selectAuthState);
 
     this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       password: ['',
         [
           Validators.required,
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     console.log('LoginComponent', 'OnSubmit', this.loginForm.value);
     const payload = {
-      email: this.loginForm.value.username,
+      email: this.loginForm.value.email,
       password: this.loginForm.value.password
     };
     this.store.dispatch(new LogIn(payload));

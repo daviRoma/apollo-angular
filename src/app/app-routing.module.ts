@@ -10,7 +10,7 @@ import { LayoutBaseComponent } from './layouts/layout-base/layout-base.component
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'dashboard/survey-list',
     pathMatch: 'full',
   },
   {

@@ -91,9 +91,13 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "apollo-angular:build"
+            "browserTarget": "apollo-angular:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
+            "dev": {
+              "browserTarget": "apollo-angular:build:dev"
+            },
             "production": {
               "browserTarget": "apollo-angular:build:production"
             }

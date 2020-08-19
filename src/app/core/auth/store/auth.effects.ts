@@ -27,16 +27,21 @@ export class AuthEffects {
   @Effect()
   LogIn: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN),
-    switchMap((payload: any) => this.authService.doLogin(payload.username, payload.password, '')),
+    switchMap((request: any) => this.authService.doLogin(request.payload.email, request.payload.password, '')),
     switchMap((loginResp: any) => of(new LogInSuccess(loginResp))),
-    catchError((loginResp: any) => of(new LogInFailure(loginResp)))
+    catchError((loginResp: any) => {
+      console.error('[Login Error]', loginResp);
+      return of(new LogInFailure(loginResp));
+    })
   );
 
   @Effect({ dispatch: false })
   LogInSuccess: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((authResp: any) => {
-      localStorage.setItem('token', authResp.payload.token);
+      console.log('resp', authResp);
+      localStorage.setItem('token', authResp.payload.access_token);
+      localStorage.setItem('expires_in', authResp.payload.expires_in);
       this.router.navigateByUrl('/dashboard/survey-list');
     })
   );
