@@ -4,14 +4,14 @@ import { CommonModule } from '@angular/common';
 import { PageRoutingModule } from './page-routing.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { SurveyDetailComponent } from './survey-detail/survey-detail.component';
-import { SurveyOverviewComponent } from './survey-overview/survey-overview.component';
+import { DetailComponent } from './detail/detail.component';
+import { OverviewComponent } from './overview/overview.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    SurveyDetailComponent,
-    SurveyOverviewComponent
+    DetailComponent,
+    OverviewComponent
   ],
   imports: [
     CommonModule,

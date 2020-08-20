@@ -17,23 +17,28 @@ const routes: Routes = [
     path: 'dashboard',
     component: LayoutBaseComponent,
     loadChildren: () =>
-      import(`./features/pages/page.module`).then((m) => m.PageModule),
+      import(`./pages/page.module`).then((m) => m.PageModule),
     canActivate: [AuthGuard],
   },
   {
-    path: 'surveys',
+    path: 'detail/survey-detail',
     component: LayoutBaseComponent,
     loadChildren: () =>
-      import(`./features/pages/page.module`).then((m) => m.PageModule),
+      import(`./pages/page.module`).then((m) => m.PageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'overview/survey-overview',
+    component: LayoutBaseComponent,
+    loadChildren: () =>
+      import(`./pages/page.module`).then((m) => m.PageModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'auth',
     component: AuthBaseComponent,
     loadChildren: () =>
-      import(`./core/auth/auth-components/auth-layouts.module`).then(
-        (m) => m.AuthLayoutsModule
-      ),
+      import(`./core/auth/auth-components/auth-layouts.module`).then((m) => m.AuthLayoutsModule)
   },
 ];
 
