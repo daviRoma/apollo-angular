@@ -10,7 +10,7 @@ import { LayoutBaseComponent } from './layouts/layout-base/layout-base.component
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard/survey-list',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
   {
@@ -21,25 +21,26 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'detail/survey-detail',
+    path: 'survey',
     component: LayoutBaseComponent,
     loadChildren: () =>
       import(`./pages/page.module`).then((m) => m.PageModule),
     canActivate: [AuthGuard],
   },
-  {
-    path: 'overview/survey-overview',
-    component: LayoutBaseComponent,
-    loadChildren: () =>
-      import(`./pages/page.module`).then((m) => m.PageModule),
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'overview',
+  //   component: LayoutBaseComponent,
+  //   loadChildren: () =>
+  //     import(`./pages/page.module`).then((m) => m.PageModule),
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'auth',
     component: AuthBaseComponent,
     loadChildren: () =>
       import(`./core/auth/auth-components/auth-layouts.module`).then((m) => m.AuthLayoutsModule)
   },
+  // { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
 ];
 
 @NgModule({

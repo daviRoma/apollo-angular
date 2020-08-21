@@ -7,6 +7,7 @@ import { SurveyListComponent } from './components/survey-list/survey-list.compon
 import { SurveyDetailComponent } from './components/survey-detail/survey-detail.component';
 import { SurveyOverviewComponent } from './components/survey-overview/survey-overview.component';
 
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,11 @@ import { SurveyOverviewComponent } from './components/survey-overview/survey-ove
     SurveyDetailComponent,
     SurveyOverviewComponent
   ],
-  imports: [CommonModule, SurveysRoutingModule],
+  imports: [
+    CommonModule,
+    SurveysRoutingModule,
+    MatTableModule
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SurveysModule {}

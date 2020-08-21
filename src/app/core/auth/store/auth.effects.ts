@@ -13,6 +13,8 @@ import { AuthService } from '../services/auth.service';
 
 import { AuthActionTypes, LogInSuccess, LogInFailure, RegistrationSuccess, RegistrationFailure } from './auth.actions';
 
+import { Paths } from 'src/app/shared/path.conf';
+
 @Injectable()
 export class AuthEffects {
 
@@ -42,7 +44,7 @@ export class AuthEffects {
       console.log('resp', authResp);
       localStorage.setItem('token', authResp.payload.access_token);
       localStorage.setItem('expires_in', authResp.payload.expires_in);
-      this.router.navigateByUrl('/dashboard/survey-list');
+      this.router.navigateByUrl(Paths.userHome);
     })
   );
 
@@ -66,7 +68,7 @@ export class AuthEffects {
     ofType(AuthActionTypes.REGISTRATION_SUCCESS),
     tap((user) => {
       localStorage.setItem('token', user.payload.token);
-      this.router.navigateByUrl('/dashboard/survey-list');
+      this.router.navigateByUrl(Paths.userHome);
     })
   );
 

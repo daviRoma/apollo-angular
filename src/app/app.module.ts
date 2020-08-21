@@ -13,15 +13,22 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { AppRoutingModule } from './app-routing.module';
+/* MATERIAL */
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+
 import { LayoutsModule } from './layouts/layouts.module';
 import { AuthModule } from './core/auth/auth.module';
-
-import { AppComponent } from './app.component';
 import { AuthLayoutsModule } from 'src/app/core/auth/auth-components/auth-layouts.module';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
 import { AuthEffects } from 'src/app/core/auth/store/auth.effects';
-import { reducers } from './state/app.state';
+import { SurveyEffects } from 'src/app/features/surveys/store/effects/survey.effects';
+import { reducers } from 'src/app/state/app.state';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
@@ -41,7 +48,7 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     AuthModule,
     AuthLayoutsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, SurveyEffects]),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token'),
@@ -58,6 +65,10 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
         deps: [HttpClient],
       },
     }),
+    MatPaginatorModule,
+    MatInputModule,
+    MatSortModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent],
