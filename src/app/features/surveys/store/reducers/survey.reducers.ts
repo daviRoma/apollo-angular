@@ -22,6 +22,25 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
         total: 0,
       });
     }
+    case SurveyActionTypes.DELETE: {
+      return { ...state, loading: true };
+    }
+    case SurveyActionTypes.DELETE_SUCCESS: {
+      return surveyAdapter.setAll(action.payload.surveys, {
+        ...state,
+        error: false,
+        loading: false,
+        total: action.payload.surveys.length
+      });
+    }
+    case SurveyActionTypes.DELETE_FAILURE: {
+      return surveyAdapter.setAll([], {
+        ...state,
+        error: true,
+        loading: false,
+        total: 0
+      });
+    }
     default:
       return state;
   }

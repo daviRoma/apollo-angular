@@ -40,4 +40,13 @@ export class SurveyService {
     return this.httpClient.get<SurveyResponse>(url);
   }
 
+  /**
+   * Delete survey by id
+   * @param surveyId : string
+   */
+  public deleteSurvey(surveyId: string): Observable<SurveyResponse> {
+    const url = `${this.BASE_URL}/surveys/delete/${surveyId}`;
+    return this.httpClient.get<SurveyResponse>(url);
+  }
+
 }

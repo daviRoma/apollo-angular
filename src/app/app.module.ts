@@ -18,6 +18,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 import { LayoutsModule } from './layouts/layouts.module';
 import { AuthModule } from './core/auth/auth.module';
@@ -68,9 +70,13 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     MatPaginatorModule,
     MatInputModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule,
+    MatDialogModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

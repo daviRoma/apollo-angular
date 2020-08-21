@@ -1,0 +1,25 @@
+/**
+ * Delete Survey dialog style
+ */
+ .mat-dialog-title {
+  text-align: center;
+}
+
+.mat-dialog-content {
+  display: block;
+  margin: 8px 5px;
+  padding: 0px;
+  overflow: hidden !important;
+  height: auto;
+}
+
+.mat-dialog-actions {
+  width: 100%;
+}
+
+.buttons-container {
+  display: inline-block;
+  margin: 0px;
+  text-align: center !important;
+  width: 100%;
+}

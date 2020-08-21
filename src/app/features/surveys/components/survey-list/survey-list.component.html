@@ -3,8 +3,8 @@
   <mat-toolbar-row>
     <div class="col-md-12 col-sm-12 col-xs-12 header-column">
       <h3>{{surveyTotal}}</h3>
-      <mat-form-field class="search-align">
-        <input class="dc-search" placeholder="Search Survey" (keyup)="filterSubject.next($event.target.value)">
+      <mat-form-field>
+        <input matInput class="dc-search" placeholder="Search Survey" (keyup)="filterSubject.next($event.target.value)">
       </mat-form-field>
     </div>
   </mat-toolbar-row>

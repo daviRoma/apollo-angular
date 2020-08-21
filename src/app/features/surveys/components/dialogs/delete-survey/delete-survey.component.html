@@ -1,1 +1,17 @@
-<p>delete-survey works!</p>
+<!-- DELETE SURVEY DIALOG -->
+<h2 mat-dialog-title> {{dialogConfig.title}}</h2>
+
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12">
+      <span class="form-control-label"> {{dialogConfig.content}} </span>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <div class="text-right buttons-container">
+    <button type="button" class="btn btn-sm btn-link text-danger">Cancel</button>
+    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="confirm()">Confirm</button>
+  </div>
+</div>

@@ -31,4 +31,6 @@ export class SurveyRequest {
 
 export class SurveyResponse {
   surveys: Survey[];
+  status: number;
+  message: string;
 }

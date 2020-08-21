@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, EventEmitter, Output, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { MatInput } from '@angular/material/input';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { Store, select } from '@ngrx/store';
-import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
+import { SurveyLoadAction, SurveyDeleteAction } from 'src/app/features/surveys/store/actions/survey.actions';
 import { selectAllSurvey, selectSurveyTotal, selectSurveyLoading, selectSurveyError } from 'src/app/features/surveys/store/selectors/survey.selectors';
 
 /* COMPONENTS */
@@ -50,7 +49,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscription: Subscription = new Subscription();
 
   constructor(
-    // public confirmDialog: MatDialog,
+    public confirmDialog: MatDialog,
     private store: Store<AppState>,
   ) {}
 
@@ -76,7 +75,6 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.error$ = this.store.pipe(select(selectSurveyError));
   }
 
-  // tslint:disable-next-line: use-lifecycle-interface
   public ngAfterViewInit(): void {
     let sort$ = this.sort.sortChange.pipe(tap(() => this.paginator.pageIndex = 0)); // we should reset page index
 
@@ -106,23 +104,29 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public openDeleteDialog(survey: Survey): void {
-    // const dialogRef = this.confirmDialog.open(DeleteSurveyComponent, {
-    //   minWidth: '19%',
-    //   position: { top: '14%' },
-    //   data: {
-    //     meter: JSON.stringify(survey ? survey : this.selectionList) // clone object
-    //   }
-    // });
+    const dialogRef = this.confirmDialog.open(DeleteSurveyComponent, {
+      minWidth: '20%',
+      position: { top: '14%' },
+      data: {
+        survey: JSON.stringify(survey ? survey : this.selectionList), // clone object
+        dialogConfig: {
+          title: 'Delete Survey',
+          content: 'Are you sure to delete the survey?'
+        }
+      }
+    });
 
-    // dialogRef.afterClosed().subscribe(
-    //   response => {
-    //     if (response.result === 'close_after_delete') {
-    //       // this.assetsManagementService.deleteMeter(response.data.id).subscribe(
-    //       //   (resp: boolean) => { this.getMeters(); },
-    //       //   (error: any) => { console.log('ERROR', error);
-    //       // });
-    //     }
-    //   });
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response.result === 'close_after_delete') {
+          // Delete action
+          this.store.dispatch(new SurveyDeleteAction(survey.id));
+          // this.assetsManagementService.deleteMeter(response.data.id).subscribe(
+          //   (resp: boolean) => { this.getMeters(); },
+          //   (error: any) => { console.log('ERROR', error);
+          // });
+        }
+      });
   }
 
   private initializeData(surveys: Survey[]): void {
