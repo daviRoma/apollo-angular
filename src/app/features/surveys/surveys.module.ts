@@ -8,6 +8,8 @@ import { SurveyDetailComponent } from './components/survey-detail/survey-detail.
 import { SurveyOverviewComponent } from './components/survey-overview/survey-overview.component';
 
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     CommonModule,
     SurveysRoutingModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

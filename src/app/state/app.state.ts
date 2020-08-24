@@ -1,8 +1,6 @@
 /**
  * App state
  */
-import { createFeatureSelector } from '@ngrx/store';
-
 import { AuthState, initialAuthState } from './auth.state';
 import { SurveyState, initialSurveyState } from './survey.state';
 
@@ -23,5 +21,3 @@ export const initialAppState: AppState = {
   auth: initialAuthState,
   survey: initialSurveyState
 };
-
-export const selectAuthState = createFeatureSelector<AppState>('auth');

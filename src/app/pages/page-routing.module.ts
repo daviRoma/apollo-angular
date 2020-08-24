@@ -24,8 +24,8 @@ const PageRoutes: Routes = [
   // },
   {
     path: 'detail',
-    component: DetailComponent,
-    loadChildren: () => import(`../features/surveys/surveys.module`).then((m) => m.SurveysModule)
+    component: DetailComponent
+    // loadChildren: () => import(`../features/surveys/surveys.module`).then((m) => m.SurveysModule)
   },
   {
     path: 'overview',

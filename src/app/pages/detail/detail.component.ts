@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Survey } from 'src/app/models/survey.model';
 
 @Component({
   selector: 'app-detail',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+
+  public survey: Survey;
 
   constructor() { }
 

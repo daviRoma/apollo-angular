@@ -27,7 +27,7 @@ export class SurveyService {
    * @param request : SurveyRequest
    */
   public getSurveys(request: SurveyRequest): Observable<SurveyResponse> {
-    const url = `${this.BASE_URL}/surveys/list`;
+    const url = `${this.BASE_URL}/survey`;
     return this.httpClient.post<SurveyResponse>(url, request);
   }
 

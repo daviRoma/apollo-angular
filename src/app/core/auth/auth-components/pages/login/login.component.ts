@@ -5,7 +5,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { AppState, selectAuthState } from '../../../../../state/app.state';
+import { AppState } from 'src/app/state/app.state';
+import { AuthState, initialAuthState } from 'src/app/state/auth.state';
+import { selectAuthState } from 'src/app/core/auth/store/auth.selectors';
+
 import { LogIn } from '../../../store/auth.actions';
 import { Observable } from 'rxjs';
 

@@ -1,1 +1,90 @@
-<p>survey-detail works!</p>
+<!-- Card header -->
+<div class="card-header actions-toolbar">
+  <div class="row justify-content-between">
+
+    <!-- Info -->
+    <div class="col-auto text-left">
+      <div class="row align-items-center">
+
+        <span class="col-auto">
+          <img *ngIf="survey.icon == null" class="survey-image" alt="Image placeholder" src="./assets/dist/img/theme/light/brand-avatar-3.png">
+          <img *ngIf="survey.icon != null" class="survey-image" alt="Survey Icon" src="{{'data:image/jpg;base64,' + survey.icon.data}}">
+        </span>
+
+        <div class="col-auto align-items-center">
+          <small>Start Date</small>
+          <div class="h6">
+            <span *ngIf="survey.startDate != null; then startDateNotNull else startDateNull"></span>
+            <ng-template #startDateNotNull>{{ survey.startDate | date }}</ng-template>
+            <ng-template #startDateNull>Not Provided</ng-template>
+          </div>
+        </div>
+
+        <div class="col-auto align-items-center">
+            <small>End Date</small>
+            <div class="h6">
+              <span *ngIf="survey.endDate != null; then endDateNotNull else endDateNull"></span>
+              <ng-template #endDateNotNull>{{ survey.endDate | date }}</ng-template>
+              <ng-template #endDateNull>Not Provided</ng-template>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="col-auto d-none d-md-block text-right my-2 justify-content-end">
+        <div class="actions">
+            <a class="align-items-center">
+                <span class="text-left form-control-label">Secret:</span>
+                <span *ngIf="survey.secret"  id="survey_secret" class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                <span *ngIf="!survey.secret" id="survey_secret" class="text-right badge badge-danger badge-pill mx-2">No</span>
+            </a>
+            <a class="align-items-center ml-3 mr-3">
+                <span class="text-left form-control-label">Published:</span>
+                <span id="survey_active" *ngIf="survey.active" class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                <span id="survey_active" *ngIf="!survey.active" class="text-right badge badge-danger badge-pill mx-2">No</span>
+            </a>
+            <a *ngIf="survey.secret" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" title="Send Invitations" data-target="#actions-invitation"
+                (click)="openInvitationPoolModal()">
+                <i class="far fa-envelope"></i>
+            </a>
+            <a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip" title="Edit" data-target="#actions-update"
+                (click)="openUpdateSurveyModal()">
+                <i class="far fa-edit"></i>
+            </a>
+            <a href="#" class="action-item mr-3" data-action="publish-open" data-toggle="tooltip" title="Publish" data-target="#actions-publish"
+                (click)="openPublishModal()">
+                <i class="fas fa-share-square"></i>
+            </a>
+            <a href="#" class="action-item" data-action="delete-open" data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
+                (click)="openDeleteDialog()">
+                <i class="far fa-trash text-danger"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-12 d-md-none text-center my-2">
+      <div class="actions">
+          <a class="align-items-center">
+              <span class="text-left form-control-label">Secret:</span>
+              <span id="survey_secret" *ngIf="survey.secret" class="text-right badge badge-success badge-pill mx-2">Yes</span>
+              <span id="survey_secret" *ngIf="!survey.secret"  class="text-right badge badge-danger badge-pill mx-2">No</span>
+          </a>
+          <a class="align-items-center ml-3 mr-3">
+              <span class="text-left form-control-label">Published:</span>
+              <span id="survey_active" *ngIf="survey.active" class="text-right badge badge-success badge-pill mx-2">Yes</span>
+              <span id="survey_active" *ngIf="!survey.active" class="text-right badge badge-danger badge-pill mx-2">No</span>
+          </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mt-3" *ngIf="survey.description != ''">
+      <!-- Description-->
+      <div class="col-auto">
+        <span id="survey_desc" type="text" class="text-lg">{{survey.description}}</span>
+      </div>
+  </div>
+</div>
+<!-- ./Card header -->

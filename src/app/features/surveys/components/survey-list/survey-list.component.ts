@@ -1,22 +1,26 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
 
 import { Store, select } from '@ngrx/store';
 import { SurveyLoadAction, SurveyDeleteAction } from 'src/app/features/surveys/store/actions/survey.actions';
 import { selectAllSurvey, selectSurveyTotal, selectSurveyLoading, selectSurveyError } from 'src/app/features/surveys/store/selectors/survey.selectors';
+import { AppState } from 'src/app/state/app.state';
+import { selectAuthState } from 'src/app/core/auth/store/auth.selectors';
 
 /* COMPONENTS */
 import { DeleteSurveyComponent } from 'src/app/features/surveys/components/dialogs/delete-survey/delete-survey.component';
 
 import { Observable, Subject, merge, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { AppState } from 'src/app/state/app.state';
 
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
+
+import { Paths } from 'src/app/shared/path.conf';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-survey-list',
@@ -24,9 +28,13 @@ import { Survey, SurveyRequest } from 'src/app/models/survey.model';
   styleUrls: ['./survey-list.component.scss'],
 })
 export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
-
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
+
+  // MatPaginator Output
+  public pageEvent: PageEvent;
+
+  public detailPage = Paths.survey.detail;
 
   public dataSource: MatTableDataSource<Survey>;
   public selectionList: Survey[];
@@ -34,7 +42,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   public surveyTotal: number;
   public loading: boolean;
 
-  public pageConf: any;
+  public pageSizeOptions: number[];
   public pageSize: number;
 
   public displayedColumns: string[];
@@ -45,38 +53,52 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   public filter: string;
   public defaultSort: Sort = { active: 'id', direction: 'asc' };
 
-
   private subscription: Subscription = new Subscription();
+  private getState: Observable<any>;
+  private user: User;
 
-  constructor(
-    public confirmDialog: MatDialog,
-    private store: Store<AppState>,
-  ) {}
+  constructor(public confirmDialog: MatDialog, private store: Store<AppState>) {
+    this.getState = this.store.select(selectAuthState);
+  }
 
   ngOnInit(): void {
-    this.displayedColumns = ['icon', 'name', 'status', 'private', 'creationDate', 'action'];
+    this.getState.subscribe((state) => {
+      this.user = state.user;
+    });
+
+    this.displayedColumns = [
+      'icon',
+      'name',
+      'status',
+      'private',
+      'creationDate',
+      'action',
+    ];
     this.pageSize = 5;
-    this.store.pipe(select(selectAllSurvey)).subscribe(
-      surveys => this.initializeData(surveys)
-    );
+    this.store
+      .pipe(select(selectAllSurvey))
+      .subscribe((surveys) => this.initializeData(surveys));
 
-    this.store.pipe(select(selectSurveyTotal)).subscribe(total => this.surveyTotal = total);
+    this.store
+      .pipe(select(selectSurveyTotal))
+      .subscribe((total) => (this.surveyTotal = total));
 
-    this.subscription.add(this.store.pipe(
-      select(selectSurveyLoading))
-        .subscribe(loading => {
-          if (loading) {
-            this.dataSource = new MatTableDataSource(this.noData);
-          }
-          this.loading = loading;
-        })
+    this.subscription.add(
+      this.store.pipe(select(selectSurveyLoading)).subscribe((loading) => {
+        if (loading) {
+          this.dataSource = new MatTableDataSource(this.noData);
+        }
+        this.loading = loading;
+      })
     );
 
     this.error$ = this.store.pipe(select(selectSurveyError));
   }
 
   public ngAfterViewInit(): void {
-    let sort$ = this.sort.sortChange.pipe(tap(() => this.paginator.pageIndex = 0)); // we should reset page index
+    let sort$ = this.sort.sortChange.pipe(
+      tap(() => (this.paginator.pageIndex = 0))
+    ); // we should reset page index
 
     let filter$ = this.filterSubject.pipe(
       debounceTime(150),
@@ -93,6 +115,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
         .pipe(tap(() => this.loadSurveys()))
         .subscribe()
     );
+    this.dataSource.sort = this.sort;
   }
 
   public ngOnDestroy(): void {
@@ -103,6 +126,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadSurveys();
   }
 
+
   public openDeleteDialog(survey: Survey): void {
     const dialogRef = this.confirmDialog.open(DeleteSurveyComponent, {
       minWidth: '20%',
@@ -111,22 +135,21 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
         survey: JSON.stringify(survey ? survey : this.selectionList), // clone object
         dialogConfig: {
           title: 'Delete Survey',
-          content: 'Are you sure to delete the survey?'
-        }
-      }
+          content: 'Are you sure to delete the survey?',
+        },
+      },
     });
 
-    dialogRef.afterClosed().subscribe(
-      response => {
-        if (response.result === 'close_after_delete') {
-          // Delete action
-          this.store.dispatch(new SurveyDeleteAction(survey.id));
-          // this.assetsManagementService.deleteMeter(response.data.id).subscribe(
-          //   (resp: boolean) => { this.getMeters(); },
-          //   (error: any) => { console.log('ERROR', error);
-          // });
-        }
-      });
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response.result === 'close_after_delete') {
+        // Delete action
+        this.store.dispatch(new SurveyDeleteAction(survey.id));
+        // this.assetsManagementService.deleteMeter(response.data.id).subscribe(
+        //   (resp: boolean) => { this.getMeters(); },
+        //   (error: any) => { console.log('ERROR', error);
+        // });
+      }
+    });
   }
 
   private initializeData(surveys: Survey[]): void {
@@ -136,7 +159,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   private loadSurveys(): void {
     this.store.dispatch(
       new SurveyLoadAction({
-        survey: null,
+        userId: this.user.id,
         filter: this.filter.toLocaleLowerCase(),
         pageIndex: this.paginator.pageIndex,
         pageSize: this.paginator.pageSize,
@@ -144,6 +167,5 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
         sortField: this.sort.active
       } as SurveyRequest)
     );
-}
-
+  }
 }

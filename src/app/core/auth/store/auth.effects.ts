@@ -41,7 +41,7 @@ export class AuthEffects {
   LogInSuccess: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((authResp: any) => {
-      console.log('resp', authResp);
+      console.log('Login Success', authResp);
       localStorage.setItem('token', authResp.payload.access_token);
       localStorage.setItem('expires_in', authResp.payload.expires_in);
       this.router.navigateByUrl(Paths.userHome);

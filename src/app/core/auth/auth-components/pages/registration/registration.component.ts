@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { AppState, selectAuthState } from 'src/app/state/app.state';
-import { Registration } from '../../../store/auth.actions';
-import { Observable } from 'rxjs';
+import { AppState } from 'src/app/state/app.state';
+import { selectAuthState } from 'src/app/core/auth/store/auth.selectors';
+import { Registration } from 'src/app/core/auth/store/auth.actions';
 
 @Component({
   selector: 'app-registration',
