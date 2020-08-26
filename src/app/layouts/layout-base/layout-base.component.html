@@ -1,16 +1,19 @@
-
 <!--  Sidenav -->
-<app-sidebar></app-sidebar>
 
-<!-- Content -->
-<div class="main-content pl-0 scroll-content">
-  <!-- Main nav -->
-  <app-mainbar></app-mainbar>
+<div class="container-application container-fluid">
 
-  <!-- Page content -->
-  <div class="page-content mb-8" id="page-content">
-    <router-outlet style="width: 100%;"></router-outlet>
+  <app-sidebar></app-sidebar>
+
+  <!-- Content -->
+  <div class="main-content pl-0 scroll-content">
+    <!-- Main nav -->
+    <app-mainbar></app-mainbar>
+
+    <!-- Page content -->
+    <div class="page-content mb-8" id="page-content">
+      <router-outlet></router-outlet>
+    </div>
+
   </div>
 
 </div>
-
