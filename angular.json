@@ -36,7 +36,8 @@
               "src/assets/dist/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.css",
               "src/assets/dist/libs/animate.css/animate.min.css",
               "src/assets/dist/css/purpose.css",
-              "src/assets/dist/libs/datatables/dataTables.bootstrap4.min.css"
+              "src/assets/dist/libs/datatables/dataTables.bootstrap4.min.css",
+              "src/assets/dist/css/custom.css"
             ],
             "scripts": [
               "src/assets/dist/js/purpose.core.js",
