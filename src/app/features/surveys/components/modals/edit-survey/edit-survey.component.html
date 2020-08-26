@@ -1,1 +1,104 @@
-<p>edit-survey works!</p>
+<!-- MODAL NEW/EDIT SURVEY -->
+<h2 mat-dialog-title> {{dialogConfig.title}} </h2>
+
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+
+      <form id="survey_form" enctype="multipart/form-data" class="form-horizontal" method="post">
+
+        <!-- TITLE -->
+        <div class="form-group">
+            <label for="name" class="form-control-label">Name</label>
+            <input type="text" formControlName="name" class="form-control form-element" maxlength="50" required/>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="description" class="form-control-label">Description</label>
+                    <textarea formControlName="description" class="form-control form-element" data-toggle="autosize" rows="2"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECRET -->
+        <div class="row">
+            <div class="col-6 my-1">
+                <div class="form-group custom-control custom-switch">
+                    <input type="checkbox" formControlName="secret" class="custom-control-input form-element" name="secret" id="secret">
+                    <label class="custom-control-label form-control-label" for="secret">Secret</label>
+                </div>
+            </div>
+        </div>
+
+        <!--  DATES -->
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="startDate" class="form-control-label">Start Date</label>
+                    <input type="date" name="startDate" formControlName="startDate" class="form-control form-element"/>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="endDate" class="form-control-label">End Date</label>
+                    <input type="date" name="endDate" formControlName="endDate" class="form-control form-element"/>
+                </div>
+            </div>
+            <small class="col-12 pl-3 pr-3 pb-3">* le date di inzio e fine devono essere successive alla data attuale e devono essere diverse tra loro</small>
+        </div>
+
+        <!-- Icon container -->
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group mb-0">
+                    <label class="form-control-label mb-0">Icon</label>
+
+                    <!-- Creation case -->
+                    <div class="form-control-label">
+                        <input type="file" id="iconfile" name="iconfile" class="custom-input-file form-element" formControlName="icon" accept="image/*" data-max-size="5"/>
+                        <label for="iconfile"><i class="fa fa-upload"></i>
+                          <span id="iconfile_label"></span>
+                        </label>
+                        <span id="file_error" class="text-danger text-sm hidden"></span>
+                    </div>
+
+                    <!--Update case -->
+                    <div *ngIf="survey.id != null" class="form-control-label mt-2">
+                        <div *ngIf="survey.icon != null">
+                            <input type="hidden" formControlName="icon"/>
+                            <small>
+                                File: {{survey.icon.name}}
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-10">
+                <span id="file_error" class="text-danger text-sm hidden"></span>
+            </div>
+        </div>
+
+        <!-- Error container -->
+        <div class="row">
+            <div class="col-10 pt-2 pb-1 mt-2">
+                <span id="errors" class="text-danger text-sm hidden"></span>
+            </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <div class="text-right buttons-container">
+    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="confirm()">Confirm</button>
+  </div>
+</div>
+
