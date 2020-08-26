@@ -44,3 +44,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.vscode/settings.json
+src/app/shared/server.conf.ts
+
+src/app/shared/
