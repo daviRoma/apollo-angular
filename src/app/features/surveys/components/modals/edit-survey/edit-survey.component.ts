@@ -1,6 +1,14 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/state/app.state';
 import { Survey } from 'src/app/models/survey.model';
+import { Observable } from 'rxjs';
+import { selectSurveyState } from '../../../store/selectors/survey.selectors';
+import { SurveyNewAction, SurveyUpdateAction } from '../../../store/actions/survey.actions';
 
 @Component({
   selector: 'app-edit-survey',
@@ -8,34 +16,58 @@ import { Survey } from 'src/app/models/survey.model';
   styleUrls: ['./edit-survey.component.scss'],
 })
 export class EditSurveyComponent implements OnInit {
-
   public dialogConfig: any;
   public survey: Survey;
 
+  public surveyForm: FormGroup;
+
+  private currentState: Observable<any>;
+
   constructor(
     public dialogRef: MatDialogRef<EditSurveyComponent>,
+    private formBuilder: FormBuilder,
+    private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    if (this.data.item) {
-      this.survey = JSON.parse(this.data.item);
-    }
+    this.currentState = this.store.select(selectSurveyState);
     this.dialogConfig = this.data.dialogConfig;
+
+    this.surveyForm = this.formBuilder.group({
+      name: ['', [Validators.required]]
+    });
+
+    // Edit case
+    if (this.data.survey) {
+      this.survey = {...this.data.survey};
+      this.surveyForm.patchValue(this.survey);
+    }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentState.subscribe((state) => {
 
-  closeDialog(): void {
-    this.dialogRef.close();
+    });
   }
 
-  /**
-   * Manage confirm click on delete window.
-   */
-  confirm(): void {
+  onSubmit(event): void {
+    event.preventDefault();
+    console.log('EditSurveyComponent', 'OnSubmit', this.surveyForm.value);
+
+    const payload = {
+      ...this.surveyForm.value
+    };
+    this.dialogConfig.operation === 'new' ?
+      this.store.dispatch(new SurveyNewAction(payload)) :
+      this.store.dispatch(new SurveyUpdateAction(payload));
+
     this.dialogRef.close({
       result: 'close_after_' + this.dialogConfig.operation,
       data: this.survey,
     });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 
   cancel(): void {
