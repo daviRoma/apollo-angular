@@ -172,6 +172,12 @@
     padding: 0pt !important;
 }
 
+.force-margin-0{
+
+    margin: 0 !important;
+
+}
+
 .custom-input-text {
     padding-left: 10pt;
     height: auto;
