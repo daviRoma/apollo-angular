@@ -36,6 +36,16 @@ export class SurveyNewAction implements Action {
   constructor(public payload: Survey) {}
 }
 
+export class SurveyNewSuccessAction implements Action {
+  public readonly type = SurveyActionTypes.NEW_SUCCESS;
+  constructor(public payload: SurveyResponse) {}
+}
+
+export class SurveyNewFailureAction implements Action {
+  public readonly type = SurveyActionTypes.NEW_FAILURE;
+  constructor(public error: any) {}
+}
+
 export class SurveyUpdateAction implements Action {
   public readonly type = SurveyActionTypes.UPDATE;
   constructor(public payload: Survey) {}
@@ -71,6 +81,8 @@ export type SurveyActionsAll =
   | SurveyLoadSuccessAction
   | SurveyLoadFailAction
   | SurveyNewAction
+  | SurveyNewSuccessAction
+  | SurveyNewFailureAction
   | SurveyUpdateAction
   | SurveyUpdateSuccessAction
   | SurveyUpdateFailureAction

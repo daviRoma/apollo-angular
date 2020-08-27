@@ -12,27 +12,30 @@ export class Survey {
   description?: string;
   secret: boolean;
   active: boolean;
-  creationDate: Date;
-  startDate?: Date;
-  endDate?: Date;
-  urlId?: string;
-  questionGroups?: QuestionGroup[];
-  invitationPool?: InvitationPool;
+  creation_date: Date;
+  start_date?: Date;
+  end_date?: Date;
+  url_id?: string;
+  question_groups?: QuestionGroup[];
+  invitation_pool?: InvitationPool;
   icon?: Icon;
-  user: User;
+  user?: User;
 }
 
 export class SurveyRequest {
-  userId?: string;
+  user_id?: number;
   filter?: string;
-  pageIndex?: number;
-  pageSize?: number;
+  page?: number;
+  pag_size?: number;
   sortDirection?: string;
   sortField?: string;
+  name?: string;
+  start_date?: string;
+  end_date?: string;
 }
 
 export class SurveyResponse {
-  surveys: Survey[];
-  status: number;
-  message: string;
+  data?: Survey[];
+  links?: any;
+  meta?: any;
 }

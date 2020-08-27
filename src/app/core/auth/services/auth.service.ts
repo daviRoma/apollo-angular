@@ -4,7 +4,7 @@ import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 
 import { Observable } from 'rxjs';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { serverConfiguration } from 'src/app/shared/server.conf';
 
 import * as moment from 'moment';
@@ -68,9 +68,17 @@ export class AuthService {
     return moment(expiresAt);
   }
 
-  private getToken(): string {
-    return localStorage.getItem('id_token');
+  public setHttpSecurityHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.getToken(),
+    });
   }
+
+  private getToken(): string {
+    return localStorage.getItem('token');
+  }
+
 
   private getCurrentUser(): Observable<object> {
     const obs: Observable<object> = new Observable((observer) => {});

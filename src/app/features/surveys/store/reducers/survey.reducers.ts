@@ -7,11 +7,11 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
       return { ...state, loading: true };
     }
     case SurveyActionTypes.LOAD_SUCCESS: {
-      return surveyAdapter.setAll(action.payload.surveys, {
+      return surveyAdapter.setAll(action.payload.data, {
         ...state,
         error: false,
         loading: false,
-        total: action.payload.surveys.length,
+        total: action.payload.data.length,
       });
     }
     case SurveyActionTypes.LOAD_FAILURE: {
@@ -26,11 +26,11 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
       return { ...state, loading: true };
     }
     case SurveyActionTypes.DELETE_SUCCESS: {
-      return surveyAdapter.setAll(action.payload.surveys, {
+      return surveyAdapter.setAll(action.payload.data, {
         ...state,
         error: false,
         loading: false,
-        total: action.payload.surveys.length
+        total: action.payload.data.length
       });
     }
     case SurveyActionTypes.DELETE_FAILURE: {

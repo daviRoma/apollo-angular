@@ -9,7 +9,7 @@ import { Store, select } from '@ngrx/store';
 import { SurveyLoadAction, SurveyDeleteAction } from 'src/app/features/surveys/store/actions/survey.actions';
 import { selectAllSurvey, selectSurveyTotal, selectSurveyLoading, selectSurveyError } from 'src/app/features/surveys/store/selectors/survey.selectors';
 import { AppState } from 'src/app/state/app.state';
-import { selectAuthState } from 'src/app/core/auth/store/auth.selectors';
+import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 
 /* COMPONENTS */
 import { DeleteSurveyComponent } from 'src/app/features/surveys/components/dialogs/delete-survey/delete-survey.component';
@@ -54,27 +54,29 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   public defaultSort: Sort = { active: 'id', direction: 'asc' };
 
   private subscription: Subscription = new Subscription();
-  private getState: Observable<any>;
   private user: User;
 
   constructor(public confirmDialog: MatDialog, private store: Store<AppState>) {
-    this.getState = this.store.select(selectAuthState);
+    this.pageSize = 5;
   }
 
   ngOnInit(): void {
-    this.getState.subscribe((state) => {
-      this.user = state.user;
-    });
+    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe(
+      (user: User) => {
+        this.user = user;
+        this.loadSurveys();
+      }
+    );
 
     this.displayedColumns = [
       'icon',
       'name',
       'status',
       'private',
-      'creationDate',
+      'creation_date',
       'action',
     ];
-    this.pageSize = 5;
+
     this.store
       .pipe(select(selectAllSurvey))
       .subscribe((surveys) => this.initializeData(surveys));
@@ -144,27 +146,24 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       if (response.result === 'close_after_delete') {
         // Delete action
         this.store.dispatch(new SurveyDeleteAction(survey.id));
-        // this.assetsManagementService.deleteMeter(response.data.id).subscribe(
-        //   (resp: boolean) => { this.getMeters(); },
-        //   (error: any) => { console.log('ERROR', error);
-        // });
       }
     });
   }
 
   private initializeData(surveys: Survey[]): void {
+    console.log('surveys', surveys);
     this.dataSource = new MatTableDataSource(surveys.length ? surveys : []);
   }
 
   private loadSurveys(): void {
     this.store.dispatch(
       new SurveyLoadAction({
-        userId: this.user.id,
-        filter: this.filter.toLocaleLowerCase(),
-        pageIndex: this.paginator.pageIndex,
-        pageSize: this.paginator.pageSize,
-        sortDirection: this.sort.direction,
-        sortField: this.sort.active
+        user_id: 1, //this.user.id,
+        // filter: this.filter.toLocaleLowerCase(),
+        page: this.paginator ? this.paginator.pageIndex : 1,
+        pag_size: this.paginator ? this.paginator.pageSize : 5,
+        // sortDirection: this.sort.direction,
+        // sortField: this.sort.active,
       } as SurveyRequest)
     );
   }

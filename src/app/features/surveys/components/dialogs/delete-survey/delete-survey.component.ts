@@ -23,7 +23,7 @@ export class DeleteSurveyComponent implements OnInit {
   ngOnInit(): void {}
 
   closeDialog(): void {
-    this.dialogRef.close();
+    this.dialogRef.close('close_cancel');
   }
 
   /**

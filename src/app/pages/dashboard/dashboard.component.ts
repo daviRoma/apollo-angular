@@ -1,19 +1,44 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/state/app.state';
+
+import { EditSurveyComponent } from 'src/app/features/surveys/components/modals/edit-survey/edit-survey.component';
+import { SurveyNewAction } from 'src/app/features/surveys/store/actions/survey.actions';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public newSurveyDialog: MatDialog,
+    private store: Store<AppState>
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public openNewSurveyModal(): void {
+    const dialogRef = this.newSurveyDialog.open(EditSurveyComponent, {
+      minWidth: '50%',
+      position: { top: '8%' },
+      data: {
+        dialogConfig: {
+          title: 'New Survey',
+          operation: 'new'
+        }
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(
+      (response) => {
+        if (response.result === 'close_after_new') {
+          // New action
+          this.store.dispatch(new SurveyNewAction(response.survey));
+        }
+    });
   }
-
 }

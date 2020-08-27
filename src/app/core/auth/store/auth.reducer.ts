@@ -1,6 +1,7 @@
 import * as fromActions from './auth.actions';
 
 import { AuthState, initialAuthState } from '../../../state/auth.state';
+import { AppState } from 'src/app/state/app.state';
 
 export function reducer(state = initialAuthState, action: fromActions.All): AuthState {
   switch (action.type) {
@@ -10,12 +11,13 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
         isAuthenticated: true,
         token: action.payload.token,
         user: {
+          id: action.payload.user.id,
           email: action.payload.user.email,
           username: action.payload.user.username,
-          name: action.payload.user.name,
-          surname: action.payload.user.surname,
+          firstname: action.payload.user.firstname,
+          lastname: action.payload.user.lastname
         },
-        role: action.payload.role,
+        role: action.payload.user.role,
         error: null,
       };
     }
@@ -31,12 +33,13 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
         isAuthenticated: true,
         token: action.payload.token,
         user: {
+          id: action.payload.user.id,
           email: action.payload.user.email,
           username: action.payload.user.username,
-          name: action.payload.user.name,
-          surname: action.payload.user.surname,
+          firstname: action.payload.user.firstname,
+          lastname: action.payload.user.lastname,
         },
-        role: action.payload.role,
+        role: action.payload.user.role,
         error: null,
       };
     }
@@ -54,3 +57,6 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
     }
   }
 }
+
+export const getAuthenticated = (state: AppState) => state.auth.isAuthenticated;
+export const getUser = (state: AppState) => state.auth.user;

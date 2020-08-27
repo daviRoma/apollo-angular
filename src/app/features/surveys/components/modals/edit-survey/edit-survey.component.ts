@@ -33,7 +33,12 @@ export class EditSurveyComponent implements OnInit {
     this.dialogConfig = this.data.dialogConfig;
 
     this.surveyForm = this.formBuilder.group({
-      name: ['', [Validators.required]]
+      name: ['', [Validators.required]],
+      description: [''],
+      secret: [''],
+      start_date: [''],
+      end_date: [''],
+      icon: ['']
     });
 
     // Edit case
@@ -67,7 +72,7 @@ export class EditSurveyComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.dialogRef.close();
+    this.dialogRef.close('close_cancel');
   }
 
   cancel(): void {

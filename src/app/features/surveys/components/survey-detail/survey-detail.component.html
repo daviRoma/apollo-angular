@@ -14,8 +14,8 @@
         <div class="col-auto align-items-center">
           <small>Start Date</small>
           <div class="h6">
-            <span *ngIf="survey.startDate != null; then startDateNotNull else startDateNull"></span>
-            <ng-template #startDateNotNull>{{ survey.startDate | date }}</ng-template>
+            <span *ngIf="survey.start_date != null; then startDateNotNull else startDateNull"></span>
+            <ng-template #startDateNotNull>{{ survey.start_date | date }}</ng-template>
             <ng-template #startDateNull>Not Provided</ng-template>
           </div>
         </div>
@@ -23,8 +23,8 @@
         <div class="col-auto align-items-center">
             <small>End Date</small>
             <div class="h6">
-              <span *ngIf="survey.endDate != null; then endDateNotNull else endDateNull"></span>
-              <ng-template #endDateNotNull>{{ survey.endDate | date }}</ng-template>
+              <span *ngIf="survey.end_date != null; then endDateNotNull else endDateNull"></span>
+              <ng-template #endDateNotNull>{{ survey.end_date | date }}</ng-template>
               <ng-template #endDateNull>Not Provided</ng-template>
             </div>
         </div>
