@@ -73,7 +73,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       'name',
       'status',
       'private',
-      'creation_date',
+      'createDate',
       'action',
     ];
 

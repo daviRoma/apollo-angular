@@ -23,14 +23,14 @@ const PageRoutes: Routes = [
   //   loadChildren: () => import(`../features/users/users.module`).then((m) => m.UsersModule)
   // },
   {
-    path: 'detail',
+    path: 'detail/:survey_id',
     component: DetailComponent
     // loadChildren: () => import(`../features/surveys/surveys.module`).then((m) => m.SurveysModule)
   },
   {
-    path: 'overview',
-    component: OverviewComponent,
-    loadChildren: () => import(`../features/surveys/surveys.module`).then((m) => m.SurveysModule)
+    path: 'overview/:survey_id',
+    component: OverviewComponent
+    // loadChildren: () => import(`../features/surveys/surveys.module`).then((m) => m.SurveysModule)
   },
 ];
 

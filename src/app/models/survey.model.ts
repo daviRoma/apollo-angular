@@ -12,12 +12,12 @@ export class Survey {
   description?: string;
   secret: boolean;
   active: boolean;
-  creation_date: Date;
-  start_date?: Date;
-  end_date?: Date;
-  url_id?: string;
-  question_groups?: QuestionGroup[];
-  invitation_pool?: InvitationPool;
+  createDate: Date;
+  startDate?: Date;
+  endDate?: Date;
+  urlId?: string;
+  questionGroups?: QuestionGroup[];
+  invitationPool?: InvitationPool;
   icon?: Icon;
   user?: User;
 }

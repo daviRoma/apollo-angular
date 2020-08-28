@@ -35,10 +35,10 @@ export class EditSurveyComponent implements OnInit {
     this.surveyForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       description: [''],
-      secret: [''],
-      start_date: [''],
-      end_date: [''],
-      icon: ['']
+      secret: [false],
+      start_date: [],
+      end_date: [],
+      icon: []
     });
 
     // Edit case
@@ -61,13 +61,15 @@ export class EditSurveyComponent implements OnInit {
     const payload = {
       ...this.surveyForm.value
     };
+    console.log('EditSurveyComponent', 'Payload', payload);
+
     this.dialogConfig.operation === 'new' ?
       this.store.dispatch(new SurveyNewAction(payload)) :
       this.store.dispatch(new SurveyUpdateAction(payload));
 
     this.dialogRef.close({
       result: 'close_after_' + this.dialogConfig.operation,
-      data: this.survey,
+      data: payload,
     });
   }
 

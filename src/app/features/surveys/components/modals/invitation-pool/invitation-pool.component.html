@@ -1,1 +1,48 @@
-<p>invitation-pool works!</p>
+<!-- INVITATION POOL MODAL -->
+<div mat-dialog-title>
+  <div class="modal-header">
+    <div class="modal-title align-items-center">
+      <h6 class="mb-0">{{dialogConfig.title}}</h6>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<div mat-dialog-content>
+  <div class="row mt-3">
+    <div class="col">
+      <label class="form-control-label mb-3">Emails</label>
+      <div class="bootstrap-tagsinput">
+        <input id="tagsinput" type="text" placeholder="Digita una email..." size="48">
+
+        <div id="tags_input_container" class="custom-tagsinput py-2 mt-2">
+          <ng-container *ngIf="survey.invitation_pool != null" >
+            <span *ngFor="let email of survey.invitationPool.emails" class="tag badge badge-primary">
+              {{email}}
+              <span data-role="remove"></span>
+            </span>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 py-2">
+          <div class="loader"></div>
+          <div id="result_message" class="text-left justify-content-between text-xs text-muted mt-2">
+            <span id="invalid_mail_msg" class="font-weight-bold text-danger hidden">Send invitation error</span>
+            <span id="error_message" class="font-weight-bold text-danger"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div mat-dialog-actions>
+  <div class="text-right buttons-container">
+    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendInvitationPool()" [disabled]="survey.active">Invia</button>
+  </div>
+</div>

@@ -48,6 +48,13 @@ export class AuthService {
     // this.router.navigate(['/auth/login']);
   }
 
+  public getCurrentUser(): Observable<User> {
+    if (this.isAuthenticated) {
+      const url = `${this.BASE_URL}/user/${localStorage.getItem('user_id')}`;
+      return this.http.get<User>(url, { headers: this.setHttpSecurityHeaders() });
+    }
+  }
+
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     // Check whether the token is expired and return true or false
@@ -75,25 +82,14 @@ export class AuthService {
     });
   }
 
+  public setStorage(data: any): void {
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('expires_in', data.expires_in);
+      localStorage.setItem('user_id', data.user.id);
+  }
+
   private getToken(): string {
     return localStorage.getItem('token');
   }
 
-
-  private getCurrentUser(): Observable<object> {
-    const obs: Observable<object> = new Observable((observer) => {});
-    // TO DO: get the current user from user session
-    return obs;
-  }
-
-  /**
-   * Tranform a given email to username
-   * @param email user email
-   */
-  private toUsername(email): string {
-    // tslint:disable-next-line: curly
-    if (!email) return '';
-
-    return email.replace('@', '-at-');
-  }
 }
