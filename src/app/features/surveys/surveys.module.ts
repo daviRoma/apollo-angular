@@ -8,7 +8,7 @@ import { QuestionGroupsModule } from 'src/app/features/question-groups/question-
 import { SurveyListComponent } from './components/survey-list/survey-list.component';
 import { SurveyDetailComponent } from './components/survey-detail/survey-detail.component';
 import { SurveyOverviewComponent } from './components/survey-overview/survey-overview.component';
-import { EditSurveyComponent } from './components/modals/edit-survey/edit-survey.component';
+import { EditSurveyComponent } from './components/dialogs/edit-survey/edit-survey.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';

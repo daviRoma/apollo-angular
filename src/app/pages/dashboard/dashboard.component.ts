@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
 
-import { EditSurveyComponent } from 'src/app/features/surveys/components/modals/edit-survey/edit-survey.component';
+import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
 import { SurveyNewAction } from 'src/app/features/surveys/store/actions/survey.actions';
 
 @Component({
@@ -23,8 +23,8 @@ export class DashboardComponent implements OnInit {
 
   public openNewSurveyModal(): void {
     const dialogRef = this.newSurveyDialog.open(EditSurveyComponent, {
-      minWidth: '50%',
-      position: { top: '8%' },
+      width: '45%',
+      position: { top: '3%' },
       data: {
         dialogConfig: {
           title: 'New Survey',

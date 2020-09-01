@@ -50,8 +50,19 @@ export class SurveyService {
    * @param survey : Survey
    */
   public createSurvey(survey: Survey): Observable<SurveyResponse> {
+    this.logger.debug('SurveyService', 'createSurvey');
     const url = `${this.BASE_URL}/surveys`;
     return this.httpClient.post<SurveyResponse>(url, survey, { headers: this.authService.setHttpSecurityHeaders() });
+  }
+
+  /**
+   * Update survey
+   * @param survey : Survey
+   */
+  public updateSurvey(survey: Survey): Observable<SurveyResponse> {
+    this.logger.debug('SurveyService', 'updateSurvey', survey.id);
+    const url = `${this.BASE_URL}/surveys/${survey.id}`;
+    return this.httpClient.put<SurveyResponse>(url, survey, { headers: this.authService.setHttpSecurityHeaders() });
   }
 
   /**

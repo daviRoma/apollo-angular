@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { SurveyLoadAction, SurveyUpdateAction, SurveyDeleteAction } from 'src/app/features/surveys/store/actions/survey.actions';
 
 /* COMPONENTS */
-import { EditSurveyComponent } from 'src/app/features/surveys/components/modals/edit-survey/edit-survey.component';
+import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
 import { DeleteSurveyComponent } from '../dialogs/delete-survey/delete-survey.component';
 
 import { AppState } from 'src/app/state/app.state';

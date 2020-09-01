@@ -56,11 +56,14 @@ export class EditSurveyComponent implements OnInit {
 
   onSubmit(event): void {
     event.preventDefault();
-    console.log('EditSurveyComponent', 'OnSubmit', this.surveyForm.value);
 
-    const payload = {
-      ...this.surveyForm.value
-    };
+    const payload = { ...this.surveyForm.value };
+
+    // Remove null attributes
+    Object.keys(payload).forEach((key) => {
+       if(payload[key] == null) delete payload[key];
+    });
+
     console.log('EditSurveyComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new' ?

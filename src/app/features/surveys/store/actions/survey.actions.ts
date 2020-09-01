@@ -38,7 +38,7 @@ export class SurveyNewAction implements Action {
 
 export class SurveyNewSuccessAction implements Action {
   public readonly type = SurveyActionTypes.NEW_SUCCESS;
-  constructor(public payload: SurveyResponse) {}
+  constructor(public payload: Survey) {}
 }
 
 export class SurveyNewFailureAction implements Action {
@@ -53,7 +53,7 @@ export class SurveyUpdateAction implements Action {
 
 export class SurveyUpdateSuccessAction implements Action {
   public readonly type = SurveyActionTypes.UPDATE_SUCCESS;
-  constructor(public payload: SurveyResponse) {}
+  constructor(public payload: Survey) {}
 }
 
 export class SurveyUpdateFailureAction implements Action {

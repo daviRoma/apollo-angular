@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 import { SurveyService } from '../../services/survey.service';
 
-import { SurveyLoadAction, SurveyActionTypes, SurveyLoadSuccessAction, SurveyLoadFailAction, SurveyDeleteAction, SurveyNewAction, SurveyNewSuccessAction, SurveyNewFailureAction } from '../actions/survey.actions';
+import { SurveyLoadAction, SurveyActionTypes, SurveyLoadSuccessAction, SurveyLoadFailAction, SurveyDeleteAction, SurveyNewAction, SurveyNewSuccessAction, SurveyNewFailureAction, SurveyUpdateAction, SurveyUpdateSuccessAction, SurveyUpdateFailureAction } from '../actions/survey.actions';
 import { SurveyRequest, SurveyResponse, Survey } from 'src/app/models/survey.model';
 
 @Injectable()
@@ -32,8 +32,20 @@ export class SurveyEffects {
     map((action) => action.payload),
     switchMap((params: Survey) =>
       this.surveyService.createSurvey(params).pipe(
-        map((response: any) => new SurveyNewSuccessAction(response)),
+        map((response: any) => of(new SurveyNewSuccessAction(params))),
         catchError((error) => of(new SurveyNewFailureAction(error)))
+      )
+    )
+  );
+
+  @Effect()
+  public updateSurvey = this.actions.pipe(
+    ofType<SurveyUpdateAction>(SurveyActionTypes.UPDATE),
+    map((action) => action.payload),
+    switchMap((request: Survey) =>
+      this.surveyService.updateSurvey(request).pipe(
+        map((response: any) => of(new SurveyUpdateSuccessAction(request))),
+        catchError((error) => of(new SurveyUpdateFailureAction(error)))
       )
     )
   );
