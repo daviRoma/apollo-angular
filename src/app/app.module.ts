@@ -30,6 +30,8 @@ import { AppComponent } from './app.component';
 
 import { AuthEffects } from 'src/app/core/auth/store/auth.effects';
 import { SurveyEffects } from 'src/app/features/surveys/store/effects/survey.effects';
+import { QuestionGroupEffects } from 'src/app/features/question-groups/store/question-group.effects';
+
 import { reducers } from 'src/app/state/app.state';
 
 // AoT requires an exported function for factories
@@ -50,7 +52,7 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     AuthModule,
     AuthLayoutsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects, SurveyEffects]),
+    EffectsModule.forRoot([AuthEffects, SurveyEffects, QuestionGroupEffects]),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token'),
