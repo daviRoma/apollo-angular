@@ -1,5 +1,7 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { SurveyState, surveyAdapter } from '../../../../state/survey.state';
+import { Survey } from 'src/app/models/survey.model';
+import { AppState } from 'src/app/state/app.state';
 
 export const {
   selectIds: _selectSurveyDataIds,
@@ -35,8 +37,17 @@ export const selectSurveyLoading = createSelector(
   (state: SurveyState): boolean => state.loading
 );
 
-
 export const selectSurveyTotal = createSelector(
   selectSurveyState,
   (state: SurveyState): number => state.total
+);
+
+export const selectEntity = createSelector(
+  selectAllSurvey,
+  (entities, props) => entities.find((elem) => elem.id == props.id)
+);
+
+export const selectEntitiesByID = createSelector(
+  selectAllSurvey,
+  (entities, props) => props.ids.map((id) => entities[id])
 );

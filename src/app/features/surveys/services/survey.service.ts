@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { Observable } from 'rxjs';
 
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { serverConfiguration } from 'src/app/shared/server.conf';
@@ -27,7 +27,7 @@ export class SurveyService {
    * @param request : SurveyRequest
    */
   public getSurveys(request: SurveyRequest): Observable<SurveyResponse> {
-    const url = `${this.BASE_URL}/survey`;
+    const url = `${this.BASE_URL}/surveys`;
     const options = {
       headers: this.authService.setHttpSecurityHeaders(),
       params: this.setHttpParams(request),
@@ -41,7 +41,7 @@ export class SurveyService {
    * @param surveyId : SurveyRequest
    */
   public getSurvey(surveyId: string): Observable<SurveyResponse> {
-    const url = `${this.BASE_URL}/survey/${surveyId}`;
+    const url = `${this.BASE_URL}/surveys/${surveyId}`;
     return this.httpClient.get<SurveyResponse>(url);
   }
 
@@ -50,7 +50,7 @@ export class SurveyService {
    * @param survey : Survey
    */
   public createSurvey(survey: Survey): Observable<SurveyResponse> {
-    const url = `${this.BASE_URL}/survey`;
+    const url = `${this.BASE_URL}/surveys`;
     return this.httpClient.post<SurveyResponse>(url, survey, { headers: this.authService.setHttpSecurityHeaders() });
   }
 

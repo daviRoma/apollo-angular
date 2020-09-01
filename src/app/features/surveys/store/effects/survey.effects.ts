@@ -1,5 +1,3 @@
-
-
 import { Injectable } from '@angular/core';
 
 import { Actions, ofType, Effect } from '@ngrx/effects';
@@ -7,7 +5,7 @@ import { Actions, ofType, Effect } from '@ngrx/effects';
 import { switchMap, catchError, tap, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { SurveyService } from '../services/survey.service';
+import { SurveyService } from '../../services/survey.service';
 
 import { SurveyLoadAction, SurveyActionTypes, SurveyLoadSuccessAction, SurveyLoadFailAction, SurveyDeleteAction, SurveyNewAction, SurveyNewSuccessAction, SurveyNewFailureAction } from '../actions/survey.actions';
 import { SurveyRequest, SurveyResponse, Survey } from 'src/app/models/survey.model';

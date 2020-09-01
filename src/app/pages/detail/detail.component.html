@@ -18,13 +18,14 @@
   <!-- Listing -->
   <div class="card">
 
+    <!-- SURVEY DETAIL CONTAINER -->
     <div id="survey_detail_section">
       <app-survey-detail [survey]="survey"></app-survey-detail>
     </div>
 
     <!-- GROUPS CONTAINER -->
     <div id="question_group_section">
-      <ng-template *ngFor="let questionGroup of survey.question_groups; index as i">
+      <ng-template *ngFor="let questionGroup of survey.questionGroups;">
         <app-question-group-box></app-question-group-box>
       </ng-template>
     </div>

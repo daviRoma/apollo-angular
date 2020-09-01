@@ -10,6 +10,7 @@ import { DeleteSurveyComponent } from '../dialogs/delete-survey/delete-survey.co
 
 import { AppState } from 'src/app/state/app.state';
 import { Survey } from 'src/app/models/survey.model';
+import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
 
 @Component({
   selector: 'app-survey-detail',
@@ -20,9 +21,21 @@ export class SurveyDetailComponent implements OnInit {
 
   @Input() survey: Survey;
 
-  constructor(public modal: MatDialog, public dialog: MatDialog, private store: Store<AppState>) { }
+  constructor(
+    public modal: MatDialog,
+    public dialog: MatDialog,
+    private store: Store<AppState>) { }
 
   ngOnInit(): void {
+    // this.store
+    // .pipe(select(fromSurvey.selectEntity, { id: 1 }))
+    // .subscribe((survey: Survey) => {
+    //   console.log('Survey', survey);
+    // });
+
+    // this.store.pipe(
+    //   select(selectEntitiesByID, { ids: arrayOfIDs })
+    // );
   }
 
   public openInvitationPoolModal(): void {
