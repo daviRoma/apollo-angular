@@ -7,7 +7,14 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
       return { ...state, loading: true };
     }
     case QuestionGroupActionTypes.LOAD_SUCCESS: {
-      return questionGroupAdapter.setAll(action.payload.data, {
+      const questionGroups = action.payload.data.map(
+        (group) =>
+          ({
+            ...group,
+            survey: group.survey.split('/')[group.survey.split('/').length - 1]
+          })
+        );
+      return questionGroupAdapter.setAll(questionGroups, {
         ...state,
         error: false,
         loading: false,

@@ -7,7 +7,8 @@ export class QuestionGroup {
   id: string;
   title?: string;
   description?: string;
-  surveyId: string;
+  survey?: string;
+  createdDate: Date;
   questions?: Question[];
 }
 

@@ -11,8 +11,10 @@ import { AppState } from 'src/app/state/app.state';
 
 import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
 
-import { Survey } from 'src/app/models/survey.model';
+import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
+import { catchError } from 'rxjs/operators';
+import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
 
 @Component({
   selector: 'app-detail',
@@ -22,6 +24,7 @@ import { QuestionGroup } from 'src/app/models/question-group.model';
 export class DetailComponent implements OnInit {
 
   public survey: Survey;
+  public questionGroups: QuestionGroup[];
 
   private routeParamsSubscription: Subscription;
 
@@ -30,12 +33,11 @@ export class DetailComponent implements OnInit {
     private store: Store<AppState>
   ) {
     const self = this;
-
+    this.questionGroups = [];
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params.survey_id) {
         // Select survey from store by url parameter
         self.loadData(params.survey_id);
-        // if the survey is not present in the store, call the server api
       }
     });
   }
@@ -50,13 +52,19 @@ export class DetailComponent implements OnInit {
     this.store
       .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
       .subscribe((survey: Survey) => {
-        this.survey = survey;
+        if (survey) { this.survey = survey; }
+        else {
+          this.store.dispatch( new SurveyLoadAction({
+            user_id: 1, //this.user.id,
+          } as SurveyRequest));
+        }
       });
 
     this.store
       .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId }))
-      .subscribe((questionGroups: QuestionGroup[]) => {
-        this.survey.questionGroups = questionGroups;
+      .subscribe((response: QuestionGroup[]) => {
+        this.survey = { ...this.survey, questionGroups: response };
+        this.questionGroups = response;
       });
 
   }

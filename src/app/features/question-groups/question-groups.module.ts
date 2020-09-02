@@ -14,5 +14,6 @@ import { QuestionGroupBoxComponent } from './components/question-group-box/quest
     ReactiveFormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [QuestionGroupBoxComponent]
 })
 export class QuestionGroupsModule {}

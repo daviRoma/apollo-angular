@@ -32,5 +32,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     QuestionGroupsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [SurveyDetailComponent]
 })
 export class SurveysModule {}
