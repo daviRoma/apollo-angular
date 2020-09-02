@@ -25,15 +25,24 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
       });
     }
 
-    case SurveyActionTypes.NEW: {
-      return { ...state, loading: true };
-    }
-    case SurveyActionTypes.NEW_SUCCESS: {
+    case SurveyActionTypes.LOADONE_SUCCESS: {
       return surveyAdapter.addOne(
-        { ...action.payload, createDate: new Date() },
+        { ...action.payload.data },
         { ...state }
       );
     }
+
+    case SurveyActionTypes.NEW: {
+      return { ...state, loading: true };
+    }
+    // case SurveyActionTypes.NEW_SUCCESS: {
+    //   console.log('reducer new success', action.payload);
+    //   return state;
+    //   // return surveyAdapter.addOne(
+    //   //   { ...action.payload, createDate: new Date() },
+    //   //   { ...state }
+    //   // );
+    // }
     case SurveyActionTypes.NEW_FAILURE: {
       return state;
     }
@@ -55,12 +64,7 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
       return { ...state, loading: true };
     }
     case SurveyActionTypes.DELETE_SUCCESS: {
-      return surveyAdapter.setAll(action.payload.data, {
-        ...state,
-        error: false,
-        loading: false,
-        total: action.payload.data.length,
-      });
+      return surveyAdapter.removeOne(action.payload, { ...state });
     }
     case SurveyActionTypes.DELETE_FAILURE: {
       return surveyAdapter.setAll([], {

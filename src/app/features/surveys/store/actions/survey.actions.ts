@@ -5,6 +5,9 @@ export enum SurveyActionTypes {
   LOADING = '[Survey] Loading',
   LOAD_SUCCESS = '[Survey] Loading Success',
   LOAD_FAILURE = '[Survey] Loading Failure',
+  LOADONE = '[Survey] Loadone',
+  LOADONE_SUCCESS = '[Survey] Loadone Success',
+  LOADONE_FAILURE = '[Survey] Loadone Failure',
   NEW = '[Survey] New',
   NEW_SUCCESS = '[Survey] New Success',
   NEW_FAILURE = '[Survey] New Failure',
@@ -31,6 +34,21 @@ export class SurveyLoadFailAction implements Action {
   constructor(public error: any) {}
 }
 
+export class SurveyLoadOneAction implements Action {
+  public readonly type = SurveyActionTypes.LOADONE;
+  constructor(public payload: string) {}
+}
+
+export class SurveyLoadOneSuccessAction implements Action {
+  public readonly type = SurveyActionTypes.LOADONE_SUCCESS;
+  constructor(public payload: SurveyResponse) {}
+}
+
+export class SurveyLoadOneFailAction implements Action {
+  public readonly type = SurveyActionTypes.LOADONE_FAILURE;
+  constructor(public error: any) {}
+}
+
 export class SurveyNewAction implements Action {
   public readonly type = SurveyActionTypes.NEW;
   constructor(public payload: Survey) {}
@@ -38,7 +56,7 @@ export class SurveyNewAction implements Action {
 
 export class SurveyNewSuccessAction implements Action {
   public readonly type = SurveyActionTypes.NEW_SUCCESS;
-  constructor(public payload: Survey) {}
+  constructor(public payload: SurveyResponse) {}
 }
 
 export class SurveyNewFailureAction implements Action {
@@ -68,7 +86,7 @@ export class SurveyDeleteAction implements Action {
 
 export class SurveyDeleteSuccessAction implements Action {
   public readonly type = SurveyActionTypes.DELETE_SUCCESS;
-  constructor(public payload: SurveyResponse) {}
+  constructor(public payload: any) {}
 }
 
 export class SurveyDeleteFailAction implements Action {
@@ -80,6 +98,9 @@ export type SurveyActionsAll =
   | SurveyLoadAction
   | SurveyLoadSuccessAction
   | SurveyLoadFailAction
+  | SurveyLoadOneAction
+  | SurveyLoadOneSuccessAction
+  | SurveyLoadOneFailAction
   | SurveyNewAction
   | SurveyNewSuccessAction
   | SurveyNewFailureAction

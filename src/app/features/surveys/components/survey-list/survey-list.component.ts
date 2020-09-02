@@ -134,7 +134,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       minWidth: '20%',
       position: { top: '14%' },
       data: {
-        survey: JSON.stringify(survey ? survey : this.selectionList), // clone object
+        survey: { ...survey }, // clone object
         dialogConfig: {
           title: 'Delete Survey',
           content: 'Are you sure to delete the survey?',

@@ -15,7 +15,7 @@ export class DeleteSurveyComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     if (this.data.item) {
-      this.selectedSurvey = JSON.parse(this.data.item);
+      this.selectedSurvey = this.data.item;
     }
     this.dialogConfig = this.data.dialogConfig;
   }

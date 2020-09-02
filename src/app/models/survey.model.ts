@@ -35,7 +35,8 @@ export class SurveyRequest {
 }
 
 export class SurveyResponse {
-  data?: Survey[];
+  data?: any;
+  self?: string;
   links?: any;
   meta?: any;
 }

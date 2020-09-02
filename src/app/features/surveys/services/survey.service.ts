@@ -42,7 +42,7 @@ export class SurveyService {
    */
   public getSurvey(surveyId: string): Observable<SurveyResponse> {
     const url = `${this.BASE_URL}/surveys/${surveyId}`;
-    return this.httpClient.get<SurveyResponse>(url);
+    return this.httpClient.get<SurveyResponse>(url, { headers: this.authService.setHttpSecurityHeaders() });
   }
 
   /**
@@ -70,8 +70,8 @@ export class SurveyService {
    * @param surveyId : string
    */
   public deleteSurvey(surveyId: string): Observable<SurveyResponse> {
-    const url = `${this.BASE_URL}/surveys/delete/${surveyId}`;
-    return this.httpClient.get<SurveyResponse>(url);
+    const url = `${this.BASE_URL}/surveys/${surveyId}`;
+    return this.httpClient.delete<SurveyResponse>(url, { headers: this.authService.setHttpSecurityHeaders() });
   }
 
   private setHttpParams(request: SurveyRequest): HttpParams {

@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
       (response) => {
         if (response.result === 'close_after_new') {
           // New action
-          this.store.dispatch(new SurveyNewAction(response.data));
+          // this.store.dispatch(new SurveyNewAction(response.data));
         }
     });
   }
