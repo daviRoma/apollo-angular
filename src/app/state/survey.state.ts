@@ -1,8 +1,8 @@
 /**
  * Survey State interface.
  */
-import { Survey } from '../models/survey.model';
 import { EntityState, EntityAdapter, createEntityAdapter} from '@ngrx/entity';
+import { Survey } from 'src/app/models/survey.model';
 
 export interface SurveyState extends EntityState<Survey>{
   error: boolean;

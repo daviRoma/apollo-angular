@@ -9,16 +9,18 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
       return {
         ...state,
         isAuthenticated: true,
-        token: action.payload.token,
-        user: {
-          id: action.payload.user.id,
-          email: action.payload.user.email,
-          username: action.payload.user.username,
-          firstname: action.payload.user.firstname,
-          lastname: action.payload.user.lastname
+        auth: {
+          user: {
+            id: action.payload.user.id,
+            email: action.payload.user.email,
+            username: action.payload.user.username,
+            firstname: action.payload.user.firstname,
+            lastname: action.payload.user.lastname
+          },
+          role: action.payload.role,
+          token: action.payload.token
         },
-        role: action.payload.user.role,
-        error: null,
+        error: null
       };
     }
     case fromActions.AuthActionTypes.LOGIN_FAILURE: {
@@ -31,16 +33,18 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
       return {
         ...state,
         isAuthenticated: true,
-        token: action.payload.token,
-        user: {
-          id: action.payload.user.id,
-          email: action.payload.user.email,
-          username: action.payload.user.username,
-          firstname: action.payload.user.firstname,
-          lastname: action.payload.user.lastname,
+        auth: {
+          user: {
+            id: action.payload.user.id,
+            email: action.payload.user.email,
+            username: action.payload.user.username,
+            firstname: action.payload.user.firstname,
+            lastname: action.payload.user.lastname,
+          },
+          role: action.payload.role,
+          token: action.payload.token,
         },
-        role: action.payload.user.role,
-        error: null,
+        error: null
       };
     }
     case fromActions.AuthActionTypes.REGISTRATION_FAILURE: {
@@ -59,4 +63,4 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
 }
 
 export const getAuthenticated = (state: AppState) => state.auth.isAuthenticated;
-export const getUser = (state: AppState) => state.auth.user;
+export const getUser = (state: AppState) => state.auth.auth.user;
