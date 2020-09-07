@@ -33,6 +33,7 @@ import { SurveyEffects } from 'src/app/features/surveys/store/effects/survey.eff
 import { QuestionGroupEffects } from 'src/app/features/question-groups/store/question-group.effects';
 
 import { reducers } from 'src/app/state/app.state';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {

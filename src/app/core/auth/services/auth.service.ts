@@ -11,10 +11,8 @@ import * as moment from 'moment';
 
 import { User } from 'src/app/models/user.model';
 
-
 @Injectable()
 export class AuthService {
-
   private BASE_URL = serverConfiguration.api;
 
   constructor(
@@ -22,7 +20,6 @@ export class AuthService {
     private http: HttpClient,
     private jwtHelper: JwtHelperService
   ) {}
-
 
   /**
    * Login the given user:
@@ -39,7 +36,11 @@ export class AuthService {
     return this.http.post<User>(url, { email, password });
   }
 
-  public signUp(username: string, email: string,  password: string): Observable<User> {
+  public signUp(
+    username: string,
+    email: string,
+    password: string
+  ): Observable<User> {
     const url = `${this.BASE_URL}/auth/register`;
     return this.http.post<User>(url, { username, email, password });
   }
@@ -51,7 +52,9 @@ export class AuthService {
   public getCurrentUser(): Observable<User> {
     if (this.isAuthenticated) {
       const url = `${this.BASE_URL}/user/${localStorage.getItem('user_id')}`;
-      return this.http.get<User>(url, { headers: this.setHttpSecurityHeaders() });
+      return this.http.get<User>(url, {
+        headers: this.setHttpSecurityHeaders(),
+      });
     }
   }
 
@@ -62,6 +65,7 @@ export class AuthService {
   }
 
   public isLoggedOut(): void {
+    localStorage.setItem('token', null);
     // TO DO: check when the user is logged out
   }
 
@@ -83,13 +87,12 @@ export class AuthService {
   }
 
   public setStorage(data: any): void {
-      localStorage.setItem('token', data.access_token);
-      localStorage.setItem('expires_in', data.expires_in);
-      localStorage.setItem('user_id', data.user.id);
+    localStorage.setItem('token', data.access_token);
+    localStorage.setItem('expires_in', data.expires_in);
+    localStorage.setItem('user_id', data.user.id);
   }
 
   private getToken(): string {
     return localStorage.getItem('token');
   }
-
 }

@@ -27,6 +27,13 @@ const routes: Routes = [
       import(`./pages/page.module`).then((m) => m.PageModule),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'users',
+    component: LayoutBaseComponent,
+    loadChildren: () =>
+      import(`./pages/page.module`).then((m) => m.PageModule),
+    canActivate: [AuthGuard],
+  },
   // {
   //   path: 'overview',
   //   component: LayoutBaseComponent,
