@@ -7,6 +7,7 @@ import { SurveyLoadAction, SurveyUpdateAction, SurveyDeleteAction } from 'src/ap
 /* COMPONENTS */
 import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
 import { DeleteSurveyComponent } from '../dialogs/delete-survey/delete-survey.component';
+import { InvitationPoolComponent } from 'src/app/features/surveys/components/dialogs/invitation-pool/invitation-pool.component';
 
 import { AppState } from 'src/app/state/app.state';
 import { Survey } from 'src/app/models/survey.model';
@@ -22,7 +23,6 @@ export class SurveyDetailComponent implements OnInit {
   @Input() survey: Survey;
 
   constructor(
-    public modal: MatDialog,
     public dialog: MatDialog,
     private store: Store<AppState>) { }
 
@@ -39,13 +39,26 @@ export class SurveyDetailComponent implements OnInit {
   }
 
   public openInvitationPoolModal(): void {
-    // this.store.dispatch(new InvitationPoolUpdateAction(survey.id));
+    const invitationPoolDialogRef = this.dialog.open(InvitationPoolComponent, {
+      width: '45%',
+      position: { top: '5%' },
+      data: {
+        dialogConfig: {
+          title: 'Set Invitation Pool'
+        },
+      },
+    });
+
+    invitationPoolDialogRef.afterClosed().subscribe((response) => {
+      if (response.result.message === 'close_after_close') {}
+    });
   }
 
   public openUpdateSurveyModal(): void {
-    const updateDialogRef = this.modal.open(EditSurveyComponent, {
+    const updateDialogRef = this.dialog.open(EditSurveyComponent, {
       minWidth: '20%',
-      position: { top: '14%' },
+      width: '45%',
+      position: { top: '3%' },
       data: {
         survey: {...this.survey}, // clone object
       }
@@ -53,7 +66,6 @@ export class SurveyDetailComponent implements OnInit {
 
     updateDialogRef.afterClosed().subscribe((response) => {
       if (response.result.message === 'close_after_update') {
-        this.store.dispatch(new SurveyUpdateAction(response.result.survey));
       }
     });
   }

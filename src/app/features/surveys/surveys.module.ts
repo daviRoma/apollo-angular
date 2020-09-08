@@ -9,6 +9,7 @@ import { SurveyListComponent } from './components/survey-list/survey-list.compon
 import { SurveyDetailComponent } from './components/survey-detail/survey-detail.component';
 import { SurveyOverviewComponent } from './components/survey-overview/survey-overview.component';
 import { EditSurveyComponent } from './components/dialogs/edit-survey/edit-survey.component';
+import { InvitationPoolComponent } from 'src/app/features/surveys/components/dialogs/invitation-pool/invitation-pool.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -19,7 +20,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     SurveyListComponent,
     SurveyDetailComponent,
     SurveyOverviewComponent,
-    EditSurveyComponent
+    EditSurveyComponent,
+    InvitationPoolComponent
   ],
   imports: [
     CommonModule,
@@ -29,9 +31,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    QuestionGroupsModule
+    QuestionGroupsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [SurveyDetailComponent]
+  exports: [SurveyDetailComponent],
 })
 export class SurveysModule {}

@@ -1,11 +1,7 @@
 <!-- INVITATION POOL MODAL -->
-<div mat-dialog-title>
-  <div class="modal-header">
-    <div class="modal-title align-items-center">
-      <h6 class="mb-0">{{dialogConfig.title}}</h6>
-    </div>
-  </div>
-</div>
+<h2 mat-dialog-title>
+  {{dialogConfig.title}}
+</h2>
 
 <!-- Content -->
 <div mat-dialog-content>
@@ -13,15 +9,15 @@
     <div class="col">
       <label class="form-control-label mb-3">Emails</label>
       <div class="bootstrap-tagsinput">
-        <input id="tagsinput" type="text" placeholder="Digita una email..." size="48">
+        <input id="tagsinput" type="text" [value]="tagsInput" placeholder="Digita una email..." size="48" (keypress)="handleKeyUp($event)" (change)="handleChange($event)">
 
         <div id="tags_input_container" class="custom-tagsinput py-2 mt-2">
-          <ng-container *ngIf="survey.invitation_pool != null" >
-            <span *ngFor="let email of survey.invitationPool.emails" class="tag badge badge-primary">
+
+            <span *ngFor="let email of emails; index as i" class="tag badge badge-primary">
               {{email}}
-              <span data-role="remove"></span>
+              <span data-role="remove" (click)="handleRemoveTag($event, i)"></span>
             </span>
-          </ng-container>
+
         </div>
       </div>
 
