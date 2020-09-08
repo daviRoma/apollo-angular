@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, ofType, Effect } from '@ngrx/effects';
 
 import { switchMap, catchError, tap, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { SurveyService } from '../../services/survey.service';
 

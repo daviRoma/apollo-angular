@@ -1,9 +1,6 @@
 import { UserActionsAll, UserActionTypes } from '../actions/user.actions';
 import { initialUserState, UserState, userAdapter} from '../../../../state/user.state';
 
-import { Update } from '@ngrx/entity';
-import { from } from 'rxjs';
-
 export function userReducer(state = initialUserState, action: UserActionsAll): UserState {
   switch (action.type) {
     case UserActionTypes.LOADING: {

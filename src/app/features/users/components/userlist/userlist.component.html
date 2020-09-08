@@ -1,0 +1,79 @@
+<mat-toolbar>
+	<mat-toolbar-row>
+		<div class="card-header">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<h3 class="force-margin-0">{{userTotal}}</h3>
+				</div>
+				<div class="col-6 col-sm-6 col-xs-12 my-auto">
+					<mat-form-field>
+						<input matInput class="dc-search float-right" placeholder="Search User"
+							(keyup)="filterSubject.next($event.target.value)">
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+	</mat-toolbar-row>
+</mat-toolbar>
+
+<!-- Table -->
+<div class="table-responsive">
+	<table mat-table [dataSource]="dataSource" class="users-table" matSort matSortActive="id" matSortDirection="asc"
+		matSortDisableClear="true">
+
+		<!-- Id Column -->
+		<ng-container matColumnDef="icon">
+			<th mat-header-cell *matHeaderCellDef> Icon </th>
+			
+			<td mat-cell *matCellDef="let user"> <img class="dashboard-user-image"
+				src="./assets/dist/img/theme/light/brand-avatar-3.png"> </td>
+			<!-- <td mat-cell *matCellDef="let user"> <img class="dashboard-user-image"
+					src="data:image/;base64,{{user.icon}}"> </td> -->
+		</ng-container>
+
+		<!-- Name column -->
+		<ng-container matColumnDef="username">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+			<td mat-cell *matCellDef="let user">
+				<a [routerLink]="[detailPage, user.id]"> {{user.username}} </a></td>
+		</ng-container>
+
+			<!-- Name column -->
+			<ng-container matColumnDef="email">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+				<td mat-cell *matCellDef="let user">
+					<a [routerLink]="[detailPage, user.id]"> {{user.email}} </a></td>
+			</ng-container>
+
+		<!-- Action Column -->
+		<ng-container matColumnDef="action">
+			<th mat-header-cell *matHeaderCellDef> Action </th>
+			<td mat-cell *matCellDef="let user" class="action-td">
+				<a [routerLink]="[detailPage, user.id]" title="User Detail" data-toggle="tooltip">&nbsp;<i
+						class="far fa-clipboard"></i>&nbsp;</a>
+				<a *ngIf="!user.active" title="Delete User" data-toggle="tooltip" href="#">&nbsp;<i
+						class="fas fa-trash"></i>&nbsp;</a>
+			</td>
+		</ng-container>
+
+		<ng-container matColumnDef="spinner">
+			<th mat-header-cell *matHeaderCellDef>
+				<div class="" *ngIf="loading">
+					<mat-spinner [diameter]="20"></mat-spinner>
+				</div>
+			</th>
+			<td mat-cell *matCellDef="" class="custom-status-cell">
+			</td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	</table>
+
+	<div class="row table-footer">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<mat-paginator [length]="userTotal" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+				(page)="pageEvent=$event"></mat-paginator>
+		</div>
+	</div>
+</div>

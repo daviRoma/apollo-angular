@@ -1,0 +1,148 @@
+<form action="#" method="post" enctype="multipart/form-data" [formGroup]="editProfileForm" (ngSubmit)="onSubmit($event)">
+
+
+	<!-- <input type="hidden" th:field="*{pic}" th:if="*{pic != null}"> -->
+
+
+	<!-- Change avatar -->
+	<div class="row mb-4">
+		<div class="col-auto">
+			<span>
+				<img alt="Image placeholder" src="./assets/dist/img/theme/light/brand-avatar-3.png" class="profile-image">
+
+
+				<!-- <img alt="Image placeholder"
+						src="../../assets/img/theme/light/team-1-800x800.jpg"
+						class="profile-image"
+						th:src="@{/dist/img/icons/user/user.png}"
+						th:if="*{pic == null}"> -->
+				<!-- <img alt="Image placeholder"
+						src="../../assets/img/theme/light/team-1-800x800.jpg"
+						class="profile-image"
+						th:src="${'data:image/jpg;base64,'+user.pic}"
+						th:if="*{pic != null}"> -->
+
+
+			</span>
+		</div>
+		<div class="col-auto my-auto">
+			<div class="row">
+				<h5 class="mb-0">{{user.firstname}} {{user.lastname}}</h5>
+
+
+				<!-- <h5 class="mb-0" th:if="*{firstname != null && lastname != null && firstname!='' && lastname != ''}">
+					[[*{firstname}]] [[*{lastname}]]</h5> -->
+
+
+			</div>
+
+			<div class="row">
+				<input type="file" name="icon" id="file-1" class="custom-input-file custom-input-file-link"
+					accept="image/*" />
+				<label class="my-auto" for="file-1">Change avatar</label>
+
+
+				<!-- <label class="my-auto" for="file-1" th:text="#{common.changeavatar}">Change avatar</label> -->
+
+
+				<label class="mb-0 ml-2 profile-image-name" id="filename"></label>
+
+
+				<!-- <span class="mb-0 ml-2" th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></span> -->
+
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Common Informations -->
+	<div class="row mb-4">
+		<div class="col-lg-6 col-sm-12 border-right mb-4">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="form-group">
+						<label class="form-control-label">First name</label>
+						<input class="form-control" type="text" formControlName="firstname">
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div class="form-group mb-0">
+						<label class="form-control-label">Last name</label>
+						<input class="form-control" type="text" formControlName="lastname">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-6 col-sm-12">
+			<div class="row">
+				<div class="col-12">
+					<div class="form-group">
+						<label class="form-control-label">Username</label>
+						<input class="form-control" type="text" required formControlName="username">
+						<!-- <div th:if="${#fields.hasErrors('username')}" th:each="err: ${#fields.errors('username')}" th:utext="${err}">
+							errors
+						</div> -->
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div class="form-group mb-0">
+						<label class="form-control-label">Email</label>
+						<input class="form-control" type="email" required formControlName="email">
+						<!-- <div th:if="${#fields.hasErrors('email')}" th:each="err: ${#fields.errors('email')}" th:utext="${err}">
+							errors
+						</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mb-4">
+		<div class="col-lg-6 col-sm-12">
+			<div id="accordion-2" class="accordion accordion-spaced">
+				<!-- Accordion card 3 -->
+				<div class="card mb-0 border-bottom shadow-none">
+					<div class="card-header no-border border-" id="heading-2-3" data-toggle="collapse" role="button" data-target="#collapse-2-3" aria-expanded="false" aria-controls="collapse-2-3">
+						<h6 class="mb-0"><i class="far fa-exclamation mr-3"></i>Update Password</h6>
+					</div>
+					<div id="collapse-2-3" class="collapse" aria-labelledby="heading-2-3"
+							data-parent="#accordion-2">
+						<div class="card-body">
+							<div class="form-group">
+								<label class="form-control-label">Old Password</label>
+								<input class="form-control" type="password" formControlName="oldpassword">
+								<!-- <div th:if="${#fields.hasErrors('oldPassword')}" th:each="err: ${#fields.errors('oldPassword')}" th:utext="${err}">
+									errors
+								</div> -->
+							</div>
+							<div class="form-group">
+								<label class="form-control-label">New Password</label>
+								<input class="form-control" type="password" formControlName="newpassword">
+							</div>
+							<div class="form-group mb-0">
+								<label class="form-control-label">New Password Confirm</label>
+								<input class="form-control" type="password" formControlName="passwordconfirm">
+								<!-- <div th:if="${#fields.hasErrors('passwordConfirm')}" th:each="err: ${#fields.errors('passwordConfirm')}" th:utext="${err}">errors
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row my-2 alert-container hidden"></div>
+
+	<div class="row justify-content-end mb-0">
+		<button type="button" class="btn btn-link text-danger rounded-pill text-sm"></button>
+		<div class="col-auto">
+			<button type="submit" class="btn btn-primary rounded-pill">Submit</button>
+		</div>
+	</div>
+
+</form>

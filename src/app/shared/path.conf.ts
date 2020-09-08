@@ -4,5 +4,8 @@ export const Paths = {
   survey: {
     detail: '/survey/detail',
     overview: '/survey/overview'
+  },
+  user: {
+    detail: '/users/administration/detail'
   }
 };

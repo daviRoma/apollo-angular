@@ -3,30 +3,12 @@ import { Router } from '@angular/router';
 import { Actions, ofType, Effect } from '@ngrx/effects';
 
 import { switchMap, catchError, tap, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { UserService } from '../../services/user.service';
 
-import {
-  UserLoadAction,
-  UserActionTypes,
-  UserLoadSuccessAction,
-  UserLoadFailAction,
-  UserDeleteAction,
-  UserNewAction,
-  UserNewFailureAction,
-  UserUpdateAction,
-  UserUpdateSuccessAction,
-  UserUpdateFailureAction,
-  UserLoadOneSuccessAction,
-  UserLoadOneFailAction,
-  UserLoadOneAction,
-  UserDeleteSuccessAction,
-  UserDeleteFailAction,
-} from '../actions/user.actions';
-import { UserRequest } from '../../../../models/user.model';
-
-
+import { UserLoadAction, UserActionTypes, UserDeleteAction, UserNewAction, UserNewFailureAction, UserUpdateAction, UserUpdateSuccessAction, UserUpdateFailureAction, UserLoadOneSuccessAction, UserLoadOneFailAction, UserLoadOneAction, UserDeleteSuccessAction, UserDeleteFailAction, UserLoadSuccessAction, UserLoadFailAction} from '../actions/user.actions';
+import { UserRequest, UserResponse, User } from '../../../../models/user.model';
 
 @Injectable()
 export class UserEffects {

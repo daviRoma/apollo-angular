@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailComponent } from './detail/detail.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AdministrationComponent } from './administration/administration.component';
 
 
 const PageRoutes: Routes = [
@@ -32,8 +33,13 @@ const PageRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    // loadChildren: () => import(`../features/users/users.module`).then((m) => m.UsersModule)
+    loadChildren: () => import(`../features/users/users.module`).then((m) => m.UsersModule)
   },
+  {
+    path: 'administration',
+    component: AdministrationComponent,
+    loadChildren: () => import(`../features/users/users.module`).then((m) => m.UsersModule)
+  }
 ];
 
 @NgModule({

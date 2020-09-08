@@ -14,6 +14,7 @@ import { UsersModule } from '../features/users/users.module';
 
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdministrationComponent } from './administration/administration.component';
 
 @NgModule({
   declarations: [
@@ -21,14 +22,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DetailComponent,
     OverviewComponent,
     ProfileComponent,
+    AdministrationComponent,
   ],
   imports: [
     CommonModule,
     PageRoutingModule,
     SurveysModule,
     QuestionGroupsModule,
-    FormsModule,
-    ReactiveFormsModule,
     UsersModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

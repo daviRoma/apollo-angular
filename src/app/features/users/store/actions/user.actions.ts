@@ -21,7 +21,9 @@ export enum UserActionTypes {
 
 export class UserLoadAction implements Action {
   public readonly type = UserActionTypes.LOADING;
-  constructor(public payload: UserRequest) {}
+  constructor(public payload: UserRequest) {
+    console.log("action called: User Load Action")
+  }
 }
 
 export class UserLoadSuccessAction implements Action {

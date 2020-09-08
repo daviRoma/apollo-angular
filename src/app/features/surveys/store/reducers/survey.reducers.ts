@@ -1,7 +1,5 @@
 import { SurveyState, initialSurveyState, surveyAdapter } from '../../../../state/survey.state';
 import { SurveyActionsAll, SurveyActionTypes } from '../actions/survey.actions';
-import { Survey } from 'src/app/models/survey.model';
-import { Update } from '@ngrx/entity';
 
 export function surveyReducer(state = initialSurveyState, action: SurveyActionsAll): SurveyState {
   switch (action.type) {

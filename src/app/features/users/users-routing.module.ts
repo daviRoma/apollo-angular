@@ -2,17 +2,27 @@ import { NgModule } from '@angular/core';
 
 import { Routes, RouterModule } from '@angular/router';
 
-import { TestComponent } from './components/test/test.component';
+import { EditUserComponent } from './components/edituser/edituser.component';
+import { UserListComponent } from './components/userlist/userlist.component';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 
 const UsersRoutes: Routes = [
   {
-    path: '',
+    path: 'profile',
     redirectTo: 'edit',
     pathMatch: 'full',
   },
   {
     path: 'edit',
-    component: TestComponent,
+    component: EditUserComponent,
+  },
+  {
+    path: 'list',
+    component: UserListComponent,
+  },
+  {
+    path: 'detail:user_id',
+    component: UserDetailComponent,
   },
   // {
   //   path: 'edit/:survey_id',
