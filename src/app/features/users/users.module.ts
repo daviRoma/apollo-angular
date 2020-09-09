@@ -11,10 +11,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { QuestionGroupsModule } from '../question-groups/question-groups.module';
-import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { DeleteUserComponent } from './components/dialogs/delete-user/delete-user.component';
 
 @NgModule({
-  declarations: [EditUserComponent, UserListComponent, UserDetailComponent],
+  declarations: [EditUserComponent, UserListComponent, DeleteUserComponent],
   imports: [
     UsersRoutingModule,
     CommonModule,

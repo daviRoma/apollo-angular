@@ -7,6 +7,7 @@ import { DetailComponent } from './detail/detail.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdministrationComponent } from './administration/administration.component';
+import { UseroverviewComponent } from './useroverview/useroverview.component';
 
 
 const PageRoutes: Routes = [
@@ -39,6 +40,10 @@ const PageRoutes: Routes = [
     path: 'administration',
     component: AdministrationComponent,
     loadChildren: () => import(`../features/users/users.module`).then((m) => m.UsersModule)
+  },
+  {
+    path: 'useroverview/:user_id',
+    component: UseroverviewComponent,
   }
 ];
 

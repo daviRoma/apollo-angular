@@ -22,6 +22,8 @@ import {
   UserLoadAction,
 } from 'src/app/features/users/store/actions/user.actions';
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
+import { DeleteUserComponent } from '../dialogs/delete-user/delete-user.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-userlist',
@@ -56,8 +58,13 @@ export class UserListComponent implements OnInit {
 
   private subscription: Subscription = new Subscription();
   private user: User;
+  public router: Router;
 
-  constructor(public confirmDialog: MatDialog, private store: Store<AppState>) {
+  constructor(
+    public confirmDialog: MatDialog,
+    private store: Store<AppState>,
+    public dialog: MatDialog
+  ) {
     this.pageSize = 5;
   }
 
@@ -67,12 +74,7 @@ export class UserListComponent implements OnInit {
       this.loadUsers();
     });
 
-    this.displayedColumns = [
-      'icon',
-      'username',
-      'email',
-      'action',
-    ];
+    this.displayedColumns = ['icon', 'username', 'email', 'action'];
 
     this.store
       .pipe(select(selectAllUser))
@@ -137,5 +139,27 @@ export class UserListComponent implements OnInit {
         pag_size: this.paginator ? this.paginator.pageSize : 5,
       } as UserRequest)
     );
+  }
+
+  public openDeleteDialog(): void {
+    const dialogRef = this.dialog.open(DeleteUserComponent, {
+      minWidth: '20%',
+      position: { top: '14%' },
+      data: {
+        user: { ...this.user }, // clone object
+        dialogConfig: {
+          title: 'Delete User',
+          content: 'Are you sure to delete this User?',
+        },
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response.result === 'close_after_delete') {
+        // Delete action
+        this.store.dispatch(new UserDeleteAction(this.user.id));
+        this.router.navigateByUrl('users/administration/list');
+      }
+    });
   }
 }

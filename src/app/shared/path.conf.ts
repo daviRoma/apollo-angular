@@ -6,6 +6,6 @@ export const Paths = {
     overview: '/survey/overview'
   },
   user: {
-    detail: '/users/administration/detail'
+    detail: '/users/useroverview'
   }
 };

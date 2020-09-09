@@ -15,6 +15,7 @@ import { UsersModule } from '../features/users/users.module';
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdministrationComponent } from './administration/administration.component';
+import { UseroverviewComponent } from './useroverview/useroverview.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AdministrationComponent } from './administration/administration.compone
     OverviewComponent,
     ProfileComponent,
     AdministrationComponent,
+    UseroverviewComponent,
   ],
   imports: [
     CommonModule,
