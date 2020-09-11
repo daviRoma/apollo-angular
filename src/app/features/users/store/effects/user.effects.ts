@@ -83,7 +83,7 @@ export class UserEffects {
   public deleteUser = this.actions.pipe(
     ofType<UserDeleteAction>(UserActionTypes.DELETE),
     map((action) => action.payload),
-    switchMap((param: string) =>
+    switchMap((param: number) =>
       this.userService.deleteUser(param).pipe(
         map((response: any) => new UserDeleteSuccessAction(param)),
         catchError((error) => of(new UserDeleteFailAction(error)))

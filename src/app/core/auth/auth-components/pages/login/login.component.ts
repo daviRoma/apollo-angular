@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
-import { AuthState, initialAuthState } from 'src/app/state/auth.state';
 import { selectAuthState } from 'src/app/core/auth/store/auth.selectors';
 
 import { LogIn } from '../../../store/auth.actions';
@@ -17,21 +15,19 @@ import { Observable } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   public loginForm: FormGroup;
+  public loginResult: { error: boolean, errorMessage: string };
 
-  getState: Observable<any>;
-  isAuthenticated: false;
-  user = null;
-  error = false;
+  private getAuthState: Observable<any>;
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<AppState>,
-    private router: Router
+    private store: Store<AppState>
   ) {
-    this.getState = this.store.select(selectAuthState);
+    this.loginResult = { error: false, errorMessage: null };
+    this.getAuthState = this.store.select(selectAuthState);
 
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required]],
@@ -46,11 +42,14 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getState.subscribe((state) => {
-      this.isAuthenticated = state.isAuthenticated;
-      this.user = state.user;
-      this.error = state.error;
+    this.getAuthState.subscribe((state) => {
+      this.loginResult.error = state.error;
+      this.loginResult.errorMessage = 'Wrong username or password';
     });
+  }
+
+  ngOnDestroy(): void {
+    // this.getAuthState.un
   }
 
   onSubmit(event): void {
@@ -62,4 +61,5 @@ export class LoginComponent implements OnInit {
     };
     this.store.dispatch(new LogIn(payload));
   }
+
 }

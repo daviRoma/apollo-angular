@@ -56,11 +56,14 @@
                   <input type="password" formControlName="passwordConfirm" class="form-control" placeholder="********" required />
                   <div class="input-group-append"></div>
                 </div>
+                <mat-error *ngIf="registrationForm.hasError('notSame')" class="text-danger text-sm">
+                  *Passwords do not match
+                </mat-error>
               </div>
 
               <div class="mt-4">
                 <button type="submit" class="btn btn-sm btn-primary btn-icon rounded-pill">
-                  <span class="btn-inner--text">Create account</span> <span class="btn-inner--icon"><i class="far fa-long-arrow-alt-right"></i></span>
+                  <span class="btn-inner--text">Create Account</span> <span class="btn-inner--icon"><i class="far fa-long-arrow-alt-right"></i></span>
                 </button>
               </div>
             </form>
@@ -68,7 +71,7 @@
           </div>
 
 					<div class="card-footer px-md-5">
-							<small>Già registrato? </small> <a [routerLink]="['/log-in']" class="small font-weight-bold">Sing In!</a>
+							<small>Già registrato? </small> <a href="#" [routerLink]="['/auth/login']" class="small font-weight-bold">Sing In!</a>
 					</div>
 				</div>
 			</div>

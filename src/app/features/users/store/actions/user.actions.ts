@@ -83,7 +83,7 @@ export class UserUpdateFailureAction implements Action {
 
 export class UserDeleteAction implements Action {
   public readonly type = UserActionTypes.DELETE;
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
 }
 
 export class UserDeleteSuccessAction implements Action {

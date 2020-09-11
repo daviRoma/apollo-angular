@@ -20,13 +20,15 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
           role: action.payload.role,
           token: action.payload.token
         },
-        error: null
+        error: null,
+        errorMessage: null
       };
     }
     case fromActions.AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
         error: true,
+        errorMessage: action.payload.message,
       };
     }
     case fromActions.AuthActionTypes.REGISTRATION_SUCCESS: {
@@ -44,13 +46,15 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
           role: action.payload.role,
           token: action.payload.token,
         },
-        error: null
+        error: null,
+        errorMessage: null
       };
     }
     case fromActions.AuthActionTypes.REGISTRATION_FAILURE: {
       return {
         ...state,
         error: true,
+        errorMessage: action.payload.message
       };
     }
     case fromActions.AuthActionTypes.LOGOUT: {
@@ -72,12 +76,14 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
           token: action.payload.token,
         },
         error: false,
+        errorMessage: null
       };
     }
     case fromActions.AuthActionTypes.LOAD_SESSIONUSER_FAILURE: {
       return {
         ...state,
         error: true,
+        errorMessage: action.payload.message
       };
     }
     default: {

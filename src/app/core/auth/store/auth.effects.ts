@@ -30,12 +30,13 @@ export class AuthEffects {
   @Effect()
   LogIn: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN),
-    switchMap((request: any) => this.authService.doLogin(request.payload.email, request.payload.password, '')),
-    switchMap((loginResp: any) => of(new LogInSuccess(loginResp))),
-    catchError((loginResp: any) => {
-      console.error('[Login Error]', loginResp);
-      return of(new LogInFailure(loginResp));
-    })
+    switchMap(
+      (request: any) =>
+      this.authService.doLogin(request.payload.email, request.payload.password).pipe(
+        map((response: any) => new LogInSuccess(response)),
+        catchError((error: any) => of(new LogInFailure(error)))
+      )
+    )
   );
 
   @Effect({ dispatch: false })

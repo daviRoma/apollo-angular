@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  
+
   private BASE_URL = serverConfiguration.api;
 
   constructor(
@@ -69,7 +69,7 @@ export class UserService {
    * Delete user by id
    * @param userId : string
    */
-  public deleteUser(userId: string): Observable<UserResponse> {
+  public deleteUser(userId: number): Observable<UserResponse> {
     const url = `${this.BASE_URL}/users/${userId}`;
     return this.httpClient.delete<UserResponse>(url, { headers: this.authService.setHttpSecurityHeaders() });
   }

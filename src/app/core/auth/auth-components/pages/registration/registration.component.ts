@@ -30,13 +30,15 @@ export class RegistrationComponent implements OnInit {
 
       this.registrationForm = this.formBuilder.group({
         username: ['', [Validators.required]],
+        email: ['', [Validators.required]],
         password: ['', [
             Validators.required,
             Validators.minLength(6),
             Validators.maxLength(20),
           ],
-        ]
-      });
+        ],
+        passwordConfirm: ['']
+      }, { validators: this.checkPasswords });
   }
 
   ngOnInit(): void {
@@ -55,5 +57,12 @@ export class RegistrationComponent implements OnInit {
     };
     this.store.dispatch(new Registration(payload));
   }
+
+  private checkPasswords(group: FormGroup): any { // here we have the 'passwords' group
+  let password = group.get('password').value;
+  let passwordConfirm = group.get('passwordConfirm').value;
+
+  return password === passwordConfirm ? null : { notSame: true };
+}
 
 }

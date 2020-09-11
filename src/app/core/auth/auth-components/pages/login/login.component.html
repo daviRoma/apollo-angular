@@ -47,15 +47,16 @@
                 </button>
               </div>
             </form>
-            <!-- <div class="mt-3">
-              <p th:if="${param.error != null}" th:text="#{common.loginerror}">error</p>
-            </div> -->
+
+            <!-- Error container -->
+            <div class="mt-3">
+              <p *ngIf="loginResult.error" class="text-danger text-sm">*{{loginResult.errorMessage}}</p>
+            </div>
           </div>
+
           <div class="card-footer px-md-5">
-            <!-- <small th:text="#{common.notregistered}" class="mr-3">Not
-              registered?</small> <a href="#" th:href="@{/user/create}" class="small font-weight-bold"
-              th:text="#{common.createaccount}">Create
-              account</a> -->
+            <small class="mr-3">Not registered?</small>
+            <a href="#" [routerLink]="['/auth/registration']" class="small font-weight-bold">Create account</a>
           </div>
         </div>
       </div>

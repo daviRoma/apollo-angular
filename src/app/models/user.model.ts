@@ -2,7 +2,7 @@
  * User Model
  */
 export class User {
-  id?: string;
+  id?: number;
   username: string;
   email?: string;
   firstname?: string;

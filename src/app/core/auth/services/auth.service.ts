@@ -27,11 +27,7 @@ export class AuthService {
    * @param username username
    * @param password password
    */
-  public doLogin(
-    email: string,
-    password: string,
-    redirectUrl: string
-  ): Observable<User> {
+  public doLogin(email: string, password: string): Observable<User> {
     const url = `${this.BASE_URL}/auth/login`;
     return this.http.post<User>(url, { email, password });
   }
@@ -41,7 +37,7 @@ export class AuthService {
     email: string,
     password: string
   ): Observable<User> {
-    const url = `${this.BASE_URL}/auth/register`;
+    const url = `${this.BASE_URL}/users`;
     return this.http.post<User>(url, { username, email, password });
   }
 

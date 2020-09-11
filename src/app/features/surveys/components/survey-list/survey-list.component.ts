@@ -159,7 +159,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   private loadSurveys(): void {
     this.store.dispatch(
       new SurveyLoadAction({
-        user_id: parseInt(this.user.id),
+        user_id: this.user.id,
         // filter: this.filter.toLocaleLowerCase(),
         page: this.paginator ? this.paginator.pageIndex : 1,
         pag_size: this.paginator ? this.paginator.pageSize : 5,
