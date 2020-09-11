@@ -46,12 +46,13 @@ export class AuthService {
   }
 
   public logout(): void {
-    // this.router.navigate(['/auth/login']);
+    localStorage.clear();
+    this.router.navigate(['/auth/login']);
   }
 
   public getCurrentUser(): Observable<User> {
     if (this.isAuthenticated) {
-      const url = `${this.BASE_URL}/user/${localStorage.getItem('user_id')}`;
+      const url = `${this.BASE_URL}/users/${localStorage.getItem('user_id')}`;
       return this.http.get<User>(url, {
         headers: this.setHttpSecurityHeaders(),
       });

@@ -28,7 +28,7 @@
     <div class="row">
       <h5 class="mb-0 text-white col-auto mx-auto">
         Hello!
-        <span>Admin</span>
+        <span *ngIf="user">{{user.firstname}} {{user.lastname}}</span>
         <!-- <span th:if="${user.firstname != null && user.firstname != ''}" th:text="${user.firstname}"></span>
         <span th:if="${user.firstname == null || user.firstname == ''}" th:text="${user.username}"></span>! -->
       </h5>
@@ -86,7 +86,7 @@
                     <span>Update Profile</span>
                   </a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" (click)="logoutFunction()">
+                  <a class="dropdown-item" (click)="logoutUser()">
                     <i class="far fa-sign-out-alt"></i>
                     <span>LogOut</span>
                   </a>

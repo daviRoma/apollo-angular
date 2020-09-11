@@ -6,14 +6,15 @@ import { Router } from '@angular/router';
 import { Actions, ofType, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
-import { switchMap, catchError, tap } from 'rxjs/operators';
+import { switchMap, catchError, tap, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 
-import { AuthActionTypes, LogInSuccess, LogInFailure, RegistrationSuccess, RegistrationFailure } from './auth.actions';
+import { AuthActionTypes, LogInSuccess, LogInFailure, RegistrationSuccess, RegistrationFailure, LoadSessionUser, LoadSessionUserSuccess, LoadSessionUserFailure, LogOut } from './auth.actions';
 
 import { Paths } from 'src/app/shared/path.conf';
+import { User } from 'src/app/models/user.model';
 
 @Injectable()
 export class AuthEffects {
@@ -77,10 +78,19 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   LogOut: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.LOGOUT),
-    tap((user) => {
-      localStorage.removeItem('token');
-    })
+    ofType<LogOut>(AuthActionTypes.LOGOUT),
+    tap(() => this.authService.logout())
+  );
+
+  @Effect()
+  public loadSessionUser = this.actions.pipe(
+    ofType<LoadSessionUser>(AuthActionTypes.LOAD_SESSIONUSER),
+    switchMap(() =>
+      this.authService.getCurrentUser().pipe(
+        map((response: User) => new LoadSessionUserSuccess({...response, token: localStorage.getItem('token')})),
+        catchError((error) => of(new LoadSessionUserFailure(error)))
+      )
+    )
   );
 
 }

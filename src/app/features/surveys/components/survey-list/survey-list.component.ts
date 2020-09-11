@@ -63,8 +63,10 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.store.pipe(select(fromAuth.selectAuthUser)).subscribe(
       (user: User) => {
-        this.user = user;
-        this.loadSurveys();
+        if (user) {
+          this.user = user;
+          this.loadSurveys();
+        }
       }
     );
 
@@ -151,14 +153,13 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initializeData(surveys: Survey[]): void {
-    console.log('surveys', surveys);
     this.dataSource = new MatTableDataSource(surveys.length ? surveys : []);
   }
 
   private loadSurveys(): void {
     this.store.dispatch(
       new SurveyLoadAction({
-        user_id: 1, //this.user.id,
+        user_id: parseInt(this.user.id),
         // filter: this.filter.toLocaleLowerCase(),
         page: this.paginator ? this.paginator.pageIndex : 1,
         pag_size: this.paginator ? this.paginator.pageSize : 5,

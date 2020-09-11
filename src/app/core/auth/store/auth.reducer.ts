@@ -56,6 +56,30 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
     case fromActions.AuthActionTypes.LOGOUT: {
       return initialAuthState;
     }
+    case fromActions.AuthActionTypes.LOAD_SESSIONUSER_SUCCESS: {
+      return {
+        ...state,
+        isAuthenticated: true,
+        auth: {
+          user: {
+            id: action.payload.data.id,
+            email: action.payload.data.email,
+            username: action.payload.data.username,
+            firstname: action.payload.data.firstname,
+            lastname: action.payload.data.lastname,
+          },
+          role: action.payload.data.role,
+          token: action.payload.token,
+        },
+        error: false,
+      };
+    }
+    case fromActions.AuthActionTypes.LOAD_SESSIONUSER_FAILURE: {
+      return {
+        ...state,
+        error: true,
+      };
+    }
     default: {
       return state;
     }
