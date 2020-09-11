@@ -1,0 +1,39 @@
+<!-- NEW/EDIT QUESTION GROUP MODAL -->
+<h2 mat-dialog-title> {{dialogConfig.title}} </h2>
+
+<form id="question_group_form" class="form-horizontal" [formGroup]="questionGroupForm" (ngSubmit)="onSubmit($event)">
+
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+
+        <!-- TITLE -->
+        <div class="form-group">
+          <label for="title" class="form-control-label">Title</label>
+          <input type="text" class="form-control" maxlength="60" required />
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="form-group mb-0">
+          <label for="description" class="form-control-label">Description</label>
+          <input type="text" class="form-control" />
+        </div>
+
+        <!-- Error container -->
+        <div class="row">
+          <div class="col-10 pt-2 pb-1 mt-2">
+            <span id="errors" class="text-danger text-sm hidden"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <div class="text-right buttons-container">
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-sm btn-primary rounded-pill">Invia</button>
+    </div>
+  </div>
+</form>
