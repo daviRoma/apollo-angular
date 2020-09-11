@@ -60,6 +60,8 @@ export class UserService {
   public updateUser(user: User): Observable<UserResponse> {
     this.logger.debug('UserService', 'updateUser', user.id);
     const url = `${this.BASE_URL}/users/${user.id}`;
+    console.log("updating user with ", user);
+    console.log(this.httpClient.put<UserResponse>(url, user, { headers: this.authService.setHttpSecurityHeaders() }));
     return this.httpClient.put<UserResponse>(url, user, { headers: this.authService.setHttpSecurityHeaders() });
   }
 

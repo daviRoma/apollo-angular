@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/models/user.model';
+import { User, UserRequest } from 'src/app/models/user.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
@@ -20,8 +20,8 @@ export class EditUserComponent implements OnInit {
     private store: Store<AppState>
   ) {
     this.editProfileForm = this.formBuilder.group({
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
+      firstname: [''],
+      lastname: [''],
       username: ['', [Validators.required]],
       email: ['', [Validators.required]],
       newpassword: [''],
@@ -33,16 +33,27 @@ export class EditUserComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select(fromAuth.selectAuthUser)).subscribe((user: User) => {
       this.user = user;
-      console.log(user);
+      console.log('user in edit ', user);
+
+      if (this.user) {
+        this.editProfileForm.patchValue(this.user);
+      }
     });
   }
-  
+
+  ngAfterInit(): void {}
+
   onSubmit(event): void {
     event.preventDefault();
     console.log('ProfileComponent', 'OnSubmit', this.editProfileForm.value);
 
     let payload = { ...this.editProfileForm.value, id: this.user.id } as User;
 
+    // Remove null attributes
+    Object.keys(payload).forEach((key) => {
+      if (payload[key] == null) delete payload[key];
+    });
     this.store.dispatch(new UserUpdateAction(payload));
   }
+
 }
