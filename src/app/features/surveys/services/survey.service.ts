@@ -9,6 +9,8 @@ import { serverConfiguration } from 'src/app/shared/server.conf';
 
 import { Survey, SurveyRequest, SurveyResponse } from 'src/app/models/survey.model';
 
+import Utils from 'src/app/shared/utils';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,7 +32,7 @@ export class SurveyService {
     const url = `${this.BASE_URL}/surveys`;
     const options = {
       headers: this.authService.setHttpSecurityHeaders(),
-      params: this.setHttpParams(request),
+      params: Utils.setHttpParams(request)
     };
 
     return this.httpClient.get<any>(url, options);
@@ -72,14 +74,6 @@ export class SurveyService {
   public deleteSurvey(surveyId: string): Observable<SurveyResponse> {
     const url = `${this.BASE_URL}/surveys/${surveyId}`;
     return this.httpClient.delete<SurveyResponse>(url, { headers: this.authService.setHttpSecurityHeaders() });
-  }
-
-  private setHttpParams(request: SurveyRequest): HttpParams {
-    let httpParams = new HttpParams();
-    Object.keys(request).forEach((key) => {
-      httpParams = httpParams.append(key, request[key]);
-    });
-    return httpParams;
   }
 
 }

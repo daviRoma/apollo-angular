@@ -10,13 +10,13 @@
         <!-- TITLE -->
         <div class="form-group">
           <label for="title" class="form-control-label">Title</label>
-          <input type="text" class="form-control" maxlength="60" required />
+          <input type="text" class="form-control" formControlName="title" maxlength="60" required />
         </div>
 
         <!-- DESCRIPTION -->
         <div class="form-group mb-0">
           <label for="description" class="form-control-label">Description</label>
-          <input type="text" class="form-control" />
+          <textarea type="text" class="form-control" formControlName="description" maxlength="250"></textarea>
         </div>
 
         <!-- Error container -->

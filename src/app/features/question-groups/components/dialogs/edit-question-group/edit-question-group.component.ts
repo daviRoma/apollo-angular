@@ -6,7 +6,11 @@ import { Observable } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { AppState } from 'src/app/state/app.state';
+import { QuestionGroupNewAction, QuestionGroupUpdateAction } from 'src/app/features/question-groups/store/question-group.actions';
+
 import { QuestionGroup } from 'src/app/models/question-group.model';
+
+import Utils from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-edit-question-group',
@@ -35,7 +39,7 @@ export class EditQuestionGroupComponent implements OnInit {
 
     // Edit case
     if (this.data.questionGroup) {
-      this.questionGroup = {...this.data.questionGroup};
+      this.questionGroup = { ...this.data.questionGroup };
       this.questionGroupForm.patchValue(this.questionGroup);
     }
   }
@@ -46,18 +50,13 @@ export class EditQuestionGroupComponent implements OnInit {
   onSubmit(event): void {
     event.preventDefault();
 
-    const payload = { ...this.questionGroupForm.value };
-
-    // Remove null attributes
-    Object.keys(payload).forEach((key) => {
-       if(payload[key] == null) delete payload[key];
-    });
+    const payload = Utils.deleteNullKey({ ...this.questionGroupForm.value });
 
     console.log('EditQuestionGroupComponent', 'Payload', payload);
 
-    // this.dialogConfig.operation === 'new' ?
-    //   this.store.dispatch(new SurveyNewAction(payload)) :
-    //   this.store.dispatch(new SurveyUpdateAction(payload));
+    this.dialogConfig.operation === 'new' ?
+      this.store.dispatch(new QuestionGroupNewAction(payload)) :
+      this.store.dispatch(new QuestionGroupUpdateAction(payload));
 
     this.dialogRef.close({
       result: 'close_after_' + this.dialogConfig.operation,

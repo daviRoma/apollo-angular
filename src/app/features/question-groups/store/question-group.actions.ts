@@ -1,10 +1,13 @@
 import { Action } from '@ngrx/store';
-import { QuestionGroup, QuestionGroupResponse } from '../../../models/question-group.model';
+import { QuestionGroup, QuestionGroupResponse, QuestionGroupRequest } from '../../../models/question-group.model';
 
 export enum QuestionGroupActionTypes {
   LOADING = '[QuestionGroup] Loading',
   LOAD_SUCCESS = '[QuestionGroup] Loading Success',
   LOAD_FAILURE = '[QuestionGroup] Loading Failure',
+  LOADONE = '[QuestionGroup] Load One',
+  LOADONE_SUCCESS = '[QuestionGroup] Load One Success',
+  LOADONE_FAILURE = '[QuestionGroup] Load One Failure',
   NEW = '[QuestionGroup] New',
   NEW_SUCCESS = '[QuestionGroup] New Success',
   NEW_FAILURE = '[QuestionGroup] New Failure',
@@ -31,9 +34,24 @@ export class QuestionGroupLoadFailAction implements Action {
   constructor(public error: any) {}
 }
 
+export class QuestionGroupLoadOneAction implements Action {
+  public readonly type = QuestionGroupActionTypes.LOADONE;
+  constructor(public payload: QuestionGroupRequest) {}
+}
+
+export class QuestionGroupLoadOneSuccessAction implements Action {
+  public readonly type = QuestionGroupActionTypes.LOADONE_SUCCESS;
+  constructor(public payload: QuestionGroupResponse) {}
+}
+
+export class QuestionGroupLoadOneFailAction implements Action {
+  public readonly type = QuestionGroupActionTypes.LOADONE_FAILURE;
+  constructor(public error: any) {}
+}
+
 export class QuestionGroupNewAction implements Action {
   public readonly type = QuestionGroupActionTypes.NEW;
-  constructor(public payload: QuestionGroup) {}
+  constructor(public payload: QuestionGroupRequest) {}
 }
 
 export class QuestionGroupNewSuccessAction implements Action {
@@ -48,7 +66,7 @@ export class QuestionGroupNewFailureAction implements Action {
 
 export class QuestionGroupUpdateAction implements Action {
   public readonly type = QuestionGroupActionTypes.UPDATE;
-  constructor(public payload: QuestionGroup) {}
+  constructor(public payload: QuestionGroupRequest) {}
 }
 
 export class QuestionGroupUpdateSuccessAction implements Action {
@@ -63,7 +81,7 @@ export class QuestionGroupUpdateFailureAction implements Action {
 
 export class QuestionGroupDeleteAction implements Action {
   public readonly type = QuestionGroupActionTypes.DELETE;
-  constructor(public payload: string) {}
+  constructor(public payload: QuestionGroupRequest) {}
 }
 
 export class QuestionGroupDeleteSuccessAction implements Action {
@@ -80,6 +98,9 @@ export type QuestionGroupActionsAll =
   | QuestionGroupLoadAction
   | QuestionGroupLoadSuccessAction
   | QuestionGroupLoadFailAction
+  | QuestionGroupLoadOneAction
+  | QuestionGroupLoadOneSuccessAction
+  | QuestionGroupLoadOneFailAction
   | QuestionGroupNewAction
   | QuestionGroupNewSuccessAction
   | QuestionGroupNewFailureAction

@@ -22,8 +22,8 @@ export class QuestionGroupBoxComponent implements OnInit {
 
   openAddQuestionGroupModal(): void {
     this.questionGroupDialog.open(EditQuestionGroupComponent, {
-      width: '45%',
-      position: { top: '4%' },
+      width: '35%',
+      position: { top: '6%' },
       data: {
         dialogConfig: {
           title: 'New Question Group',
@@ -35,26 +35,29 @@ export class QuestionGroupBoxComponent implements OnInit {
 
   openEditQuestionGroupModal(): void {
     this.questionGroupDialog.open(EditQuestionGroupComponent, {
-      width: '45%',
-      position: { top: '4%' },
+      width: '35%',
+      position: { top: '6%' },
       data: {
+        questionGroup: { ...this.questionGroup },
         dialogConfig: {
           title: 'Edit Question Group',
-          operation: 'edit'
-        }
-      }
+          operation: 'edit',
+        },
+      },
     });
   }
 
   openDeleteQuestionGroupDialog(): void {
     this.questionGroupDialog.open(DeleteQuestionGroupComponent, {
-      width: '20%',
-      position: { top: '7%' },
+      minWidth: '20%',
+      position: { top: '14%' },
       data: {
+        questionGroup: { ...this.questionGroup }, // clone object
         dialogConfig: {
-          title: 'Delete Question Group'
-        }
-      }
+          title: 'Delete Question Group',
+          content: 'Are you sure to delete the question group selected?',
+        },
+      },
     });
   }
 
