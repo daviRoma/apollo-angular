@@ -13,7 +13,7 @@ import { DeleteQuestionGroupComponent } from 'src/app/features/question-groups/c
 })
 export class QuestionGroupBoxComponent implements OnInit {
 
-  @Input() questionGroup: QuestionGroup;
+  @Input() questionGroups: QuestionGroup[];
 
   constructor(public questionGroupDialog: MatDialog) { }
 
@@ -33,12 +33,12 @@ export class QuestionGroupBoxComponent implements OnInit {
     });
   }
 
-  openEditQuestionGroupModal(): void {
+  openEditQuestionGroupModal(questionGroup: QuestionGroup): void {
     this.questionGroupDialog.open(EditQuestionGroupComponent, {
       width: '35%',
       position: { top: '6%' },
       data: {
-        questionGroup: { ...this.questionGroup },
+        questionGroup: { ...questionGroup },
         dialogConfig: {
           title: 'Edit Question Group',
           operation: 'edit',
@@ -47,12 +47,12 @@ export class QuestionGroupBoxComponent implements OnInit {
     });
   }
 
-  openDeleteQuestionGroupDialog(): void {
+  openDeleteQuestionGroupDialog(questionGroup: QuestionGroup): void {
     this.questionGroupDialog.open(DeleteQuestionGroupComponent, {
       minWidth: '20%',
       position: { top: '14%' },
       data: {
-        questionGroup: { ...this.questionGroup }, // clone object
+        questionGroup: { ...questionGroup }, // clone object
         dialogConfig: {
           title: 'Delete Question Group',
           content: 'Are you sure to delete the question group selected?',

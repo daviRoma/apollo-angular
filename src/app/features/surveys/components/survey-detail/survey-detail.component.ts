@@ -8,6 +8,7 @@ import { SurveyLoadAction, SurveyUpdateAction, SurveyDeleteAction } from 'src/ap
 import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
 import { DeleteSurveyComponent } from '../dialogs/delete-survey/delete-survey.component';
 import { InvitationPoolComponent } from 'src/app/features/surveys/components/dialogs/invitation-pool/invitation-pool.component';
+import { PublishSurveyComponent } from 'src/app/features/surveys/components/dialogs/publish-survey/publish-survey.component';
 
 import { AppState } from 'src/app/state/app.state';
 import { Survey } from 'src/app/models/survey.model';
@@ -27,6 +28,7 @@ export class SurveyDetailComponent implements OnInit {
     private store: Store<AppState>) { }
 
   ngOnInit(): void {
+    console.log('survey', this.survey);
     // this.store
     // .pipe(select(fromSurvey.selectEntity, { id: 1 }))
     // .subscribe((survey: Survey) => {
@@ -60,7 +62,10 @@ export class SurveyDetailComponent implements OnInit {
       width: '45%',
       position: { top: '3%' },
       data: {
-        survey: {...this.survey}, // clone object
+        survey: { ...this.survey }, // clone object
+        dialogConfig: {
+          title: 'Edit Survey'
+        }
       }
     });
 
@@ -70,7 +75,24 @@ export class SurveyDetailComponent implements OnInit {
     });
   }
 
-  public openPublishModal(): void {}
+  public openPublishModal(): void {
+    const updateDialogRef = this.dialog.open(PublishSurveyComponent, {
+      minWidth: '20%',
+      width: '40%',
+      position: { top: '8%' },
+      data: {
+        survey: { ...this.survey }, // clone object
+        dialogConfig: {
+          title: 'Publish Survey',
+        },
+      },
+    });
+
+    updateDialogRef.afterClosed().subscribe((response) => {
+      if (response.result.message === 'close_after_publish') {
+      }
+    });
+  }
 
   public openDeleteDialog(): void {
     const dialogRef = this.dialog.open(DeleteSurveyComponent, {

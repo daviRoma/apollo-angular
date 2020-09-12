@@ -25,9 +25,7 @@
 
     <!-- GROUPS CONTAINER -->
     <div id="question_group_section">
-      <div *ngFor="let questionGroup of questionGroups;">
-        <app-question-group-box [questionGroup]="questionGroup"></app-question-group-box>
-      </div>
+      <app-question-group-box [questionGroups]="questionGroups"></app-question-group-box>
     </div>
 
   </div>

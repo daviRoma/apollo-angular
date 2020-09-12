@@ -23,6 +23,8 @@ export class PublishSurveyComponent implements OnInit {
   public dialogConfig: any;
   public survey: Survey;
 
+  public result: any;
+  public isLoading: boolean;
   private currentState: Observable<any>;
 
   constructor(
@@ -37,11 +39,15 @@ export class PublishSurveyComponent implements OnInit {
     if (this.data.survey) {
       this.survey = { ...this.data.survey };
     }
+    this.result = {};
+    this.isLoading = false;
   }
 
   ngOnInit(): void {}
 
   sendPublish(): void {}
+
+  copyToClipboard(): void {}
 
   closeDialog(): void {
     this.dialogRef.close('close_cancel');
