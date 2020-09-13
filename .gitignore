@@ -46,5 +46,3 @@ testem.log
 Thumbs.db
 .vscode/settings.json
 src/app/shared/server.conf.ts
-
-src/app/shared/
