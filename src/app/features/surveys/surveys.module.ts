@@ -15,6 +15,7 @@ import { SurveyOverviewComponent } from './components/survey-overview/survey-ove
 import { EditSurveyComponent } from './components/dialogs/edit-survey/edit-survey.component';
 import { InvitationPoolComponent } from 'src/app/features/surveys/components/dialogs/invitation-pool/invitation-pool.component';
 import { PublishSurveyComponent } from './components/dialogs/publish-survey/publish-survey.component';
+import { InvitationConfirmComponent } from './components/dialogs/invitation-confirm/invitation-confirm.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { PublishSurveyComponent } from './components/dialogs/publish-survey/publ
     SurveyOverviewComponent,
     EditSurveyComponent,
     InvitationPoolComponent,
-    PublishSurveyComponent
+    PublishSurveyComponent,
+    InvitationConfirmComponent
   ],
   imports: [
     CommonModule,

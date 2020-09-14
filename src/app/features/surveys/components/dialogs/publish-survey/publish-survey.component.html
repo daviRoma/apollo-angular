@@ -17,7 +17,7 @@
       <input id="urlId" type="text" class="form-control" value="{{survey.urlId}}" placeholder="Link pubblico..." readonly />
     </div>
     <div class="col-1 mt-4 p-2">
-      <a href="#" (click)="copyToClipboard()" data-toggle="tooltip" title="Copy to clipboard"><i class="far fa-copy fa-2x"></i></a>
+      <a href="#" (click)="copyToClipboard($event)" data-toggle="tooltip" title="Copy to clipboard"><i class="far fa-copy fa-2x"></i></a>
     </div>
   </div>
 
@@ -35,7 +35,7 @@
 <div mat-dialog-actions>
   <div class="text-right buttons-container">
     <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendPublish()">{{survey.active ? 'Disattiva' : 'Attiva'}}</button>
+    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="handleSubmit()">{{survey.active ? 'Disattiva' : 'Attiva'}}</button>
   </div>
 </div>
 

@@ -9,6 +9,7 @@ import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs
 import { DeleteSurveyComponent } from '../dialogs/delete-survey/delete-survey.component';
 import { InvitationPoolComponent } from 'src/app/features/surveys/components/dialogs/invitation-pool/invitation-pool.component';
 import { PublishSurveyComponent } from 'src/app/features/surveys/components/dialogs/publish-survey/publish-survey.component';
+import { InvitationConfirmComponent } from 'src/app/features/surveys/components/dialogs/invitation-confirm/invitation-confirm.component';
 
 import { AppState } from 'src/app/state/app.state';
 import { Survey } from 'src/app/models/survey.model';
@@ -22,6 +23,16 @@ import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.sel
 export class SurveyDetailComponent implements OnInit {
 
   @Input() survey: Survey;
+
+  public dialogProperties: any = {
+      minWidth: '20%',
+      width: '40%',
+      position: { top: '8%' },
+      data: {
+        survey: null,
+        dialogConfig: { title: '' },
+      },
+    };
 
   constructor(
     public dialog: MatDialog,
@@ -76,20 +87,15 @@ export class SurveyDetailComponent implements OnInit {
   }
 
   public openPublishModal(): void {
-    const updateDialogRef = this.dialog.open(PublishSurveyComponent, {
-      minWidth: '20%',
-      width: '40%',
-      position: { top: '8%' },
-      data: {
-        survey: { ...this.survey }, // clone object
-        dialogConfig: {
-          title: 'Publish Survey',
-        },
-      },
-    });
+    this.dialogProperties.data.survey = { ...this.survey };
+    this.dialogProperties.data.dialogConfig.title = 'Publish Survey';
 
-    updateDialogRef.afterClosed().subscribe((response) => {
-      if (response.result.message === 'close_after_publish') {
+    const publishDialogRef = this.dialog.open(PublishSurveyComponent, this.dialogProperties);
+
+    publishDialogRef.afterClosed().subscribe((response) => {
+      if (response === 'close_send_invitation') {
+        this.dialogProperties.data.dialogConfig.title = 'Send invitations and publish';
+        this.dialog.open(InvitationConfirmComponent, this.dialogProperties);
       }
     });
   }

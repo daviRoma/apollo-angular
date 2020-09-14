@@ -3,8 +3,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
-import { AppState } from 'src/app/state/app.state';
 import { Store } from '@ngrx/store';
+import $ from 'node_modules/jquery';
+
+import { AppState } from 'src/app/state/app.state';
 
 import { selectSurveyState } from 'src/app/features/surveys/store/selectors/survey.selectors';
 import {
@@ -45,9 +47,22 @@ export class PublishSurveyComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  sendPublish(): void {}
+  copyToClipboard(event: any): void {
+    event.preventDefault();
+    let copyText = $('#urlId');
+    copyText.select();
+    document.execCommand('copy');
+  }
 
-  copyToClipboard(): void {}
+  handleSubmit(): void {
+    if (this.survey.secret && !this.survey.active) {
+      this.dialogRef.close('close_send_invitation');
+    } else {
+      this.survey.active = !this.survey.active;
+      this.store.dispatch(new SurveyUpdateAction(this.survey));
+    }
+  }
+
 
   closeDialog(): void {
     this.dialogRef.close('close_cancel');
@@ -56,4 +71,5 @@ export class PublishSurveyComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
+
 }
