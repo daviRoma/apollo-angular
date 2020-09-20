@@ -59,10 +59,10 @@ export class RegistrationComponent implements OnInit {
   }
 
   private checkPasswords(group: FormGroup): any { // here we have the 'passwords' group
-  let password = group.get('password').value;
-  let passwordConfirm = group.get('passwordConfirm').value;
+    let password = group.get('password').value;
+    let passwordConfirm = group.get('passwordConfirm').value;
 
-  return password === passwordConfirm ? null : { notSame: true };
-}
+    return password === passwordConfirm ? null : { notSame: true };
+  }
 
 }

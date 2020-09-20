@@ -2,15 +2,21 @@
  * Question classes.
  */
 
+import { QuestionGroup } from 'src/app/models/question-group.model';
+import { Survey } from 'src/app/models/survey.model';
+
 export class Question {
   id: string;
   title: string;
   mandatory: boolean;
-  creationDate: Date;
+  icon?: any;
+  createDate?: Date;
+  questionGroup: QuestionGroup[];
+  survey: Survey;
 }
 
 export class InputQuestion extends Question {
-  inputType: string;
+  type: string;
 }
 
 export class ChoiceQuestion extends Question {

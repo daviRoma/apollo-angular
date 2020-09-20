@@ -6,6 +6,8 @@ import { QuestionGroup } from 'src/app/models/question-group.model';
 import { EditQuestionGroupComponent } from 'src/app/features/question-groups/components/dialogs/edit-question-group/edit-question-group.component';
 import { DeleteQuestionGroupComponent } from 'src/app/features/question-groups/components/dialogs/delete-question-group/delete-question-group.component';
 
+import { InputQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/input-question-dialog/input-question-dialog.component';
+
 @Component({
   selector: 'app-question-group-box',
   templateUrl: './question-group-box.component.html',
@@ -15,9 +17,11 @@ export class QuestionGroupBoxComponent implements OnInit {
 
   @Input() questionGroups: QuestionGroup[];
 
-  constructor(public questionGroupDialog: MatDialog) { }
+  constructor(public questionGroupDialog: MatDialog) {
+  }
 
   ngOnInit(): void {
+    console.log('Question Groups', this.questionGroups);
   }
 
   openAddQuestionGroupModal(): void {
@@ -59,6 +63,45 @@ export class QuestionGroupBoxComponent implements OnInit {
         },
       },
     });
+  }
+
+  openSingleChoiceQuestionDialog(): void {
+
+  }
+
+  openMultiChoiceQuestionDialog(): void {
+
+  }
+
+  openSelectionQuestionDialog(): void {
+
+  }
+
+  openInputQuestionDialog(): void {
+    const dialogRef = this.questionGroupDialog.open(InputQuestionDialogComponent, {
+      width: '30%',
+      position: { top: '12%' },
+      data: {
+        dialogConfig: {
+          title: 'New Input Question',
+          operation: 'new'
+        },
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response.result === 'close_after_new') {
+        // Reload questions
+      }
+    });
+  }
+
+  openSingleMatrixQuestionDialog(): void {
+
+  }
+
+  openMultiMatrixQuestionDialog(): void {
+
   }
 
 }

@@ -1,0 +1,45 @@
+<!-- INPUT QUESTION DIALOG -->
+<h2 class="mat-dialog-title">{{dialogConfig.title}}</h2>
+
+<form id="input_question_form" enctype="multipart/form-data" [formGroup]="questionForm" (ngSubmit)="onSubmit($event)">
+  <div class="mat-dialog-content">
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- Question Text -->
+          <div class="form-group">
+            <label th:for="title" class="form-control-label">Question </label>
+            <input type="text" class="form-control" placeholder="Question title..." data-toggle="autosize" required size="255" maxlength="255" minlength="12"/>
+            <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="questionForm.get('title').hasError('required')">*Please insert a title</mat-error>
+          </div>
+
+          <!-- Question Type -->
+          <div class="form-group">
+            <mat-form-field appearance="fill">
+              <mat-label class="form-control-label">Type</mat-label>
+              <mat-select [formControl]="questionForm.get('type')" required>
+                <mat-option>-- None --</mat-option>
+                <mat-option *ngFor="let item of inputType" [value]="item.value">
+                  {{item.label}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="questionForm.get('type').hasError('required')">Please choose an input type</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Advanced option -->
+          <div class="form-group">
+            <app-advanced [mandatory]="inputQuestion ? inputQuestion.mandatory : false" [file]="inputQuestion ? inputQuestion.icon : null"></app-advanced>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mat-dialog-actions">
+    <div class="text-right buttons-container">
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-sm btn-primary rounded-pill">Save</button>
+    </div>
+  </div>
+
+</form>

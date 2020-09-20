@@ -5,6 +5,6 @@
 export class InvitationPool {
   id: string;
   password: string;
-  creationDate: Date;
+  createDate: Date;
   emails: string[];
 }

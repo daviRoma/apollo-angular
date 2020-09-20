@@ -1,0 +1,53 @@
+<!-- ADVANCED OPTION -->
+<div class="input-file-container">
+
+  <div id="accordion-file" class="accordion accordion-spaced">
+
+    <div class="card border shadow-none">
+
+      <div class="card-header shadow-none no-border force-padding-10 bg-primary text-white" id="heading-1-3"
+        data-toggle="collapse" role="button" data-target="#collapse-file-input" aria-expanded="false"
+        aria-controls="collapse-file-input">
+        <div class="mb-0 form-control-label text-white">
+          <i class="far fa-cog mr-3"></i>
+          Avanzate
+        </div>
+      </div>
+
+      <div id="collapse-file-input" class="collapse" aria-labelledby="heading-1-3" data-parent="#accordion-file">
+        <div class="card-body shadow-none">
+
+          <div class="col-12">
+            <!-- Mandatory -->
+            <div class="form-group custom-control custom-switch">
+              <label class="custom-control-label form-control-label" for="mandatory">Mandatory</label>
+              <input type="checkbox" id="mandatory" name="mandatory" [value]="mandatory" class="custom-control-input"/>
+            </div>
+          </div>
+
+          <!--Creation case-->
+          <div *ngIf="file == null" class="form-control-label">
+              <input type="file" id="questionfile" name="questionfile" class="custom-input-file" accept="image/*" data-max-size="5" />
+              <label for="questionfile"><i class="fa fa-upload"></i><span id="questionfile_label">File</span></label>
+              <span id="file_error" class="text-danger text-sm hidden"></span>
+          </div>
+
+          <!--Update case-->
+          <div *ngIf="file != null" id="update_case" class="form-control-label mt-3" >
+            <input id="file_input" type="hidden" [value]="file" />
+            <div class="row">
+              <small class="col-11 my-auto"><b>File:</b> </small>
+              <div class="col-1 my-auto">
+                  <a href="#" (click)="deleteFile($event)"><i class="far fa-trash text-danger"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- ./Accordion -->
+
+</div>
