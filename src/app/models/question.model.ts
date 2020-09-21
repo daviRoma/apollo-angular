@@ -34,3 +34,16 @@ export class MatrixQuestion extends Question {
   options: string[];
   optionValues: string[];
 }
+
+export class QuestionRequest {
+  surveyId: string;
+  questionGroupId: string;
+  question: any;
+}
+
+export class QuestionResponse {
+  data?: any;
+  self?: string;
+  links?: any;
+  meta?: any;
+}

@@ -55,7 +55,7 @@ export class QuestionGroupEffects {
   );
 
   @Effect()
-  public createSurvey = this.actions.pipe(
+  public createQuestionGroup = this.actions.pipe(
     ofType<QuestionGroupNewAction>(QuestionGroupActionTypes.NEW),
     map((action) => action.payload),
     switchMap((request: QuestionGroupRequest) =>
@@ -73,7 +73,7 @@ export class QuestionGroupEffects {
   );
 
   @Effect()
-  public updateSurvey = this.actions.pipe(
+  public updateQuestionGroup = this.actions.pipe(
     ofType<QuestionGroupUpdateAction>(QuestionGroupActionTypes.UPDATE),
     map((action) => action.payload),
     switchMap((request: QuestionGroupRequest) =>
@@ -85,7 +85,7 @@ export class QuestionGroupEffects {
   );
 
   @Effect()
-  public deleteSurvey = this.actions.pipe(
+  public deleteQuestionGroup = this.actions.pipe(
     ofType<QuestionGroupDeleteAction>(QuestionGroupActionTypes.DELETE),
     map((action) => action.payload),
     switchMap((param: QuestionGroupRequest) =>
