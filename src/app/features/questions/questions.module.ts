@@ -13,9 +13,7 @@ import { SingleChoiceQuestionComponent } from './components/question-components/
 
 import { InputQuestionDialogComponent } from './components/dialogs/input-question-dialog/input-question-dialog.component';
 import { MatrixQuestionDialogComponent } from './components/dialogs/matrix-question-dialog/matrix-question-dialog.component';
-import { MultiChoiceQuestionDialogComponent } from './components/dialogs/multi-choice-question-dialog/multi-choice-question-dialog.component';
-import { SelectionQuestionDialogComponent } from './components/dialogs/selection-question-dialog/selection-question-dialog.component';
-import { SingleChoiceQuestionDialogComponent } from './components/dialogs/single-choice-question-dialog/single-choice-question-dialog.component';
+import { ChoiceQuestionDialogComponent } from './components/dialogs/choice-question-dialog/choice-question-dialog.component';
 import { AdvancedComponent } from './components/advanced/advanced.component';
 
 @NgModule({
@@ -28,9 +26,7 @@ import { AdvancedComponent } from './components/advanced/advanced.component';
 
     InputQuestionDialogComponent,
     MatrixQuestionDialogComponent,
-    MultiChoiceQuestionDialogComponent,
-    SelectionQuestionDialogComponent,
-    SingleChoiceQuestionDialogComponent,
+    ChoiceQuestionDialogComponent,
     AdvancedComponent,
   ],
   imports: [
@@ -38,15 +34,13 @@ import { AdvancedComponent } from './components/advanced/advanced.component';
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     InputQuestionDialogComponent,
     MatrixQuestionDialogComponent,
-    MultiChoiceQuestionDialogComponent,
-    SelectionQuestionDialogComponent,
-    SingleChoiceQuestionDialogComponent
+    ChoiceQuestionDialogComponent
   ],
 })
 export class QuestionsModule {}

@@ -1,6 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ChoiceQuestion } from 'src/app/models/question.model';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Store } from '@ngrx/store';
@@ -8,14 +13,14 @@ import { AppState } from 'src/app/state/app.state';
 
 import Utils from 'src/app/shared/utils';
 
-@Component({
-  selector: 'app-single-choice-question-dialog',
-  templateUrl: './single-choice-question-dialog.component.html',
-  styleUrls: ['./single-choice-question-dialog.component.scss']
-})
-export class SingleChoiceQuestionDialogComponent implements OnInit {
 
-public dialogConfig: any;
+@Component({
+  selector: 'app-choice-question-dialog',
+  templateUrl: './choice-question-dialog.component.html',
+  styleUrls: ['./choice-question-dialog.component.scss'],
+})
+export class ChoiceQuestionDialogComponent implements OnInit {
+  public dialogConfig: any;
 
   public choiceQuestion: ChoiceQuestion;
   public questionForm: FormGroup;
@@ -23,7 +28,7 @@ public dialogConfig: any;
   public inputType: any[];
 
   constructor(
-    public dialogRef: MatDialogRef<SingleChoiceQuestionDialogComponent>,
+    public dialogRef: MatDialogRef<ChoiceQuestionDialogComponent>,
     private formBuilder: FormBuilder,
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -37,7 +42,7 @@ public dialogConfig: any;
       ]),
       choiceType: new FormControl('', [Validators.required]),
       options: [],
-      otherChoice: [false]
+      otherChoice: [false],
     });
 
     // Edit case
@@ -47,9 +52,7 @@ public dialogConfig: any;
     }
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   onSubmit(event): void {
     event.preventDefault();
@@ -87,5 +90,4 @@ public dialogConfig: any;
   cancel(): void {
     this.closeDialog();
   }
-
 }

@@ -1,4 +1,4 @@
-<!-- INPUT QUESTION DIALOG -->
+<!-- CHOICE QUESTION DIALOG -->
 <h2 class="mat-dialog-title">{{dialogConfig.title}}</h2>
 
 <form id="input_question_form" enctype="multipart/form-data" [formGroup]="questionForm" (ngSubmit)="onSubmit($event)">
@@ -9,8 +9,10 @@
         <!-- Question Text -->
         <div class="form-group">
           <label th:for="title" class="form-control-label">Question </label>
-          <input type="text" class="form-control" placeholder="Question title..." data-toggle="autosize" required size="255" maxlength="255" minlength="12"/>
-          <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="questionForm.get('title').hasError('required')">*Please insert a title</mat-error>
+          <input type="text" class="form-control" placeholder="Question title..." data-toggle="autosize" required
+            size="255" maxlength="255" minlength="12" />
+          <mat-error class="font-weight-bold text-danger text-xs mx-1"
+            *ngIf="questionForm.get('title').hasError('required')">*Please insert a title</mat-error>
         </div>
 
         <!-- Question options -->
@@ -41,7 +43,7 @@
           <!-- Other choice -->
           <div class="col-12">
             <div class="form-group custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice"/>
+              <input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice" />
               <label class="custom-control-label form-control-label" for="otherchoice">Altro</label>
             </div>
           </div>
@@ -71,7 +73,8 @@
 
         <!-- Advanced option -->
         <div class="form-group">
-          <app-advanced [mandatory]="choiceQuestion ? choiceQuestion.mandatory : false" [file]="choiceQuestion ? choiceQuestion.icon : null"></app-advanced>
+          <app-advanced [mandatory]="choiceQuestion ? choiceQuestion.mandatory : false"
+            [file]="choiceQuestion ? choiceQuestion.icon : null"></app-advanced>
         </div>
       </div>
     </div>
