@@ -48,12 +48,56 @@ private BASE_URL = serverConfiguration.api;
   }
 
   /**
+   * Get All Choice questions by survey, group and question
+   * @param request : QuestionRequest
+   */
+  public getChoiceQuestions(request: QuestionRequest): Observable<QuestionResponse> {
+    this.logger.debug('QuestionService', 'getChoiceQuestions', 'retrieving...');
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/multi_questions/${request.question.id}`;
+    const options = { headers: this.authService.setHttpSecurityHeaders() };
+
+    return this.httpClient.get<QuestionResponse>(url, options);
+  }
+
+  /**
+   * Get All Matrix questions by survey, group and question
+   * @param request : QuestionRequest
+   */
+  public getMatrixQuestions(request: QuestionRequest): Observable<QuestionResponse> {
+    this.logger.debug('QuestionService', 'getMatrixQuestions', 'retrieving...');
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/matrix_questions/${request.question.id}`;
+    const options = { headers: this.authService.setHttpSecurityHeaders() };
+
+    return this.httpClient.get<QuestionResponse>(url, options);
+  }
+
+  /**
    * Create new input question
    * @param request : QuestionRequest
    */
   public createInputQuestion(request: QuestionRequest): Observable<QuestionResponse> {
     this.logger.debug('QuestionService', 'createInputQuestion', request);
     const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/input_questions`;
+    return this.httpClient.post<QuestionResponse>(url, request.question, { headers: this.authService.setHttpSecurityHeaders() });
+  }
+
+  /**
+   * Create new choice question
+   * @param request : QuestionRequest
+   */
+  public createChoiceQuestion(request: QuestionRequest): Observable<QuestionResponse> {
+    this.logger.debug('QuestionService', 'createChoiceQuestion', request);
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/multi_questions`;
+    return this.httpClient.post<QuestionResponse>(url, request.question, { headers: this.authService.setHttpSecurityHeaders() });
+  }
+
+  /**
+   * Create new matrix question
+   * @param request : QuestionRequest
+   */
+  public createMatrixQuestion(request: QuestionRequest): Observable<QuestionResponse> {
+    this.logger.debug('QuestionService', 'createMatrixQuestion', request);
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/matrix_questions`;
     return this.httpClient.post<QuestionResponse>(url, request.question, { headers: this.authService.setHttpSecurityHeaders() });
   }
 
@@ -68,12 +112,52 @@ private BASE_URL = serverConfiguration.api;
   }
 
   /**
+   * Update choice question
+   * @param request : QuestionRequest
+   */
+  public updateChoiceQuestion(request: QuestionRequest): Observable<QuestionResponse> {
+    this.logger.debug('QuestionService', 'updateChoiceQuestion', request);
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/multi_questions/${request.question.id}`;
+    return this.httpClient.put<QuestionResponse>(url, request.question, { headers: this.authService.setHttpSecurityHeaders() });
+  }
+
+  /**
+   * Update matrix question
+   * @param request : QuestionRequest
+   */
+  public updateMatrixQuestion(request: QuestionRequest): Observable<QuestionResponse> {
+    this.logger.debug('QuestionService', 'updateMatrixQuestion', request);
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/matrix_questions/${request.question.id}`;
+    return this.httpClient.put<QuestionResponse>(url, request.question, { headers: this.authService.setHttpSecurityHeaders() });
+  }
+
+  /**
    * Delete input question by id
    * @param request : QuestionRequest
    */
   public deleteInputQuestion(request: QuestionRequest): Observable<any> {
     this.logger.debug('QuestionService', 'deleteInputQuestion', request);
     const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/input_questions/${request.question.id}`;
+    return this.httpClient.delete<any>(url, { headers: this.authService.setHttpSecurityHeaders() });
+  }
+
+  /**
+   * Delete choice question by id
+   * @param request : QuestionRequest
+   */
+  public deleteChoiceQuestion(request: QuestionRequest): Observable<any> {
+    this.logger.debug('QuestionService', 'deleteChoiceQuestion', request);
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/multi_questions/${request.question.id}`;
+    return this.httpClient.delete<any>(url, { headers: this.authService.setHttpSecurityHeaders() });
+  }
+
+  /**
+   * Delete matrix question by id
+   * @param request : QuestionRequest
+   */
+  public deleteMatrixQuestion(request: QuestionRequest): Observable<any> {
+    this.logger.debug('QuestionService', 'deleteMatrixQuestion', request);
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroupId}/matrix_questions/${request.question.id}`;
     return this.httpClient.delete<any>(url, { headers: this.authService.setHttpSecurityHeaders() });
   }
 

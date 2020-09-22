@@ -11,6 +11,7 @@ export class Question {
   mandatory: boolean;
   icon?: any;
   createDate?: Date;
+  type?: string;
   questionGroup: QuestionGroup[];
   survey: Survey;
 }
@@ -23,10 +24,6 @@ export class ChoiceQuestion extends Question {
   choiceType: string;
   options: string[];
   otherChoice: boolean;
-}
-
-export class SelectionQuestion extends Question {
-  options: string[];
 }
 
 export class MatrixQuestion extends Question {

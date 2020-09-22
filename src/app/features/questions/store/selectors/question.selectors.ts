@@ -57,6 +57,11 @@ export const selectEntitiesBySurvey = createSelector(
   (entities, props) => entities.filter((elem) => elem.survey == props.id)
 );
 
+export const selectEntitiesByType = createSelector(
+  selectAllQuestion,
+  (entities, props) => entities.filter((elem) => elem.type === props.type)
+);
+
 export const selectEntitiesByID = createSelector(
   selectAllQuestion,
   (entities, props) => props.ids.map((id) => entities[id])
