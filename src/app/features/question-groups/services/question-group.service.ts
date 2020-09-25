@@ -27,7 +27,7 @@ export class QuestionGroupService {
    * Get All question group by surveyId
    * @param surveyId : string
    */
-  public getQuestionGroups(surveyId: string): Observable<QuestionGroupResponse> {
+  public getQuestionGroups(surveyId: number): Observable<QuestionGroupResponse> {
     this.logger.debug('QuestionGroupService', 'getQuestionGroups', 'retrieving...');
     const url = `${this.BASE_URL}/surveys/${surveyId}/question_groups?order=id&order_dir=asc`;
     const options = { headers: this.authService.setHttpSecurityHeaders() };

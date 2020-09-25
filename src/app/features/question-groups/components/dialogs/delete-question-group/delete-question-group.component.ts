@@ -1,5 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/state/app.state';
+import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
+import { QuestionGroupDeleteAction } from '../../../store/question-group.actions';
 
 @Component({
   selector: 'app-delete-question-group',
@@ -8,10 +13,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DeleteQuestionGroupComponent implements OnInit {
   public dialogConfig: any;
-  public selectedQuestionGroup: any;
+  public selectedQuestionGroup: QuestionGroup;
 
   constructor(
     public dialogRef: MatDialogRef<DeleteQuestionGroupComponent>,
+    private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
@@ -30,10 +36,14 @@ export class DeleteQuestionGroupComponent implements OnInit {
    * Manage confirm click on delete window.
    */
   confirm(): void {
-    this.dialogRef.close({
-      result: 'close_after_delete',
-      data: this.selectedQuestionGroup,
-    });
+    this.store.dispatch(new QuestionGroupDeleteAction(
+      {
+        surveyId: this.selectedQuestionGroup.survey,
+        questionGroup: { ...this.selectedQuestionGroup }
+      } as QuestionGroupRequest
+    ));
+
+    this.dialogRef.close({ result: 'close_after_delete' });
   }
 
   cancel(): void {

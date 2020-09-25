@@ -71,7 +71,7 @@ export class SurveyService {
    * Delete survey by id
    * @param surveyId : string
    */
-  public deleteSurvey(surveyId: string): Observable<SurveyResponse> {
+  public deleteSurvey(surveyId: number): Observable<SurveyResponse> {
     const url = `${this.BASE_URL}/surveys/${surveyId}`;
     return this.httpClient.delete<SurveyResponse>(url, { headers: this.authService.setHttpSecurityHeaders() });
   }

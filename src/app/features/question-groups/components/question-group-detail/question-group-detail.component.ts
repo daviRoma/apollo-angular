@@ -28,7 +28,6 @@ export class QuestionGroupDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('QuestionGroup', this.questionGroup);
   }
 
   openEditQuestionGroupModal(): void {

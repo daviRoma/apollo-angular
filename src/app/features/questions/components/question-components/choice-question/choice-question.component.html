@@ -6,8 +6,8 @@
       <!-- Question Title -->
 			<div class="m-1">
 				<h6 class="mb-0">
-          {{question.title}}
           <span class="text-danger" *ngIf="question.mandatory">*</span>
+          {{question.title}}
 				</h6>
       </div>
 
@@ -28,7 +28,7 @@
 					<!-- OPTIONS -->
 					<div *ngFor="let option of question.options; index as i" class="custom-control custom-radio">
 						<input type="radio" id="{{'customRadio_' + i}}" name="customRadio" class="custom-control-input" disabled>
-						<label class="custom-control-label" for="{{'customRadio_' + i}}">{{option}}</label>
+						<label class="custom-control-label" for="{{'customRadio_' + i}}">{{option.option}}</label>
 					</div>
 
 					<!-- Other -->
@@ -45,7 +45,7 @@
           <!-- OPTIONS -->
           <div *ngFor="let option of question.options; index as i"  class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" id="{{'customCheck' + i}}" disabled>
-              <label class="custom-control-label" for="{{'customCheck' + i}}">{{option}}</label>
+              <label class="custom-control-label" for="{{'customCheck' + i}}">{{option.option}}</label>
           </div>
           <!-- Other -->
           <div *ngIf="question.otherChoice" class="custom-control custom-checkbox">
@@ -77,8 +77,8 @@
 				   aria-haspopup="true" aria-expanded="false"> <i class="far fa-cog"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right">
-					<a href="#" (click)="editQuestion()" class="dropdown-item" th:text="#{common.edit}"></a>
-					<a href="#" (click)="deleteQuestion()" class="dropdown-item text-danger" th:text="#{common.delete}"></a>
+					<a href="#" (click)="editQuestion()" class="dropdown-item">Edit</a>
+					<a href="#" (click)="deleteQuestion()" class="dropdown-item text-danger">Delete</a>
 				</div>
 			</div>
 		</div>

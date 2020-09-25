@@ -4,7 +4,7 @@
 import { Question } from './question.model';
 
 export class QuestionGroup {
-  id: string;
+  id: number;
   title?: string;
   description?: string;
   survey?: any;
@@ -13,7 +13,7 @@ export class QuestionGroup {
 }
 
 export class QuestionGroupRequest {
-  surveyId: string;
+  surveyId: number;
   questionGroup: QuestionGroup;
 }
 

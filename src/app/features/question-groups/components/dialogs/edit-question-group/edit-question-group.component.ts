@@ -63,8 +63,8 @@ export class EditQuestionGroupComponent implements OnInit {
         )
       : this.store.dispatch(
           new QuestionGroupUpdateAction({
-            questionGroup: payload,
-            surveyId: this.data.surveyId,
+            questionGroup: { ...payload, id: this.questionGroup.id},
+            surveyId: this.questionGroup.survey,
           } as QuestionGroupRequest)
         );
 

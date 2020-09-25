@@ -15,7 +15,7 @@ import { EditQuestionGroupComponent } from '../dialogs/edit-question-group/edit-
 export class QuestionGroupBoxComponent implements OnInit {
 
   @Input() questionGroups: QuestionGroup[];
-  @Input() surveyId: string;
+  @Input() surveyId: number;
 
   constructor(
     public questionGroupDialog: MatDialog,

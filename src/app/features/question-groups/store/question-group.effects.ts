@@ -35,7 +35,7 @@ export class QuestionGroupEffects {
   public loadQuestionGroups = this.actions.pipe(
     ofType<QuestionGroupLoadAction>(QuestionGroupActionTypes.LOADING),
     map((action) => action.payload),
-    switchMap((params: string) =>
+    switchMap((params: number) =>
       this.questionGroupService.getQuestionGroups(params).pipe(
         map((response: any) => new QuestionGroupLoadSuccessAction(response)),
         catchError((error) => of(new QuestionGroupLoadFailAction(error)))
@@ -60,7 +60,7 @@ export class QuestionGroupEffects {
     map((action) => action.payload),
     switchMap((request: QuestionGroupRequest) =>
       this.questionGroupService.createQuestionGroup(request).pipe(
-        map((response: QuestionGroupResponse) => new QuestionGroupNewSuccessAction(response)),
+        map((response: QuestionGroupResponse) => new QuestionGroupLoadAction(request.surveyId)),
         catchError((error) => of(new QuestionGroupNewFailureAction(error)))
       )
     )
@@ -90,7 +90,7 @@ export class QuestionGroupEffects {
     map((action) => action.payload),
     switchMap((param: QuestionGroupRequest) =>
       this.questionGroupService.deleteQuestionGroup(param).pipe(
-        map((response: any) => new QuestionGroupDeleteSuccessAction(response)),
+        map(() => new QuestionGroupDeleteSuccessAction(param.questionGroup.id)),
         catchError((error) => of(new QuestionGroupDeleteFailAction(error)))
       )
     )

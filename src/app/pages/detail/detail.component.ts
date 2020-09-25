@@ -27,6 +27,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   public survey: Survey;
   public questionGroups: QuestionGroup[];
   public user: User;
+  public isLoading: boolean;
 
   private routeParamsSubscription: Subscription;
 
@@ -35,7 +36,9 @@ export class DetailComponent implements OnInit, OnDestroy {
     private store: Store<AppState>
   ) {
     const self = this;
+    this.isLoading = true;
     this.questionGroups = [];
+
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params.survey_id) {
         // Select survey from store by url parameter
@@ -59,17 +62,18 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.routeParamsSubscription.unsubscribe();
   }
 
-  private loadData(surveyId: string): void {
+  private loadData(surveyId: number): void {
     this.store.dispatch( new QuestionGroupLoadAction(surveyId) );
 
     this.store
       .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
       .subscribe((survey: Survey) => {
-        if (survey) { this.survey = survey; }
+        if (survey) {
+          this.survey = survey;
+          this.isLoading = false;
+        }
         else {
-          this.store.dispatch( new SurveyLoadAction({
-            user_id: this.user.id,
-          } as SurveyRequest));
+          this.store.dispatch( new SurveyLoadAction({ user_id: this.user.id } as SurveyRequest));
         }
       });
 

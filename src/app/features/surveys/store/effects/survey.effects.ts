@@ -75,7 +75,7 @@ export class SurveyEffects {
   public deleteSurvey = this.actions.pipe(
     ofType<SurveyDeleteAction>(SurveyActionTypes.DELETE),
     map((action) => action.payload),
-    switchMap((param: string) =>
+    switchMap((param: number) =>
       this.surveyService.deleteSurvey(param).pipe(
         map((response: any) => new SurveyDeleteSuccessAction(param)),
         catchError((error) => of(new SurveyDeleteFailAction(error)))

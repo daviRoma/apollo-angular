@@ -12,7 +12,7 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
           ({
             ...group,
             questions: group.questions.data,
-            survey: group.survey.split('/')[group.survey.split('/').length - 1]
+            survey: parseInt(group.survey.split('/')[group.survey.split('/').length - 1], 0)
           })
         );
       return questionGroupAdapter.setAll(questionGroups, {

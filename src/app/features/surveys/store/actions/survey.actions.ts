@@ -81,7 +81,7 @@ export class SurveyUpdateFailureAction implements Action {
 
 export class SurveyDeleteAction implements Action {
   public readonly type = SurveyActionTypes.DELETE;
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
 }
 
 export class SurveyDeleteSuccessAction implements Action {

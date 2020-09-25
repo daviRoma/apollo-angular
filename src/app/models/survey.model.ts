@@ -7,7 +7,7 @@ import { User } from './user.model';
 import { Icon } from './icon.model';
 
 export class Survey {
-  id: string;
+  id: number;
   name?: string;
   description?: string;
   secret: boolean;
