@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -15,16 +15,18 @@ import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { catchError } from 'rxjs/operators';
 import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
 
   public survey: Survey;
   public questionGroups: QuestionGroup[];
+  public user: User;
 
   private routeParamsSubscription: Subscription;
 
@@ -37,13 +39,24 @@ export class DetailComponent implements OnInit {
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params.survey_id) {
         // Select survey from store by url parameter
-        self.loadData(params.survey_id);
+        self.store
+          .pipe(select(fromAuth.selectAuthUser))
+          .subscribe((user: User) => {
+            if (user) {
+              self.user = user;
+              self.loadData(params.survey_id);
+            }
+          });
       }
     });
   }
 
   ngOnInit(): void {
 
+  }
+
+  ngOnDestroy(): void {
+    this.routeParamsSubscription.unsubscribe();
   }
 
   private loadData(surveyId: string): void {
@@ -55,7 +68,7 @@ export class DetailComponent implements OnInit {
         if (survey) { this.survey = survey; }
         else {
           this.store.dispatch( new SurveyLoadAction({
-            user_id: 1, //this.user.id,
+            user_id: this.user.id,
           } as SurveyRequest));
         }
       });

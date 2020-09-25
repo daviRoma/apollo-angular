@@ -11,6 +11,7 @@ export class Question {
   mandatory: boolean;
   icon?: any;
   createDate?: Date;
+  questionType: string;
   type?: string;
   questionGroup: QuestionGroup[];
   survey: Survey;

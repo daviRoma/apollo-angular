@@ -23,7 +23,7 @@ import {
   ChoiceQuestionDeleteAction,
   ChoiceQuestionDeleteSuccessAction,
   ChoiceQuestionDeleteFailAction
-} from '../actions/Choice-question.actions';
+} from '../actions/choice-question.actions';
 
 import { QuestionResponse, QuestionRequest } from '../../../../models/question.model';
 

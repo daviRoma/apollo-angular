@@ -11,6 +11,7 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
         (group) =>
           ({
             ...group,
+            questions: group.questions.data,
             survey: group.survey.split('/')[group.survey.split('/').length - 1]
           })
         );

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ChoiceQuestion } from 'src/app/models/question.model';
 
 @Component({
@@ -8,7 +8,7 @@ import { ChoiceQuestion } from 'src/app/models/question.model';
 })
 export class ChoiceQuestionComponent implements OnInit {
 
-  public question: ChoiceQuestion;
+  @Input() question: ChoiceQuestion;
 
   constructor() { }
 

@@ -18,12 +18,12 @@ import { AdvancedComponent } from './components/advanced/advanced.component';
   declarations: [
     InputQuestionComponent,
     MatrixQuestionComponent,
+    ChoiceQuestionComponent,
 
     InputQuestionDialogComponent,
     MatrixQuestionDialogComponent,
     ChoiceQuestionDialogComponent,
     AdvancedComponent,
-    ChoiceQuestionComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +36,10 @@ import { AdvancedComponent } from './components/advanced/advanced.component';
   exports: [
     InputQuestionDialogComponent,
     MatrixQuestionDialogComponent,
-    ChoiceQuestionDialogComponent
+    ChoiceQuestionDialogComponent,
+    InputQuestionComponent,
+    MatrixQuestionComponent,
+    ChoiceQuestionComponent,
   ],
 })
 export class QuestionsModule {}

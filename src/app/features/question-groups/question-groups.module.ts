@@ -6,12 +6,14 @@ import { QuestionsModule } from 'src/app/features/questions/questions.module';
 import { QuestionGroupBoxComponent } from './components/question-group-box/question-group-box.component';
 import { EditQuestionGroupComponent } from './components/dialogs/edit-question-group/edit-question-group.component';
 import { DeleteQuestionGroupComponent } from './components/dialogs/delete-question-group/delete-question-group.component';
+import { QuestionGroupDetailComponent } from './components/question-group-detail/question-group-detail.component';
 
 @NgModule({
   declarations: [
     QuestionGroupBoxComponent,
     EditQuestionGroupComponent,
-    DeleteQuestionGroupComponent
+    DeleteQuestionGroupComponent,
+    QuestionGroupDetailComponent
   ],
   imports: [
     CommonModule,

@@ -47,8 +47,8 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
     // Edit case
     if (this.data.question) {
-      this.choiceQuestion = { ...this.data.question };
-      this.questionForm.patchValue(this.choiceQuestion);
+      this.matrixQuestion = { ...this.data.question };
+      this.questionForm.patchValue(this.matrixQuestion);
     }
   }
 

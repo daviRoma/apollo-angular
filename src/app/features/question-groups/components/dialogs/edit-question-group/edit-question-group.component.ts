@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppState } from 'src/app/state/app.state';
 import { QuestionGroupNewAction, QuestionGroupUpdateAction } from 'src/app/features/question-groups/store/question-group.actions';
 
-import { QuestionGroup } from 'src/app/models/question-group.model';
+import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
 
 import Utils from 'src/app/shared/utils';
 
@@ -54,9 +54,19 @@ export class EditQuestionGroupComponent implements OnInit {
 
     console.log('EditQuestionGroupComponent', 'Payload', payload);
 
-    this.dialogConfig.operation === 'new' ?
-      this.store.dispatch(new QuestionGroupNewAction(payload)) :
-      this.store.dispatch(new QuestionGroupUpdateAction(payload));
+    this.dialogConfig.operation === 'new'
+      ? this.store.dispatch(
+          new QuestionGroupNewAction({
+            questionGroup: payload,
+            surveyId: this.data.surveyId,
+          } as QuestionGroupRequest)
+        )
+      : this.store.dispatch(
+          new QuestionGroupUpdateAction({
+            questionGroup: payload,
+            surveyId: this.data.surveyId,
+          } as QuestionGroupRequest)
+        );
 
     this.dialogRef.close({
       result: 'close_after_' + this.dialogConfig.operation,
