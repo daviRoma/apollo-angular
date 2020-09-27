@@ -5,6 +5,7 @@ import { QuestionGroup } from './question-group.model';
 import { InvitationPool } from './invitation-pool.model';
 import { User } from './user.model';
 import { Icon } from './icon.model';
+import { ApolloResponse } from './apollo-response.model';
 
 export class Survey {
   id: number;
@@ -34,9 +35,4 @@ export class SurveyRequest {
   end_date?: string;
 }
 
-export class SurveyResponse {
-  data?: any;
-  self?: string;
-  links?: any;
-  meta?: any;
-}
+export class SurveyResponse extends ApolloResponse {}

@@ -28,11 +28,11 @@
 					<!-- OPTIONS -->
 					<div *ngFor="let option of question.options; index as i" class="custom-control custom-radio">
 						<input type="radio" id="{{'customRadio_' + i}}" name="customRadio" class="custom-control-input" disabled>
-						<label class="custom-control-label" for="{{'customRadio_' + i}}">{{option.option}}</label>
+						<label class="custom-control-label" for="{{'customRadio_' + i}}">{{option.value}}</label>
 					</div>
 
 					<!-- Other -->
-					<div *ngIf="question.otherChoice" class="custom-control custom-radio" >
+					<div *ngIf="question.other" class="custom-control custom-radio" >
 						<input type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" disabled>
 						<label class="custom-control-label" for="{{'other_choice-' + question.id}}">
               <div class="border-bottom custom-input-text">Altro</div>
@@ -45,10 +45,10 @@
           <!-- OPTIONS -->
           <div *ngFor="let option of question.options; index as i"  class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" id="{{'customCheck' + i}}" disabled>
-              <label class="custom-control-label" for="{{'customCheck' + i}}">{{option.option}}</label>
+              <label class="custom-control-label" for="{{'customCheck' + i}}">{{option.value}}</label>
           </div>
           <!-- Other -->
-          <div *ngIf="question.otherChoice" class="custom-control custom-checkbox">
+          <div *ngIf="question.other" class="custom-control custom-checkbox">
               <input type="checkbox" id="{{'other_choice-' + question.id}}" name="customCheck" class="custom-control-input" disabled>
               <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
                   <div class="border-bottom custom-input-text">Altro</div>
@@ -62,7 +62,7 @@
             <mat-select>
               <mat-option>-- None --</mat-option>
               <mat-option *ngFor="let option of question.options" [value]="option">
-                {{option}}
+                {{option.value}}
               </mat-option>
             </mat-select>
           </mat-form-field>

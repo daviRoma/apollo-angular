@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ChoiceQuestion } from 'src/app/models/question.model';
 import {
   FormGroup,
   FormBuilder,
@@ -9,9 +8,12 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Store } from '@ngrx/store';
+
 import { AppState } from 'src/app/state/app.state';
+import { ChoiceQuestion, ChoiceOption, QuestionRequest } from 'src/app/models/question.model';
 
 import Utils from 'src/app/shared/utils';
+import { ChoiceQuestionNewAction, ChoiceQuestionUpdateAction } from '../../../store/actions/choice-question.actions';
 
 
 @Component({
@@ -24,8 +26,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   public choiceQuestion: ChoiceQuestion;
   public questionForm: FormGroup;
-
-  public inputType: any[];
+  public isLastOptionError: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<ChoiceQuestionDialogComponent>,
@@ -34,21 +35,23 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
+    this.isLastOptionError = false;
 
     this.questionForm = this.formBuilder.group({
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(12),
-      ]),
-      choiceType: new FormControl('', [Validators.required]),
-      options: [],
-      otherChoice: [false],
+      title: ['', [Validators.required, Validators.minLength(12)]],
+      other: [false],
+      options: [[], Validators.required]
     });
 
     // Edit case
     if (this.data.question) {
       this.choiceQuestion = { ...this.data.question };
       this.questionForm.patchValue(this.choiceQuestion);
+    } else {
+      this.choiceQuestion = {
+        options: [{id: 1, value: null}],
+        type: this.data.type
+      } as ChoiceQuestion;
     }
   }
 
@@ -64,6 +67,21 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
     console.log('InputQuestionDialogComponent', 'Payload', payload);
 
+    this.dialogConfig.operation === 'new'
+      ? this.store.dispatch(
+          new ChoiceQuestionNewAction({
+            question: { ...payload, type: this.choiceQuestion.type, options: this.choiceQuestion.options },
+            questionGroupId: this.data.questionGroupId,
+            surveyId: this.data.surveyId
+          } as QuestionRequest)
+        )
+      : this.store.dispatch(
+          new ChoiceQuestionUpdateAction({
+            question: { ...payload, id: this.choiceQuestion.id },
+            questionGroupId: this.choiceQuestion.questionGroup,
+            surveyId: this.choiceQuestion.survey
+          } as QuestionRequest)
+        );
     this.dialogRef.close({
       result: 'close_after_' + this.dialogConfig.operation,
       data: payload,
@@ -81,7 +99,28 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     return watcher;
   }
 
-  addOption(): void {}
+  addOption(): void {
+    this.choiceQuestion.options.push(
+      {
+        id: this.choiceQuestion.options[this.choiceQuestion.options.length - 1].id + 1,
+        value: null
+      } as ChoiceOption
+    );
+    this.isLastOptionError = false;
+  }
+
+  deleteOption(option: ChoiceOption): void {
+    if (this.choiceQuestion.options.length === 1) {
+      this.isLastOptionError = true;
+      return;
+    }
+    this.choiceQuestion.options.splice(this.choiceQuestion.options.indexOf(option), 1);
+    this.isLastOptionError = false;
+  }
+
+  advancedOptionChange(event): void {
+    console.log('AAA', event);
+  }
 
   closeDialog(): void {
     this.dialogRef.close('close_cancel');
@@ -90,4 +129,5 @@ export class ChoiceQuestionDialogComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
+
 }

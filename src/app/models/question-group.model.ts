@@ -2,6 +2,7 @@
  * Question Group model
  */
 import { Question } from './question.model';
+import { ApolloResponse } from './apollo-response.model';
 
 export class QuestionGroup {
   id: number;
@@ -17,9 +18,4 @@ export class QuestionGroupRequest {
   questionGroup: QuestionGroup;
 }
 
-export class QuestionGroupResponse {
-  data?: any;
-  self?: string;
-  links?: any;
-  meta?: any;
-}
+export class QuestionGroupResponse extends ApolloResponse {}

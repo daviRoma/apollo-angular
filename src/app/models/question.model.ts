@@ -4,6 +4,7 @@
 
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Survey } from 'src/app/models/survey.model';
+import { ApolloResponse } from 'src/app/models/apollo-response.model';
 
 export class Question {
   id: string;
@@ -13,8 +14,8 @@ export class Question {
   createDate?: Date;
   questionType: string;
   type?: string;
-  questionGroup: QuestionGroup[];
-  survey: Survey;
+  survey?: number;
+  questionGroup?: number;
 }
 
 export class InputQuestion extends Question {
@@ -22,36 +23,29 @@ export class InputQuestion extends Question {
 }
 
 export class ChoiceQuestion extends Question {
-  choiceType: string;
   options: ChoiceOption[];
-  otherChoice: boolean;
+  other: boolean;
 }
 
 export class MatrixQuestion extends Question {
-  choiceType: string;
   options: ChoiceOption[];
   optionValues: ChoiceOptionValue[];
 }
 
-class ChoiceOption {
+export class ChoiceOption {
   id: number;
-  option: string;
+  value: string;
 }
 
-class ChoiceOptionValue {
+export class ChoiceOptionValue {
   id: number;
   value: string;
 }
 
 export class QuestionRequest {
-  surveyId: string;
-  questionGroupId: string;
-  question: any;
+  surveyId: number;
+  questionGroupId: number;
+  question: Question | ChoiceQuestion | MatrixQuestion;
 }
 
-export class QuestionResponse {
-  data?: any;
-  self?: string;
-  links?: any;
-  meta?: any;
-}
+export class QuestionResponse extends ApolloResponse {}

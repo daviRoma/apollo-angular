@@ -1,18 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+
+import { AppState } from 'src/app/state/app.state';
 
 import { EditQuestionGroupComponent } from 'src/app/features/question-groups/components/dialogs/edit-question-group/edit-question-group.component';
 import { DeleteQuestionGroupComponent } from 'src/app/features/question-groups/components/dialogs/delete-question-group/delete-question-group.component';
-
 import { InputQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/input-question-dialog/input-question-dialog.component';
-import { ChoiceQuestionComponent } from 'src/app/features/questions/components/question-components/choice-question/choice-question.component';
-import { MatrixQuestionComponent } from 'src/app/features/questions/components/question-components/matrix-question/matrix-question.component';
+import { ChoiceQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/choice-question-dialog/choice-question-dialog.component';
+import { MatrixQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/matrix-question-dialog/matrix-question-dialog.component';
 
-import { AppState } from 'src/app/state/app.state';
+import * as fromQuestion from 'src/app/features/questions/store/selectors/question.selectors';
+
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { QuestionLoadAction } from 'src/app/features/questions/store/actions/question.actions';
-import { QuestionRequest } from 'src/app/models/question.model';
+import { QuestionRequest, Question } from 'src/app/models/question.model';
 
 @Component({
   selector: 'app-question-group-detail',
@@ -25,9 +27,11 @@ export class QuestionGroupDetailComponent implements OnInit {
   constructor(
     public questionGroupDialog: MatDialog,
     private store: Store<AppState>
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
+    console.log('QuestionGroupDetail', this.questionGroup);
   }
 
   openEditQuestionGroupModal(): void {
@@ -59,11 +63,13 @@ export class QuestionGroupDetailComponent implements OnInit {
   }
 
   openChoiceQuestionDialog(choiceType: string): void {
-    this.questionGroupDialog.open(ChoiceQuestionComponent, {
-      width: '30%',
-      position: { top: '12%' },
+    this.questionGroupDialog.open(ChoiceQuestionDialogComponent, {
+      minWidth: '35%',
+      maxWidth: '42%',
+      position: { top: '6%' },
       data: {
-        questionGroup: { ...this.questionGroup },
+        questionGroupId: this.questionGroup.id,
+        surveyId: this.questionGroup.survey,
         type: choiceType,
         dialogConfig: {
           title: 'New Choice Question',
@@ -74,32 +80,25 @@ export class QuestionGroupDetailComponent implements OnInit {
   }
 
   openInputQuestionDialog(): void {
-    const dialogRef = this.questionGroupDialog.open(
-      InputQuestionDialogComponent,
-      {
-        width: '30%',
-        position: { top: '12%' },
-        data: {
-          questionGroup: { ...this.questionGroup },
-          dialogConfig: {
-            title: 'New Input Question',
-            operation: 'new',
-          },
+    this.questionGroupDialog.open(InputQuestionDialogComponent, {
+      minWidth: '35%',
+      maxWidth: '42%',
+      position: { top: '6%' },
+      data: {
+        questionGroup: { ...this.questionGroup },
+        dialogConfig: {
+          title: 'New Input Question',
+          operation: 'new',
         },
-      }
-    );
-
-    dialogRef.afterClosed().subscribe((response) => {
-      if (response.result === 'close_after_new') {
-        // Reload questions
-      }
+      },
     });
   }
 
   openMatrixQuestionDialog(choiceType: string): void {
-    this.questionGroupDialog.open(MatrixQuestionComponent, {
-      width: '30%',
-      position: { top: '12%' },
+    this.questionGroupDialog.open(MatrixQuestionDialogComponent, {
+      minWidth: '35%',
+      maxWidth: '42%',
+      position: { top: '6%' },
       data: {
         questionGroup: { ...this.questionGroup },
         type: choiceType,

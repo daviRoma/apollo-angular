@@ -11,7 +11,7 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
         (group) =>
           ({
             ...group,
-            questions: group.questions.data,
+            questions: dataTransform(group.questions.data),
             survey: parseInt(group.survey.split('/')[group.survey.split('/').length - 1], 0)
           })
         );
@@ -75,4 +75,14 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
     default:
       return state;
   }
+}
+
+function dataTransform(questions: any[]): any {
+  return questions.map(
+    (question) => ({
+      ...question,
+      survey: parseInt(question.survey.split('/')[question.survey.split('/').length - 1], 0),
+      questionGroup: parseInt(question.questionGroup.split('/')[question.questionGroup.split('/').length - 1], 0)
+    })
+  );
 }
