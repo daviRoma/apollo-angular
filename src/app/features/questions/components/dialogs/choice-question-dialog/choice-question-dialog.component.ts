@@ -7,14 +7,18 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
-import { AppState } from 'src/app/state/app.state';
-import { ChoiceQuestion, ChoiceOption, QuestionRequest } from 'src/app/models/question.model';
-
-import Utils from 'src/app/shared/utils';
+import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
 import { ChoiceQuestionNewAction, ChoiceQuestionUpdateAction } from '../../../store/actions/choice-question.actions';
 
+import { AppState } from 'src/app/state/app.state';
+
+import { ChoiceQuestion, QuestionRequest } from 'src/app/models/question.model';
+import { QuestionGroup } from 'src/app/models/question-group.model';
+import { Icon } from 'src/app/models/icon.model';
+
+import Utils from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-choice-question-dialog',
@@ -26,7 +30,11 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   public choiceQuestion: ChoiceQuestion;
   public questionForm: FormGroup;
+
+  public base64textString: string;
+
   public isLastOptionError: boolean;
+  public isMinOptionLengthError: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<ChoiceQuestionDialogComponent>,
@@ -40,7 +48,8 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     this.questionForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(12)]],
       other: [false],
-      options: [[], Validators.required]
+      mandatory: [false],
+      type: [this.data.type, Validators.required]
     });
 
     // Edit case
@@ -49,37 +58,53 @@ export class ChoiceQuestionDialogComponent implements OnInit {
       this.questionForm.patchValue(this.choiceQuestion);
     } else {
       this.choiceQuestion = {
-        options: [{id: 1, value: null}],
-        type: this.data.type
+        options: [''],
+        type: this.data.type,
+        questionGroup: this.data.questionGroupId
       } as ChoiceQuestion;
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Calculate question position
+    if (this.choiceQuestion.position == null || this.choiceQuestion.position === undefined) {
+      this.store
+        .pipe(select(fromQuestionGroup.selectEntity, { id: this.choiceQuestion.questionGroup }))
+        .subscribe((response: QuestionGroup) => {
+          this.choiceQuestion.position = response.questions.length + 1;
+        });
+    }
+  }
 
   onSubmit(event): void {
     event.preventDefault();
 
     // Form validation
-    if (!this.isFieldValid()) return;
+    if (!this.isFieldsValid()) return;
 
     const payload = Utils.deleteNullKey({ ...this.questionForm.value });
-
     console.log('InputQuestionDialogComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new'
       ? this.store.dispatch(
           new ChoiceQuestionNewAction({
-            question: { ...payload, type: this.choiceQuestion.type, options: this.choiceQuestion.options },
+            question: {
+              ...payload,
+              type: this.choiceQuestion.type,
+              options: this.choiceQuestion.options,
+              position: this.choiceQuestion.position,
+              mandatory: this.choiceQuestion.mandatory,
+              icon: this.choiceQuestion.icon
+            },
             questionGroupId: this.data.questionGroupId,
-            surveyId: this.data.surveyId
+            surveyId: this.data.surveyId,
           } as QuestionRequest)
         )
       : this.store.dispatch(
           new ChoiceQuestionUpdateAction({
             question: { ...payload, id: this.choiceQuestion.id },
             questionGroupId: this.choiceQuestion.questionGroup,
-            surveyId: this.choiceQuestion.survey
+            surveyId: this.choiceQuestion.survey,
           } as QuestionRequest)
         );
     this.dialogRef.close({
@@ -88,38 +113,59 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     });
   }
 
-  isFieldValid(): boolean {
+  isFieldsValid(): boolean {
     let watcher = true;
+
     Object.keys(this.questionForm.value).forEach((key) => {
       if (!this.questionForm.get(key).valid) {
         watcher = false;
         return;
       }
     });
+
+    if (this.choiceQuestion.options.length < 2) {
+      this.isMinOptionLengthError = true;
+      watcher = false;
+    } else if (this.choiceQuestion.options.find( (op) => op == null) !== undefined) {
+      this.isMinOptionLengthError = true;
+      watcher = false;
+    }
+
     return watcher;
   }
 
   addOption(): void {
-    this.choiceQuestion.options.push(
-      {
-        id: this.choiceQuestion.options[this.choiceQuestion.options.length - 1].id + 1,
-        value: null
-      } as ChoiceOption
-    );
+    this.choiceQuestion.options.push('');
     this.isLastOptionError = false;
   }
 
-  deleteOption(option: ChoiceOption): void {
+  deleteOption(option: string): void {
     if (this.choiceQuestion.options.length === 1) {
       this.isLastOptionError = true;
       return;
     }
-    this.choiceQuestion.options.splice(this.choiceQuestion.options.indexOf(option), 1);
+    this.choiceQuestion.options.splice(
+      this.choiceQuestion.options.indexOf(option),
+      1
+    );
     this.isLastOptionError = false;
   }
 
+  onOptionChange(event: any, index: number): void {
+    this.choiceQuestion.options[index] = event.target.value;
+  }
+
   advancedOptionChange(event): void {
-    console.log('AAA', event);
+    console.log('EVENT', event);
+    if (event.name === 'file') {
+      this.fileEncoding(event.value);
+      this.choiceQuestion.icon = {
+        name: event.value.name,
+        data: this.base64textString,
+      } as Icon;
+    } else {
+      this.choiceQuestion.mandatory = event.value;
+    }
   }
 
   closeDialog(): void {
@@ -130,4 +176,16 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     this.closeDialog();
   }
 
+  private fileEncoding(file: File): void {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = this.handleBase64Encoding.bind(this);
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  private handleBase64Encoding(event): void {
+    const binaryString = event.target.result;
+    this.base64textString = btoa(binaryString);
+  }
 }

@@ -16,7 +16,6 @@ export class ChoiceQuestionComponent implements OnInit {
   constructor(public questionDialog: MatDialog) {}
 
   ngOnInit(): void {
-    console.log(this.question);
   }
 
   editQuestion(): void {

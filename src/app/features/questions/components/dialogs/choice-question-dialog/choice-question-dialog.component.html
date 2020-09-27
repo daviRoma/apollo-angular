@@ -12,7 +12,7 @@
           <input type="text" class="form-control" placeholder="Question title..." data-toggle="autosize" required
             size="255" maxlength="255" minlength="12" formControlName="title"/>
           <mat-error class="font-weight-bold text-danger text-xs mx-1"
-            *ngIf="questionForm.get('title').hasError('required')">*Please insert a title</mat-error>
+            *ngIf="questionForm.get('title').hasError('required') && questionForm.get('title').touched">*The title must be 12 characters length</mat-error>
         </div>
 
         <!-- Question options -->
@@ -24,9 +24,9 @@
             <!-- OPTIONS BLOCK -->
             <div id="options_container">
 
-              <div *ngFor="let option of choiceQuestion.options" class="row form-group">
+              <div *ngFor="let option of choiceQuestion.options; index as i" class="row form-group">
                 <div name="input_container" class="col-11">
-                  <input class="form-control choice-input" type="text" placeholder="Inserisci opzione" [value]="option.value" required>
+                  <input class="form-control choice-input" type="text" placeholder="Inserisci opzione" [value]="option" (change)="onOptionChange($event, i)" required>
                 </div>
                 <!-- Delete Button -->
                 <div name="delete_container" class="col-1 align-self-center">
@@ -36,7 +36,12 @@
                   <span class="text-danger text-xs">*Impossibile eliminare l'ultimo elemento</span>
                 </div>
               </div>
-
+              <!-- Option error -->
+              <div class="row form-group">
+                <div *ngIf="isMinOptionLengthError" id="option_length_error" class="col-10 px-3 align-self-center">
+                  <span class="text-danger text-xs">*Inserire almeno 2 opzioni valide</span>
+                </div>
+              </div>
             </div>
           </div>
 

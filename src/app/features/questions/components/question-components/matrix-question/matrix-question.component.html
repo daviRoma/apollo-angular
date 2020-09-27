@@ -30,8 +30,8 @@
             <thead>
               <tr class="table-divider">
                 <th scope="col"></th>
-                <th class="matrix-options-label" *ngFor="let optionValue of question.optionValues" scope="col">
-                  {{optionValue}}
+                <th class="matrix-options-label" *ngFor="let element of question.elements" scope="col">
+                  {{element}}
                 </th>
               </tr>
             </thead>
@@ -41,7 +41,7 @@
               <span *ngFor="let option of question.options; index as i;">
                 <tr class="shadow-none">
                   <th scope="row">{{option}}</th>
-                  <td class="matrix-options-label" *ngFor="let optionValue of question.optionValues">
+                  <td class="matrix-options-label" *ngFor="let optionValue of question.options">
 
                     <div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="customCheck2" disabled>
