@@ -7,3 +7,8 @@ export class Icon {
   name?: string;
   data?: any;
 }
+
+export class IconData {
+  file?: File;
+  base64?: string;
+}

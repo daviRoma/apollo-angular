@@ -33,7 +33,6 @@ export class QuestionGroupDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('QuestionGroupDetail', this.questionGroup);
     QuestionDialogConf.data.questionGroupId = this.questionGroup.id;
     QuestionDialogConf.data.surveyId = this.questionGroup.survey;
     QuestionGroupDialogConf.data.questionGroup = { ...this.questionGroup };

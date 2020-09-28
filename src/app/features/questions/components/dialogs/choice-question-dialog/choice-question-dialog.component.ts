@@ -81,7 +81,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     // Form validation
     if (!this.isFieldsValid()) return;
 
-    const payload = Utils.deleteNullKey({ ...this.questionForm.value });
+    const payload = Utils.deleteNullKey({ ...this.questionForm.value, icon: this.choiceQuestion.icon });
     console.log('InputQuestionDialogComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new'
@@ -91,8 +91,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
               ...payload,
               options: this.choiceQuestion.options,
               position: this.choiceQuestion.position,
-              mandatory: this.choiceQuestion.mandatory,
-              icon: this.choiceQuestion.icon
+              mandatory: this.choiceQuestion.mandatory
             },
             questionGroupId: this.data.questionGroupId,
             surveyId: this.data.surveyId,
@@ -149,10 +148,9 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   advancedOptionChange(event): void {
     if (event.name === 'file') {
-      this.fileEncoding(event.value);
       this.choiceQuestion.icon = {
-        name: event.value.name,
-        data: this.base64textString,
+        name: event.value.file.name,
+        data: event.value.base64,
       } as Icon;
     } else {
       this.choiceQuestion.mandatory = event.value;
@@ -165,19 +163,6 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   cancel(): void {
     this.closeDialog();
-  }
-
-  private fileEncoding(file: File): void {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = this.handleBase64Encoding.bind(this);
-      reader.readAsBinaryString(file);
-    }
-  }
-
-  private handleBase64Encoding(event): void {
-    const binaryString = event.target.result;
-    this.base64textString = btoa(binaryString);
   }
 
 }

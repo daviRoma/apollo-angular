@@ -86,7 +86,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
     // Form validation
     if (!this.isFieldValid()) return;
 
-    const payload = Utils.deleteNullKey({ ...this.questionForm.value });
+    const payload = Utils.deleteNullKey({ ...this.questionForm.value, icon: this.matrixQuestion.icon });
 
     console.log('InputQuestionDialogComponent', 'Payload', payload);
 
@@ -98,8 +98,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
               options: this.matrixQuestion.options,
               elements: this.matrixQuestion.elements,
               position: this.matrixQuestion.position,
-              mandatory: this.matrixQuestion.mandatory,
-              icon: this.matrixQuestion.icon
+              mandatory: this.matrixQuestion.mandatory
             },
             questionGroupId: this.data.questionGroupId,
             surveyId: this.data.surveyId,
@@ -180,10 +179,9 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
   advancedOptionChange(event): void {
     if (event.name === 'file') {
-      this.fileEncoding(event.value);
       this.matrixQuestion.icon = {
-        name: event.value.name,
-        data: this.base64textString,
+        name: event.value.file.name,
+        data: event.value.base64
       } as Icon;
     } else {
       this.matrixQuestion.mandatory = event.value;
@@ -196,19 +194,6 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
   cancel(): void {
     this.closeDialog();
-  }
-
-  private fileEncoding(file: File): void {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = this.handleBase64Encoding.bind(this);
-      reader.readAsBinaryString(file);
-    }
-  }
-
-  private handleBase64Encoding(event): void {
-    const binaryString = event.target.result;
-    this.base64textString = btoa(binaryString);
   }
 
 }
