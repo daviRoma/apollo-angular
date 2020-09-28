@@ -10,8 +10,10 @@ import { InputQuestionDialogComponent } from 'src/app/features/questions/compone
 import { ChoiceQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/choice-question-dialog/choice-question-dialog.component';
 import { MatrixQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/matrix-question-dialog/matrix-question-dialog.component';
 
-import { QuestionGroup } from 'src/app/models/question-group.model';
+import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
+import { QuestionGroupLoadAction, QuestionGroupLoadOneAction } from '../../store/question-group.actions';
 
+import { QuestionGroupDialogConf, QuestionDialogConf, DeleteDialogConf } from 'src/app/shared/dialog.conf';
 
 @Component({
   selector: 'app-question-group-detail',
@@ -21,92 +23,100 @@ import { QuestionGroup } from 'src/app/models/question-group.model';
 export class QuestionGroupDetailComponent implements OnInit {
   @Input() questionGroup: QuestionGroup;
 
+  public isLoading: boolean;
+
   constructor(
     public questionGroupDialog: MatDialog,
     private store: Store<AppState>
   ) {
+
   }
 
   ngOnInit(): void {
     console.log('QuestionGroupDetail', this.questionGroup);
+    QuestionDialogConf.data.questionGroupId = this.questionGroup.id;
+    QuestionDialogConf.data.surveyId = this.questionGroup.survey;
+    QuestionGroupDialogConf.data.questionGroup = { ...this.questionGroup };
   }
 
   openEditQuestionGroupModal(): void {
-    this.questionGroupDialog.open(EditQuestionGroupComponent, {
-      width: '35%',
-      position: { top: '6%' },
-      data: {
-        questionGroup: { ...this.questionGroup },
-        dialogConfig: {
-          title: 'Edit Question Group',
-          operation: 'edit',
-        },
-      },
-    });
+    const questionGroupDialogConfig = { ...QuestionGroupDialogConf };
+    questionGroupDialogConfig.data.dialogConfig.title = 'Edit Question Group';
+    questionGroupDialogConfig.data.dialogConfig.operation = 'edit';
+
+    this.questionGroupDialog.open(EditQuestionGroupComponent, questionGroupDialogConfig);
   }
 
   openDeleteQuestionGroupDialog(): void {
-    this.questionGroupDialog.open(DeleteQuestionGroupComponent, {
-      minWidth: '20%',
-      position: { top: '14%' },
-      data: {
-        questionGroup: { ...this.questionGroup }, // clone object
-        dialogConfig: {
-          title: 'Delete Question Group',
-          content: 'Are you sure to delete the question group selected?',
-        },
-      },
-    });
+    DeleteDialogConf.data.dialogConfig.title = 'Delete Question Group';
+    DeleteDialogConf.data.dialogConfig.content = 'Are you sure to delete the question group selected?';
+    DeleteDialogConf.data.item = { ...this.questionGroup };
+
+    this.questionGroupDialog.open(DeleteQuestionGroupComponent, DeleteDialogConf);
   }
 
   openChoiceQuestionDialog(choiceType: string): void {
-    this.questionGroupDialog.open(ChoiceQuestionDialogComponent, {
-      minWidth: '35%',
-      maxWidth: '42%',
-      position: { top: '6%' },
-      data: {
-        questionGroupId: this.questionGroup.id,
-        surveyId: this.questionGroup.survey,
-        type: choiceType,
-        dialogConfig: {
-          title: 'New Choice Question',
-          operation: 'new',
-        },
-      },
-    });
+    const dialogRef = this.questionGroupDialog.open(
+      ChoiceQuestionDialogComponent,
+      this.buildQuestionDialogConfig('New Choice Question', 'new', choiceType)
+    );
+
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response.result === 'close_after_submit') {
+          this.store.dispatch(new QuestionGroupLoadOneAction(
+            {
+              questionGroup: this.questionGroup,
+              surveyId: this.questionGroup.survey
+            } as QuestionGroupRequest
+          ));
+        }
+      });
   }
 
   openInputQuestionDialog(): void {
-    this.questionGroupDialog.open(InputQuestionDialogComponent, {
-      minWidth: '35%',
-      maxWidth: '42%',
-      position: { top: '6%' },
-      data: {
-        questionGroupId: this.questionGroup.id,
-        surveyId: this.questionGroup.survey,
-        dialogConfig: {
-          title: 'New Input Question',
-          operation: 'new',
-        },
-      },
-    });
+    const dialogRef = this.questionGroupDialog.open(
+      InputQuestionDialogComponent,
+      this.buildQuestionDialogConfig('New Input Question', 'new', null));
+
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response.result === 'close_after_submit') {
+          this.store.dispatch(new QuestionGroupLoadOneAction(
+            {
+              questionGroup: this.questionGroup,
+              surveyId: this.questionGroup.survey
+            } as QuestionGroupRequest
+          ));
+        }
+      });
   }
 
   openMatrixQuestionDialog(choiceType: string): void {
-    this.questionGroupDialog.open(MatrixQuestionDialogComponent, {
-      minWidth: '35%',
-      maxWidth: '42%',
-      position: { top: '6%' },
-      data: {
-        questionGroupId: this.questionGroup.id,
-        surveyId: this.questionGroup.survey,
-        type: choiceType,
-        dialogConfig: {
-          title: 'New Matrix Question',
-          operation: 'new',
-        },
-      },
-    });
+    const dialogRef = this.questionGroupDialog.open(
+      MatrixQuestionDialogComponent,
+      this.buildQuestionDialogConfig('New Matrix Question', 'new', choiceType)
+    );
+
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response.result === 'close_after_submit') {
+          this.store.dispatch(new QuestionGroupLoadOneAction(
+            {
+              questionGroup: this.questionGroup,
+              surveyId: this.questionGroup.survey
+            } as QuestionGroupRequest
+          ));
+        }
+      });
+  }
+
+  private buildQuestionDialogConfig(title: string, operation: string, type: string): any {
+    const questionDialogConfig = { ...QuestionDialogConf };
+    questionDialogConfig.data.dialogConfig.title = title;
+    questionDialogConfig.data.dialogConfig.operation = operation;
+    questionDialogConfig.data.type = type;
+    return questionDialogConfig;
   }
 
 }

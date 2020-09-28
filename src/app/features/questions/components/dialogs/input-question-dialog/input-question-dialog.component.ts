@@ -115,7 +115,7 @@ export class InputQuestionDialogComponent implements OnInit {
         );
 
     this.dialogRef.close({
-      result: 'close_after_' + this.dialogConfig.operation,
+      result: 'close_after_submit',
       data: this.inputQuestion.questionGroup,
     });
   }

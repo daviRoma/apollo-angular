@@ -15,6 +15,16 @@
             *ngIf="questionForm.get('title').hasError('required') && questionForm.get('title').touched">*The title must be 12 characters length</mat-error>
         </div>
 
+        <!-- Other option -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="form-group custom-control custom-switch">
+              <label class="custom-control-label form-control-label" for="otherchoice">Opzione libera</label>
+              <input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice" />
+            </div>
+          </div>
+        </div>
+
         <!-- Question options -->
         <div class="row">
           <div class="col-12">
@@ -30,54 +40,34 @@
                 </div>
                 <!-- Delete Button -->
                 <div name="delete_container" class="col-1 align-self-center">
-                  <span class="option-trash" (click)="deleteOption(option)"><i class="far fa-trash text-danger"></i></span>
-                </div>
-                <div *ngIf="isLastOptionError" id="option_error" class="col-6 align-self-center">
-                  <span class="text-danger text-xs">*Impossibile eliminare l'ultimo elemento</span>
+                  <span class="option-trash" (click)="deleteOption(i)"><i class="far fa-trash text-danger"></i></span>
                 </div>
               </div>
               <!-- Option error -->
               <div class="row form-group">
-                <div *ngIf="isMinOptionLengthError" id="option_length_error" class="col-10 px-3 align-self-center">
+                <div *ngIf="isMinOptionsLengthError" id="option_length_error" class="col-10 px-3 align-self-center">
                   <span class="text-danger text-xs">*Inserire almeno 2 opzioni valide</span>
                 </div>
               </div>
             </div>
+
           </div>
 
-          <!-- Other choice -->
+          <!-- ADD Option Button  -->
           <div class="col-12">
-            <div class="form-group custom-control custom-switch">
-              <label class="custom-control-label form-control-label" for="otherchoice">Altro</label>
-              <input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice" />
-            </div>
-          </div>
-
-          <div class="col-12">
-
-            <!-- ADD BUTTON BLOCK -->
             <div class="row justify-content-center align-items-center">
               <button type="button" class="btn btn-sm btn-soft-primary btn-icon rounded-pill" (click)="addOption()">
                 <span class="btn-inner--icon">
                   <i class="far fa-plus"></i>
                 </span>
-
-                <!-- ADD OPTION BUTTON -->
                 <span class="btn-inner--text">Aggiungi</span>
               </button>
-            </div>
-          </div>
-
-          <!-- Form errors -->
-          <div class="col-12">
-            <div class="text-left text-xs text-muted mt-2">
-              <span id="form_error_message" class="font-weight-bold text-danger hidden"></span>
             </div>
           </div>
         </div>
 
         <!-- Advanced option -->
-        <div class="form-group mt-3">
+        <div class="form-group mt-4">
           <app-advanced [mandatory]="choiceQuestion ? choiceQuestion.mandatory : false"
             [file]="choiceQuestion ? choiceQuestion.icon : null" (advancedOptions)="advancedOptionChange($event)"></app-advanced>
         </div>

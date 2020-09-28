@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatrixQuestion } from 'src/app/models/question.model';
 import {
   FormGroup,
   FormBuilder,
@@ -8,8 +7,15 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Store } from '@ngrx/store';
+import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
+import { MatrixQuestionNewAction, MatrixQuestionUpdateAction } from '../../../store/actions/matrix-question.actions';
+
+import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
+
+import { MatrixQuestion, QuestionRequest } from 'src/app/models/question.model';
+import { QuestionGroup } from 'src/app/models/question-group.model';
+import { Icon } from 'src/app/models/icon.model';
 
 import Utils from 'src/app/shared/utils';
 
@@ -25,7 +31,10 @@ export class MatrixQuestionDialogComponent implements OnInit {
   public matrixQuestion: MatrixQuestion;
   public questionForm: FormGroup;
 
-  public inputType: any[];
+  public base64textString: string;
+
+  public isMinOptionsLengthError: boolean;
+  public isMinElementsLengthError: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<MatrixQuestionDialogComponent>,
@@ -34,25 +43,42 @@ export class MatrixQuestionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
+    this.matrixQuestion = new MatrixQuestion();
 
     this.questionForm = this.formBuilder.group({
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(12),
       ]),
-      choiceType: new FormControl('', [Validators.required]),
-      options: [],
-      otherChoice: [false],
+      mandatory: [false],
+      type: ['', Validators.required]
     });
 
     // Edit case
     if (this.data.question) {
       this.matrixQuestion = { ...this.data.question };
-      this.questionForm.patchValue(this.matrixQuestion);
+    } else {
+      this.matrixQuestion = {
+        options: [],
+        elements: [],
+        type: this.data.type,
+        questionGroup: this.data.questionGroupId
+      } as MatrixQuestion;
     }
+
+    this.questionForm.patchValue(this.matrixQuestion);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Calculate question position
+    if (this.matrixQuestion.position == null || this.matrixQuestion.position === undefined) {
+      this.store
+        .pipe(select(fromQuestionGroup.selectEntity, { id: this.matrixQuestion.questionGroup }))
+        .subscribe((response: QuestionGroup) => {
+          this.matrixQuestion.position = response.questions.length + 1;
+        });
+    }
+  }
 
   onSubmit(event): void {
     event.preventDefault();
@@ -64,29 +90,105 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
     console.log('InputQuestionDialogComponent', 'Payload', payload);
 
+    this.dialogConfig.operation === 'new'
+      ? this.store.dispatch(
+          new MatrixQuestionNewAction({
+            question: {
+              ...payload,
+              options: this.matrixQuestion.options,
+              elements: this.matrixQuestion.elements,
+              position: this.matrixQuestion.position,
+              mandatory: this.matrixQuestion.mandatory,
+              icon: this.matrixQuestion.icon
+            },
+            questionGroupId: this.data.questionGroupId,
+            surveyId: this.data.surveyId,
+          } as QuestionRequest)
+        )
+      : this.store.dispatch(
+          new MatrixQuestionUpdateAction({
+            question: { ...payload, id: this.matrixQuestion.id },
+            questionGroupId: this.matrixQuestion.questionGroup,
+            surveyId: this.matrixQuestion.survey,
+          } as QuestionRequest)
+        );
+
     this.dialogRef.close({
       result: 'close_after_' + this.dialogConfig.operation,
-      data: payload,
+      data: this.matrixQuestion.questionGroup
     });
   }
 
   isFieldValid(): boolean {
     let watcher = true;
+
     Object.keys(this.questionForm.value).forEach((key) => {
       if (!this.questionForm.get(key).valid) {
         watcher = false;
         return;
       }
     });
+
+    // Check options length
+    if (this.matrixQuestion.options.length < 2) {
+      this.isMinOptionsLengthError = true;
+      watcher = false;
+    } else if (this.matrixQuestion.options.find( (op) => op == null) !== undefined) {
+      this.isMinOptionsLengthError = true;
+      watcher = false;
+    }
+
+    // Check Elements length
+    if (this.matrixQuestion.elements.length < 2) {
+      this.isMinElementsLengthError = true;
+      watcher = false;
+    } else if (this.matrixQuestion.options.find( (el) => el == null) !== undefined) {
+      this.isMinElementsLengthError = true;
+      watcher = false;
+    }
+
     return watcher;
   }
 
-  addOption(): void {}
+  addOption(): void {
+    this.matrixQuestion.options.push('');
+  }
 
-  addOptionValue(): void {}
+  addElement(): void {
+    this.matrixQuestion.elements.push('');
+  }
 
-  deleteOption(): void {}
+  deleteOption(index: number): void {
+    const options = [...this.matrixQuestion.options];
+    options.splice(index, 1);
+    this.matrixQuestion.options = [...options];
+  }
 
+  deleteElement(index: number): void {
+    const elements = [ ...this.matrixQuestion.elements];
+    elements.splice(index, 1);
+    this.matrixQuestion.elements = [...elements];
+  }
+
+  onOptionChange(event: any, index: number): void {
+    this.matrixQuestion.options[index] = event.target.value;
+  }
+
+  onElementChange(event: any, index: number): void {
+    this.matrixQuestion.elements[index] = event.target.value;
+  }
+
+  advancedOptionChange(event): void {
+    if (event.name === 'file') {
+      this.fileEncoding(event.value);
+      this.matrixQuestion.icon = {
+        name: event.value.name,
+        data: this.base64textString,
+      } as Icon;
+    } else {
+      this.matrixQuestion.mandatory = event.value;
+    }
+  }
 
   closeDialog(): void {
     this.dialogRef.close('close_cancel');
@@ -95,4 +197,18 @@ export class MatrixQuestionDialogComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
+
+  private fileEncoding(file: File): void {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = this.handleBase64Encoding.bind(this);
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  private handleBase64Encoding(event): void {
+    const binaryString = event.target.result;
+    this.base64textString = btoa(binaryString);
+  }
+
 }

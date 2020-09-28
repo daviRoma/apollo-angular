@@ -13,7 +13,7 @@ import { QuestionGroupDeleteAction } from '../../../store/question-group.actions
 })
 export class DeleteQuestionGroupComponent implements OnInit {
   public dialogConfig: any;
-  public selectedQuestionGroup: QuestionGroup;
+  public questionGroup: QuestionGroup;
 
   constructor(
     public dialogRef: MatDialogRef<DeleteQuestionGroupComponent>,
@@ -21,8 +21,9 @@ export class DeleteQuestionGroupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
-    if (this.data.questionGroup) {
-      this.selectedQuestionGroup = this.data.questionGroup;
+
+    if (this.data.item) {
+      this.questionGroup = this.data.item;
     }
   }
 
@@ -38,8 +39,8 @@ export class DeleteQuestionGroupComponent implements OnInit {
   confirm(): void {
     this.store.dispatch(new QuestionGroupDeleteAction(
       {
-        surveyId: this.selectedQuestionGroup.survey,
-        questionGroup: { ...this.selectedQuestionGroup }
+        surveyId: this.questionGroup.survey,
+        questionGroup: { ...this.questionGroup }
       } as QuestionGroupRequest
     ));
 

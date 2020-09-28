@@ -32,8 +32,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   public base64textString: string;
 
-  public isLastOptionError: boolean;
-  public isMinOptionLengthError: boolean;
+  public isMinOptionsLengthError: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<ChoiceQuestionDialogComponent>,
@@ -43,7 +42,6 @@ export class ChoiceQuestionDialogComponent implements OnInit {
   ) {
     this.dialogConfig = this.data.dialogConfig;
     this.choiceQuestion = new ChoiceQuestion();
-    this.isLastOptionError = false;
 
     this.questionForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(12)]],
@@ -57,7 +55,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
       this.choiceQuestion = { ...this.data.question };
     } else {
       this.choiceQuestion = {
-        options: [''],
+        options: [],
         type: this.data.type,
         questionGroup: this.data.questionGroupId
       } as ChoiceQuestion;
@@ -107,8 +105,9 @@ export class ChoiceQuestionDialogComponent implements OnInit {
             surveyId: this.choiceQuestion.survey,
           } as QuestionRequest)
         );
+
     this.dialogRef.close({
-      result: 'close_after_' + this.dialogConfig.operation,
+      result: 'close_after_submit',
       data: payload,
     });
   }
@@ -124,10 +123,10 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     });
 
     if (this.choiceQuestion.options.length < 2) {
-      this.isMinOptionLengthError = true;
+      this.isMinOptionsLengthError = true;
       watcher = false;
     } else if (this.choiceQuestion.options.find( (op) => op == null) !== undefined) {
-      this.isMinOptionLengthError = true;
+      this.isMinOptionsLengthError = true;
       watcher = false;
     }
 
@@ -136,19 +135,12 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   addOption(): void {
     this.choiceQuestion.options.push('');
-    this.isLastOptionError = false;
   }
 
-  deleteOption(option: string): void {
-    if (this.choiceQuestion.options.length === 1) {
-      this.isLastOptionError = true;
-      return;
-    }
-    this.choiceQuestion.options.splice(
-      this.choiceQuestion.options.indexOf(option),
-      1
-    );
-    this.isLastOptionError = false;
+  deleteOption(index: number): void {
+    const options = [...this.choiceQuestion.options];
+    options.splice(index, 1);
+    this.choiceQuestion.options = [...options];
   }
 
   onOptionChange(event: any, index: number): void {

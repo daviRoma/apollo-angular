@@ -22,7 +22,8 @@ import {
   QuestionGroupUpdateFailureAction,
   QuestionGroupDeleteAction,
   QuestionGroupDeleteSuccessAction,
-  QuestionGroupDeleteFailAction
+  QuestionGroupDeleteFailAction,
+  QuestionGroupLoadOneSuccessAction
 } from './question-group.actions';
 
 import { QuestionGroupResponse, QuestionGroupRequest } from 'src/app/models/question-group.model';
@@ -49,9 +50,15 @@ export class QuestionGroupEffects {
     map((action) => action.payload),
     switchMap((params: any) =>
       this.questionGroupService.getQuestionGroup(params).pipe(
-        map((response: QuestionGroupResponse) => new QuestionGroupLoadSuccessAction(response)),
+        map((response: QuestionGroupResponse) => new QuestionGroupLoadOneSuccessAction(response)),
         catchError((error) => of(new QuestionGroupLoadOneFailAction(error)))
     ))
+  );
+
+  @Effect({ dispatch: false })
+  public loadOneSuccess = this.actions.pipe(
+    ofType<QuestionGroupLoadOneAction>(QuestionGroupActionTypes.LOADONE_SUCCESS),
+    tap((action) => { return null; })
   );
 
   @Effect()
@@ -66,19 +73,13 @@ export class QuestionGroupEffects {
     )
   );
 
-  @Effect({ dispatch: false })
-  public loadOneSuccess = this.actions.pipe(
-    ofType<QuestionGroupLoadOneAction>(QuestionGroupActionTypes.LOADONE_SUCCESS),
-    tap((action) => { return null; })
-  );
-
   @Effect()
   public updateQuestionGroup = this.actions.pipe(
     ofType<QuestionGroupUpdateAction>(QuestionGroupActionTypes.UPDATE),
     map((action) => action.payload),
     switchMap((request: QuestionGroupRequest) =>
       this.questionGroupService.updateQuestionGroup(request).pipe(
-        map((response: any) => of(new QuestionGroupUpdateSuccessAction(response))),
+        map((response: any) => new QuestionGroupLoadOneAction(request)),
         catchError((error) => of(new QuestionGroupUpdateFailureAction(error)))
       )
     )

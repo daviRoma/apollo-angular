@@ -86,7 +86,7 @@ export class QuestionGroupDeleteAction implements Action {
 
 export class QuestionGroupDeleteSuccessAction implements Action {
   public readonly type = QuestionGroupActionTypes.DELETE_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: number) {}
 }
 
 export class QuestionGroupDeleteFailAction implements Action {

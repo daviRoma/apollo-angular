@@ -15,9 +15,7 @@ export class InputQuestionComponent implements OnInit {
 
   constructor(public questionDialog: MatDialog) { }
 
-  ngOnInit(): void {
-    console.log(this.question);
-  }
+  ngOnInit(): void {}
 
   editQuestion(): void {
     this.questionDialog.open(InputQuestionDialogComponent, {

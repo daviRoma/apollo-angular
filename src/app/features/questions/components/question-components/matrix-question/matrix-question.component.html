@@ -41,7 +41,7 @@
               <span *ngFor="let option of question.options; index as i;">
                 <tr class="shadow-none">
                   <th scope="row">{{option}}</th>
-                  <td class="matrix-options-label" *ngFor="let optionValue of question.options">
+                  <td class="matrix-options-label" *ngFor="let element of question.elements">
 
                     <div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="customCheck2" disabled>
