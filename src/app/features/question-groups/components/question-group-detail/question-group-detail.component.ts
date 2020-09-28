@@ -10,11 +10,8 @@ import { InputQuestionDialogComponent } from 'src/app/features/questions/compone
 import { ChoiceQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/choice-question-dialog/choice-question-dialog.component';
 import { MatrixQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/matrix-question-dialog/matrix-question-dialog.component';
 
-import * as fromQuestion from 'src/app/features/questions/store/selectors/question.selectors';
-
 import { QuestionGroup } from 'src/app/models/question-group.model';
-import { QuestionLoadAction } from 'src/app/features/questions/store/actions/question.actions';
-import { QuestionRequest, Question } from 'src/app/models/question.model';
+
 
 @Component({
   selector: 'app-question-group-detail',
@@ -85,7 +82,8 @@ export class QuestionGroupDetailComponent implements OnInit {
       maxWidth: '42%',
       position: { top: '6%' },
       data: {
-        questionGroup: { ...this.questionGroup },
+        questionGroupId: this.questionGroup.id,
+        surveyId: this.questionGroup.survey,
         dialogConfig: {
           title: 'New Input Question',
           operation: 'new',
@@ -100,7 +98,8 @@ export class QuestionGroupDetailComponent implements OnInit {
       maxWidth: '42%',
       position: { top: '6%' },
       data: {
-        questionGroup: { ...this.questionGroup },
+        questionGroupId: this.questionGroup.id,
+        surveyId: this.questionGroup.survey,
         type: choiceType,
         dialogConfig: {
           title: 'New Matrix Question',
@@ -108,30 +107,6 @@ export class QuestionGroupDetailComponent implements OnInit {
         },
       },
     });
-  }
-
-  private loadData(): void {
-    // let request = new QuestionRequest();
-    // // request.surveyId = this.questionGroup.survey
-    // this.store.dispatch( new QuestionLoadAction() );
-
-    // this.store
-    //   .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
-    //   .subscribe((survey: Survey) => {
-    //     if (survey) { this.survey = survey; }
-    //     else {
-    //       this.store.dispatch( new SurveyLoadAction({
-    //         user_id: 1, //this.user.id,
-    //       } as SurveyRequest));
-    //     }
-    //   });
-
-    // this.store
-    //   .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId }))
-    //   .subscribe((response: QuestionGroup[]) => {
-    //     this.survey = { ...this.survey, questionGroups: response };
-    //     this.questionGroups = response;
-    //   });
   }
 
 }

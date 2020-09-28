@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
-  FormControl,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -43,19 +42,19 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
+    this.choiceQuestion = new ChoiceQuestion();
     this.isLastOptionError = false;
 
     this.questionForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(12)]],
       other: [false],
       mandatory: [false],
-      type: [this.data.type, Validators.required]
+      type: ['', Validators.required],
     });
 
     // Edit case
     if (this.data.question) {
       this.choiceQuestion = { ...this.data.question };
-      this.questionForm.patchValue(this.choiceQuestion);
     } else {
       this.choiceQuestion = {
         options: [''],
@@ -63,6 +62,8 @@ export class ChoiceQuestionDialogComponent implements OnInit {
         questionGroup: this.data.questionGroupId
       } as ChoiceQuestion;
     }
+
+    this.questionForm.patchValue(this.choiceQuestion);
   }
 
   ngOnInit(): void {
@@ -90,7 +91,6 @@ export class ChoiceQuestionDialogComponent implements OnInit {
           new ChoiceQuestionNewAction({
             question: {
               ...payload,
-              type: this.choiceQuestion.type,
               options: this.choiceQuestion.options,
               position: this.choiceQuestion.position,
               mandatory: this.choiceQuestion.mandatory,
@@ -156,7 +156,6 @@ export class ChoiceQuestionDialogComponent implements OnInit {
   }
 
   advancedOptionChange(event): void {
-    console.log('EVENT', event);
     if (event.name === 'file') {
       this.fileEncoding(event.value);
       this.choiceQuestion.icon = {
@@ -188,4 +187,5 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     const binaryString = event.target.result;
     this.base64textString = btoa(binaryString);
   }
+
 }
