@@ -20,8 +20,8 @@
           <div class="col-12">
             <!-- Mandatory -->
             <div class="form-group custom-control custom-switch">
+              <input type="checkbox" id="mandatory" name="mandatory" [value]="mandatory" (change)="onMandatoryChange($event)" class="custom-control-input form-element"/>
               <label class="custom-control-label form-control-label" for="mandatory">Mandatory</label>
-              <input type="checkbox" id="mandatory" name="mandatory" [value]="mandatory" (change)="onMandatoryChange($event)" class="custom-control-input"/>
             </div>
           </div>
 

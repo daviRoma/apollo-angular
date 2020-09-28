@@ -32,7 +32,7 @@
 
       <!-- GROUPS CONTAINER -->
       <div id="question_group_section">
-        <app-question-group-box [questionGroups]="questionGroups" [surveyId]="survey.id"></app-question-group-box>
+        <app-question-group-box [questionGroups]="questionGroups" [surveyId]="survey.id" [readonly]="survey.active"></app-question-group-box>
       </div>
 
     </div>

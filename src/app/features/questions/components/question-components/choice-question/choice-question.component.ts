@@ -19,6 +19,7 @@ import { DeleteDialogConf, QuestionDialogConf } from 'src/app/shared/dialog.conf
 })
 export class ChoiceQuestionComponent implements OnInit {
   @Input() question: ChoiceQuestion;
+  @Input() readonly: boolean;
 
   constructor(
     public questionDialog: MatDialog,

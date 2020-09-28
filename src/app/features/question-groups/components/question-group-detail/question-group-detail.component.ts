@@ -22,6 +22,7 @@ import { QuestionGroupDialogConf, QuestionDialogConf, DeleteDialogConf } from 's
 })
 export class QuestionGroupDetailComponent implements OnInit {
   @Input() questionGroup: QuestionGroup;
+  @Input() readonly: boolean;
 
   public isLoading: boolean;
 
@@ -112,6 +113,7 @@ export class QuestionGroupDetailComponent implements OnInit {
 
   private buildQuestionDialogConfig(title: string, operation: string, type: string): any {
     const questionDialogConfig = { ...QuestionDialogConf };
+    questionDialogConfig.data.question = null;
     questionDialogConfig.data.dialogConfig.title = title;
     questionDialogConfig.data.dialogConfig.operation = operation;
     questionDialogConfig.data.type = type;

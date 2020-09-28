@@ -16,6 +16,7 @@ export class QuestionGroupBoxComponent implements OnInit {
 
   @Input() questionGroups: QuestionGroup[];
   @Input() surveyId: number;
+  @Input() readonly: boolean;
 
   constructor(
     public questionGroupDialog: MatDialog,

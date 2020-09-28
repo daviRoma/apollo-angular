@@ -8,7 +8,7 @@
       </div>
 
       <div class="col-1 my-auto modify">
-        <div class="text-right">
+        <div *ngIf="!readonly" class="text-right">
           <div class="dropdown" data-toggle="dropdown">
             <a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">
@@ -34,22 +34,22 @@
 
           <!-- If Choice Question -->
           <div *ngIf="question.questionType === 'App\\MultiQuestion'">
-            <app-choice-question [question]="question"></app-choice-question>
+            <app-choice-question [question]="question" [readonly]="readonly"></app-choice-question>
           </div>
 
           <!-- If Input Question -->
           <div *ngIf="question.questionType === 'App\\InputQuestion'">
-            <app-input-question [question]="question"></app-input-question>
+            <app-input-question [question]="question" [readonly]="readonly"></app-input-question>
           </div>
 
           <!-- If Matrix Question -->
           <div *ngIf="question.questionType === 'App\\MatrixQuestion'">
-            <app-matrix-question [question]="question"></app-matrix-question>
+            <app-matrix-question [question]="question" [readonly]="readonly"></app-matrix-question>
           </div>
         </div>
 
         <!-- ADD QUESTION BUTTON -->
-        <div class="container modify">
+        <div *ngIf="!readonly" class="container modify">
 
           <div class="row justify-content-md-center">
 

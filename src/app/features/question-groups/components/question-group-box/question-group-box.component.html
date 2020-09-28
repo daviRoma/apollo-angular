@@ -2,10 +2,10 @@
 <div class="py-1">
 
   <div *ngFor="let questionGroup of questionGroups" class="card-body pb-0 pt-3 mb-3" title="group-container">
-    <app-question-group-detail [questionGroup]="questionGroup"></app-question-group-detail>
+    <app-question-group-detail [questionGroup]="questionGroup" [readonly]="readonly"></app-question-group-detail>
   </div>
 
-  <div class="card-body pb-0 pt-3 mb-3">
+  <div *ngIf="!readonly" class="card-body pb-0 pt-3 mb-3">
       <!-- Add Group Button -->
       <div class="card-body mb-4 mt-2 modify">
         <div class="row justify-content-center">

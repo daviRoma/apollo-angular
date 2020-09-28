@@ -65,7 +65,7 @@
 
     </div>
 
-    <div class="col-auto bg-gray-100 pr-0 modify">
+    <div *ngIf="!readonly" lass="col-auto bg-gray-100 pr-0 modify">
       <div class="dropdown" data-toggle="dropdown">
         <a href="#" class="action-item pr-0" role="button" title="Open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="far fa-cog"></i>

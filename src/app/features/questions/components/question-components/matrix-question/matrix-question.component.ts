@@ -20,10 +20,12 @@ import { DeleteDialogConf, QuestionDialogConf } from 'src/app/shared/dialog.conf
 export class MatrixQuestionComponent implements OnInit {
 
   @Input() question: MatrixQuestion;
+  @Input() readonly: boolean;
 
   constructor(
     public questionDialog: MatDialog,
-    private store: Store<AppState>) {}
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
     QuestionDialogConf.data.question = { ...this.question };
