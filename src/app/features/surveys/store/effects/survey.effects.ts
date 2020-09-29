@@ -7,7 +7,24 @@ import { of } from 'rxjs';
 
 import { SurveyService } from '../../services/survey.service';
 
-import { SurveyLoadAction, SurveyActionTypes, SurveyLoadSuccessAction, SurveyLoadFailAction, SurveyDeleteAction, SurveyNewAction, SurveyNewSuccessAction, SurveyNewFailureAction, SurveyUpdateAction, SurveyUpdateSuccessAction, SurveyUpdateFailureAction, SurveyLoadOneSuccessAction, SurveyLoadOneFailAction, SurveyLoadOneAction, SurveyDeleteSuccessAction, SurveyDeleteFailAction } from '../actions/survey.actions';
+import {
+  SurveyLoadAction,
+  SurveyActionTypes,
+  SurveyLoadSuccessAction,
+  SurveyLoadFailAction,
+  SurveyDeleteAction,
+  SurveyNewAction,
+  SurveyNewFailureAction,
+  SurveyUpdateAction,
+  SurveyUpdateSuccessAction,
+  SurveyUpdateFailureAction,
+  SurveyLoadOneSuccessAction,
+  SurveyLoadOneFailAction,
+  SurveyLoadOneAction,
+  SurveyDeleteSuccessAction,
+  SurveyDeleteFailAction,
+  SurveyLoadOneRedirectAction
+} from '../actions/survey.actions';
 import { SurveyRequest, SurveyResponse, Survey } from 'src/app/models/survey.model';
 
 @Injectable()
@@ -34,11 +51,18 @@ export class SurveyEffects {
   public loadOne = this.actions.pipe(
     ofType<SurveyLoadOneAction>(SurveyActionTypes.LOADONE),
     map((action) => action.payload),
-    switchMap((params: string) =>
+    switchMap((params: number) =>
       this.surveyService.getSurvey(params).pipe(
-        map((response: SurveyResponse) => new SurveyLoadOneSuccessAction(response)),
+        map((response: SurveyResponse) => new SurveyLoadOneRedirectAction(response)),
         catchError((error) => of(new SurveyLoadOneFailAction(error)))
-    ))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  public loadOneRedirect = this.actions.pipe(
+    ofType<SurveyLoadOneRedirectAction>(SurveyActionTypes.LOADONE_REDIRECT),
+    tap((action) => this.router.navigate(['/survey/detail', action.payload.data.id]))
   );
 
   @Effect()
@@ -47,16 +71,13 @@ export class SurveyEffects {
     map((action) => action.payload),
     switchMap((params: Survey) =>
       this.surveyService.createSurvey(params).pipe(
-        map((response: SurveyResponse) => new SurveyLoadOneAction(response.self.split('/')[response.self.split('/').length-1])),
+        map((response: SurveyResponse) => new SurveyLoadOneAction(
+          parseInt(response.self.split('/')[response.self.split('/').length - 1], 0)
+          )
+        ),
         catchError((error) => of(new SurveyNewFailureAction(error)))
       )
     )
-  );
-
-  @Effect({ dispatch: false })
-  public loadOneSuccess = this.actions.pipe(
-    ofType<SurveyLoadOneSuccessAction>(SurveyActionTypes.LOADONE_SUCCESS),
-    tap((action) => this.router.navigate(['/survey/detail', action.payload.data.id]))
   );
 
   @Effect()
@@ -65,10 +86,21 @@ export class SurveyEffects {
     map((action) => action.payload),
     switchMap((request: Survey) =>
       this.surveyService.updateSurvey(request).pipe(
-        map((response: any) => of(new SurveyUpdateSuccessAction(request))),
+        map((response: any) => new SurveyUpdateSuccessAction(request.id)),
         catchError((error) => of(new SurveyUpdateFailureAction(error)))
       )
     )
+  );
+
+  @Effect()
+  public updateSuccess = this.actions.pipe(
+    ofType<SurveyUpdateSuccessAction>(SurveyActionTypes.UPDATE_SUCCESS),
+    map((action) => action.payload),
+    switchMap(
+      (request: number) => this.surveyService.getSurvey(request).pipe(
+        map((response: SurveyResponse) => new SurveyLoadOneSuccessAction(response)),
+        catchError((error) => of(new SurveyLoadOneFailAction(error)))
+      ))
   );
 
   @Effect()

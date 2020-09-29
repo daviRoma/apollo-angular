@@ -11,7 +11,7 @@ import { DeleteQuestionDialogComponent } from 'src/app/features/questions/compon
 
 import { InputQuestion } from 'src/app/models/question.model';
 import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
-import { DeleteDialogConf, QuestionDialogConf } from 'src/app/shared/dialog.conf';
+import { DeleteDialogConf, QuestionDialogConf } from 'src/app/shared/config/dialog.conf';
 
 @Component({
   selector: 'app-input-question',

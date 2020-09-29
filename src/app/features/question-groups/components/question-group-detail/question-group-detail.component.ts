@@ -13,7 +13,7 @@ import { MatrixQuestionDialogComponent } from 'src/app/features/questions/compon
 import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
 import { QuestionGroupLoadAction, QuestionGroupLoadOneAction } from '../../store/question-group.actions';
 
-import { QuestionGroupDialogConf, QuestionDialogConf, DeleteDialogConf } from 'src/app/shared/dialog.conf';
+import { QuestionGroupDialogConf, QuestionDialogConf, DeleteDialogConf } from 'src/app/shared/config/dialog.conf';
 
 @Component({
   selector: 'app-question-group-detail',

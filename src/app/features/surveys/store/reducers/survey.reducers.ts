@@ -11,7 +11,7 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
         ...state,
         error: false,
         loading: false,
-        total: action.payload.data.length,
+        total: action.payload.meta ? action.payload.meta.total : action.payload.data.length,
       });
     }
     case SurveyActionTypes.LOAD_FAILURE: {
@@ -24,10 +24,11 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
     }
 
     case SurveyActionTypes.LOADONE_SUCCESS: {
-      return surveyAdapter.addOne(
-        { ...action.payload.data },
-        { ...state }
-      );
+      return state.total ? surveyAdapter.updateOne(
+        { id: action.payload.data.id, changes: action.payload.data },
+        { ...state }) :
+        surveyAdapter.addOne({ ...action.payload.data },
+        { ...state });
     }
 
     case SurveyActionTypes.NEW: {
@@ -48,12 +49,7 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
     case SurveyActionTypes.UPDATE: {
       return { ...state, loading: true };
     }
-    case SurveyActionTypes.UPDATE_SUCCESS: {
-      return surveyAdapter.updateOne(
-        { id: action.payload.id, changes: action.payload },
-        { ...state }
-      );
-    }
+
     case SurveyActionTypes.UPDATE_FAILURE: {
       return state;
     }

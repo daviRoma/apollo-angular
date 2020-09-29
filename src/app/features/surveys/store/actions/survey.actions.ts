@@ -6,6 +6,7 @@ export enum SurveyActionTypes {
   LOAD_SUCCESS = '[Survey] Loading Success',
   LOAD_FAILURE = '[Survey] Loading Failure',
   LOADONE = '[Survey] Loadone',
+  LOADONE_REDIRECT = '[Survey] Loadone Redirect',
   LOADONE_SUCCESS = '[Survey] Loadone Success',
   LOADONE_FAILURE = '[Survey] Loadone Failure',
   NEW = '[Survey] New',
@@ -36,7 +37,12 @@ export class SurveyLoadFailAction implements Action {
 
 export class SurveyLoadOneAction implements Action {
   public readonly type = SurveyActionTypes.LOADONE;
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
+}
+
+export class SurveyLoadOneRedirectAction implements Action {
+  public readonly type = SurveyActionTypes.LOADONE_REDIRECT;
+  constructor(public payload: SurveyResponse) {}
 }
 
 export class SurveyLoadOneSuccessAction implements Action {
@@ -71,7 +77,7 @@ export class SurveyUpdateAction implements Action {
 
 export class SurveyUpdateSuccessAction implements Action {
   public readonly type = SurveyActionTypes.UPDATE_SUCCESS;
-  constructor(public payload: Survey) {}
+  constructor(public payload: number) {}
 }
 
 export class SurveyUpdateFailureAction implements Action {
@@ -99,6 +105,7 @@ export type SurveyActionsAll =
   | SurveyLoadSuccessAction
   | SurveyLoadFailAction
   | SurveyLoadOneAction
+  | SurveyLoadOneRedirectAction
   | SurveyLoadOneSuccessAction
   | SurveyLoadOneFailAction
   | SurveyNewAction
