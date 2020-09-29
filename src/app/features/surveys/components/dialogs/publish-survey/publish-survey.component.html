@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-11 px-1">
       <span class="form-control-label">Link Pubblico</span>
-      <input id="urlId" type="text" class="form-control" value="{{survey.urlId}}" placeholder="Link pubblico..." readonly />
+      <input id="urlId" type="text" class="form-control" value="{{publicLink + survey.urlId}}" placeholder="Link pubblico..." readonly />
     </div>
     <div class="col-1 mt-4 p-2">
       <a href="#" (click)="copyToClipboard($event)" data-toggle="tooltip" title="Copy to clipboard"><i class="far fa-copy fa-2x"></i></a>
@@ -23,7 +23,6 @@
 
   <div class="row">
     <div class="col-12 py-2">
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
       <div id="result_message" class="text-center text-xs text-muted mt-2">
         <span id="message" [ngClass]="{'text-success' : !result.error,  'text-danger': result.error}" class="font-weight-bold hidden">{{result.message}}</span>
       </div>

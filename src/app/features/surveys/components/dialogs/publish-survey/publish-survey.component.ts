@@ -2,19 +2,21 @@ import { Component, OnInit, Inject } from '@angular/core';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import $ from 'node_modules/jquery';
 
 import { AppState } from 'src/app/state/app.state';
+import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
 
-import { selectSurveyState } from 'src/app/features/surveys/store/selectors/survey.selectors';
 import {
-  SurveyNewAction,
   SurveyUpdateAction,
+  SurveyPublishAction,
 } from 'src/app/features/surveys/store/actions/survey.actions';
 
 import { Survey } from 'src/app/models/survey.model';
+
+import { Paths } from 'src/app/shared/config/path.conf';
+import Utils from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-publish-survey',
@@ -25,44 +27,57 @@ export class PublishSurveyComponent implements OnInit {
   public dialogConfig: any;
   public survey: Survey;
 
+  public publicLink: string;
+
   public result: any;
   public isLoading: boolean;
-  private currentState: Observable<any>;
 
   constructor(
     public dialogRef: MatDialogRef<PublishSurveyComponent>,
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.currentState = this.store.select(selectSurveyState);
     this.dialogConfig = this.data.dialogConfig;
 
     // Edit case
     if (this.data.survey) {
       this.survey = { ...this.data.survey };
     }
+
+    this.publicLink = Paths.surveyAnswer.publicLink;
     this.result = {};
     this.isLoading = false;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select(fromSurvey.selectEntity, { id: this.survey.id })
+      .subscribe((survey: Survey) => {
+        if (survey) {
+          console.log(survey);
+          this.survey = { ...survey };
+        }
+      });
+  }
 
   copyToClipboard(event: any): void {
     event.preventDefault();
-    let copyText = $('#urlId');
+    const copyText = $('#urlId');
     copyText.select();
     document.execCommand('copy');
   }
 
   handleSubmit(): void {
     if (this.survey.secret && !this.survey.active) {
-      this.dialogRef.close('close_send_invitation');
+      this.dialogRef.close({ result: 'close_send_invitation' });
     } else {
-      this.survey.active = !this.survey.active;
-      this.store.dispatch(new SurveyUpdateAction(this.survey));
+      if (this.survey.active) {
+        const payload = Utils.deleteNullKey({ ...this.survey });
+        this.store.dispatch(new SurveyUpdateAction({ ...payload, active: false }));
+      } else {
+        this.store.dispatch(new SurveyPublishAction({ id: this.survey.id, url: Paths.surveyAnswer.publicLink }));
+      }
     }
   }
-
 
   closeDialog(): void {
     this.dialogRef.close('close_cancel');

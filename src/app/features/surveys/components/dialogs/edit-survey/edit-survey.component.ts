@@ -76,7 +76,7 @@ export class EditSurveyComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.dialogRef.close('close_cancel');
+    this.dialogRef.close({ result: 'close_cancel' });
   }
 
   cancel(): void {

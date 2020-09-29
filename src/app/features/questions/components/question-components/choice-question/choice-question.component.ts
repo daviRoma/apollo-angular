@@ -18,8 +18,12 @@ import { DeleteDialogConf, QuestionDialogConf } from 'src/app/shared/config/dial
   styleUrls: ['./choice-question.component.scss'],
 })
 export class ChoiceQuestionComponent implements OnInit {
+
   @Input() question: ChoiceQuestion;
   @Input() readonly: boolean;
+
+  public editDialogConf: any;
+  public deleteDilogConf: any;
 
   constructor(
     public questionDialog: MatDialog,
@@ -27,23 +31,25 @@ export class ChoiceQuestionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    QuestionDialogConf.data.question = { ...this.question };
-    QuestionDialogConf.data.type = this.question.type;
-    QuestionDialogConf.data.dialogConfig.title = 'Edit Choice Question';
-    QuestionDialogConf.data.dialogConfig.operation = 'edit';
+    this.editDialogConf = { ...QuestionDialogConf };
+    this.editDialogConf.data.question = { ...this.question };
+    this.editDialogConf.data.type = this.question.type;
+    this.editDialogConf.data.dialogConfig.title = 'Edit Choice Question';
+    this.editDialogConf.data.dialogConfig.operation = 'edit';
 
-    DeleteDialogConf.data.item = { ...this.question };
-    DeleteDialogConf.data.dialogConfig.title = 'Delete Question';
-    DeleteDialogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
+    this.deleteDilogConf = { ...DeleteDialogConf };
+    this.deleteDilogConf.data.item = { ...this.question };
+    this.deleteDilogConf.data.dialogConfig.title = 'Delete Question';
+    this.deleteDilogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
   }
 
   editQuestion(): void {
-    const dialogRef = this.questionDialog.open(ChoiceQuestionDialogComponent, QuestionDialogConf);
+    const dialogRef = this.questionDialog.open(ChoiceQuestionDialogComponent, this.editDialogConf);
     this.reload(dialogRef);
   }
 
   deleteQuestion(): void {
-    const dialogRef = this.questionDialog.open(DeleteQuestionDialogComponent, DeleteDialogConf);
+    const dialogRef = this.questionDialog.open(DeleteQuestionDialogComponent, this.deleteDilogConf);
     this.reload(dialogRef);
   }
 

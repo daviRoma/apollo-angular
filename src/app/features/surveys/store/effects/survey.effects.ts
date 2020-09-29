@@ -23,9 +23,12 @@ import {
   SurveyLoadOneAction,
   SurveyDeleteSuccessAction,
   SurveyDeleteFailAction,
-  SurveyLoadOneRedirectAction
+  SurveyLoadOneRedirectAction,
+  SurveyPublishAction,
+  SurveyPublishSuccessAction,
+  SurveyPublishFailureAction
 } from '../actions/survey.actions';
-import { SurveyRequest, SurveyResponse, Survey } from 'src/app/models/survey.model';
+import { SurveyRequest, SurveyResponse, Survey, SurveyPublishRequest } from 'src/app/models/survey.model';
 
 @Injectable()
 export class SurveyEffects {
@@ -114,5 +117,29 @@ export class SurveyEffects {
       )
     )
   );
+
+  @Effect()
+  public publishSurvey = this.actions.pipe(
+    ofType<SurveyPublishAction>(SurveyActionTypes.PUBLISH),
+    map((action) => action.payload),
+    switchMap((request: SurveyPublishRequest) =>
+      this.surveyService.publishSurvey(request).pipe(
+        map((response: any) => new SurveyUpdateSuccessAction(request.id)),
+        catchError((error) => of(new SurveyPublishFailureAction(error)))
+      )
+    )
+  );
+
+  // @Effect()
+  // public publishSuccess = this.actions.pipe(
+  //   ofType<SurveyPublishSuccessAction>(SurveyActionTypes.PUBLISH_SUCCESS),
+  //   map((action) => action.payload),
+  //   switchMap(
+  //     (request: number) => this.surveyService.getSurvey(request).pipe(
+  //       map((response: SurveyResponse) => new SurveyLoadOneSuccessAction(response)),
+  //       catchError((error) => of(new SurveyLoadOneFailAction(error)))
+  //     ))
+  // );
+
 }
 

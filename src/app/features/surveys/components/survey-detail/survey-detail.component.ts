@@ -30,16 +30,7 @@ export class SurveyDetailComponent implements OnInit {
 
   public deleteDialogRef: any;
   public editDialogRef: any;
-
-  public dialogProperties: any = {
-      minWidth: '20%',
-      width: '40%',
-      position: { top: '8%' },
-      data: {
-        survey: null,
-        dialogConfig: { title: '' },
-      },
-    };
+  public publishDialogConf: any;
 
   constructor(
     public dialog: MatDialog,
@@ -48,17 +39,52 @@ export class SurveyDetailComponent implements OnInit {
   ) {
     this.editDialogRef = { ...SurveyDialogConf };
     this.deleteDialogRef = { ...DeleteDialogConf };
+    this.publishDialogConf = { ...SurveyDialogConf };
   }
 
   ngOnInit(): void {
+    console.log('SurveyDetailComponent', 'survey', this.survey);
     this.editDialogRef.data.survey = { ...this.survey };
     this.editDialogRef.data.dialogConfig.title = 'Edit Survey';
     this.deleteDialogRef.data.item = { ...this.survey };
     this.deleteDialogRef.data.dialogConfig.title = 'Delete Survey';
     this.deleteDialogRef.data.dialogConfig.content = 'Are you sure to delete the survey?';
+    this.publishDialogConf.minWidth = '20%';
+    this.publishDialogConf.position.top = '8%';
   }
 
-  public openInvitationPoolModal(): void {
+  public openEditSurveyDialog(): void {
+    const updateDialogRef = this.dialog.open(EditSurveyComponent, this.editDialogRef);
+
+    updateDialogRef.afterClosed().subscribe((response) => {
+      if (response.result === 'close_after_update') {}
+    });
+  }
+
+  public openDeleteDialog(): void {
+    const dialogRef = this.dialog.open(DeleteSurveyComponent, this.deleteDialogRef);
+
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response.result === 'close_after_delete') {
+          this.router.navigate(['dashboard/surveys/list']);
+        }
+      });
+  }
+
+  public openPublishDialog(): void {
+    this.publishDialogConf.data.dialogConfig.title = 'Publish Survey';
+    const publishDialogRef = this.dialog.open(PublishSurveyComponent, this.publishDialogConf);
+
+    publishDialogRef.afterClosed().subscribe((response) => {
+      if (response.result === 'close_send_invitation') {
+        this.publishDialogConf.data.dialogConfig.title = 'Send invitations and publish';
+        this.dialog.open(InvitationConfirmComponent, this.publishDialogConf);
+      }
+    });
+  }
+
+  public openInvitationPoolDialog(): void {
     const invitationPoolDialogRef = this.dialog.open(InvitationPoolComponent, {
       width: '45%',
       position: { top: '5%' },
@@ -73,38 +99,4 @@ export class SurveyDetailComponent implements OnInit {
       if (response.result.message === 'close_after_close') {}
     });
   }
-
-  public openEditSurveyModal(): void {
-    const updateDialogRef = this.dialog.open(EditSurveyComponent, this.editDialogRef);
-
-    updateDialogRef.afterClosed().subscribe((response) => {
-      if (response.result.message === 'close_after_update') {
-      }
-    });
-  }
-
-  public openPublishModal(): void {
-    const publishDialogRef = this.dialog.open(PublishSurveyComponent, this.dialogProperties);
-
-    publishDialogRef.afterClosed().subscribe((response) => {
-      if (response === 'close_send_invitation') {
-        this.dialogProperties.data.dialogConfig.title = 'Send invitations and publish';
-        this.dialog.open(InvitationConfirmComponent, this.dialogProperties);
-      }
-    });
-  }
-
-  public openDeleteDialog(): void {
-
-    const dialogRef = this.dialog.open(DeleteSurveyComponent, this.deleteDialogRef);
-
-    dialogRef.afterClosed().subscribe(
-      response => {
-        if (response.result === 'close_after_delete') {
-          this.router.navigate(['dashboard/surveys/list']);
-        }
-      });
-  }
-
-  public openInvitationPoolDialog(): void {}
 }

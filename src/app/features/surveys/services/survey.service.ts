@@ -7,7 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { serverConfiguration } from 'src/app/shared/config/server.conf';
 
-import { Survey, SurveyRequest, SurveyResponse } from 'src/app/models/survey.model';
+import { Survey, SurveyRequest, SurveyResponse, SurveyPublishRequest } from 'src/app/models/survey.model';
 
 import Utils from 'src/app/shared/utils';
 
@@ -82,6 +82,17 @@ export class SurveyService {
     this.logger.debug('SurveyService', 'deleteSurvey', 'surveyID', surveyId);
     const url = `${this.BASE_URL}/surveys/${surveyId}`;
     return this.httpClient.delete<SurveyResponse>(url, { headers: this.authService.setHttpSecurityHeaders() });
+  }
+
+  /**
+   * Publish survey
+   * @param request : surveyPublishRequest
+   * @return Observable<SurveyResponse>
+   */
+  public publishSurvey(request: SurveyPublishRequest): Observable<SurveyResponse> {
+    this.logger.debug('SurveyService', 'publishSurvey', request);
+    const url = `${this.BASE_URL}/surveys/${request.id}/publish`;
+    return this.httpClient.post<SurveyResponse>(url, { surveyUrl: request.url }, { headers: this.authService.setHttpSecurityHeaders() });
   }
 
 }

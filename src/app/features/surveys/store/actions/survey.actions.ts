@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { SurveyRequest, SurveyResponse, Survey } from '../../../../models/survey.model';
+import { SurveyRequest, SurveyResponse, Survey, SurveyPublishRequest } from '../../../../models/survey.model';
 
 export enum SurveyActionTypes {
   LOADING = '[Survey] Loading',
@@ -18,6 +18,9 @@ export enum SurveyActionTypes {
   DELETE = '[Survey] Delete',
   DELETE_SUCCESS = '[Survey] Delete Success',
   DELETE_FAILURE = '[Survey] Delete Failure',
+  PUBLISH = '[Survey] Publish',
+  PUBLISH_SUCCESS = '[Survey] Publish Success',
+  PUBLISH_FAILURE = '[Survey] Publish Failure'
 }
 
 export class SurveyLoadAction implements Action {
@@ -100,6 +103,21 @@ export class SurveyDeleteFailAction implements Action {
   constructor(public error: any) {}
 }
 
+export class SurveyPublishAction implements Action {
+  public readonly type = SurveyActionTypes.PUBLISH;
+  constructor(public payload: SurveyPublishRequest) {}
+}
+
+export class SurveyPublishSuccessAction implements Action {
+  public readonly type = SurveyActionTypes.PUBLISH_SUCCESS;
+  constructor(public payload: number) {}
+}
+
+export class SurveyPublishFailureAction implements Action {
+  public readonly type = SurveyActionTypes.PUBLISH_FAILURE;
+  constructor(public error: any) {}
+}
+
 export type SurveyActionsAll =
   | SurveyLoadAction
   | SurveyLoadSuccessAction
@@ -116,4 +134,7 @@ export type SurveyActionsAll =
   | SurveyUpdateFailureAction
   | SurveyDeleteAction
   | SurveyDeleteSuccessAction
-  | SurveyDeleteFailAction;
+  | SurveyDeleteFailAction
+  | SurveyPublishAction
+  | SurveyPublishSuccessAction
+  | SurveyUpdateFailureAction;
