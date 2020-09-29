@@ -27,7 +27,7 @@ export class QuestionGroupService {
    * Get All question group by surveyId
    * @param surveyId : string
    */
-  public getQuestionGroups(surveyId: string): Observable<QuestionGroupResponse> {
+  public getQuestionGroups(surveyId: number): Observable<QuestionGroupResponse> {
     this.logger.debug('QuestionGroupService', 'getQuestionGroups', 'retrieving...');
     const url = `${this.BASE_URL}/surveys/${surveyId}/question_groups?order=id&order_dir=asc`;
     const options = { headers: this.authService.setHttpSecurityHeaders() };
@@ -40,6 +40,7 @@ export class QuestionGroupService {
    * @param request : QuestionGroupRequest
    */
   public getQuestionGroup(request: QuestionGroupRequest): Observable<QuestionGroupResponse> {
+    this.logger.debug('QuestionGroupService', 'getQuestionGroup', 'retrieving one...');
     const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroup.id}`;
     return this.httpClient.get<QuestionGroupResponse>(url, { headers: this.authService.setHttpSecurityHeaders() });
   }
@@ -69,6 +70,7 @@ export class QuestionGroupService {
    * @param request : QuestionGroupRequest
    */
   public deleteQuestionGroup(request: QuestionGroupRequest): Observable<any> {
+    this.logger.debug('QuestionGroupService', 'deleteQuestionGroup', request.questionGroup.id);
     const url = `${this.BASE_URL}/surveys/${request.surveyId}/question_groups/${request.questionGroup.id}`;
     return this.httpClient.delete<any>(url, { headers: this.authService.setHttpSecurityHeaders() });
   }

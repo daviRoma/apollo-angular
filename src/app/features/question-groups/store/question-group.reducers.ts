@@ -11,7 +11,8 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
         (group) =>
           ({
             ...group,
-            survey: group.survey.split('/')[group.survey.split('/').length - 1]
+            questions: dataTransform(group.questions.data),
+            survey: parseInt(group.survey.split('/')[group.survey.split('/').length - 1], 0)
           })
         );
       return questionGroupAdapter.setAll(questionGroups, {
@@ -31,8 +32,15 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
     }
 
     case QuestionGroupActionTypes.LOADONE_SUCCESS: {
-      return questionGroupAdapter.addOne(
-        { ...action.payload.data },
+      return questionGroupAdapter.updateOne(
+        {
+          id: action.payload.data.id,
+          changes: {
+            ...action.payload.data,
+            questions: dataTransform(action.payload.data.questions.data),
+            survey: parseInt(action.payload.data.survey.split('/')[action.payload.data.survey.split('/').length - 1], 0),
+          },
+        },
         { ...state }
       );
     }
@@ -74,4 +82,16 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
     default:
       return state;
   }
+}
+
+function dataTransform(questions: any[]): any {
+  return questions.map(
+    (question) => ({
+      ...question,
+      options: question.options ? question.options.map(op => op.value) : null,
+      elements: question.elements ? question.elements.map(el => el.title) : null,
+      survey: parseInt(question.survey.split('/')[question.survey.split('/').length - 1], 0),
+      questionGroup: parseInt(question.questionGroup.split('/')[question.questionGroup.split('/').length - 1], 0)
+    })
+  );
 }

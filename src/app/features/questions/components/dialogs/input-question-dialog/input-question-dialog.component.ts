@@ -1,10 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+
+import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
 
 import { AppState } from 'src/app/state/app.state';
-import { InputQuestion } from 'src/app/models/question.model';
+import { InputQuestionNewAction, InputQuestionUpdateAction } from '../../../store/actions/input-question.actions';
+
+import { InputQuestion, QuestionRequest } from 'src/app/models/question.model';
+import { QuestionGroup } from 'src/app/models/question-group.model';
+import { Icon } from 'src/app/models/icon.model';
 
 import Utils from 'src/app/shared/utils';
 
@@ -19,6 +25,8 @@ export class InputQuestionDialogComponent implements OnInit {
   public inputQuestion: InputQuestion;
   public questionForm: FormGroup;
 
+  public base64textString: string;
+
   public inputType: any[];
 
   constructor(
@@ -28,6 +36,7 @@ export class InputQuestionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
+    this.inputQuestion = new InputQuestion();
 
     this.questionForm = this.formBuilder.group({
       title: new FormControl('', [
@@ -40,8 +49,12 @@ export class InputQuestionDialogComponent implements OnInit {
     // Edit case
     if (this.data.question) {
       this.inputQuestion = { ...this.data.question };
-      this.questionForm.patchValue(this.inputQuestion);
+    } else {
+      this.inputQuestion.questionGroup = this.data.questionGroupId;
     }
+
+    this.questionForm.patchValue(this.inputQuestion);
+
   }
 
   ngOnInit(): void {
@@ -51,6 +64,23 @@ export class InputQuestionDialogComponent implements OnInit {
       { value: 'DATE', label: 'DATE' },
       { value: 'NUMBER', label: 'NUMBER' },
     ];
+
+    // Calculate question position
+    if (
+      this.inputQuestion.position == null ||
+      this.inputQuestion.position === undefined
+    ) {
+      this.store
+        .pipe(
+          select(fromQuestionGroup.selectEntity, {
+            id: this.inputQuestion.questionGroup,
+          })
+        )
+        .subscribe((response: QuestionGroup) => {
+          console.log(response);
+          this.inputQuestion.position = response.questions.length + 1;
+        });
+    }
   }
 
   onSubmit(event): void {
@@ -59,13 +89,33 @@ export class InputQuestionDialogComponent implements OnInit {
     // Form validation
     if (!this.isFieldValid()) return;
 
-    const payload = Utils.deleteNullKey({ ...this.questionForm.value });
+    const payload = Utils.deleteNullKey({ ...this.questionForm.value, icon: this.inputQuestion.icon });
 
     console.log('InputQuestionDialogComponent', 'Payload', payload);
 
+    this.dialogConfig.operation === 'new'
+      ? this.store.dispatch(
+          new InputQuestionNewAction({
+            question: {
+              ...payload,
+              position: this.inputQuestion.position,
+              mandatory: this.inputQuestion.mandatory
+            },
+            questionGroupId: this.data.questionGroupId,
+            surveyId: this.data.surveyId,
+          } as QuestionRequest)
+        )
+      : this.store.dispatch(
+          new InputQuestionUpdateAction({
+            question: { ...payload, id: this.inputQuestion.id },
+            questionGroupId: this.inputQuestion.questionGroup,
+            surveyId: this.inputQuestion.survey,
+          } as QuestionRequest)
+        );
+
     this.dialogRef.close({
-      result: 'close_after_' + this.dialogConfig.operation,
-      data: payload,
+      result: 'close_after_submit',
+      data: this.inputQuestion.questionGroup,
     });
   }
 
@@ -80,6 +130,17 @@ export class InputQuestionDialogComponent implements OnInit {
     return watcher;
   }
 
+  advancedOptionChange(event): void {
+    if (event.name === 'file') {
+      this.inputQuestion.icon = {
+        name: event.value.file.name,
+        data: event.value.base64,
+      } as Icon;
+    } else {
+      this.inputQuestion.mandatory = event.value;
+    }
+  }
+
   closeDialog(): void {
     this.dialogRef.close('close_cancel');
   }
@@ -87,4 +148,5 @@ export class InputQuestionDialogComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
+
 }

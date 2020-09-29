@@ -21,6 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { LayoutsModule } from './layouts/layouts.module';
 import { AuthModule } from './core/auth/auth.module';
@@ -33,10 +34,10 @@ import { AuthEffects } from 'src/app/core/auth/store/auth.effects';
 import { SurveyEffects } from 'src/app/features/surveys/store/effects/survey.effects';
 import { QuestionGroupEffects } from 'src/app/features/question-groups/store/question-group.effects';
 import { UserEffects } from 'src/app/features/users/store/effects/user.effects';
-import {ChoiceQuestionAnswerEffects } from 'src/app/features/answers/store/effects/choice-question-answer.effects';
-import {InputQuestionAnswerEffects } from 'src/app/features/answers/store/effects/input-question-answer.effects';
-import {MatrixQuestionAnswerEffects } from 'src/app/features/answers/store/effects/matrix-questions-answer.effects';
-
+import { QuestionEffects } from 'src/app/features/questions/store/effects/question.effects';
+import { InputQuestionEffects } from 'src/app/features/questions/store/effects/input-question.effects';
+import { ChoiceQuestionEffects } from 'src/app/features/questions/store/effects/choice-question.effects';
+import { MatrixQuestionEffects } from 'src/app/features/questions/store/effects/matrix-questions.effects';
 
 import { reducers } from 'src/app/state/app.state';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -83,7 +84,8 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     MatTableModule,
     MatToolbarModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
