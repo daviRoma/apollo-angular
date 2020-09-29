@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatrixQuestion } from 'src/app/models/question.model';
+import { ChoiceQuestion, MatrixQuestion } from 'src/app/models/question.model';
 import {
   FormGroup,
   FormBuilder,
@@ -24,6 +24,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
   public matrixQuestion: MatrixQuestion;
   public questionForm: FormGroup;
+  public choiceQuestion: ChoiceQuestion;
 
   public inputType: any[];
 

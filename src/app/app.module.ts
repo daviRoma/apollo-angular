@@ -33,10 +33,14 @@ import { AuthEffects } from 'src/app/core/auth/store/auth.effects';
 import { SurveyEffects } from 'src/app/features/surveys/store/effects/survey.effects';
 import { QuestionGroupEffects } from 'src/app/features/question-groups/store/question-group.effects';
 import { UserEffects } from 'src/app/features/users/store/effects/user.effects';
+import {ChoiceQuestionAnswerEffects } from 'src/app/features/answers/store/effects/choice-question-answer.effects';
+import {InputQuestionAnswerEffects } from 'src/app/features/answers/store/effects/input-question-answer.effects';
+import {MatrixQuestionAnswerEffects } from 'src/app/features/answers/store/effects/matrix-questions-answer.effects';
 
 
 import { reducers } from 'src/app/state/app.state';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { from } from 'rxjs';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
@@ -56,7 +60,7 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     AuthModule,
     AuthLayoutsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects, SurveyEffects, QuestionGroupEffects, UserEffects]),
+    EffectsModule.forRoot([AuthEffects, SurveyEffects, QuestionGroupEffects, UserEffects, ChoiceQuestionAnswerEffects, InputQuestionAnswerEffects, MatrixQuestionAnswerEffects]),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token'),

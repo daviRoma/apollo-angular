@@ -11,11 +11,14 @@ import { OverviewComponent } from './overview/overview.component';
 import { SurveysModule } from '../features/surveys/surveys.module';
 import { QuestionGroupsModule } from '../features/question-groups/question-groups.module';
 import { UsersModule } from '../features/users/users.module';
+import { AnswersModule } from '../features/answers/answers.module';
+
 
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdministrationComponent } from './administration/administration.component';
 import { UseroverviewComponent } from './useroverview/useroverview.component';
+import { SurveyanswerComponent } from './surveyanswer/surveyanswer.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +28,15 @@ import { UseroverviewComponent } from './useroverview/useroverview.component';
     ProfileComponent,
     AdministrationComponent,
     UseroverviewComponent,
+    SurveyanswerComponent,
   ],
   imports: [
     CommonModule,
     PageRoutingModule,
     SurveysModule,
     QuestionGroupsModule,
-    UsersModule
+    UsersModule,
+    AnswersModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

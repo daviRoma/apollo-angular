@@ -8,6 +8,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdministrationComponent } from './administration/administration.component';
 import { UseroverviewComponent } from './useroverview/useroverview.component';
+import { SurveyanswerComponent } from './surveyanswer/surveyanswer.component';
 
 
 const PageRoutes: Routes = [
@@ -44,6 +45,10 @@ const PageRoutes: Routes = [
   {
     path: 'useroverview/:user_id',
     component: UseroverviewComponent,
+  },
+  {
+    path: 'surveyanswer/:survey_id',
+    component: SurveyanswerComponent,
   }
 ];
 
