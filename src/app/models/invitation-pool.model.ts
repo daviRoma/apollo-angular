@@ -3,7 +3,7 @@
  */
 
 export class InvitationPool {
-  id: number;
+  id?: number;
   password?: string;
   emails?: string[];
 }

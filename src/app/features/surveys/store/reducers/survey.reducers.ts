@@ -7,7 +7,7 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
       return { ...state, loading: true };
     }
     case SurveyActionTypes.LOAD_SUCCESS: {
-      return surveyAdapter.setAll(action.payload.data, {
+      return surveyAdapter.setAll( dataTransform(action.payload.data), {
         ...state,
         error: false,
         loading: false,
@@ -25,23 +25,16 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
 
     case SurveyActionTypes.LOADONE_SUCCESS: {
       return state.total ? surveyAdapter.updateOne(
-        { id: action.payload.data.id, changes: action.payload.data },
+        { id: action.payload.data.id, changes: dataTransform([action.payload.data])[0] },
         { ...state }) :
-        surveyAdapter.addOne({ ...action.payload.data },
-        { ...state });
+        surveyAdapter.addOne(
+          { ...dataTransform([action.payload.data])[0] },
+          { ...state });
     }
 
     case SurveyActionTypes.NEW: {
       return { ...state, loading: true };
     }
-    // case SurveyActionTypes.NEW_SUCCESS: {
-    //   console.log('reducer new success', action.payload);
-    //   return state;
-    //   // return surveyAdapter.addOne(
-    //   //   { ...action.payload, createDate: new Date() },
-    //   //   { ...state }
-    //   // );
-    // }
     case SurveyActionTypes.NEW_FAILURE: {
       return state;
     }
@@ -49,7 +42,6 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
     case SurveyActionTypes.UPDATE: {
       return { ...state, loading: true };
     }
-
     case SurveyActionTypes.UPDATE_FAILURE: {
       return state;
     }
@@ -71,4 +63,13 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
     default:
       return state;
   }
+}
+
+function dataTransform(data: any[]): any {
+  return data.map(
+    (survey) => ({
+      ...survey,
+      invitationPool: survey.invitationPool ? { ...survey.invitationPool, emails: survey.invitationPool.emails.map(el => el.email) } : null
+    })
+  );
 }

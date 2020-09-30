@@ -32,7 +32,7 @@ export class InvitationPoolComponent implements OnInit {
   ) {
     this.dialogConfig = this.data.dialogConfig;
     this.survey = { ...this.data.survey };
-    this.emails = this.survey.invitationPool ? this.survey.invitationPool.emails : [];
+    this.emails = this.survey.invitationPool ? [...this.survey.invitationPool.emails] : [];
     this.tagsInput = null;
   }
 
@@ -43,7 +43,6 @@ export class InvitationPoolComponent implements OnInit {
     // without type info
     if (event.which === 44 || event.which === 13) {
       event.preventDefault();
-      console.log(event.target.value);
       this.addTag(event.target.value.split(','));
     }
 
@@ -65,8 +64,9 @@ export class InvitationPoolComponent implements OnInit {
 
     // If invitation pool already exist
     if (this.survey.invitationPool) {
-      this.survey.invitationPool.emails = this.emails;
+
       const payload = Utils.deleteNullKey({ ...this.survey.invitationPool });
+      payload.emails = this.emails;
 
       this.store.dispatch(new InvitationPoolUpdateAction({ surveyId: this.survey.id, invitationPool: payload }));
     } else {

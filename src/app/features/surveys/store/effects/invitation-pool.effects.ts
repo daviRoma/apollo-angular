@@ -46,7 +46,7 @@ export class InvitationPoolEffects {
 
   @Effect()
   public createSuccess = this.actions.pipe(
-    ofType<InvitationPoolNewSuccessAction>(InvitationPoolActionTypes.UPDATE_SUCCESS),
+    ofType<InvitationPoolNewSuccessAction>(InvitationPoolActionTypes.NEW_SUCCESS),
     map((action) => action.payload),
     switchMap(
       (request: number) => this.surveyService.getSurvey(request).pipe(
