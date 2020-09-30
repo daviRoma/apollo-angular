@@ -21,11 +21,11 @@ export class AnswerEffects {
   constructor(private actions: Actions, private answerService: AnswerService) {}
 
   @Effect()
-  public loadAnsers = this.actions.pipe(
+  public loadAnswers = this.actions.pipe(
     ofType<AnswerLoadAction>(AnswerActionTypes.LOADING),
     map((action) => action.payload),
     switchMap((params: AnswerRequest) =>
-      this.answerService.getQuestions(params).pipe(
+      this.answerService.getAnswers(params).pipe(
         map((response: any) => new AnswerLoadSuccessAction(response)),
         catchError((error) => of(new AnswerLoadFailAction(error)))
       )

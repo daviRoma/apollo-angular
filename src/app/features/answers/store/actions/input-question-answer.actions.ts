@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import {
-  InputQuestionAnswer,
+  SingleAnswer,
   AnswerRequest,
   AnswerResponse,
 } from '../../../../models/answer.model';

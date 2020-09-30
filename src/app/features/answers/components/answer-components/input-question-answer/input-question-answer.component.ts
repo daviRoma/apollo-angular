@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { InputQuestion } from 'src/app/models/question.model';
 
 @Component({
@@ -8,11 +8,14 @@ import { InputQuestion } from 'src/app/models/question.model';
 })
 export class InputQuestionAnswerComponent implements OnInit {
 
-  public question: InputQuestion;
+  @Input() question: InputQuestion;
 
   constructor() { }
 
   ngOnInit(): void {
+
+    console.log("question", this.question);
+
   }
 
   editQuestion(): void {

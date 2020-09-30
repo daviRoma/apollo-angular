@@ -17,12 +17,6 @@ import {
   InputQuestionAnswerNewAction,
   InputQuestionAnswerNewSuccessAction,
   InputQuestionAnswerNewFailureAction,
-  InputQuestionAnswerUpdateAction,
-  InputQuestionAnswerUpdateSuccessAction,
-  InputQuestionAnswerUpdateFailureAction,
-  InputQuestionAnswerDeleteAction,
-  InputQuestionAnswerDeleteSuccessAction,
-  InputQuestionAnswerDeleteFailAction
 } from '../actions/input-question-answer.actions';
 
 import { AnswerResponse, AnswerRequest } from '../../../../models/answer.model';
@@ -39,7 +33,7 @@ export class InputQuestionAnswerEffects {
     ofType<InputQuestionAnswerLoadAction>(InputQuestionAnswerActionTypes.LOADING),
     map((action) => action.payload),
     switchMap((request: AnswerRequest) =>
-      this.answerService.getInputQuestionsAnswers(request).pipe(
+      this.answerService.getAnswers(request).pipe(
         map((response: any) => new InputQuestionAnswerLoadSuccessAction(response)),
         catchError((error) => of(new InputQuestionAnswerLoadFailAction(error)))
       )
@@ -51,7 +45,7 @@ export class InputQuestionAnswerEffects {
     ofType<InputQuestionAnswerLoadOneAction>(InputQuestionAnswerActionTypes.LOADONE),
     map((action) => action.payload),
     switchMap((params: any) =>
-      this.answerService.getInputQuestionsAnswers(params).pipe(
+      this.answerService.getAnswers(params).pipe(
         map(
           (response: AnswerResponse) =>
             new InputQuestionAnswerLoadSuccessAction(response)
@@ -66,7 +60,7 @@ export class InputQuestionAnswerEffects {
     ofType<InputQuestionAnswerNewAction>(InputQuestionAnswerActionTypes.NEW),
     map((action) => action.payload),
     switchMap((request: AnswerRequest) =>
-      this.answerService.createInputQuestionAnswer(request).pipe(
+      this.answerService.createAnswers(request).pipe(
         map(
           (response: AnswerResponse) =>
             new InputQuestionAnswerNewSuccessAction(response)
@@ -86,30 +80,6 @@ export class InputQuestionAnswerEffects {
     })
   );
 
-  @Effect()
-  public updateInputQuestionAnswer = this.actions.pipe(
-    ofType<InputQuestionAnswerUpdateAction>(InputQuestionAnswerActionTypes.UPDATE),
-    map((action) => action.payload),
-    switchMap((request: AnswerRequest) =>
-      this.answerService.updateInputQuestionAnswer(request).pipe(
-        map((response: any) =>
-          of(new InputQuestionAnswerUpdateSuccessAction(response))
-        ),
-        catchError((error) => of(new InputQuestionAnswerUpdateFailureAction(error)))
-      )
-    )
-  );
-
-  @Effect()
-  public deleteInputQuestionAnswer = this.actions.pipe(
-    ofType<InputQuestionAnswerDeleteAction>(InputQuestionAnswerActionTypes.DELETE),
-    map((action) => action.payload),
-    switchMap((param: AnswerRequest) =>
-      this.answerService.deleteInputQuestionAnswer(param).pipe(
-        map((response: any) => new InputQuestionAnswerDeleteSuccessAction(response)),
-        catchError((error) => of(new InputQuestionAnswerDeleteFailAction(error)))
-      )
-    )
-  );
+ 
 }
 

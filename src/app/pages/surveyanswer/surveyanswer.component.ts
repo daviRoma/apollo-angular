@@ -40,7 +40,7 @@ export class SurveyanswerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private loadData(surveyId: string): void {
+  private loadData(surveyId: number): void {
     this.store.dispatch( new QuestionGroupLoadAction(surveyId) );
 
     this.store

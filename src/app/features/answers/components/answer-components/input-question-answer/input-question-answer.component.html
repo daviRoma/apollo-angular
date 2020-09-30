@@ -1,0 +1,52 @@
+<div class="col-12 card border shadow-none mb-0 p-3">
+    <!-- TITLE -->
+    <div class="m-1">
+        <h6 class="mb-0">
+            <span *ngIf="question.mandatory" class="text-danger">*</span>
+            {{question.title}}
+        </h6>
+    </div>
+    <div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
+
+        <div *ngIf="question.icon != null" class="col-auto">
+            <div class="rounded-lg shadow">
+                <img class="rounded-lg border question-image" src="{{'data:image/png;base64,' + question.icon.data}}">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12 px-3 py-2">
+
+            <div *ngIf="question.type == 'TEXT'" class="row">
+                <div class="col-12 my-auto form-group">
+                    <input type="text" class="form-control">
+                </div>
+
+            </div>
+
+            <div *ngIf="question.type == 'TEXTAREA'" class="row">
+                <div class="col-12 my-auto">
+                    <textarea class="form-control" data-toggle="autosize"></textarea>
+                </div>
+
+
+            </div>
+
+            <div *ngIf="question.type == 'DATE'" class="row">
+                <div class="col-12 my-auto form-group">
+                    <input type="date" class="form-control">
+                </div>
+
+            </div>
+
+            <div *ngIf="question.type == 'NUMBER'" class="row">
+                <div class="col-12 my-auto form-group">
+                    <input type="number" class="form-control">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

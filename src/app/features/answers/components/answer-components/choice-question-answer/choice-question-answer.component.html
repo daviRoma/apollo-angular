@@ -1,0 +1,82 @@
+<!-- CHOICE QUESTION -->
+<div class="col-12 card border shadow-none mb-0 p-3">
+
+  <!-- Question Title -->
+  <div class="m-1">
+    <h6 class="mb-0">
+      {{question.title}}
+    </h6>
+  </div>
+
+  <div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
+
+    <div *ngIf="question.icon != null" class="col-auto">
+      <div class="rounded-lg shadow">
+        <img class="rounded-lg border question-image" src="{{'data:image/png;base64,' + question.icon.data}}">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Question options -->
+  <div class="row">
+
+    <div *ngIf="question.type == 'RADIO'" class="col-12 px-3 py-2">
+      <!-- OPTIONS -->
+      <div *ngFor="let option of question.options; index as i" class="custom-control custom-radio">
+        <input type="radio" id="{{'customRadio_' + i}}" name="customRadio" class="custom-control-input" value="{{option}}" (click)="choiceRadioAnswerChange($event, option)">
+        <label class="custom-control-label" for="{{'customRadio_' + i}}">{{option}}</label>
+      </div>
+
+      <!-- Other -->
+      <div *ngIf="question.other" class="custom-control custom-radio">
+        <input type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" (click)="choiceRadioOtherAnswerChange($event)">
+        <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
+          <div class="border-bottom custom-input-text">
+            <input type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" />
+          </div>
+          <!-- <div class="border-bottom custom-input-text">in</div> -->
+        </label>
+
+      </div>
+    </div>
+
+    <div *ngIf="question.type == 'CHECK'" class="col-12 px-3 py-2">
+      <!-- OPTIONS -->
+      <div *ngFor="let option of question.options; index as i" class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="{{'customCheck' + i}}" (click)="choiceCheckAnswerChange($event, option)">
+        <label class="custom-control-label" for="{{'customCheck' + i}}">{{option}}</label>
+      </div>
+      <!-- Other -->
+      <div *ngIf="question.other" class="custom-control custom-checkbox">
+        <input type="checkbox" id="{{'other_choice-' + question.id}}" name="customCheck" class="custom-control-input" (click)="choiceCheckOtherAnswerChange($event)">
+        <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
+          <div class="border-bottom custom-input-text">
+            <input type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1"/>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div *ngIf="question.type == 'SELECT'" class="col-12 px-3 py-2">
+
+      <select class="custom-select">
+        <option value="" selected disabled hidden>Choose here</option>
+        <option *ngFor="let option of question.options" [value]="option">
+          {{option}}
+        </option>
+      </select>
+
+
+      <!-- <mat-form-field appearance="fill">
+        <mat-label class="form-control-label">Options</mat-label>
+        <mat-select>
+          <mat-option>-- None --</mat-option>
+          <mat-option *ngFor="let option of question.options" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<!-- QUESTION GROUP BOX -->
+<div class="card-body pb-0 pt-3 mb-3" title="group-container">
+
+  <app-question-group-answer-detail [questionGroup]="group"></app-question-group-answer-detail>
+
+</div>
+
+<div class="row justify-content-center mx-4 mb-4">
+  <div class="col-auto">
+
+    <button class="btn btn-primary rounded-pill" (click)="onPreviousGroup()">Back</button>
+
+  </div>
+
+  <div class="col-auto">
+
+    <button class="btn btn-primary rounded-pill" (click)="onNextGroup()">Next</button>
+
+  </div>
+</div>

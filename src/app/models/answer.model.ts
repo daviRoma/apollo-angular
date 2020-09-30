@@ -1,46 +1,56 @@
 /**
- * Question classes.
+ * Answer classes.
  */
 
-import { QuestionGroup } from 'src/app/models/question-group.model';
-import { Survey } from 'src/app/models/survey.model';
+import { ApolloResponse } from "./apollo-response.model";
 
 export class Answer {
   id: string;
-  title: string;
-  mandatory: boolean;
-  icon?: any;
-  createDate?: Date;
-  type?: string;
-  questionGroup: QuestionGroup[];
-  survey: Survey;
+  questionId: string;
+  questionType: string;
+  surveyId: string;
 }
 
-export class InputQuestionAnswer extends Answer {
-  type: string;
+export class SingleAnswer extends Answer {
+  answer: string;
 }
 
-export class ChoiceQuestionAnswer extends Answer {
-  choiceType: string;
-  options: string[];
-  otherChoice: boolean;
+export class MultiAnswer extends Answer {
+  answer: string[];
 }
 
-export class MatrixQuestionAnswer extends Answer {
-  choiceType: string;
-  options: string[];
-  optionValues: string[];
+export class MatrixRadioAnswer extends Answer {
+  answerPair: MatrixRadioPair[];
+}
+
+export class MatrixCheckAnswer extends Answer {
+  answerPair: MatrixCheckPair[];
 }
 
 export class AnswerRequest {
+  id?: string;
   surveyId: string;
-  questionGroupId: string;
-  question: any;
+  pageSize?: any;
+  order?: any;
+  orderDir?: any;
+  answerWrapper: AnswersWrapper;
+
 }
 
-export class AnswerResponse {
-  data?: any;
-  self?: string;
-  links?: any;
-  meta?: any;
+export class AnswerResponse extends ApolloResponse {}
+
+export class MatrixRadioPair{
+  element: string;
+  answer: string;
+}
+
+export class MatrixCheckPair{
+  element: string;
+  answer: string[];
+}
+
+export class AnswersWrapper{
+  email: string;
+  password: string;
+  answers: Answer[];
 }

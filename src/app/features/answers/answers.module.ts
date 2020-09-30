@@ -5,10 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 
-import { InputQuestionAnswerComponent } from './answer-components/input-question-answer/input-question-answer.component';
-import { MatrixQuestionAnswerComponent } from './answer-components/matrix-question-answer/matrix-question-answer.component';
-import { ChoiceQuestionAnswerComponent } from './answer-components/choice-question-answer/choice-question-answer.component';
-import { QuestionGroupAnswerBoxComponent} from './question-group-answer-box/question-group-answer-box.component';
+import { InputQuestionAnswerComponent } from './components/answer-components/input-question-answer/input-question-answer.component';
+import { MatrixQuestionAnswerComponent } from './components/answer-components/matrix-question-answer/matrix-question-answer.component';
+import { ChoiceQuestionAnswerComponent } from './components/answer-components/choice-question-answer/choice-question-answer.component';
+import { QuestionGroupAnswerBoxComponent} from './components/question-group-answer-box/question-group-answer-box.component';
+import { QuestionGroupAnswerDetailComponent} from './components/question-group-answer-detail/question-group-answer-detail.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { QuestionGroupAnswerBoxComponent} from './question-group-answer-box/ques
     MatrixQuestionAnswerComponent,
     ChoiceQuestionAnswerComponent,
     QuestionGroupAnswerBoxComponent,
+    QuestionGroupAnswerDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { QuestionGroupAnswerBoxComponent} from './question-group-answer-box/ques
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
-    QuestionGroupAnswerBoxComponent
+    QuestionGroupAnswerBoxComponent,
+    QuestionGroupAnswerDetailComponent,
   ],
 })
 export class AnswersModule {}

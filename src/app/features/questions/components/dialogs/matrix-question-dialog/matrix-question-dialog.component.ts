@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ChoiceQuestion, MatrixQuestion } from 'src/app/models/question.model';
 import {
   FormGroup,
   FormBuilder,
@@ -14,7 +13,7 @@ import { MatrixQuestionNewAction, MatrixQuestionUpdateAction } from '../../../st
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
 
-import { MatrixQuestion, QuestionRequest } from 'src/app/models/question.model';
+import { ChoiceQuestion, MatrixQuestion, QuestionRequest } from 'src/app/models/question.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Icon } from 'src/app/models/icon.model';
 

@@ -17,12 +17,6 @@ import {
   ChoiceQuestionAnswerNewAction,
   ChoiceQuestionAnswerNewSuccessAction,
   ChoiceQuestionAnswerNewFailureAction,
-  ChoiceQuestionAnswerUpdateAction,
-  ChoiceQuestionAnswerUpdateSuccessAction,
-  ChoiceQuestionAnswerUpdateFailureAction,
-  ChoiceQuestionAnswerDeleteAction,
-  ChoiceQuestionAnswerDeleteSuccessAction,
-  ChoiceQuestionAnswerDeleteFailAction
 } from '../actions/choice-question-answer.actions';
 
 import { AnswerResponse, AnswerRequest } from '../../../../models/answer.model';
@@ -39,7 +33,7 @@ export class ChoiceQuestionAnswerEffects {
     ofType<ChoiceQuestionAnswerLoadAction>(ChoiceQuestionAnswerActionTypes.LOADING),
     map((action) => action.payload),
     switchMap((request: AnswerRequest) =>
-      this.answerService.getChoiceQuestionsAnswers(request).pipe(
+      this.answerService.getAnswers(request).pipe(
         map((response: any) => new ChoiceQuestionAnswerLoadSuccessAction(response)),
         catchError((error) => of(new ChoiceQuestionAnswerLoadFailAction(error)))
       )
@@ -51,7 +45,7 @@ export class ChoiceQuestionAnswerEffects {
     ofType<ChoiceQuestionAnswerLoadOneAction>(ChoiceQuestionAnswerActionTypes.LOADONE),
     map((action) => action.payload),
     switchMap((params: any) =>
-      this.answerService.getChoiceQuestionsAnswers(params).pipe(
+      this.answerService.getAnswer(params).pipe(
         map(
           (response: AnswerResponse) =>
             new ChoiceQuestionAnswerLoadSuccessAction(response)
@@ -66,7 +60,7 @@ export class ChoiceQuestionAnswerEffects {
     ofType<ChoiceQuestionAnswerNewAction>(ChoiceQuestionAnswerActionTypes.NEW),
     map((action) => action.payload),
     switchMap((request: AnswerRequest) =>
-      this.answerService.createChoiceQuestionAnswer(request).pipe(
+      this.answerService.createAnswers(request).pipe(
         map(
           (response: AnswerResponse) =>
             new ChoiceQuestionAnswerNewSuccessAction(response)
@@ -86,30 +80,5 @@ export class ChoiceQuestionAnswerEffects {
     })
   );
 
-  @Effect()
-  public updateChoiceQuestionAnswer = this.actions.pipe(
-    ofType<ChoiceQuestionAnswerUpdateAction>(ChoiceQuestionAnswerActionTypes.UPDATE),
-    map((action) => action.payload),
-    switchMap((request: AnswerRequest) =>
-      this.answerService.updateChoiceQuestionAnswer(request).pipe(
-        map((response: any) =>
-          of(new ChoiceQuestionAnswerUpdateSuccessAction(response))
-        ),
-        catchError((error) => of(new ChoiceQuestionAnswerUpdateFailureAction(error)))
-      )
-    )
-  );
-
-  @Effect()
-  public deleteChoiceQuestionAnswer = this.actions.pipe(
-    ofType<ChoiceQuestionAnswerDeleteAction>(ChoiceQuestionAnswerActionTypes.DELETE),
-    map((action) => action.payload),
-    switchMap((param: AnswerRequest) =>
-      this.answerService.deleteChoiceQuestionAnswer(param).pipe(
-        map((response: any) => new ChoiceQuestionAnswerDeleteSuccessAction(response)),
-        catchError((error) => of(new ChoiceQuestionAnswerDeleteFailAction(error)))
-      )
-    )
-  );
 }
 
