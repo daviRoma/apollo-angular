@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { Observable } from 'rxjs';
 
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { serverConfiguration } from 'src/app/shared/config/server.conf';

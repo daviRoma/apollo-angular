@@ -20,4 +20,14 @@ export default class Utils {
     return { ...obj };
   }
 
+  public static makeRandom(lengthOfCode: number): string {
+    let text = '';
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,./;[]\=-)(*&^%$#@!~`";
+
+    for (let i = 0; i < lengthOfCode; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  }
+
 }

@@ -11,7 +11,7 @@ const dialogConfig = {
 export const SurveyDialogConf = {
   minWidth: '40%',
   maxWidth: '50%',
-  position: { top: '3%' },
+  position: { top: '2%' },
   data: {
     survey: null,
     dialogConfig

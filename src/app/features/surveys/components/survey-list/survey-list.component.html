@@ -24,8 +24,10 @@
     <!-- Id Column -->
     <ng-container matColumnDef="icon">
       <th mat-header-cell *matHeaderCellDef> Icon </th>
-      <td mat-cell *matCellDef="let survey"> <img class="dashboard-survey-image"
-          src="data:image/;base64,{{survey.icon}}"> </td>
+      <td mat-cell *matCellDef="let survey">
+        <img *ngIf="survey.icon" class="dashboard-survey-image" src="data:image/;base64,{{survey.icon.data}}">
+        <img *ngIf="!survey.icon" class="dashboard-survey-image" src="assets/dist/img/theme/light/brand-avatar-3.png">
+      </td>
     </ng-container>
 
     <!-- Name column -->

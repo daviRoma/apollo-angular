@@ -32,6 +32,7 @@ import { AppComponent } from './app.component';
 
 import { AuthEffects } from 'src/app/core/auth/store/auth.effects';
 import { SurveyEffects } from 'src/app/features/surveys/store/effects/survey.effects';
+import { InvitationPoolEffects } from 'src/app/features/surveys/store/effects/invitation-pool.effects';
 import { QuestionGroupEffects } from 'src/app/features/question-groups/store/question-group.effects';
 import { UserEffects } from 'src/app/features/users/store/effects/user.effects';
 import { QuestionEffects } from 'src/app/features/questions/store/effects/question.effects';
@@ -62,6 +63,7 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     EffectsModule.forRoot([
       AuthEffects,
       SurveyEffects,
+      InvitationPoolEffects,
       QuestionGroupEffects,
       QuestionEffects,
       InputQuestionEffects,

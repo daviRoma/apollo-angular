@@ -49,7 +49,7 @@ export class SurveyDetailComponent implements OnInit {
     this.deleteDialogRef.data.item = { ...this.survey };
     this.deleteDialogRef.data.dialogConfig.title = 'Delete Survey';
     this.deleteDialogRef.data.dialogConfig.content = 'Are you sure to delete the survey?';
-    this.publishDialogConf.minWidth = '20%';
+    this.publishDialogConf.minWidth = '40%';
     this.publishDialogConf.position.top = '8%';
   }
 
@@ -86,9 +86,10 @@ export class SurveyDetailComponent implements OnInit {
 
   public openInvitationPoolDialog(): void {
     const invitationPoolDialogRef = this.dialog.open(InvitationPoolComponent, {
-      width: '45%',
+      minWidth: '45%',
       position: { top: '5%' },
       data: {
+        survey: {...this.survey },
         dialogConfig: {
           title: 'Set Invitation Pool'
         },
@@ -96,7 +97,9 @@ export class SurveyDetailComponent implements OnInit {
     });
 
     invitationPoolDialogRef.afterClosed().subscribe((response) => {
-      if (response.result.message === 'close_after_close') {}
+      if (response.result === 'close_after_set_invitation') {
+      }
     });
   }
+
 }

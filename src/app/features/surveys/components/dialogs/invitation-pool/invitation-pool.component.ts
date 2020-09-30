@@ -4,6 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Survey } from 'src/app/models/survey.model';
 import { AppState } from 'src/app/state/app.state';
 import { Store } from '@ngrx/store';
+import { InvitationPoolUpdateAction, InvitationPoolNewAction } from '../../../store/actions/invitation-pool.actions';
+
+import Utils from 'src/app/shared/utils';
+import { InvitationPool, InvitationPoolRequest } from 'src/app/models/invitation-pool.model';
 
 @Component({
   selector: 'app-invitation-pool',
@@ -11,11 +15,15 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./invitation-pool.component.scss'],
 })
 export class InvitationPoolComponent implements OnInit {
+  public survey: Survey;
 
   public dialogConfig: any;
-  public emails: any;
-  public survey: Survey;
+
+  public emails: string[];
   public tagsInput: string;
+
+  public isError: boolean;
+  public errorMessage: string;
 
   constructor(
     public dialogRef: MatDialogRef<InvitationPoolComponent>,
@@ -51,21 +59,37 @@ export class InvitationPoolComponent implements OnInit {
 
   sendInvitationPool(): void {
     if (!this.checkEmailPool()) {
-      // Show error message
+      this.isError = true;
       return;
     }
 
-    const payload = { ...this.survey };
-    payload.invitationPool.emails = this.emails;
+    // If invitation pool already exist
+    if (this.survey.invitationPool) {
+      this.survey.invitationPool.emails = this.emails;
+      const payload = Utils.deleteNullKey({ ...this.survey.invitationPool });
+
+      this.store.dispatch(new InvitationPoolUpdateAction({ surveyId: this.survey.id, invitationPool: payload }));
+    } else {
+      const payload = {
+        password: Utils.makeRandom(20),
+        emails: this.emails
+      } as InvitationPool;
+
+      this.store.dispatch(
+        new InvitationPoolNewAction(
+          { surveyId: this.survey.id, invitationPool: payload } as InvitationPoolRequest
+        )
+      );
+    }
 
     this.dialogRef.close({
-      result: 'close_after_send_invitation',
-      data: payload,
+      result: 'close_after_set_invitation',
+      data: null,
     });
   }
 
   closeDialog(): void {
-    this.dialogRef.close('close_cancel');
+    this.dialogRef.close({ result: 'close_cancel'});
   }
 
   cancel(): void {
@@ -85,11 +109,15 @@ export class InvitationPoolComponent implements OnInit {
 
   private checkEmailPool(): boolean {
     if (this.emails.length > 0) {
-        if (this.emails.filter(this.validateEmail).length !== this.emails.length) {
-          return false;
-        }
-        return true;
+      if (this.emails.filter(this.validateEmail).length !== this.emails.length) {
+        this.errorMessage = 'Invalid emails';
+        return false;
+      }
+      this.isError = false;
+      return true;
     }
+
+    this.errorMessage = 'No emails found';
     return false;
   }
 
