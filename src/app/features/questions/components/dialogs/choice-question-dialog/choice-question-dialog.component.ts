@@ -29,8 +29,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   public choiceQuestion: ChoiceQuestion;
   public questionForm: FormGroup;
-
-  public base64textString: string;
+  public iconFile: Icon;
 
   public isMinOptionsLengthError: boolean;
 
@@ -42,6 +41,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
   ) {
     this.dialogConfig = this.data.dialogConfig;
     this.choiceQuestion = new ChoiceQuestion();
+    this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(12)]],
@@ -57,7 +57,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
       this.choiceQuestion = {
         options: [],
         type: this.data.type,
-        questionGroup: this.data.questionGroupId
+        questionGroup: this.data.questionGroupId,
       } as ChoiceQuestion;
     }
 
@@ -66,9 +66,16 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     // Calculate question position
-    if (this.choiceQuestion.position == null || this.choiceQuestion.position === undefined) {
+    if (
+      this.choiceQuestion.position == null ||
+      this.choiceQuestion.position === undefined
+    ) {
       this.store
-        .pipe(select(fromQuestionGroup.selectEntity, { id: this.choiceQuestion.questionGroup }))
+        .pipe(
+          select(fromQuestionGroup.selectEntity, {
+            id: this.choiceQuestion.questionGroup,
+          })
+        )
         .subscribe((response: QuestionGroup) => {
           this.choiceQuestion.position = response.questions.length + 1;
         });
@@ -81,8 +88,17 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     // Form validation
     if (!this.isFieldsValid()) return;
 
-    const payload = Utils.deleteNullKey({ ...this.questionForm.value, icon: this.choiceQuestion.icon });
+    const payload = Utils.deleteNullKey({
+      ...this.questionForm.value,
+      icon: this.choiceQuestion.icon,
+    });
     console.log('InputQuestionDialogComponent', 'Payload', payload);
+
+    if (this.iconFile.data) {
+      payload.icon = this.iconFile;
+    } else {
+      delete payload.icon;
+    }
 
     this.dialogConfig.operation === 'new'
       ? this.store.dispatch(
@@ -91,7 +107,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
               ...payload,
               options: this.choiceQuestion.options,
               position: this.choiceQuestion.position,
-              mandatory: this.choiceQuestion.mandatory
+              mandatory: this.choiceQuestion.mandatory,
             },
             questionGroupId: this.data.questionGroupId,
             surveyId: this.data.surveyId,
@@ -124,7 +140,9 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     if (this.choiceQuestion.options.length < 2) {
       this.isMinOptionsLengthError = true;
       watcher = false;
-    } else if (this.choiceQuestion.options.find( (op) => op == null) !== undefined) {
+    } else if (
+      this.choiceQuestion.options.find((op) => op == null) !== undefined
+    ) {
       this.isMinOptionsLengthError = true;
       watcher = false;
     }
@@ -148,10 +166,8 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
   advancedOptionChange(event): void {
     if (event.name === 'file') {
-      this.choiceQuestion.icon = {
-        name: event.value.file.name,
-        data: event.value.base64,
-      } as Icon;
+      this.iconFile.name = event.value.file.name;
+      this.iconFile.data = event.value.base64;
     } else {
       this.choiceQuestion.mandatory = event.value;
     }
@@ -164,5 +180,4 @@ export class ChoiceQuestionDialogComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
-
 }

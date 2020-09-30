@@ -8,7 +8,7 @@
 
         <span class="col-auto">
           <img *ngIf="survey.icon == null" class="survey-image" alt="Image placeholder" src="./assets/dist/img/theme/light/brand-avatar-3.png">
-          <img *ngIf="survey.icon != null" class="survey-image" alt="Survey Icon" src="{{'data:image/jpg;base64,' + survey.icon.data}}">
+          <img *ngIf="survey.icon != null" class="survey-image" alt="Survey Icon" src="{{survey.icon.data}}">
         </span>
 
         <div class="col-auto align-items-center">

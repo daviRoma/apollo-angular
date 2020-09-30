@@ -25,8 +25,7 @@ export class InputQuestionDialogComponent implements OnInit {
   public inputQuestion: InputQuestion;
   public questionForm: FormGroup;
 
-  public base64textString: string;
-
+  public iconFile: Icon;
   public inputType: any[];
 
   constructor(
@@ -37,6 +36,7 @@ export class InputQuestionDialogComponent implements OnInit {
   ) {
     this.dialogConfig = this.data.dialogConfig;
     this.inputQuestion = new InputQuestion();
+    this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
       title: new FormControl('', [
@@ -91,6 +91,12 @@ export class InputQuestionDialogComponent implements OnInit {
 
     const payload = Utils.deleteNullKey({ ...this.questionForm.value, icon: this.inputQuestion.icon });
 
+    if (this.iconFile.data) {
+      payload.icon = this.iconFile;
+    } else {
+      delete payload.icon;
+    }
+
     console.log('InputQuestionDialogComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new'
@@ -132,10 +138,8 @@ export class InputQuestionDialogComponent implements OnInit {
 
   advancedOptionChange(event): void {
     if (event.name === 'file') {
-      this.inputQuestion.icon = {
-        name: event.value.file.name,
-        data: event.value.base64,
-      } as Icon;
+      this.iconFile.name = event.value.file.name;
+      this.iconFile.data = event.value.base64;
     } else {
       this.inputQuestion.mandatory = event.value;
     }

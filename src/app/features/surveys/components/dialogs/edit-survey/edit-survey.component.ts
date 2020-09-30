@@ -12,6 +12,7 @@ import { SurveyNewAction, SurveyUpdateAction } from '../../../store/actions/surv
 import { Survey } from 'src/app/models/survey.model';
 
 import Utils from 'src/app/shared/utils';
+import { IconData, Icon } from 'src/app/models/icon.model';
 
 @Component({
   selector: 'app-edit-survey',
@@ -23,8 +24,10 @@ export class EditSurveyComponent implements OnInit {
   public survey: Survey;
 
   public surveyForm: FormGroup;
+  public file: File;
+  public iconData: IconData;
 
-  private currentState: Observable<any>;
+  public isFileError: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<EditSurveyComponent>,
@@ -32,7 +35,7 @@ export class EditSurveyComponent implements OnInit {
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.currentState = this.store.select(selectSurveyState);
+    this.iconData = new IconData();
     this.dialogConfig = this.data.dialogConfig;
 
     this.surveyForm = this.formBuilder.group({
@@ -52,18 +55,22 @@ export class EditSurveyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentState.subscribe((state) => {
 
-    });
   }
 
   onSubmit(event): void {
     event.preventDefault();
 
     // Remove null attributes
-    const payload = Utils.deleteNullKey({ ...this.surveyForm.value });
+    const payload = Utils.deleteNullKey({ ...this.surveyForm.value }) as Survey;
 
     console.log('EditSurveyComponent', 'Payload', payload);
+
+    if (this.iconData.base64) {
+      payload.icon = { name: this.iconData.file.name, data: this.iconData.base64 } as Icon;
+    } else {
+      delete payload.icon;
+    }
 
     this.dialogConfig.operation === 'new' ?
       this.store.dispatch(new SurveyNewAction(payload)) :
@@ -82,4 +89,37 @@ export class EditSurveyComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
+
+  onFileChange(event): void {
+    console.log('File Change Event', event);
+
+    if (this.fileValidation(event.target.files[0])) {
+      this.file = event.target.files[0];
+      this.iconData.file = this.file;
+      this.fileEncoding(this.file);
+
+      this.isFileError = false;
+    } else {
+      this.isFileError = true;
+    }
+  }
+
+  fileValidation(file: File): boolean {
+    if (file.size <= 5000000 && (file.type.includes('png') || file.type.includes('jpg') || file.type.includes('jpeg'))) return true;
+    return false;
+  }
+
+  private fileEncoding(file: File): void {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = this.handleBase64Encoding.bind(this);
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  private handleBase64Encoding(event): void {
+    const binaryString = event.target.result;
+    this.iconData.base64 = btoa(binaryString);
+  }
+
 }

@@ -31,7 +31,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
   public matrixQuestion: MatrixQuestion;
   public questionForm: FormGroup;
 
-  public base64textString: string;
+  public iconFile: Icon;
 
   public isMinOptionsLengthError: boolean;
   public isMinElementsLengthError: boolean;
@@ -44,6 +44,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
   ) {
     this.dialogConfig = this.data.dialogConfig;
     this.matrixQuestion = new MatrixQuestion();
+    this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
       title: new FormControl('', [
@@ -88,6 +89,11 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
     const payload = Utils.deleteNullKey({ ...this.questionForm.value, icon: this.matrixQuestion.icon });
 
+    if (this.iconFile.data) {
+      payload.icon = this.iconFile;
+    } else {
+      delete payload.icon;
+    }
     console.log('InputQuestionDialogComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new'
@@ -179,10 +185,8 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
   advancedOptionChange(event): void {
     if (event.name === 'file') {
-      this.matrixQuestion.icon = {
-        name: event.value.file.name,
-        data: event.value.base64
-      } as Icon;
+      this.iconFile.name = event.value.file.name;
+      this.iconFile.data = event.value.base64;
     } else {
       this.matrixQuestion.mandatory = event.value;
     }

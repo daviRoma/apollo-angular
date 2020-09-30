@@ -57,23 +57,16 @@
                   <div class="form-group mb-0">
                       <label class="form-control-label mb-0">Icon</label>
 
-                      <!-- Creation case -->
+                      <!-- File -->
                       <div class="form-control-label">
-                          <input type="file" id="iconfile" name="iconfile" class="custom-input-file form-element" formControlName="icon" accept="image/*" data-max-size="5"/>
-                          <label for="iconfile"><i class="fa fa-upload"></i>
-                            <span id="iconfile_label"></span>
-                          </label>
-                          <span id="file_error" class="text-danger text-sm hidden"></span>
-                      </div>
-
-                      <!--Update case -->
-                      <div *ngIf="survey && survey.id != null" class="form-control-label mt-2">
-                          <div *ngIf="survey.icon != null">
-                              <input type="hidden" formControlName="icon"/>
-                              <small>
-                                  File: {{survey.icon.name}}
-                              </small>
-                          </div>
+                        <input type="file" id="surveyIcon" name="surveyIcon" class="custom-input-file" accept=".png, .jpg, .jpeg"
+                          data-max-size="5" (change)="onFileChange($event)" />
+                        <label for="surveyIcon">
+                          <i class="fa fa-upload"></i>
+                          <span>{{file ? file.name : 'Select survey icon...'}}</span>
+                        </label>
+                        <span *ngIf="isFileError" id="file_error" class="text-danger text-xs">*The file must be of the format png/jpeg/jpg and 5MB
+                          maximum size.</span>
                       </div>
 
                   </div>

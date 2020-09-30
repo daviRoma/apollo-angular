@@ -35,6 +35,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   public pageEvent: PageEvent;
 
   public detailPage = Paths.survey.detail;
+  public overviewPage = Paths.survey.overview;
 
   public dataSource: MatTableDataSource<Survey>;
   public selectionList: Survey[];
@@ -136,7 +137,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       minWidth: '20%',
       position: { top: '14%' },
       data: {
-        survey: { ...survey }, // clone object
+        item: { ...survey }, // clone object
         dialogConfig: {
           title: 'Delete Survey',
           content: 'Are you sure to delete the survey?',
