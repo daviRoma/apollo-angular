@@ -19,7 +19,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+} from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -39,8 +42,14 @@ import { QuestionEffects } from 'src/app/features/questions/store/effects/questi
 import { InputQuestionEffects } from 'src/app/features/questions/store/effects/input-question.effects';
 import { ChoiceQuestionEffects } from 'src/app/features/questions/store/effects/choice-question.effects';
 import { MatrixQuestionEffects } from 'src/app/features/questions/store/effects/matrix-questions.effects';
+import { AnswerEffects } from 'src/app/features/answers/store/effects/answer.effects';
+import { InputQuestionAnswerEffects } from 'src/app/features/answers/store/effects/input-question-answer.effects';
+import { ChoiceQuestionAnswerEffects } from 'src/app/features/answers/store/effects/choice-question-answer.effects';
+import { MatrixQuestionAnswerEffects } from 'src/app/features/answers/store/effects/matrix-questions-answer.effects';
 
 import { reducers } from 'src/app/state/app.state';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { from } from 'rxjs';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
@@ -65,11 +74,16 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
       SurveyEffects,
       InvitationPoolEffects,
       QuestionGroupEffects,
+      UserEffects,
       QuestionEffects,
       InputQuestionEffects,
       ChoiceQuestionEffects,
       MatrixQuestionEffects,
-      UserEffects]),
+      AnswerEffects,
+      ChoiceQuestionAnswerEffects,
+      InputQuestionAnswerEffects,
+      MatrixQuestionAnswerEffects,
+    ]),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token'),
@@ -93,7 +107,7 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     MatToolbarModule,
     MatDialogModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

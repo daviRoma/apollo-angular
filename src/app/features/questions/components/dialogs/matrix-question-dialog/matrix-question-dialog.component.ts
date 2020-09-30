@@ -13,7 +13,7 @@ import { MatrixQuestionNewAction, MatrixQuestionUpdateAction } from '../../../st
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
 
-import { MatrixQuestion, QuestionRequest } from 'src/app/models/question.model';
+import { ChoiceQuestion, MatrixQuestion, QuestionRequest } from 'src/app/models/question.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Icon } from 'src/app/models/icon.model';
 
@@ -30,6 +30,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
   public matrixQuestion: MatrixQuestion;
   public questionForm: FormGroup;
+  public choiceQuestion: ChoiceQuestion;
 
   public iconFile: Icon;
 

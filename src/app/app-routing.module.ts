@@ -5,6 +5,7 @@ import { AuthGuard } from './core/auth/guard/auth.guard';
 
 import { AuthBaseComponent } from './core/auth/auth-components/commons/auth-base/auth-base.component';
 import { LayoutBaseComponent } from './layouts/layout-base/layout-base.component';
+import { LayoutBaseAnswerComponent } from './layouts/layout-base-answer/layout-base-answer.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,13 @@ const routes: Routes = [
   {
     path: 'users',
     component: LayoutBaseComponent,
+    loadChildren: () =>
+      import(`./pages/page.module`).then((m) => m.PageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'answer',
+    component: LayoutBaseAnswerComponent,
     loadChildren: () =>
       import(`./pages/page.module`).then((m) => m.PageModule),
     canActivate: [AuthGuard],

@@ -8,6 +8,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MainbarComponent } from './mainbar/mainbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { LayoutBaseComponent } from './layout-base/layout-base.component';
+import { LayoutBaseAnswerComponent } from './layout-base-answer/layout-base-answer.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { LayoutBaseComponent } from './layout-base/layout-base.component';
     LayoutBaseComponent,
     SidebarComponent,
     MainbarComponent,
-    FooterComponent
+    FooterComponent,
+    LayoutBaseAnswerComponent
   ],
   imports: [
     CommonModule,

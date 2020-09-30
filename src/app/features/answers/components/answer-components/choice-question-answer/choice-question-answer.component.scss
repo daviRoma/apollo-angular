@@ -1,0 +1,22 @@
+.input-text-other{
+	color: #8492a6;
+	border: none;
+	border-bottom: 1px solid #c0ccda;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+::placeholder{
+
+	color: #c0ccda;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+	color: #c0ccda;
+  }
+  
+  mat-form-field.mat-form-field-flex {
+	font-size: 16px;
+  }
