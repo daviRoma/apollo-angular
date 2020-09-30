@@ -2,6 +2,22 @@
  * Dialog configuration
  */
 
+const dialogConfig = {
+  title: '',
+  content: '',
+  operation: ''
+};
+
+export const SurveyDialogConf = {
+  minWidth: '40%',
+  maxWidth: '50%',
+  position: { top: '2%' },
+  data: {
+    survey: null,
+    dialogConfig
+  },
+};
+
 export const QuestionDialogConf = {
   minWidth: '35%',
   maxWidth: '44%',
@@ -11,11 +27,7 @@ export const QuestionDialogConf = {
     questionGroupId: null,
     surveyId: null,
     type: null,
-    dialogConfig: {
-      title: '',
-      content: '',
-      operation: '',
-    },
+    dialogConfig
   },
 };
 
@@ -25,11 +37,7 @@ export const QuestionGroupDialogConf = {
   position: { top: '6%' },
   data: {
     questionGroup: null,
-    dialogConfig: {
-      title: '',
-      content: '',
-      operation: ''
-    }
+    dialogConfig
   }
 };
 
@@ -39,9 +47,7 @@ export const DeleteDialogConf = {
   position: { top: '14%' },
   data: {
     item: null,
-    dialogConfig: {
-      title: '',
-      content: ''
-    },
+    dialogConfig
   },
 };
+

@@ -35,4 +35,11 @@ export class SurveyRequest {
   end_date?: string;
 }
 
-export class SurveyResponse extends ApolloResponse {}
+export class SurveyPublishRequest {
+  id?: number;
+  url?: string;
+}
+
+export class SurveyResponse extends ApolloResponse {
+  message?: string;
+}

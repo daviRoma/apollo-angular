@@ -3,9 +3,12 @@ export const Paths = {
   adminHome: '/dashboard/users/list',
   survey: {
     detail: '/survey/detail',
-    overview: '/survey/overview'
+    overview: '/survey/overview',
   },
   user: {
-    detail: '/users/useroverview'
+    detail: '/users/useroverview',
+  },
+  surveyAnswer: {
+    publicLink: 'http://localhost:4200/'
   }
 };

@@ -7,11 +7,11 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
       return { ...state, loading: true };
     }
     case SurveyActionTypes.LOAD_SUCCESS: {
-      return surveyAdapter.setAll(action.payload.data, {
+      return surveyAdapter.setAll( dataTransform(action.payload.data), {
         ...state,
         error: false,
         loading: false,
-        total: action.payload.data.length,
+        total: action.payload.meta ? action.payload.meta.total : action.payload.data.length,
       });
     }
     case SurveyActionTypes.LOAD_FAILURE: {
@@ -24,35 +24,23 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
     }
 
     case SurveyActionTypes.LOADONE_SUCCESS: {
-      return surveyAdapter.addOne(
-        { ...action.payload.data },
-        { ...state }
-      );
+      return state.total ? surveyAdapter.updateOne(
+        { id: action.payload.data.id, changes: dataTransform([action.payload.data])[0] },
+        { ...state }) :
+        surveyAdapter.addOne(
+          { ...dataTransform([action.payload.data])[0] },
+          { ...state });
     }
 
     case SurveyActionTypes.NEW: {
       return { ...state, loading: true };
     }
-    // case SurveyActionTypes.NEW_SUCCESS: {
-    //   console.log('reducer new success', action.payload);
-    //   return state;
-    //   // return surveyAdapter.addOne(
-    //   //   { ...action.payload, createDate: new Date() },
-    //   //   { ...state }
-    //   // );
-    // }
     case SurveyActionTypes.NEW_FAILURE: {
       return state;
     }
 
     case SurveyActionTypes.UPDATE: {
       return { ...state, loading: true };
-    }
-    case SurveyActionTypes.UPDATE_SUCCESS: {
-      return surveyAdapter.updateOne(
-        { id: action.payload.id, changes: action.payload },
-        { ...state }
-      );
     }
     case SurveyActionTypes.UPDATE_FAILURE: {
       return state;
@@ -75,4 +63,13 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
     default:
       return state;
   }
+}
+
+function dataTransform(data: any[]): any {
+  return data.map(
+    (survey) => ({
+      ...survey,
+      invitationPool: survey.invitationPool ? { ...survey.invitationPool, emails: survey.invitationPool.emails.map(el => el.email) } : null
+    })
+  );
 }

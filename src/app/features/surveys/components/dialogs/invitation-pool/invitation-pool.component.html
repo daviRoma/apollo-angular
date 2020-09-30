@@ -22,11 +22,9 @@
       </div>
 
       <div class="row">
-        <div class="col-12 py-2">
-          <div class="loader"></div>
-          <div id="result_message" class="text-left justify-content-between text-xs text-muted mt-2">
-            <span id="invalid_mail_msg" class="font-weight-bold text-danger hidden">Send invitation error</span>
-            <span id="error_message" class="font-weight-bold text-danger"></span>
+        <div *ngIf="isError" class="col-12 py-2">
+          <div class="text-left justify-content-between text-xs text-muted mt-2">
+            <span id="invalid_mail_msg" class="font-weight-bold text-danger">*{{errorMessage}}</span>
           </div>
         </div>
       </div>

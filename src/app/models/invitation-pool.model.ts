@@ -3,8 +3,12 @@
  */
 
 export class InvitationPool {
-  id: string;
-  password: string;
-  createDate: Date;
-  emails: string[];
+  id?: number;
+  password?: string;
+  emails?: string[];
+}
+
+export class InvitationPoolRequest {
+  surveyId?: number;
+  invitationPool?: InvitationPool;
 }

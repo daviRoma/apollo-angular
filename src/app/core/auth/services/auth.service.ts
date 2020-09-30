@@ -5,7 +5,7 @@ import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { serverConfiguration } from 'src/app/shared/server.conf';
+import { serverConfiguration } from 'src/app/shared/config/server.conf';
 
 import * as moment from 'moment';
 

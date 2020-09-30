@@ -1,11 +1,12 @@
 import { Action } from '@ngrx/store';
-import { SurveyRequest, SurveyResponse, Survey } from '../../../../models/survey.model';
+import { SurveyRequest, SurveyResponse, Survey, SurveyPublishRequest } from '../../../../models/survey.model';
 
 export enum SurveyActionTypes {
   LOADING = '[Survey] Loading',
   LOAD_SUCCESS = '[Survey] Loading Success',
   LOAD_FAILURE = '[Survey] Loading Failure',
   LOADONE = '[Survey] Loadone',
+  LOADONE_REDIRECT = '[Survey] Loadone Redirect',
   LOADONE_SUCCESS = '[Survey] Loadone Success',
   LOADONE_FAILURE = '[Survey] Loadone Failure',
   NEW = '[Survey] New',
@@ -17,6 +18,9 @@ export enum SurveyActionTypes {
   DELETE = '[Survey] Delete',
   DELETE_SUCCESS = '[Survey] Delete Success',
   DELETE_FAILURE = '[Survey] Delete Failure',
+  PUBLISH = '[Survey] Publish',
+  PUBLISH_SUCCESS = '[Survey] Publish Success',
+  PUBLISH_FAILURE = '[Survey] Publish Failure'
 }
 
 export class SurveyLoadAction implements Action {
@@ -36,7 +40,12 @@ export class SurveyLoadFailAction implements Action {
 
 export class SurveyLoadOneAction implements Action {
   public readonly type = SurveyActionTypes.LOADONE;
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
+}
+
+export class SurveyLoadOneRedirectAction implements Action {
+  public readonly type = SurveyActionTypes.LOADONE_REDIRECT;
+  constructor(public payload: SurveyResponse) {}
 }
 
 export class SurveyLoadOneSuccessAction implements Action {
@@ -71,7 +80,7 @@ export class SurveyUpdateAction implements Action {
 
 export class SurveyUpdateSuccessAction implements Action {
   public readonly type = SurveyActionTypes.UPDATE_SUCCESS;
-  constructor(public payload: Survey) {}
+  constructor(public payload: number) {}
 }
 
 export class SurveyUpdateFailureAction implements Action {
@@ -94,11 +103,27 @@ export class SurveyDeleteFailAction implements Action {
   constructor(public error: any) {}
 }
 
+export class SurveyPublishAction implements Action {
+  public readonly type = SurveyActionTypes.PUBLISH;
+  constructor(public payload: SurveyPublishRequest) {}
+}
+
+export class SurveyPublishSuccessAction implements Action {
+  public readonly type = SurveyActionTypes.PUBLISH_SUCCESS;
+  constructor(public payload: number) {}
+}
+
+export class SurveyPublishFailureAction implements Action {
+  public readonly type = SurveyActionTypes.PUBLISH_FAILURE;
+  constructor(public error: any) {}
+}
+
 export type SurveyActionsAll =
   | SurveyLoadAction
   | SurveyLoadSuccessAction
   | SurveyLoadFailAction
   | SurveyLoadOneAction
+  | SurveyLoadOneRedirectAction
   | SurveyLoadOneSuccessAction
   | SurveyLoadOneFailAction
   | SurveyNewAction
@@ -109,4 +134,7 @@ export type SurveyActionsAll =
   | SurveyUpdateFailureAction
   | SurveyDeleteAction
   | SurveyDeleteSuccessAction
-  | SurveyDeleteFailAction;
+  | SurveyDeleteFailAction
+  | SurveyPublishAction
+  | SurveyPublishSuccessAction
+  | SurveyUpdateFailureAction;

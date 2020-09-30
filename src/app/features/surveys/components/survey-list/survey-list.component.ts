@@ -19,7 +19,7 @@ import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 
-import { Paths } from 'src/app/shared/path.conf';
+import { Paths } from 'src/app/shared/config/path.conf';
 import { User } from 'src/app/models/user.model';
 
 @Component({

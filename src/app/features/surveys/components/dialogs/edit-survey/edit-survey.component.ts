@@ -1,14 +1,17 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
-import { Survey } from 'src/app/models/survey.model';
-import { Observable } from 'rxjs';
 import { selectSurveyState } from '../../../store/selectors/survey.selectors';
 import { SurveyNewAction, SurveyUpdateAction } from '../../../store/actions/survey.actions';
+
+import { Survey } from 'src/app/models/survey.model';
+
+import Utils from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-edit-survey',
@@ -57,18 +60,14 @@ export class EditSurveyComponent implements OnInit {
   onSubmit(event): void {
     event.preventDefault();
 
-    const payload = { ...this.surveyForm.value };
-
     // Remove null attributes
-    Object.keys(payload).forEach((key) => {
-       if(payload[key] == null) delete payload[key];
-    });
+    const payload = Utils.deleteNullKey({ ...this.surveyForm.value });
 
     console.log('EditSurveyComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new' ?
       this.store.dispatch(new SurveyNewAction(payload)) :
-      this.store.dispatch(new SurveyUpdateAction(payload));
+      this.store.dispatch(new SurveyUpdateAction({ ...payload, id: this.survey.id }));
 
     this.dialogRef.close({
       result: 'close_after_' + this.dialogConfig.operation,
@@ -77,7 +76,7 @@ export class EditSurveyComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.dialogRef.close('close_cancel');
+    this.dialogRef.close({ result: 'close_cancel' });
   }
 
   cancel(): void {

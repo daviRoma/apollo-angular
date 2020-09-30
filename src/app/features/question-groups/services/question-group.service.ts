@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from 'src/app/core/auth/services/auth.service';
-import { serverConfiguration } from 'src/app/shared/server.conf';
+import { serverConfiguration } from 'src/app/shared/config/server.conf';
 
 import { QuestionGroup, QuestionGroupResponse, QuestionGroupRequest } from 'src/app/models/question-group.model';
 

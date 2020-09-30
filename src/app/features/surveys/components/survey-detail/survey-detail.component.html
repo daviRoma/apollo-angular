@@ -45,15 +45,15 @@
                 <span id="survey_active" *ngIf="!survey.active" class="text-right badge badge-danger badge-pill mx-2">No</span>
             </a>
             <a *ngIf="survey.secret" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" title="Send Invitations" data-target="#actions-invitation"
-                (click)="openInvitationPoolModal()">
+                (click)="openInvitationPoolDialog()">
                 <i class="far fa-envelope"></i>
             </a>
             <a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip" title="Edit" data-target="#actions-update"
-                (click)="openUpdateSurveyModal()">
+                (click)="openEditSurveyDialog()">
                 <i class="far fa-edit"></i>
             </a>
             <a href="#" class="action-item mr-3" data-action="publish-open" data-toggle="tooltip" title="Publish" data-target="#actions-publish"
-                (click)="openPublishModal()">
+                (click)="openPublishDialog()">
                 <i class="fas fa-share-square"></i>
             </a>
             <a href="#" class="action-item" data-action="delete-open" data-toggle="tooltip" title="Delete" data-target="#actions-deletem"

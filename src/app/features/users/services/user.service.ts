@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { serverConfiguration } from 'src/app/shared/server.conf';
+import { serverConfiguration } from 'src/app/shared/config/server.conf';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { NGXLogger } from 'ngx-logger';
 import { HttpClient, HttpParams } from '@angular/common/http';

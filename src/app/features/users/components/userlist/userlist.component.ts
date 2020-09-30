@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { Paths } from 'src/app/shared/path.conf';
+import { Paths } from 'src/app/shared/config/path.conf';
 import { MatTableDataSource } from '@angular/material/table';
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 import { Observable, Subject, Subscription, merge, from } from 'rxjs';

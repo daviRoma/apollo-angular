@@ -13,7 +13,7 @@ import { AuthService } from '../services/auth.service';
 
 import { AuthActionTypes, LogInSuccess, LogInFailure, RegistrationSuccess, RegistrationFailure, LoadSessionUser, LoadSessionUserSuccess, LoadSessionUserFailure, LogOut } from './auth.actions';
 
-import { Paths } from 'src/app/shared/path.conf';
+import { Paths } from 'src/app/shared/config/path.conf';
 import { User } from 'src/app/models/user.model';
 
 @Injectable()
