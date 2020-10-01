@@ -25,12 +25,10 @@ const PageRoutes: Routes = [
   {
     path: 'detail/:survey_id',
     component: DetailComponent
-    // loadChildren: () => import(`../features/surveys/surveys.module`).then((m) => m.SurveysModule)
   },
   {
     path: 'overview/:survey_id',
     component: OverviewComponent
-    // loadChildren: () => import(`../features/surveys/surveys.module`).then((m) => m.SurveysModule)
   },
   {
     path: 'profile',

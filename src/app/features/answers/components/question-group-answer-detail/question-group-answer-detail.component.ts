@@ -8,7 +8,7 @@ import { ChoiceQuestionDialogComponent } from 'src/app/features/questions/compon
 import { InputQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/input-question-dialog/input-question-dialog.component';
 import { MatrixQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/matrix-question-dialog/matrix-question-dialog.component';
 import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
-import { QuestionDialogConf, QuestionGroupDialogConf, DeleteDialogConf } from 'src/app/shared/dialog.conf';
+import { QuestionDialogConf, QuestionGroupDialogConf, DeleteDialogConf } from 'src/app/shared/config/dialog.conf';
 import { AppState } from 'src/app/state/app.state';
 
 @Component({
@@ -31,7 +31,7 @@ export class QuestionGroupAnswerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   test(event): void{

@@ -49,17 +49,17 @@ export const selectEntities = createSelector(
 
 export const selectEntity = createSelector(
   selectAllQuestion,
-  (entities, props) => entities.find((elem) => elem.id == props.id)
+  (entities, props) => entities.find((elem) => elem.id === props.id)
 );
 
 export const selectEntitiesBySurvey = createSelector(
   selectAllQuestion,
-  (entities, props) => entities.filter((elem) => elem.surveyId === props.id)
+  (entities, props) => entities.filter((elem) => elem.survey === props.id)
 );
 
 export const selectEntitiesByGroup = createSelector(
   selectAllQuestion,
-  (entities, props) => entities.filter((elem) => elem.questionGroupId === props.id)
+  (entities, props) => entities.filter((elem) => elem.questionGroup === props.id)
 );
 
 export const selectEntitiesByType = createSelector(

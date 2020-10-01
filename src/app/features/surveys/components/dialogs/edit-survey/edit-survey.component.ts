@@ -64,13 +64,13 @@ export class EditSurveyComponent implements OnInit {
     // Remove null attributes
     const payload = Utils.deleteNullKey({ ...this.surveyForm.value }) as Survey;
 
-    console.log('EditSurveyComponent', 'Payload', payload);
-
     if (this.iconData.base64) {
       payload.icon = { name: this.iconData.file.name, data: this.iconData.base64 } as Icon;
     } else {
       delete payload.icon;
     }
+
+    console.log('EditSurveyComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new' ?
       this.store.dispatch(new SurveyNewAction(payload)) :
@@ -91,8 +91,6 @@ export class EditSurveyComponent implements OnInit {
   }
 
   onFileChange(event): void {
-    console.log('File Change Event', event);
-
     if (this.fileValidation(event.target.files[0])) {
       this.file = event.target.files[0];
       this.iconData.file = this.file;
