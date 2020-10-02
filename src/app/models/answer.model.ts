@@ -9,6 +9,7 @@ export class Answer {
   questionId: string;
   questionType: string;
   surveyId: string;
+  answer: any;
 }
 
 export class SingleAnswer extends Answer {
@@ -19,12 +20,8 @@ export class MultiAnswer extends Answer {
   answer: string[];
 }
 
-export class MatrixRadioAnswer extends Answer {
-  answerPair: MatrixRadioPair[];
-}
-
-export class MatrixCheckAnswer extends Answer {
-  answerPair: MatrixCheckPair[];
+export class MatrixAnswer extends Answer {
+  answer: MatrixPair[];
 }
 
 export class AnswerRequest {
@@ -39,12 +36,8 @@ export class AnswerRequest {
 
 export class AnswerResponse extends ApolloResponse {}
 
-export class MatrixRadioPair{
-  element: string;
-  answer: string;
-}
 
-export class MatrixCheckPair{
+export class MatrixPair{
   element: string;
   answer: string[];
 }

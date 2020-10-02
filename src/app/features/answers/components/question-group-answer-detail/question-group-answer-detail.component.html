@@ -10,17 +10,17 @@
 
       <!-- If Choice Question -->
       <div *ngIf="question.questionType === 'App\\MultiQuestion'">
-        <app-choice-question-answer [question]="question" (optionSelected)="test($event)"></app-choice-question-answer>
+        <app-choice-question-answer [question]="question" (optionSelected)="updateWrapper($event)"></app-choice-question-answer>
       </div>
 
       <!-- If Input Question -->
       <div *ngIf="question.questionType === 'App\\InputQuestion'">
-        <app-input-question-answer [question]="question"></app-input-question-answer>
+        <app-input-question-answer [question]="question" (inputInjected)="updateWrapper($event)"></app-input-question-answer>
       </div>
 
       <!-- If Matrix Question -->
       <div *ngIf="question.questionType === 'App\\MatrixQuestion'">
-        <app-matrix-question-answer [question]="question"></app-matrix-question-answer>
+        <app-matrix-question-answer [question]="question" (optionSelected)="updateWrapper($event)"></app-matrix-question-answer>
       </div>
       <!-- ./Group Info -->
     </div>

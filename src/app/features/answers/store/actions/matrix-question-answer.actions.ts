@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import {
-  MatrixRadioAnswer,
-  MatrixCheckAnswer,
+  MatrixAnswer,
   AnswerResponse,
   AnswerRequest,
 } from '../../../../models/answer.model';
