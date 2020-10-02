@@ -21,14 +21,14 @@
 
             <div *ngIf="question.type == 'TEXT'" class="row">
                 <div class="col-12 my-auto form-group">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="{{'input-' + question.id }}" (keyup)="inputAnswerChange($event)">
                 </div>
 
             </div>
 
             <div *ngIf="question.type == 'TEXTAREA'" class="row">
                 <div class="col-12 my-auto">
-                    <textarea class="form-control" data-toggle="autosize"></textarea>
+                    <textarea class="form-control" data-toggle="autosize" id="{{'input-' + question.id }}" (keyup)="inputAnswerChange($event)"></textarea>
                 </div>
 
 
@@ -36,14 +36,14 @@
 
             <div *ngIf="question.type == 'DATE'" class="row">
                 <div class="col-12 my-auto form-group">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" id="{{'input-' + question.id }}" (keyup)="inputAnswerChange($event)">
                 </div>
 
             </div>
 
             <div *ngIf="question.type == 'NUMBER'" class="row">
                 <div class="col-12 my-auto form-group">
-                    <input type="number" class="form-control">
+                    <input type="number" class="form-control" id="{{'input-' + question.id }}" (keyup)="inputAnswerChange($event)">
                 </div>
             </div>
 

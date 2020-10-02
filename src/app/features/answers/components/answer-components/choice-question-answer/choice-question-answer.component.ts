@@ -22,66 +22,76 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   public choiceAnswer: SingleAnswer;
   public checkAnswer: MultiAnswer;
 
-  @ViewChild('otherRadio') otherRadio: ElementRef;
+  private otherStatus = false;
 
   constructor() {}
 
   ngOnInit(): void {
     this.choiceAnswer = new SingleAnswer();
-    this.choiceAnswer.questionType = 'App\\MultiQuestion';
     this.choiceAnswer.questionId = this.question.id;
+    this.choiceAnswer.questionType = this.question.questionType;
 
     this.checkAnswer = new MultiAnswer();
-    this.checkAnswer.questionType = 'App\\MultiQuestion';
     this.checkAnswer.questionId = this.question.id;
+    this.checkAnswer.questionType = this.question.questionType;
     this.checkAnswer.answer = [];
   }
 
   // GESTIRE LA RIMOZIONE
 
   choiceRadioAnswerChange(event, option): void {
-
     this.choiceAnswer.answer = option;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
   choiceRadioOtherAnswerChange(event): void {
-
     let value = (<HTMLInputElement>event.target).value;
     this.choiceAnswer.answer = value;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
-  // updateRadioOtherAnswerChange(event): void {
-
-  //   let value = (<HTMLInputElement>event.target).value;
-  //   this.choiceAnswer.answer = value;
-  //   this.optionSelected.emit(this.choiceAnswer);
-  // }
+  updateRadioOtherAnswerChange(event): void {
+    let value = (<HTMLInputElement>event.target).value;
+    this.choiceAnswer.answer = value;
+    this.optionSelected.emit(this.choiceAnswer);
+  }
 
   choiceCheckAnswerChange(event, option): void {
-
-    this.checkAnswer.answer.push(option);
-    console.log(this.checkAnswer);
-
+    if (this.checkAnswer.answer.includes(option)) {
+      this.checkAnswer.answer = this.checkAnswer.answer.filter(
+        (element) => element !== option
+      );
+    } else {
+      this.checkAnswer.answer.push(option);
+    }
     this.optionSelected.emit(this.checkAnswer);
   }
 
   choiceCheckOtherAnswerChange(event): void {
-   
-    let value = (<HTMLInputElement>event.target).value;
-    this.checkAnswer.answer.push(value);
-    console.log(this.checkAnswer);
+    this.otherStatus = !this.otherStatus;
 
-    this.optionSelected.emit(this.choiceAnswer);
+    let otherInput = <HTMLInputElement>(
+      document.getElementById('other_choice-answer-' + this.question.id)
+    );
+
+    if (this.otherStatus) {
+      otherInput.disabled = true;
+
+      if (otherInput.value != '') {
+        this.checkAnswer.answer.push(otherInput.value);
+      }
+    } else {
+      otherInput.disabled = false;
+
+      if (otherInput.value != '') {
+        if (this.checkAnswer.answer.includes(otherInput.value)) {
+          this.checkAnswer.answer = this.checkAnswer.answer.filter(
+            (element) => element !== otherInput.value
+          );
+        }
+      }
+    }
+
+    this.optionSelected.emit(this.checkAnswer);
   }
-
-  // updateCheckOtherAnswerChange(event): void {
-  //   let value = (<HTMLInputElement>event.target).value;
-  //   this.choiceAnswer.answer = value;
-  //   this.choiceAnswer.questionType = 'App\\MultiQuestion';
-  //   this.choiceAnswer.questionId = this.question.id;
-
-  //   this.optionSelected.emit(this.choiceAnswer);
-  // }
 }

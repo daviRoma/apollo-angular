@@ -30,7 +30,8 @@
 				<thead>
 					<tr class="table-divider">
 						<th scope="col"></th>
-						<th class="matrix-options-label" *ngFor="let element of question.elements" scope="col">
+						<th class="matrix-options-label" *ngFor="let element of question.elements; index as c"
+							id="{{ 'element_'  + c + '_' + question.id}}" scope="col">
 							{{element}}
 						</th>
 					</tr>
@@ -38,23 +39,32 @@
 
 				<!-- Show questions -->
 				<tbody>
-						<tr *ngFor="let option of question.options; index as i;" class="shadow-none">
-							<th scope="row">{{option}}</th>
-							<td class="matrix-options-label mb-1" *ngFor="let element of question.elements">
+					<tr *ngFor="let option of question.options; index as i;" class="shadow-none">
+						<th scope="row">{{option}}</th>
+						<td class="matrix-options-label mb-1" *ngFor="let element of question.elements; index as b">
 
-								<div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" id="customCheck2">
-									<label class="custom-control-label" for="customCheck2"></label>
+							<div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
+								<div>
+									<input type="checkbox" class="custom-control-input"
+										id="{{ 'option_'  + i + '_' + b + '_' + question.id}}"
+										(click)="checkMatrixAnswerChange(option, element)">
+									<label class="custom-control-label"
+										for="{{ 'option_'  + i + '_' + b + '_'  + question.id}}"></label>
+
 								</div>
 
-								<div *ngIf="question.type === 'RADIO'" class="custom-control custom-radio">
-									<input type="radio" id="customRadio1" name="customRadio"
-										class="custom-control-input">
-									<label class="custom-control-label" for="customRadio1"></label>
-								</div>
+							</div>
 
-							</td>
-						</tr>
+							<div *ngIf="question.type === 'RADIO'" class="custom-control custom-radio">
+									<input type="radio" id="{{ 'option_'  + i + '_' + b + '_' + question.id}}"
+										name="customRadio" class="custom-control-input"
+										(click)="radioMatrixAnswerChange(option, element)">
+									<label class="custom-control-label"
+										for="{{ 'option_'  + i + '_' + b + '_' + question.id}}"></label>
+							</div>
+
+						</td>
+					</tr>
 				</tbody>
 			</table>
 
