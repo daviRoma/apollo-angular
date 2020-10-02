@@ -6,7 +6,7 @@ import { ApolloResponse } from "./apollo-response.model";
 
 export class Answer {
   id: string;
-  questionId: string;
+  questionId: number;
   questionType: string;
   surveyId: string;
   answer: any;
@@ -27,7 +27,7 @@ export class MatrixAnswer extends Answer {
 export class AnswerRequest {
   id?: string;
   surveyId: string;
-  pageSize?: any;
+  pageSize?: number;
   order?: any;
   orderDir?: any;
   answerWrapper: AnswersWrapper;

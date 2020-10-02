@@ -32,8 +32,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
   public survey: Survey;
 
   public questionGroups: QuestionGroup[];
-  public questionGroupId: number;
   public questions: Question[];
+
+  public questionGroupId: number;
+  public questionId: number;
 
   public user: User;
 
@@ -86,7 +88,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   onQuestionChange(event): void {
-
+    const question = this.questions.find(q => q.idDB === parseInt(event.target.value, 0));
+    console.log('question', question);
   }
 
   private loadData(surveyId: number): void {
@@ -118,7 +121,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   private loadQuestionsData(): void {
-
     this.store
       .pipe(select(fromQuestion.selectEntitiesByGroup, { id: this.questionGroupId }))
       .subscribe((response: Question[]) => {

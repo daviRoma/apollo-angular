@@ -34,6 +34,7 @@ function dataTransform(questions: any[]): any {
     (question) => ({
       ...question,
       id: i++,
+      idDB: question.id,
       options: question.options ? question.options.map(op => op.value) : null,
       elements: question.elements ? question.elements.map(el => el.title) : null,
       survey: parseInt(question.survey.split('/')[question.survey.split('/').length - 1], 0),

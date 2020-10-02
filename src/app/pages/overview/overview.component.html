@@ -54,7 +54,7 @@
               <label class="form-control-label">Questions</label>
               <select id="question_select" class="custom-select" (change)="onQuestionChange($event)">
                 <option id="default_option" value="" selected="true">-- None --</option>
-                <option *ngFor="let question of questions" [value]="question.id">{{question.title}}</option>
+                <option *ngFor="let question of questions" [value]="question.idDB">{{question.title}}</option>
               </select>
             </div>
           </div>
@@ -85,9 +85,7 @@
         </div>
 
         <!-- Table -->
-        <div class="table-responsive">
-
-        </div>
+        <app-answer-list></app-answer-list>
       </div>
 
     </div>
