@@ -8,7 +8,8 @@ import { ApolloResponse } from 'src/app/models/apollo-response.model';
 import { Icon } from './icon.model';
 
 export class Question {
-  id: string;
+  id: number;
+  dbID?: number;
   title: string;
   mandatory: boolean;
   icon?: Icon;

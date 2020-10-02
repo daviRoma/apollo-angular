@@ -10,6 +10,7 @@ import { MatrixQuestionAnswerComponent } from './components/answer-components/ma
 import { ChoiceQuestionAnswerComponent } from './components/answer-components/choice-question-answer/choice-question-answer.component';
 import { QuestionGroupAnswerBoxComponent} from './components/question-group-answer-box/question-group-answer-box.component';
 import { QuestionGroupAnswerDetailComponent} from './components/question-group-answer-detail/question-group-answer-detail.component';
+import { AnswerStatsComponent } from './components/answer-stats/answer-stats.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { QuestionGroupAnswerDetailComponent} from './components/question-group-a
     ChoiceQuestionAnswerComponent,
     QuestionGroupAnswerBoxComponent,
     QuestionGroupAnswerDetailComponent,
+    AnswerStatsComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { QuestionGroupAnswerDetailComponent} from './components/question-group-a
   exports: [
     QuestionGroupAnswerBoxComponent,
     QuestionGroupAnswerDetailComponent,
+    AnswerStatsComponent
   ],
 })
 export class AnswersModule {}

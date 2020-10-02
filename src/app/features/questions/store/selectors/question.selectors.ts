@@ -54,12 +54,12 @@ export const selectEntity = createSelector(
 
 export const selectEntitiesBySurvey = createSelector(
   selectAllQuestion,
-  (entities, props) => entities.filter((elem) => elem.survey === props.id)
+  (entities, props) => entities.filter((elem) => elem.survey == props.id)
 );
 
 export const selectEntitiesByGroup = createSelector(
   selectAllQuestion,
-  (entities, props) => entities.filter((elem) => elem.questionGroup === props.id)
+  (entities, props) => entities.filter((elem) => elem.questionGroup == props.id)
 );
 
 export const selectEntitiesByType = createSelector(

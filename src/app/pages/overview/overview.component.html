@@ -10,7 +10,13 @@
             <i class="fas fa-arrow-left"></i>
           </a>
 
-          <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">{{survey.name}}</h4>
+          <div *ngIf="isLoadingSurvey; else loadSurveyComplete" class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <ng-template #loadSurveyComplete>
+            <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">{{survey.name}}</h4>
+          </ng-template>
+
         </div>
       </div>
 
@@ -18,7 +24,48 @@
   </div>
 
   <div class="row">
-    <app-survey-overview [survey]="survey"></app-survey-overview>
+
+    <div *ngIf="isLoadingGroups; else loadGroupsComplete" class="text-center my-4">
+      <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Survey overview -->
+    <ng-template #loadGroupsComplete>
+      <app-survey-overview [survey]="survey"></app-survey-overview>
+    </ng-template>
+
+    <!-- Answers Stats -->
+    <div class="col-xl-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row justify-content-between">
+
+            <div class="col-6">
+              <label class="form-control-label">Group</label>
+              <select id="group_select" class="custom-select" (change)="onQuestionGroupChange($event)">
+                <option value="" selected="true">-- None --</option>
+                <option *ngFor="let group of questionGroups" [value]="group.id">{{group.title}}</option>
+              </select>
+            </div>
+
+            <div class="col-6">
+              <label class="form-control-label">Questions</label>
+              <select id="question_select" class="custom-select" (change)="onQuestionChange($event)">
+                <option id="default_option" value="" selected="true">-- None --</option>
+                <option *ngFor="let question of questions" [value]="question.id">{{question.title}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body answers-container">
+          <app-answer-stats></app-answer-stats>
+        </div>
+
+      </div>
+    </div>
   </div>
 
   <!-- Answers list -->
