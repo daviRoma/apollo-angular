@@ -39,6 +39,6 @@ import { InvitationConfirmComponent } from './components/dialogs/invitation-conf
     QuestionGroupsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [SurveyDetailComponent],
+  exports: [SurveyDetailComponent, SurveyOverviewComponent],
 })
 export class SurveysModule {}

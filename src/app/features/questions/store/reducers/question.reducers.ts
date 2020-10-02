@@ -7,13 +7,8 @@ export function questionReducer(state = initialQuestionState, action: QuestionAc
       return { ...state, loading: true };
     }
     case QuestionActionTypes.LOAD_SUCCESS: {
-      const questions = action.payload.data.map(
-        (question) =>
-          ({
-            ...question
-          })
-        );
-      return questionAdapter.setAll(questions, {
+
+      return questionAdapter.setAll(dataTransform(action.payload.data), {
         ...state,
         error: false,
         loading: false,
@@ -32,5 +27,16 @@ export function questionReducer(state = initialQuestionState, action: QuestionAc
     default:
       return state;
   }
+}
 
+function dataTransform(questions: any[]): any {
+  return questions.map(
+    (question) => ({
+      ...question,
+      options: question.options ? question.options.map(op => op.value) : null,
+      elements: question.elements ? question.elements.map(el => el.title) : null,
+      survey: parseInt(question.survey.split('/')[question.survey.split('/').length - 1], 0),
+      questionGroup: parseInt(question.questionGroup.split('/')[question.questionGroup.split('/').length - 1], 0)
+    })
+  );
 }
