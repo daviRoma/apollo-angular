@@ -43,6 +43,7 @@ import { InputQuestionEffects } from 'src/app/features/questions/store/effects/i
 import { ChoiceQuestionEffects } from 'src/app/features/questions/store/effects/choice-question.effects';
 import { MatrixQuestionEffects } from 'src/app/features/questions/store/effects/matrix-questions.effects';
 import { AnswerEffects } from 'src/app/features/answers/store/effects/answer.effects';
+import { SurveyAnswerEffects } from 'src/app/features/answers/store/effects/survey-answer.effects';
 import { InputQuestionAnswerEffects } from 'src/app/features/answers/store/effects/input-question-answer.effects';
 import { ChoiceQuestionAnswerEffects } from 'src/app/features/answers/store/effects/choice-question-answer.effects';
 import { MatrixQuestionAnswerEffects } from 'src/app/features/answers/store/effects/matrix-questions-answer.effects';
@@ -80,6 +81,7 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
       ChoiceQuestionEffects,
       MatrixQuestionEffects,
       AnswerEffects,
+      SurveyAnswerEffects,
       ChoiceQuestionAnswerEffects,
       InputQuestionAnswerEffects,
       MatrixQuestionAnswerEffects,

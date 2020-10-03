@@ -1,5 +1,5 @@
 /**
- * Question State interface.
+ * Answer State interface.
  */
 import { Answer } from '../models/answer.model';
 import { EntityState, EntityAdapter, createEntityAdapter} from '@ngrx/entity';

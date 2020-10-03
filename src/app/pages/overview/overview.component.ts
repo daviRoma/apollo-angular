@@ -14,14 +14,14 @@ import { QuestionLoadAction } from 'src/app/features/questions/store/actions/que
 import { AppState } from 'src/app/state/app.state';
 
 import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
-import { AnswerLoadByQuestionAction } from 'src/app/features/answers/store/actions/answer.actions';
 import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
+import { SurveyAnswerLoadAction } from 'src/app/features/answers/store/actions/survey-answer.actions';
 
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
+import { SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { QuestionRequest, Question } from 'src/app/models/question.model';
 import { User } from 'src/app/models/user.model';
-import { AnswerRequest } from 'src/app/models/answer.model';
 
 
 @Component({
@@ -92,12 +92,14 @@ export class OverviewComponent implements OnInit, OnDestroy {
   onQuestionChange(event): void {
     const question = this.questions.find(q => q.idDB === parseInt(event.target.value, 0));
     const request = {
-      questionId: question.idDB,
-      questionGroupId: this.questionGroupId,
+      params: {
+        question_id: question.idDB,
+        question_type: question.questionType,
+      },
       surveyId: this.survey.id
-    } as AnswerRequest;
+    } as SurveyAnswerRequest;
 
-    this.store.dispatch(new AnswerLoadByQuestionAction(request));
+    this.store.dispatch(new SurveyAnswerLoadAction(request));
   }
 
   private loadData(surveyId: number): void {

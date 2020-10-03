@@ -27,12 +27,16 @@ export class MatrixAnswer extends Answer {
 export class AnswerRequest {
   id?: string;
   surveyId: number;
-  questionId?: number;
-  questionGroupId?: number;
-  pageSize?: number;
-  order?: any;
-  orderDir?: any;
+  params?: AnswerParams;
   answerWrapper: AnswersWrapper;
+}
+
+export class AnswerParams {
+  question_id?: number;
+  question_type?: string;
+  pag_size?: number;
+  order?: any;
+  order_dir?: any;
 }
 
 export class AnswerResponse extends ApolloResponse {}
@@ -44,8 +48,9 @@ export class MatrixPair{
 }
 
 export class AnswersWrapper{
-  email: string;
-  password: string;
+  id: number;
+  email?: string;
+  password?: string;
   totAnswers?: number;
   answers: Answer[];
 }

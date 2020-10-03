@@ -1,7 +1,7 @@
 import { AnswerState, initialAnswerState, answerAdapter } from '../../../../state/answer.state';
 import { AnswerActionsAll, AnswerActionTypes } from '../actions/answer.actions';
 
-export function questionReducer(state = initialAnswerState, action: AnswerActionsAll): AnswerState {
+export function answerReducer(state = initialAnswerState, action: AnswerActionsAll): AnswerState {
   switch (action.type) {
     case AnswerActionTypes.LOADING: {
       return { ...state, loading: true };
