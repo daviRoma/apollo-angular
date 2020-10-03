@@ -2,7 +2,7 @@
  * Answer classes.
  */
 
-import { ApolloResponse } from "./apollo-response.model";
+import { ApolloResponse } from './apollo-response.model';
 
 export class Answer {
   id: string;
@@ -26,12 +26,13 @@ export class MatrixAnswer extends Answer {
 
 export class AnswerRequest {
   id?: string;
-  surveyId: string;
+  surveyId: number;
+  questionId?: number;
+  questionGroupId?: number;
   pageSize?: number;
   order?: any;
   orderDir?: any;
   answerWrapper: AnswersWrapper;
-
 }
 
 export class AnswerResponse extends ApolloResponse {}
@@ -45,5 +46,6 @@ export class MatrixPair{
 export class AnswersWrapper{
   email: string;
   password: string;
+  totAnswers?: number;
   answers: Answer[];
 }

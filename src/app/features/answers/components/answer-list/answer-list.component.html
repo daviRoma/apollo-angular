@@ -21,7 +21,7 @@
   <table mat-table [dataSource]="dataSource" class="answers-table" matSort matSortActive="id" matSortDirection="asc"
     matSortDisableClear="true">
 
-    <!-- Id Column -->
+    <!-- Icon Column -->
     <ng-container matColumnDef="icon">
       <th mat-header-cell *matHeaderCellDef> Icon </th>
       <td mat-cell *matCellDef="let answer">
@@ -29,40 +29,43 @@
       </td>
     </ng-container>
 
-    <!-- Name column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+    <!-- ID column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
       <td mat-cell *matCellDef="let answer">
-        {{answer.id}}
+        <div class="media-body ml-3"><a [routerLink]="['/answers/survey', answer.id]" class="name mb-0 h6 text-sm">{{answer.id}}</a></div>
       </td>
     </ng-container>
 
-    <!-- Status column -->
-    <!-- <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-      <td mat-cell *matCellDef="let survey">
-        <span class="badge badge-dot mr-4">
-          <i [ngClass]="{'bg-success' : survey.active,  'bg-danger': !survey.active}"></i>
-          <span class="status"> {{ survey.active ? 'Active' : 'Inactive'}} </span>
-        </span>
+    <!-- Email column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let answer">
+        <span class="d-block text-sm text-muted mb-3">{{answer.email}}</span>
       </td>
-    </ng-container> -->
+    </ng-container>
 
-    <!-- Private column -->
-    <!-- <ng-container matColumnDef="private">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Private </th>
-      <td mat-cell *matCellDef="let survey">
-        <span class="badge badge-dot mr-4">
-          <i [ngClass]="{'bg-success' : survey.secret,  'bg-danger': !survey.secret}"></i>
-          <span class="status"> {{ survey.secret ? 'Yes' : 'No'}} </span>
-        </span>
+    <!-- Tot Answer column -->
+    <ng-container matColumnDef="totAnswers">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Answers </th>
+      <td mat-cell *matCellDef="let answer">
+        <div class="d-flex align-items-center">
+          <span class="completion mr-2">{{(answer.totAnswers / getTotalQuestions()) * 100}}%</span>
+          <div>
+            <div class="progress" style="width:100px;">
+              <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style]="width: {{(answer.totAnswers / getTotalQuestions()) * 100}}%;"></div>
+            </div>
+          </div>
+        </div>
       </td>
-    </ng-container> -->
+    </ng-container>
 
-    <!-- Creation date column -->
+    <!-- Submitted date column -->
     <!-- <ng-container matColumnDef="createDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
-      <td mat-cell *matCellDef="let survey"> {{survey.createDate}} </td>
+      <td mat-cell *matCellDef="let answer">
+        <span>{{ answer.date | date }}</span>
+      </td>
     </ng-container> -->
 
     <!-- Action Column -->

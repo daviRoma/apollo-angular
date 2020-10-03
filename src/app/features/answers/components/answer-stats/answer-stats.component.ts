@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/state/app.state';
+
+import * as fromAnswer from 'src/app/features/answers/store/selectors/answer.selectors';
 
 @Component({
   selector: 'app-answer-stats',
@@ -7,9 +12,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnswerStatsComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
+    // this.store.subscribe(select(fromAnswer.selectEntities))
   }
 
 }

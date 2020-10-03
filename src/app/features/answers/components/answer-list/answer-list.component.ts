@@ -12,7 +12,7 @@ import { AppState } from 'src/app/state/app.state';
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 import * as fromAnswer from 'src/app/features/answers/store/selectors/answer.selectors';
 
-import { Answer, AnswerRequest } from 'src/app/models/answer.model';
+import { Answer, AnswerRequest, AnswersWrapper } from 'src/app/models/answer.model';
 import { User } from 'src/app/models/user.model';
 
 import { Paths } from 'src/app/shared/config/path.conf';
@@ -34,9 +34,9 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   public detailPage = Paths.survey.detail;
   public overviewPage = Paths.survey.overview;
 
-  public dataSource: MatTableDataSource<Answer>;
-  public selectionList: Answer[];
-  public noData: Answer[] = [{} as Answer];
+  public dataSource: MatTableDataSource<AnswersWrapper>;
+  public selectionList: AnswersWrapper[];
+  public noData: AnswersWrapper[] = [{} as AnswersWrapper];
   public answerTotal: number;
   public loading: boolean;
 
@@ -68,16 +68,15 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.displayedColumns = [
       'icon',
-      'name',
-      'status',
-      'private',
-      'createDate',
+      'id',
+      'email',
+      'totAnswers',
       'action',
     ];
 
     this.store
       .pipe(select(fromAnswer.selectAllAnswer))
-      .subscribe((surveys) => this.initializeData(surveys));
+      .subscribe((answers) => this.initializeData(answers));
 
     this.store
       .pipe(select(fromAnswer.selectAnswerTotal))
@@ -118,16 +117,21 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  public retry(): void {
+  retry(): void {
     this.loadAnswers();
   }
 
+  // TO DO: Get total questions
+  getTotalQuestions(): number {
+    return 10;
+  }
 
-  private initializeData(answers: Answer[]): void {
+  private initializeData(answers: AnswersWrapper[]): void {
+    console.log('ANSWERS', answers);
     this.dataSource = new MatTableDataSource(answers.length ? answers : []);
   }
 

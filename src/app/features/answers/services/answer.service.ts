@@ -48,6 +48,18 @@ private BASE_URL = serverConfiguration.api;
   }
 
   /**
+   * Get answers by question
+   * @param request : AnswerRequest
+   */
+  public getAnswerByQuestion(request: AnswerRequest): Observable<AnswerResponse> {
+    this.logger.debug('AnswerService', 'getAnswer', 'retrieving...');
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/answer/${request.id}`;
+    const options = { headers: this.authService.setHttpSecurityHeaders() };
+
+    return this.httpClient.get<AnswerResponse>(url, options);
+  }
+
+  /**
    * Create new answer
    * @param answers : Answers list
    */

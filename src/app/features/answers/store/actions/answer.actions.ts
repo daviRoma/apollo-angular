@@ -5,6 +5,9 @@ export enum AnswerActionTypes {
   LOADING = '[Answer] Loading',
   LOAD_SUCCESS = '[Answer] Loading Success',
   LOAD_FAILURE = '[Answer] Loading Failure',
+  LOAD_BY_QUESTION = '[Answer] Load By Question',
+  LOAD_BY_QUESTION_SUCCESS = '[Answer] Load By Question Success',
+  LOAD_BY_QUESTION_FAILURE = '[Answer] Load By Question Failure'
 }
 
 export class AnswerLoadAction implements Action {
@@ -22,7 +25,25 @@ export class AnswerLoadFailAction implements Action {
   constructor(public error: any) {}
 }
 
+export class AnswerLoadByQuestionAction implements Action {
+  public readonly type = AnswerActionTypes.LOAD_BY_QUESTION;
+  constructor(public payload: AnswerRequest) {}
+}
+
+export class AnswerLoadByQuestionSuccessAction implements Action {
+  public readonly type = AnswerActionTypes.LOAD_BY_QUESTION_SUCCESS;
+  constructor(public payload: AnswerResponse) {}
+}
+
+export class AnswerLoadByQuestionFailAction implements Action {
+  public readonly type = AnswerActionTypes.LOAD_BY_QUESTION_FAILURE;
+  constructor(public error: any) {}
+}
+
 export type AnswerActionsAll =
   | AnswerLoadAction
   | AnswerLoadSuccessAction
-  | AnswerLoadFailAction;
+  | AnswerLoadFailAction
+  | AnswerLoadByQuestionAction
+  | AnswerLoadByQuestionSuccessAction
+  | AnswerLoadByQuestionFailAction;
