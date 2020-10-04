@@ -1,4 +1,4 @@
-import { AnswerParams } from './answer.model';
+import { AnswerParams, MultiAnswer, SingleAnswer, MatrixAnswer } from './answer.model';
 /**
  * User Answer Model
  *
@@ -6,6 +6,7 @@ import { AnswerParams } from './answer.model';
  */
 
 import { ApolloResponse } from './apollo-response.model';
+import { Question } from './question.model';
 
 export class SurveyAnswer {
   id: number;
@@ -17,8 +18,8 @@ export class SurveyAnswer {
 
 export class QuestionAnswer {
   id: number;
-  question: any;
-  answer: any;
+  question: Question;
+  answers: any[];
 }
 
 export class SurveyAnswerRequest {

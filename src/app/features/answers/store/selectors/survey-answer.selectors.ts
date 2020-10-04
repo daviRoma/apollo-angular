@@ -3,17 +3,17 @@ import { SurveyAnswerState, surveyAnswerAdapter } from '../../../../state/survey
 
 
 export const {
-  selectIds: _selectSurveyAnswerDataIds,
+  selectIds: _selectSurveyAnswerIds,
   selectEntities: _selectSurveyAnswerEntities,
   selectAll: _selectAllSurveyAnswer,
   selectTotal: _selectSurveyAnswerTotal,
 } = surveyAnswerAdapter.getSelectors();
 
-export const selectAnswerState = createFeatureSelector<SurveyAnswerState>('answer');
+export const selectAnswerState = createFeatureSelector<SurveyAnswerState>('surveyAnswer');
 
 export const selectSurveyAnswerIds = createSelector(
   selectAnswerState,
-  _selectSurveyAnswerDataIds
+  _selectSurveyAnswerIds
 );
 
 export const selectSurveyAnswerEntities = createSelector(
@@ -60,3 +60,22 @@ export const selectEntitiesByID = createSelector(
   selectAllSurveyAnswer,
   (entities, props) => props.ids.map((id) => entities[id])
 );
+
+export const selectAnswersByQuestion = createSelector(
+  selectAllSurveyAnswer,
+  (entities, props) => getAnswers(entities, props.id, props.type)
+);
+
+
+function getAnswers(surveyAnswers: any[], id: number, type: string): any {
+  const answers = [];
+
+  for (const surveyAnswer of surveyAnswers) {
+    for (const answer of surveyAnswer.answers) {
+      if (answer.question.questionType === type && answer.question.id == id) {
+        answers.push(answer);
+      }
+    }
+  }
+  return answers;
+}

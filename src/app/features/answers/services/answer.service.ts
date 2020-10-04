@@ -9,14 +9,14 @@ import { serverConfiguration } from 'src/app/shared/config/server.conf';
 
 import { Answer, AnswerRequest, AnswerResponse, AnswersWrapper } from 'src/app/models/answer.model';
 import Utils from 'src/app/shared/utils';
+import { SurveyAnswerRequest, SurveyAnswerRespone } from 'src/app/models/survey-answer.model';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AnswerService {
-
-private BASE_URL = serverConfiguration.api;
+  private BASE_URL = serverConfiguration.api;
 
   constructor(
     private authService: AuthService,
@@ -28,7 +28,7 @@ private BASE_URL = serverConfiguration.api;
    * Get All answers by survey
    * @param request : AnswerRequest
    */
-  public getAnswers(request: AnswerRequest): Observable<AnswerResponse> {
+  public getAnswers(request: AnswerRequest | SurveyAnswerRequest): Observable<AnswerResponse> {
     this.logger.debug('AnswerService', 'getAnswers', 'retrieving...');
     const url = `${this.BASE_URL}/surveys/${request.surveyId}/answers`;
     const options = {
@@ -57,7 +57,8 @@ private BASE_URL = serverConfiguration.api;
   public createAnswers(request: AnswerRequest): Observable<AnswerResponse> {
     this.logger.debug('AnswerService', 'createAnswers', request);
     const url = `${this.BASE_URL}/surveys/${request.surveyId}/answers/`;
-    return this.httpClient.post<AnswerResponse>(url, request.answerWrapper, { headers: this.authService.setHttpSecurityHeaders() });
+    return this.httpClient.post<AnswerResponse>(url, request.answerWrapper, {
+      headers: this.authService.setHttpSecurityHeaders(),
+    });
   }
-
 }

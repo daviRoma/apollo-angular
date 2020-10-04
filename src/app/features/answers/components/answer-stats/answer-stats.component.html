@@ -19,7 +19,18 @@
 </div>
 
 <!-- Answers container -->
-<div id="answers_container">
-  <!-- Replace content via js -->
+<div *ngIf="question != null" id="answers_container">
+
+  <ng-template *ngIf="question.questionType === 'App\\MultiQuestion'">
+    <app-app-choice-answer-stats></app-app-choice-answer-stats>
+  </ng-template>
+
+  <ng-template *ngIf="question.questionType === 'App\\InputQuestion'">
+    <app-input-answer-stats></app-input-answer-stats>
+  </ng-template>
+
+  <ng-template *ngIf="question.questionType === 'App\\MatrixQuestion'">
+    <app-matrix-answer-stats></app-matrix-answer-stats>
+  </ng-template>
 </div>
 <!-- ./Answers container -->

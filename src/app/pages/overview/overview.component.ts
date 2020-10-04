@@ -8,6 +8,7 @@ import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.sel
 import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
 import * as fromQuestion from 'src/app/features/questions/store/selectors/question.selectors';
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
+import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
 
 import { QuestionLoadAction } from 'src/app/features/questions/store/actions/question.actions';
 
@@ -18,7 +19,7 @@ import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.
 import { SurveyAnswerLoadAction } from 'src/app/features/answers/store/actions/survey-answer.actions';
 
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
-import { SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
+import { QuestionAnswer, SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { QuestionRequest, Question } from 'src/app/models/question.model';
 import { User } from 'src/app/models/user.model';
@@ -27,17 +28,17 @@ import { User } from 'src/app/models/user.model';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit, OnDestroy {
-
   public survey: Survey;
 
   public questionGroups: QuestionGroup[];
   public questions: Question[];
+  public question: Question;
+  public questionAnswers: QuestionAnswer[];
 
   public questionGroupId: number;
-  public questionId: number;
 
   public user: User;
 
@@ -46,10 +47,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   private routeParamsSubscription: Subscription;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<AppState>
-  ) {
+  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
     const self = this;
     this.isLoadingSurvey = true;
     this.isLoadingGroups = true;
@@ -71,8 +69,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
@@ -81,29 +78,30 @@ export class OverviewComponent implements OnInit, OnDestroy {
   onQuestionGroupChange(event): void {
     this.questionGroupId = event.target.value;
     // Get questions
-    this.store.dispatch(new QuestionLoadAction({
-      surveyId: this.survey.id,
-      questionGroupId: this.questionGroupId
-    } as QuestionRequest));
+    this.store.dispatch(
+      new QuestionLoadAction({
+        surveyId: this.survey.id,
+        questionGroupId: this.questionGroupId,
+      } as QuestionRequest)
+    );
 
     this.loadQuestionsData();
   }
 
   onQuestionChange(event): void {
-    const question = this.questions.find(q => q.idDB === parseInt(event.target.value, 0));
-    const request = {
-      params: {
-        question_id: question.idDB,
-        question_type: question.questionType,
-      },
-      surveyId: this.survey.id
-    } as SurveyAnswerRequest;
+    this.question = { ...this.questions.find(
+      (q) => q.idDB === parseInt(event.target.value, 0)
+    )};
 
-    this.store.dispatch(new SurveyAnswerLoadAction(request));
+    this.store.pipe(
+      select(fromSurveyAnswer.selectAnswersByQuestion, { id: this.question.idDB, type: this.question.questionType }))
+      .subscribe((response: QuestionAnswer[]) => {
+        this.questionAnswers = [ ...response ];
+    });
   }
 
   private loadData(surveyId: number): void {
-    this.store.dispatch( new QuestionGroupLoadAction(surveyId) );
+    this.store.dispatch(new QuestionGroupLoadAction(surveyId));
 
     this.store
       .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
@@ -112,17 +110,19 @@ export class OverviewComponent implements OnInit, OnDestroy {
           this.survey = survey;
           this.isLoadingSurvey = false;
           this.loadQuestionGroupsData();
-        }
-        else {
-          this.store.dispatch( new SurveyLoadAction({ user_id: this.user.id } as SurveyRequest));
+        } else {
+          this.store.dispatch(
+            new SurveyLoadAction({ user_id: this.user.id } as SurveyRequest)
+          );
         }
       });
-
   }
 
   private loadQuestionGroupsData(): void {
     this.store
-      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.survey.id }))
+      .pipe(
+        select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.survey.id })
+      )
       .subscribe((response: QuestionGroup[]) => {
         this.survey = { ...this.survey, questionGroups: response };
         this.questionGroups = response;
@@ -132,14 +132,15 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   private loadQuestionsData(): void {
     this.store
-      .pipe(select(fromQuestion.selectEntitiesByGroup, { id: this.questionGroupId }))
+      .pipe(
+        select(fromQuestion.selectEntitiesByGroup, { id: this.questionGroupId })
+      )
       .subscribe((response: Question[]) => {
         if (response) {
           console.log(response);
 
-          this.questions = [ ...response ];
+          this.questions = [...response];
         }
       });
-
   }
 }

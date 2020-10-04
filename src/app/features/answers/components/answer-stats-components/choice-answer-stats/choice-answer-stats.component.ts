@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { DataAggregation } from 'src/app/models/data-aggregation.model';
 
 @Component({
   selector: 'app-choice-answer-stats',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./choice-answer-stats.component.scss']
 })
 export class ChoiceAnswerStatsComponent implements OnInit {
+
+  @Input() data: DataAggregation;
 
   constructor() { }
 

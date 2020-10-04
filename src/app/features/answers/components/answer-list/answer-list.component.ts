@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subject, merge, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
@@ -9,14 +9,16 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
-import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
-import * as fromAnswer from 'src/app/features/answers/store/selectors/answer.selectors';
 
-import { Answer, AnswerRequest, AnswersWrapper } from 'src/app/models/answer.model';
+import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
+import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
+
+import { SurveyAnswerLoadAction } from '../../store/actions/survey-answer.actions';
+
 import { User } from 'src/app/models/user.model';
+import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
 
 import { Paths } from 'src/app/shared/config/path.conf';
-import { AnswerLoadAction } from '../../store/actions/answer.actions';
 
 
 @Component({
@@ -28,15 +30,17 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
+  @Input() surveyId: number;
+
   // MatPaginator Output
   public pageEvent: PageEvent;
 
   public detailPage = Paths.survey.detail;
   public overviewPage = Paths.survey.overview;
 
-  public dataSource: MatTableDataSource<AnswersWrapper>;
-  public selectionList: AnswersWrapper[];
-  public noData: AnswersWrapper[] = [{} as AnswersWrapper];
+  public dataSource: MatTableDataSource<SurveyAnswer>;
+  public selectionList: SurveyAnswer[];
+  public noData: SurveyAnswer[] = [{} as SurveyAnswer];
   public answerTotal: number;
   public loading: boolean;
 
@@ -75,15 +79,15 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
     ];
 
     this.store
-      .pipe(select(fromAnswer.selectAllAnswer))
-      .subscribe((answers) => this.initializeData(answers));
+      .pipe(select(fromSurveyAnswer.selectAllSurveyAnswer))
+      .subscribe((surveyAnswer) => this.initializeData(surveyAnswer));
 
     this.store
-      .pipe(select(fromAnswer.selectAnswerTotal))
+      .pipe(select(fromSurveyAnswer.selectSurveyAnswerTotal))
       .subscribe((total) => (this.answerTotal = total));
 
     this.subscription.add(
-      this.store.pipe(select(fromAnswer.selectAnswerLoading)).subscribe((loading) => {
+      this.store.pipe(select(fromSurveyAnswer.selectSurveyAnswerLoading)).subscribe((loading) => {
         if (loading) {
           this.dataSource = new MatTableDataSource(this.noData);
         }
@@ -91,10 +95,10 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
-    this.error$ = this.store.pipe(select(fromAnswer.selectAnswerError));
+    this.error$ = this.store.pipe(select(fromSurveyAnswer.selectSurveyAnswerError));
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     let sort$ = this.sort.sortChange.pipe(
       tap(() => (this.paginator.pageIndex = 0))
     ); // we should reset page index
@@ -130,16 +134,18 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
     return 10;
   }
 
-  private initializeData(answers: AnswersWrapper[]): void {
+  private initializeData(answers: SurveyAnswer[]): void {
     console.log('ANSWERS', answers);
     this.dataSource = new MatTableDataSource(answers.length ? answers : []);
   }
 
   private loadAnswers(): void {
-    this.store.dispatch(
-      new AnswerLoadAction({
-        pageSize: this.paginator ? this.paginator.pageSize : 5
-      } as AnswerRequest)
-    );
+    this.store.dispatch( new SurveyAnswerLoadAction({
+      params: {
+        pag_size: this.paginator ? this.paginator.pageSize : 5
+      },
+      surveyId: this.surveyId
+    } as SurveyAnswerRequest));
+
   }
 }

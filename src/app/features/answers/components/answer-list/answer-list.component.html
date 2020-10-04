@@ -53,7 +53,7 @@
           <span class="completion mr-2">{{(answer.totAnswers / getTotalQuestions()) * 100}}%</span>
           <div>
             <div class="progress" style="width:100px;">
-              <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style]="width: {{(answer.totAnswers / getTotalQuestions()) * 100}}%;"></div>
+              <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style]="{'width': (answer.totAnswers / getTotalQuestions()) * 100 }"></div>
             </div>
           </div>
         </div>

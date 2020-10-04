@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
 
 import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
-import { SurveyAnswer } from 'src/app/models/survey-answer.model';
+
+import { QuestionAnswer, SurveyAnswer } from 'src/app/models/survey-answer.model';
+import { ChoiceQuestion, InputQuestion, MatrixQuestion } from 'src/app/models/question.model';
+import { DataAggregation } from 'src/app/models/data-aggregation.model';
 
 @Component({
   selector: 'app-answer-stats',
@@ -13,17 +16,116 @@ import { SurveyAnswer } from 'src/app/models/survey-answer.model';
 })
 export class AnswerStatsComponent implements OnInit {
 
-  public surveyAnswer: SurveyAnswer;
+  @Input() surveyId: number;
+  @Input() question: InputQuestion | ChoiceQuestion | MatrixQuestion;
+
+  public dataAggregation: DataAggregation;
+
+  private _questionAnswers: QuestionAnswer[];
+
+  @Input() set questionAnswers(questionAnswers: QuestionAnswer[]) {
+    this._questionAnswers = questionAnswers;
+    this.aggregateData();
+  }
+
+  get questionAnswers(): QuestionAnswer[] {
+    return this._questionAnswers;
+  }
+
 
   constructor(private store: Store<AppState>) { }
 
-  ngOnInit(): void {
-    this.store.pipe(
-      select(fromSurveyAnswer.selectEntityBySurvey))
-      .subscribe((response: SurveyAnswer) => {
-        console.log('AnswerStatsComponent', 'surveyAnswer', response);
-        this.surveyAnswer = { ...response};
+  ngOnInit(): void { }
+
+  aggregateData(): void {
+    switch (this.question.questionType) {
+      case 'App\\MultiQuestion':
+        this.aggregateChoiceAnswers();
+        break;
+
+      case 'App\\InputQuestion':
+        this.aggregateInputAnswers();
+        break;
+
+      case 'App\\MatrixQuestion':
+        this.aggregateMatrixAnswer();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  aggregateChoiceAnswers(): void {
+    const choiceQuestion = { ...this.question } as ChoiceQuestion;
+    this.dataAggregation = { options: [], other: '', total: 0 } as DataAggregation;
+
+    choiceQuestion.options.forEach(elem => {
+      this.dataAggregation.options.push({ label: elem, value: 0});
+    });
+
+    // Fill aggregation element
+    let other = 0;
+    for (const answer of this._questionAnswers) {
+        answer.answers.forEach(elem => {
+            const row = this.dataAggregation.options.find(item => item.label === elem);
+            if (row !== undefined) {
+                row.value += 1;
+            } else {
+                other += 1;
+                this.dataAggregation.other += elem + ',';
+            }
+            this.dataAggregation.total += 1;
+        });
+    }
+
+    if (choiceQuestion.other) this.dataAggregation.options.push({ label: 'Other', value: other });
+    this.dataAggregation.other = this.dataAggregation.other.length ? this.dataAggregation.other.slice(0, -1) : null;
+
+  }
+
+  aggregateInputAnswers(): void {
+    this.dataAggregation = { options: [], total: 0 } as DataAggregation;
+
+    // Fill aggregation element
+    for (let answer of this._questionAnswers) {
+        if (this.dataAggregation.options.length) {
+            let row = this.dataAggregation.options.find(item => item.label === answer.answers[0]);
+            if (row !== undefined) {
+                row.value += 1;
+            } else {
+                this.dataAggregation.options.push({ label: answer.answers[0], value: 1 });
+            }
+        } else {
+            this.dataAggregation.options.push({ label: answer.answers[0], value: 1 });
+        }
+
+        this.dataAggregation.total += 1;
+    }
+  }
+
+  aggregateMatrixAnswer(): void {
+    const matrixQuestion = { ...this.question } as MatrixQuestion;
+    this.dataAggregation = new DataAggregation();
+
+    matrixQuestion.options.forEach(elem => {
+      this.dataAggregation.elements.push({
+        label: elem,
+        values: matrixQuestion.elements.map(val => ({title: val, value: 0}))
       });
+    });
+
+    // Fill aggregation element
+    for (let answer of this._questionAnswers) {
+      for (let data of answer.answers) {
+        this.dataAggregation.elements.forEach(elem => {
+          elem.values.forEach(val => {
+            if (data.element === val.title) val.value += 1;
+            this.dataAggregation.total += 1;
+          });
+        });
+      }
+    }
   }
 
 }
