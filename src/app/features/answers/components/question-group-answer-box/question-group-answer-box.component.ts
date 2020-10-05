@@ -57,11 +57,23 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
   submitSurveyAnswers(): void {
 
+
+    let array = this.answerWrapper.answers;
+
+    let myJsonString = JSON.stringify(array);
+    
+    console.log(myJsonString);
+
+
+    let li = JSON.parse(myJsonString);
+
+    console.log(li);
+
     console.log('SumbitSurveyAnswer', 'OnSubmit', this.answerWrapper);
     const payload = {
       email: this.answerWrapper.email,
       password: this.answerWrapper.password,
-      answers: this.answerWrapper.answers
+      answers: li
     };
     this.store.dispatch(new SubmitAnswers(payload));
 

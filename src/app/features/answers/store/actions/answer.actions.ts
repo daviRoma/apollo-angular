@@ -36,8 +36,4 @@ export class SubmitAnswerFailureAction implements Action {
 
 
 export type AnswerActionsAll =
-AnswerLoadAction
-AnswerLoadSuccessAction
-AnswerLoadFailAction
-SubmitAnswers
-SubmitAnswerFailureAction;
+  AnswerLoadAction | AnswerLoadSuccessAction | AnswerLoadFailAction | SubmitAnswers | SubmitAnswerFailureAction;

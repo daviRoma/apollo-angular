@@ -7,13 +7,13 @@ export function answerReducer(state = initialAnswerState, action: AnswerActionsA
       return { ...state, loading: true };
     }
     case AnswerActionTypes.LOAD_SUCCESS: {
-      const questions = action.payload.data.map(
+      const answers = action.payload.data.map(
         (answer) =>
           ({
             ...answer
           })
         );
-      return answerAdapter.setAll(questions, {
+      return answerAdapter.setAll(answers, {
         ...state,
         error: false,
         loading: false,

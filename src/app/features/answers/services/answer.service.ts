@@ -56,7 +56,7 @@ export class AnswerService {
    */
   public createAnswers(request: AnswerRequest): Observable<AnswerResponse> {
     this.logger.debug('AnswerService', 'createAnswers', request);
-    const url = `${this.BASE_URL}/surveys/${request.surveyId}/answers/`;
+    const url = `${this.BASE_URL}/surveys/1/answers/`;
     return this.httpClient.post<AnswerResponse>(url, request.answerWrapper, {
       headers: this.authService.setHttpSecurityHeaders(),
     });
