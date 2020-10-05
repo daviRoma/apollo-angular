@@ -29,7 +29,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   private matrixCheckCompleted = false;
   private matrixRadioCompleted = false;
 
-  private surveyEnd = false;
+  public surveyEnd = false;
 
   constructor(private store: Store<AppState>
   ) { }
@@ -61,7 +61,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     let array = this.answerWrapper.answers;
 
     let myJsonString = JSON.stringify(array);
-    
+
     console.log(myJsonString);
 
 
@@ -71,11 +71,11 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
     console.log('SumbitSurveyAnswer', 'OnSubmit', this.answerWrapper);
     const payload = {
-      email: this.answerWrapper.email,
-      password: this.answerWrapper.password,
+      // email: this.answerWrapper.email,
+      // password: this.answerWrapper.password,
       answers: li
     };
-    this.store.dispatch(new SubmitAnswers(payload));
+    this.store.dispatch(new SubmitAnswers(JSON.stringify(payload)));
 
   }
 
@@ -101,17 +101,18 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     console.log("event", event);
 
     const notEmptyAnswer = event.answers.filter(
-      (item) => item.answer.length > 0
+      (item) => (item.answer && item.answer.length > 0) || (item.answerPair && item.answerPair.length > 0)
     );
     console.log("Not Empty Answer", notEmptyAnswer);
 
     this.mandatoryCompleted = this.areMandatoryCompleted(notEmptyAnswer);
 
+    this.isMatrixCheckAnswerCompleted(notEmptyAnswer);
+    this.isMatrixRadioAnswerCompleted(notEmptyAnswer);
+
     if (this.mandatoryCompleted) {
 
-      this.isMatrixCheckAnswerCompleted(notEmptyAnswer);
-      this.isMatrixRadioAnswerCompleted(notEmptyAnswer);
-
+     
       if (this.matrixCheckCompleted && this.matrixRadioCompleted) {
 
         this.answerWrapper.answers = notEmptyAnswer;
@@ -189,7 +190,8 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
         );
 
         if (result) {
-          if (result.answer.length !== questionNumber) {
+
+          if (result.answerPair.length !== questionNumber) {
             this.matrixRadioCompleted = false;
           } else {
             this.matrixRadioCompleted = true;

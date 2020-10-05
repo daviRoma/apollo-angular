@@ -21,7 +21,7 @@ export class MultiAnswer extends Answer {
 }
 
 export class MatrixAnswer extends Answer {
-  answer: MatrixPair[];
+  answerPair: MatrixPair[];
 }
 
 export class AnswerRequest {

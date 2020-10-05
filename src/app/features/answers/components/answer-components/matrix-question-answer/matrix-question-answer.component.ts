@@ -20,12 +20,14 @@ export class MatrixQuestionAnswerComponent implements OnInit {
     this.matrixAnswer = new MatrixAnswer();
     this.matrixAnswer.questionId = this.question.id;
     this.matrixAnswer.questionType = this.question.questionType;
-    this.matrixAnswer.answer = [];
+    this.matrixAnswer.answerPair = [];
+
+    console.log(this.question)
   }
 
   radioMatrixAnswerChange(element, answer): void {
 
-    const result = this.matrixAnswer.answer.find(
+    const result = this.matrixAnswer.answerPair.find(
       (item) => item.element == element
     );
 
@@ -35,10 +37,9 @@ export class MatrixQuestionAnswerComponent implements OnInit {
       let pair = new MatrixPair();
       pair.answer = [];
       pair.element = element;
-      pair.answer.push(element);
-      this.matrixAnswer.answer.push(pair);
+      pair.answer.push(answer);
+      this.matrixAnswer.answerPair.push(pair);
     }
-
     this.optionSelected.emit(this.matrixAnswer);
   }
 
@@ -51,7 +52,7 @@ export class MatrixQuestionAnswerComponent implements OnInit {
     pair.element = element;
     pair.answer.push(answer);
 
-    const result = this.matrixAnswer.answer.find(
+    const result = this.matrixAnswer.answerPair.find(
       (item) => item.element == element
     );
 
@@ -59,7 +60,7 @@ export class MatrixQuestionAnswerComponent implements OnInit {
       if (result.answer.includes(answer)) {
         result.answer = result.answer.filter((obj) => obj !== answer);
         if (result.answer.length === 0) {
-          this.matrixAnswer.answer = this.matrixAnswer.answer.filter(
+          this.matrixAnswer.answerPair = this.matrixAnswer.answerPair.filter(
             (obj) => obj.element != element
           );
         }
@@ -67,8 +68,11 @@ export class MatrixQuestionAnswerComponent implements OnInit {
         result.answer.push(answer);
       }
     } else {
-      this.matrixAnswer.answer.push(pair);
+      
+      this.matrixAnswer.answerPair.push(pair);
     }
+
+    console.log("matrix Pair", this.matrixAnswer)
 
     this.optionSelected.emit(this.matrixAnswer);
   }

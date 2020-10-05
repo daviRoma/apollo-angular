@@ -39,10 +39,7 @@ export class AnswerEffects {
     map((action) => action.payload),
     switchMap((request: AnswerRequest) =>
       this.answerService.createAnswers(request).pipe(
-        map((response: AnswerResponse) => new SubmitAnswers(
-          parseInt(response.self.split('/')[response.self.split('/').length - 1], 0)
-        )
-        ),
+        map((response: AnswerResponse) => new SubmitAnswers(response)),
         catchError((error) => of(new SubmitAnswerFailureAction(error)))
       )
     )
