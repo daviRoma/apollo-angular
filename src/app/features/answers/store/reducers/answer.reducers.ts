@@ -1,7 +1,7 @@
 import { AnswerState, initialAnswerState, answerAdapter } from '../../../../state/answer.state';
 import { AnswerActionsAll, AnswerActionTypes } from '../actions/answer.actions';
 
-export function questionReducer(state = initialAnswerState, action: AnswerActionsAll): AnswerState {
+export function answerReducer(state = initialAnswerState, action: AnswerActionsAll): AnswerState {
   switch (action.type) {
     case AnswerActionTypes.LOADING: {
       return { ...state, loading: true };
@@ -20,13 +20,16 @@ export function questionReducer(state = initialAnswerState, action: AnswerAction
         total: action.payload.data.length,
       });
     }
-    case AnswerActionTypes.LOAD_FAILURE: {
+    case AnswerActionTypes.SUBMIT_FAILURE: {
       return answerAdapter.removeAll({
         ...state,
         error: true,
         loading: false,
         total: 0,
       });
+    }
+    case AnswerActionTypes.SUBMIT_ANSWER: {
+      return { ...state, loading: true };
     }
 
     default:

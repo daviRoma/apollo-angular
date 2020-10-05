@@ -1,10 +1,13 @@
 import { not } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { AnswersWrapper } from 'src/app/models/answer.model';
 
 import { QuestionGroup } from 'src/app/models/question-group.model';
-import { Question } from 'src/app/models/question.model';
+import { MatrixQuestion, Question } from 'src/app/models/question.model';
+import { AppState } from 'src/app/state/app.state';
+import { SubmitAnswers } from '../../store/actions/answer.actions';
 
 @Component({
   selector: 'app-question-group-answer-box',
@@ -17,12 +20,19 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   public group: QuestionGroup;
   private index = 0;
 
-  private mandatoryCompleted= true;
-  private mandatoryQuestion: Question[];
-
   private answerWrapper: AnswersWrapper;
 
-  constructor() {}
+  private mandatoryCompleted = false;
+  private mandatoryQuestion: Question[];
+
+  private canContinue = false;
+  private matrixCheckCompleted = false;
+  private matrixRadioCompleted = false;
+
+  private surveyEnd = false;
+
+  constructor(private store: Store<AppState>
+  ) { }
 
   ngOnInit(): void {
     console.log('Groups', this.questionGroups);
@@ -35,21 +45,33 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   onNextGroup(): void {
-    if (
-      this.index < this.questionGroups.length - 1 &&
-      this.mandatoryCompleted
-    ) {
+    if (this.index < this.questionGroups.length - 1 && this.canContinue) {
       this.index++;
       this.group = this.questionGroups[this.index];
+
+      if (this.index === this.questionGroups.length - 1) {
+        this.surveyEnd = true;
+      }
     }
   }
 
-  onPreviousGroup(): void {
-    if (this.index > 0) {
-      this.index--;
-      this.group = this.questionGroups[this.index];
-    }
+  submitSurveyAnswers(): void {
+
+    console.log('SumbitSurveyAnswer', 'OnSubmit', this.answerWrapper);
+    const payload = {
+      email: this.answerWrapper.email,
+      password: this.answerWrapper.password,
+      answers: this.answerWrapper.answers
+    };
+    this.store.dispatch(new SubmitAnswers(payload));
+
   }
+
+  // onPreviousGroup(): void {
+  //   if (this.index > 0) {
+  //     this.index--;
+  //     this.group = this.questionGroups[this.index]; }
+  // }
 
   updateMandatoryQuestion(): void {
     this.mandatoryQuestion = this.questionGroups[this.index].questions.filter(
@@ -62,36 +84,109 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     }
   }
 
-  prova(event): void {
-    let notEmptyAnswer = event.answers.filter(
-      (item) => item.answer !== '' || item.answer != [] || item.answer.lenght != 0
+  updateWrapper(event): void {
+
+    console.log("event", event);
+
+    const notEmptyAnswer = event.answers.filter(
+      (item) => item.answer.length > 0
     );
+    console.log("Not Empty Answer", notEmptyAnswer);
 
-    this.mandatoryCompleted = true;
-
-    if (this.mandatoryQuestion.length !== 0) {
-      console.log("sono qui", this.mandatoryCompleted);
-
-      for (let i = 0; i < this.mandatoryQuestion.length && this.mandatoryCompleted; i++) {
-        if (!notEmptyAnswer.find(
-            (obj) =>
-              obj.questionId === this.mandatoryQuestion[i].id &&
-              obj.questionType === this.mandatoryQuestion[i].questionType
-          )
-        ) {
-          console.log('mandatory not finded', this.mandatoryQuestion[i]);
-          this.mandatoryCompleted = false;
-        } else console.log("mandatory finded")
-
-      }
-    } else {
-      this.answerWrapper.answers.push(notEmptyAnswer);
-    }
+    this.mandatoryCompleted = this.areMandatoryCompleted(notEmptyAnswer);
 
     if (this.mandatoryCompleted) {
-      this.answerWrapper.answers[this.index] = notEmptyAnswer;
-    }
 
-    console.log(this.answerWrapper);
+      this.isMatrixCheckAnswerCompleted(notEmptyAnswer);
+      this.isMatrixRadioAnswerCompleted(notEmptyAnswer);
+
+      if (this.matrixCheckCompleted && this.matrixRadioCompleted) {
+
+        this.answerWrapper.answers = notEmptyAnswer;
+        console.log("Wrapper Updated", this.answerWrapper);
+
+        this.canContinue = true;
+
+      } else {
+        console.log("MatrixCheck or MatrixRadio not completed", this.matrixCheckCompleted, this.matrixRadioCompleted);
+
+        this.canContinue = false;
+      }
+
+    } else console.log("Mandatory completed", this.mandatoryCompleted);
+
   }
+
+
+
+  areMandatoryCompleted(answerList): boolean {
+
+    if (this.mandatoryQuestion.length !== 0) {
+      for (let i = 0; i < this.mandatoryQuestion.length && this.mandatoryCompleted; i++) {
+        if (!answerList.find(
+          (obj) => obj.questionId === this.mandatoryQuestion[i].id && obj.questionType === this.mandatoryQuestion[i].questionType)) {
+          return false;
+        }
+      }
+      return true;
+    } else return true;
+  }
+
+
+  isMatrixCheckAnswerCompleted(answerList): void {
+
+    let multiCheckQuestion: MatrixQuestion[] = this.group.questions.filter(
+      (item) => item.questionType === 'App\\MatrixQuestion' && item.type == 'CHECK' && item.mandatory === true) as MatrixQuestion[];
+    console.log("MatrixCheckQuestion", multiCheckQuestion);
+
+    if (multiCheckQuestion.length != 0) {
+
+      multiCheckQuestion.forEach((item) => {
+        let questionNumber = item.options.length;
+        let result = answerList.find(
+          (obj) => obj.questionId === item.id && obj.questionType === item.questionType
+        );
+
+        if (result) {
+          if (result.answer.length !== questionNumber) {
+            this.matrixCheckCompleted = false;
+          } else {
+            this.matrixCheckCompleted = true;
+          }
+        }
+      });
+
+    } else this.matrixCheckCompleted = true;
+
+  }
+
+
+  isMatrixRadioAnswerCompleted(answerList): void {
+
+    let multiRadioQuestion: MatrixQuestion[] = this.group.questions.filter(
+      (item) => item.questionType === 'App\\MatrixQuestion' && item.type == 'RADIO' && item.mandatory == true
+    ) as MatrixQuestion[];
+
+    if (multiRadioQuestion.length != 0) {
+
+      multiRadioQuestion.forEach((item) => {
+        let questionNumber = item.options.length;
+
+        let result = answerList.find(
+          (obj) => obj.questionId === item.id && obj.questionType === item.questionType
+        );
+
+        if (result) {
+          if (result.answer.length !== questionNumber) {
+            this.matrixRadioCompleted = false;
+          } else {
+            this.matrixRadioCompleted = true;
+          }
+        }
+      });
+
+    }
+    else this.matrixRadioCompleted = true;
+  };
+
 }

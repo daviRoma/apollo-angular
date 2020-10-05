@@ -12,13 +12,14 @@ import {
   AnswerLoadAction,
   AnswerLoadSuccessAction,
   AnswerLoadFailAction,
+  SubmitAnswers, SubmitAnswerFailureAction
 } from '../actions/answer.actions';
 
-import { AnswerRequest } from '../../../../models/answer.model';
+import { Answer, AnswerRequest, AnswerResponse, AnswersWrapper } from '../../../../models/answer.model';
 
 @Injectable()
 export class AnswerEffects {
-  constructor(private actions: Actions, private answerService: AnswerService) {}
+  constructor(private actions: Actions, private answerService: AnswerService) { }
 
   @Effect()
   public loadAnswers = this.actions.pipe(
@@ -28,6 +29,21 @@ export class AnswerEffects {
       this.answerService.getAnswers(params).pipe(
         map((response: any) => new AnswerLoadSuccessAction(response)),
         catchError((error) => of(new AnswerLoadFailAction(error)))
+      )
+    )
+  );
+
+  @Effect()
+  public submitSurveyAnswer = this.actions.pipe(
+    ofType<SubmitAnswers>(AnswerActionTypes.SUBMIT_ANSWER),
+    map((action) => action.payload),
+    switchMap((request: AnswerRequest) =>
+      this.answerService.createAnswers(request).pipe(
+        map((response: AnswerResponse) => new SubmitAnswers(
+          parseInt(response.self.split('/')[response.self.split('/').length - 1], 0)
+        )
+        ),
+        catchError((error) => of(new SubmitAnswerFailureAction(error)))
       )
     )
   );
