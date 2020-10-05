@@ -4,10 +4,10 @@ import { Answer } from '../../../../models/answer.model';
 import { AppState } from '../../../../state/app.state';
 
 export const {
-  selectIds: _selectQuestionDataIds,
-  selectEntities: _selectQuestionEntities,
-  selectAll: _selectAllQuestion,
-  selectTotal: _selectQuestionTotal,
+  selectIds: _selectAnswerDataIds,
+  selectEntities: _selectAnswerEntities,
+  selectAll: _selectAllAnswer,
+  selectTotal: _selectAnswerTotal,
 } = answerAdapter.getSelectors();
 
 export const selectAnswerState = createFeatureSelector<AnswerState>('answer');

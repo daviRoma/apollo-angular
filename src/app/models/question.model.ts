@@ -2,13 +2,12 @@
  * Question classes.
  */
 
-import { QuestionGroup } from 'src/app/models/question-group.model';
-import { Survey } from 'src/app/models/survey.model';
 import { ApolloResponse } from 'src/app/models/apollo-response.model';
 import { Icon } from './icon.model';
 
 export class Question {
-  id: string;
+  id: number;
+  idDB?: number;
   title: string;
   mandatory: boolean;
   icon?: Icon;

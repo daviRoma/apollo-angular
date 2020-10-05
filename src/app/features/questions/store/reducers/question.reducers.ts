@@ -7,7 +7,6 @@ export function questionReducer(state = initialQuestionState, action: QuestionAc
       return { ...state, loading: true };
     }
     case QuestionActionTypes.LOAD_SUCCESS: {
-
       return questionAdapter.setAll(dataTransform(action.payload.data), {
         ...state,
         error: false,
@@ -30,9 +29,12 @@ export function questionReducer(state = initialQuestionState, action: QuestionAc
 }
 
 function dataTransform(questions: any[]): any {
+  let i = 0;
   return questions.map(
     (question) => ({
       ...question,
+      id: i++,
+      idDB: question.id,
       options: question.options ? question.options.map(op => op.value) : null,
       elements: question.elements ? question.elements.map(el => el.title) : null,
       survey: parseInt(question.survey.split('/')[question.survey.split('/').length - 1], 0),

@@ -1,0 +1,16 @@
+<!-- INPUT ANSWER STATS -->
+<div class="card mb-3 border shadow-none">
+  <div class="px-3 py-3">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        <span *ngIf="type === 'TEXT' || type === 'TEXTAREA'"> <i class="fas fa-align-left fa-2x"></i> </span>
+        <span *ngIf="type === 'NUMBER'"> <i class="fas fa-calculator fa-2x"></i> </span>
+        <span *ngIf="type === 'DATE'"> <i class="fas fa-calendar-alt fa-2x"></i> </span>
+      </div>
+      <div class="col ml-n2 pl-4">
+        <p class="card-text small text-muted">  label  </p>
+      </div>
+      <div class="col-auto"><span class="text-muted">  value  </span></div>
+    </div>
+  </div>
+</div>

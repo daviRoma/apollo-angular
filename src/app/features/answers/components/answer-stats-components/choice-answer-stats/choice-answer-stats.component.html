@@ -1,0 +1,18 @@
+<!-- CHOICE ANSWER STATS -->
+<ng-template *ngFor="let item of data">
+  <div class="row mb-2">
+    <div class="col-10">
+      <div class="progress-wrapper">
+        <span data-toggle="tooltip" class="progress-label text-muted text-sm"></span>
+        <div class="progress mt-1 mb-2" style="height: 5px;">
+          <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+            [style]="{'width': (item.value / data.total) * 100 }"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 align-self-end text-right">
+      <span data-toggle="tooltip" title="{{item.label}}" class="h6 mb-0"> {{(item.value / data.total) * 100}} %</span>
+    </div>
+  </div>
+</ng-template>
+
