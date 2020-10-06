@@ -13,7 +13,8 @@ export function surveyAnswerReducer(state = initialSurveyAnswerState, action: Su
         ...state,
         error: false,
         loading: false,
-        total: action.payload.data.length,
+        total: action.payload.meta ? action.payload.meta.total : action.payload.data.length,
+
       });
     }
 
@@ -36,6 +37,7 @@ function dataTransform(surveyAnswers: any[]): any {
   return surveyAnswers.map(
     (surveyAnswer) => ({
       ...surveyAnswer,
+      survey: parseInt(surveyAnswer.survey.split('/')[surveyAnswer.survey.split('/').length - 1], 0),
       answers: surveyAnswer.answers.map(
         answer => answerTransform(answer))
     })
@@ -59,7 +61,7 @@ function answerTransform(answer: any): any {
 
     case 'input_questions':
       resp.question.questionType = 'App\\InputQuestion';
-      resp.answers = answer.answer;
+      resp.answers = [answer.answer];
       break;
 
     case 'multi_questions':

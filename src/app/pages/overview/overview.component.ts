@@ -90,7 +90,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   onQuestionChange(event): void {
     this.question = { ...this.questions.find(
-      (q) => q.idDB === parseInt(event.target.value, 0)
+      q => (q.id + '-' + q.idDB === event.target.value)
     )};
 
     this.store.pipe(

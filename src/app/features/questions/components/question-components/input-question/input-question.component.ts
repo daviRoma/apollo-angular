@@ -33,23 +33,24 @@ export class InputQuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.editDialogConf = { ...QuestionDialogConf };
+    this.deleteDilogConf = { ...DeleteDialogConf };
+  }
+
+  editQuestion(): void {
     this.editDialogConf.data.question = { ...this.question };
     this.editDialogConf.data.type = this.question.type;
     this.editDialogConf.data.dialogConfig.title = 'Edit Input Question';
     this.editDialogConf.data.dialogConfig.operation = 'edit';
 
-    this.deleteDilogConf = { ...DeleteDialogConf };
-    this.deleteDilogConf.data.item = { ...this.question };
-    this.deleteDilogConf.data.dialogConfig.title = 'Delete Question';
-    this.deleteDilogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
-  }
-
-  editQuestion(): void {
     const dialogRef = this.questionDialog.open(InputQuestionDialogComponent, this.editDialogConf);
     this.reload(dialogRef);
   }
 
   deleteQuestion(): void {
+    this.deleteDilogConf.data.item = { ...this.question };
+    this.deleteDilogConf.data.dialogConfig.title = 'Delete Question';
+    this.deleteDilogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
+
     const dialogRef = this.questionDialog.open(DeleteQuestionDialogComponent, this.deleteDilogConf);
     this.reload(dialogRef);
   }
@@ -57,7 +58,7 @@ export class InputQuestionComponent implements OnInit {
   private reload(dialogRef: any): void {
     dialogRef.afterClosed().subscribe(
       response => {
-        if (response.result === 'close_after_delete') {
+        if (response.result === 'close_after_delete' || response.result === 'close_after_submit') {
           this.store.dispatch(new QuestionGroupLoadOneAction(
             {
               questionGroup: { id: this.question.questionGroup } as QuestionGroup,

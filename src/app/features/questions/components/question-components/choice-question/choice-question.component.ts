@@ -57,7 +57,7 @@ export class ChoiceQuestionComponent implements OnInit {
   private reload(dialogRef: any): void {
     dialogRef.afterClosed().subscribe(
       response => {
-        if (response.result === 'close_after_delete') {
+        if (response.result === 'close_after_delete' || response.result === 'close_after_submit') {
           this.store.dispatch(new QuestionGroupLoadOneAction(
             {
               questionGroup: { id: this.question.questionGroup } as QuestionGroup,

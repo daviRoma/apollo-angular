@@ -12,6 +12,7 @@ import { AppState } from 'src/app/state/app.state';
 
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
+import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
 
 import { SurveyAnswerLoadAction } from '../../store/actions/survey-answer.actions';
 
@@ -19,6 +20,7 @@ import { User } from 'src/app/models/user.model';
 import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
 
 import { Paths } from 'src/app/shared/config/path.conf';
+import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
 
 
 @Component({
@@ -60,6 +62,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private store: Store<AppState>) {
     this.pageSize = 5;
+    this.pageSizeOptions = [5, 10, 20];
   }
 
   ngOnInit(): void {
@@ -100,14 +103,14 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     let sort$ = this.sort.sortChange.pipe(
-      tap(() => (this.paginator.pageIndex = 0))
+      tap(() => (this.paginator.pageIndex = 1))
     ); // we should reset page index
 
     let filter$ = this.filterSubject.pipe(
       debounceTime(150),
       distinctUntilChanged(),
       tap((value: string) => {
-        this.paginator.pageIndex = 0; // we should reset page index
+        this.paginator.pageIndex = 1; // we should reset page index
         this.filter = value;
       })
     );
@@ -131,18 +134,29 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // TO DO: Get total questions
   getTotalQuestions(): number {
+
     return 10;
+  }
+
+  deleteSurveyAnswer(answer: SurveyAnswer): void {
+
   }
 
   private initializeData(answers: SurveyAnswer[]): void {
     console.log('ANSWERS', answers);
+
+    if (answers.length) {
+      this.store.dispatch(new QuestionGroupLoadAction(answers[0].survey));
+    }
+
     this.dataSource = new MatTableDataSource(answers.length ? answers : []);
   }
 
   private loadAnswers(): void {
     this.store.dispatch( new SurveyAnswerLoadAction({
       params: {
-        pag_size: this.paginator ? this.paginator.pageSize : 5
+        page: this.paginator ? this.paginator.pageIndex : 1,
+        pag_size: this.paginator ? this.paginator.pageSize : 5,
       },
       surveyId: this.surveyId
     } as SurveyAnswerRequest));

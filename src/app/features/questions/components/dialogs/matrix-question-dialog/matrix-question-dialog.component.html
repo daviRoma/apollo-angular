@@ -32,7 +32,7 @@
               <!-- Accordion card 1 -->
               <div class="card">
                   <div class="card-header no-border force-padding-10" id="heading-1-1" data-toggle="collapse" role="button" data-target="#collapse-theme" aria-expanded="false" aria-controls="collapse-1-1">
-                      <h6 class="mb-0"><i class="far fa-file-pdf mr-3"></i>Opzioni</h6>
+                      <h6 class="mb-0"><i class="fas fa-ellipsis-h-alt mr-3"></i>Colonne</h6>
                   </div>
                   <div id="collapse-theme" class="collapse" aria-labelledby="heading-1-1" data-parent="#accordion">
                       <div class="card-body">
@@ -43,7 +43,7 @@
                                   <div id="options_container">
                                     <div *ngFor="let option of matrixQuestion.options; index as i" class="row form-group">
                                       <div name="input_container" class="col-11">
-                                        <input class="form-control choice-input" type="text" placeholder="Inserisci opzione" [value]="option" (change)="onOptionChange($event, i)" required>
+                                        <input class="form-control choice-input" type="text" placeholder="Inserisci opzione" [value]="option.value" (change)="onOptionChange($event, i)" required>
                                       </div>
                                       <!-- Delete Button -->
                                       <div name="delete_container" class="col-1 align-self-center">
@@ -53,7 +53,7 @@
                                     <!-- Option error -->
                                     <div class="row form-group">
                                       <div *ngIf="isMinOptionsLengthError" id="option_length_error" class="col-10 px-3 align-self-center">
-                                        <span class="text-danger text-xs">*Inserire almeno 2 opzioni valide</span>
+                                        <span class="text-danger text-xs">*Inserire almeno 2 colonne valide</span>
                                       </div>
                                     </div>
                                   </div>
@@ -62,7 +62,7 @@
                                   <div class="row justify-content-center align-items-center">
                                       <button type="button" class="btn btn-sm btn-soft-primary btn-icon rounded-pill" (click)="addOption()">
                                           <span class="btn-inner--icon"><i class="far fa-plus"></i></span>
-                                          <span class="btn-inner--text">Aggiungi</span>
+                                          <span class="btn-inner--text">Aggiungi colonna</span>
                                       </button>
                                   </div>
 
@@ -76,7 +76,7 @@
               <!-- Accordion card 2 -->
               <div class="card shadow-none">
                 <div class="card-header no-border force-padding-10 shadow-none" id="heading-1-2" data-toggle="collapse" role="button" data-target="#collapse-range" aria-expanded="false" aria-controls="collapse-1-2">
-                  <h6 class="mb-0"><i class="far fa-lock mr-3"></i>Valori</h6>
+                  <h6 class="mb-0"><i class="fas fa-ellipsis-v-alt mr-3"></i>Righe</h6>
                 </div>
 
                 <div id="collapse-range" class="collapse" aria-labelledby="heading-1-2" data-parent="#accordion">
@@ -88,7 +88,7 @@
                       <!-- OPTIONS BLOCK -->
                       <div *ngFor="let element of matrixQuestion.elements; index as i" class="row form-group">
                         <div name="input_value_container" class="col-11">
-                          <input class="form-control choice-value" type="text" [value]="element" (change)="onElementChange($event, i)" required>
+                          <input class="form-control choice-value" type="text" [value]="element.title" (change)="onElementChange($event, i)" required>
                         </div>
                         <!-- DELETE BUTTON -->
                         <div name="delete_value_container" class="col-1 align-self-center">
@@ -100,7 +100,7 @@
                       <!-- Element error -->
                       <div class="row form-group">
                         <div *ngIf="isMinElementsLengthError" id="option_length_error" class="col-10 px-3 align-self-center">
-                          <span class="text-danger text-xs">*Inserire almeno 2 colonne valide</span>
+                          <span class="text-danger text-xs">*Inserire almeno 2 righe valide</span>
                         </div>
                       </div>
 
@@ -114,7 +114,7 @@
                                 class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
                                 (click)="addElement()">
                             <span class="btn-inner--icon"><i class="far fa-plus"></i></span>
-                            <span class="btn-inner--text">Aggiungi valore</span>
+                            <span class="btn-inner--text">Aggiungi riga</span>
                         </button>
                     </div>
 

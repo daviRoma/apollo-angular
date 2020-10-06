@@ -32,23 +32,24 @@ export class MatrixQuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.editDialogConf = { ...QuestionDialogConf };
+    this.deleteDilogConf = { ...DeleteDialogConf };
+  }
+
+  editQuestion(): void {
     this.editDialogConf.data.question = { ...this.question };
     this.editDialogConf.data.type = this.question.type;
     this.editDialogConf.data.dialogConfig.title = 'Edit Matrix Question';
     this.editDialogConf.data.dialogConfig.operation = 'edit';
 
-    this.deleteDilogConf = { ...DeleteDialogConf };
-    this.deleteDilogConf.data.item = { ...this.question };
-    this.deleteDilogConf.data.dialogConfig.title = 'Delete Question';
-    this.deleteDilogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
-  }
-
-  editQuestion(): void {
     const dialogRef = this.questionDialog.open(MatrixQuestionDialogComponent, this.editDialogConf);
     this.reload(dialogRef);
   }
 
   deleteQuestion(): void {
+    this.deleteDilogConf.data.item = { ...this.question };
+    this.deleteDilogConf.data.dialogConfig.title = 'Delete Question';
+    this.deleteDilogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
+
     const dialogRef = this.questionDialog.open(DeleteQuestionDialogComponent, this.deleteDilogConf);
     this.reload(dialogRef);
   }

@@ -92,9 +92,7 @@ export class ChoiceQuestionEffects {
     map((action) => action.payload),
     switchMap((request: QuestionRequest) =>
       this.questionService.updateChoiceQuestion(request).pipe(
-        map((response: any) =>
-          of(new ChoiceQuestionUpdateSuccessAction(response))
-        ),
+        map((response: any) => new ChoiceQuestionUpdateSuccessAction(request)),
         catchError((error) => of(new ChoiceQuestionUpdateFailureAction(error)))
       )
     )

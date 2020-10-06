@@ -102,8 +102,8 @@ export class MatrixQuestionDialogComponent implements OnInit {
           new MatrixQuestionNewAction({
             question: {
               ...payload,
-              options: this.matrixQuestion.options,
-              elements: this.matrixQuestion.elements,
+              options: this.matrixQuestion.options.map(op => op.value),
+              elements: this.matrixQuestion.elements.map(el => el.title),
               position: this.matrixQuestion.position,
               mandatory: this.matrixQuestion.mandatory
             },
@@ -113,14 +113,19 @@ export class MatrixQuestionDialogComponent implements OnInit {
         )
       : this.store.dispatch(
           new MatrixQuestionUpdateAction({
-            question: { ...payload, id: this.matrixQuestion.id },
+            question: {
+              ...payload,
+              id: this.matrixQuestion.id,
+              options: this.matrixQuestion.options.map(op => op.value),
+              elements: this.matrixQuestion.elements.map(el => el.title)
+            },
             questionGroupId: this.matrixQuestion.questionGroup,
             surveyId: this.matrixQuestion.survey,
           } as QuestionRequest)
         );
 
     this.dialogRef.close({
-      result: 'close_after_' + this.dialogConfig.operation,
+      result: 'close_after_submit',
       data: this.matrixQuestion.questionGroup
     });
   }
@@ -157,11 +162,11 @@ export class MatrixQuestionDialogComponent implements OnInit {
   }
 
   addOption(): void {
-    this.matrixQuestion.options.push('');
+    this.matrixQuestion.options = [...this.matrixQuestion.options, { value: ''}];
   }
 
   addElement(): void {
-    this.matrixQuestion.elements.push('');
+    this.matrixQuestion.elements = [...this.matrixQuestion.elements, { title: ''}];
   }
 
   deleteOption(index: number): void {
@@ -177,11 +182,15 @@ export class MatrixQuestionDialogComponent implements OnInit {
   }
 
   onOptionChange(event: any, index: number): void {
-    this.matrixQuestion.options[index] = event.target.value;
+    const options = [...this.matrixQuestion.options];
+    options[index] = { value: event.target.value };
+    this.matrixQuestion.options = [...options];
   }
 
   onElementChange(event: any, index: number): void {
-    this.matrixQuestion.elements[index] = event.target.value;
+    const elements = [ ...this.matrixQuestion.elements];
+    elements[index] = { title: event.target.value };
+    this.matrixQuestion.elements = [...elements];
   }
 
   advancedOptionChange(event): void {

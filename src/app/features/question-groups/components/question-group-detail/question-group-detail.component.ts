@@ -24,6 +24,8 @@ export class QuestionGroupDetailComponent implements OnInit {
   @Input() questionGroup: QuestionGroup;
   @Input() readonly: boolean;
 
+  public questionGroupDialogConfig: any;
+
   public isLoading: boolean;
 
   constructor(
@@ -34,25 +36,24 @@ export class QuestionGroupDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    QuestionDialogConf.data.questionGroupId = this.questionGroup.id;
-    QuestionDialogConf.data.surveyId = this.questionGroup.survey;
-    QuestionGroupDialogConf.data.questionGroup = { ...this.questionGroup };
+    this.questionGroupDialogConfig = { ...QuestionGroupDialogConf };
   }
 
   openEditQuestionGroupModal(): void {
-    const questionGroupDialogConfig = { ...QuestionGroupDialogConf };
-    questionGroupDialogConfig.data.dialogConfig.title = 'Edit Question Group';
-    questionGroupDialogConfig.data.dialogConfig.operation = 'edit';
+    this.questionGroupDialogConfig.data.questionGroup = { ...this.questionGroup };
+    this.questionGroupDialogConfig.data.dialogConfig.title = 'Edit Question Group';
+    this.questionGroupDialogConfig.data.dialogConfig.operation = 'edit';
 
-    this.questionGroupDialog.open(EditQuestionGroupComponent, questionGroupDialogConfig);
+    this.questionGroupDialog.open(EditQuestionGroupComponent, this.questionGroupDialogConfig);
   }
 
   openDeleteQuestionGroupDialog(): void {
-    DeleteDialogConf.data.dialogConfig.title = 'Delete Question Group';
-    DeleteDialogConf.data.dialogConfig.content = 'Are you sure to delete the question group selected?';
-    DeleteDialogConf.data.item = { ...this.questionGroup };
+    const deleteDialogConfig = { ...DeleteDialogConf };
+    deleteDialogConfig.data.dialogConfig.title = 'Delete Question Group';
+    deleteDialogConfig.data.dialogConfig.content = 'Are you sure to delete the question group selected?';
+    deleteDialogConfig.data.item = { ...this.questionGroup };
 
-    this.questionGroupDialog.open(DeleteQuestionGroupComponent, DeleteDialogConf);
+    this.questionGroupDialog.open(DeleteQuestionGroupComponent, deleteDialogConfig);
   }
 
   openChoiceQuestionDialog(choiceType: string): void {
@@ -113,6 +114,8 @@ export class QuestionGroupDetailComponent implements OnInit {
 
   private buildQuestionDialogConfig(title: string, operation: string, type: string): any {
     const questionDialogConfig = { ...QuestionDialogConf };
+    questionDialogConfig.data.surveyId = this.questionGroup.survey;
+    questionDialogConfig.data.questionGroupId = this.questionGroup.id;
     questionDialogConfig.data.question = null;
     questionDialogConfig.data.dialogConfig.title = title;
     questionDialogConfig.data.dialogConfig.operation = operation;

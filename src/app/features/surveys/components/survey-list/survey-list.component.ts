@@ -59,6 +59,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public confirmDialog: MatDialog, private store: Store<AppState>) {
     this.pageSize = 5;
+    this.pageSizeOptions = [5, 10, 20];
   }
 
   ngOnInit(): void {
@@ -66,6 +67,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       (user: User) => {
         if (user) {
           this.user = user;
+          this.paginator.pageIndex = 1;
           this.loadSurveys();
         }
       }
@@ -100,16 +102,16 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.error$ = this.store.pipe(select(selectSurveyError));
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     let sort$ = this.sort.sortChange.pipe(
-      tap(() => (this.paginator.pageIndex = 0))
+      tap(() => (this.paginator.pageIndex = 1))
     ); // we should reset page index
 
     let filter$ = this.filterSubject.pipe(
       debounceTime(150),
       distinctUntilChanged(),
       tap((value: string) => {
-        this.paginator.pageIndex = 0; // we should reset page index
+        this.paginator.pageIndex = 1; // we should reset page index
         this.filter = value;
       })
     );
@@ -120,17 +122,17 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
         .pipe(tap(() => this.loadSurveys()))
         .subscribe()
     );
+
     this.dataSource.sort = this.sort;
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   public retry(): void {
     this.loadSurveys();
   }
-
 
   public openDeleteDialog(survey: Survey): void {
     const dialogRef = this.confirmDialog.open(DeleteSurveyComponent, {
@@ -154,19 +156,21 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initializeData(surveys: Survey[]): void {
+    console.log('SurveyListComponent', surveys);
     this.dataSource = new MatTableDataSource(surveys.length ? surveys : []);
   }
 
   private loadSurveys(): void {
+    const request = {
+      user_id: this.user.id,
+      page: this.paginator ? this.paginator.pageIndex : 1,
+      pag_size: this.paginator ? this.paginator.pageSize : 5,
+    } as SurveyRequest;
+
+    if (this.filter && this.filter !== '') request.name = this.filter.toLocaleLowerCase();
+
     this.store.dispatch(
-      new SurveyLoadAction({
-        user_id: this.user.id,
-        // filter: this.filter.toLocaleLowerCase(),
-        page: this.paginator ? this.paginator.pageIndex : 1,
-        pag_size: this.paginator ? this.paginator.pageSize : 5,
-        // sortDirection: this.sort.direction,
-        // sortField: this.sort.active,
-      } as SurveyRequest)
+      new SurveyLoadAction(request)
     );
   }
 }

@@ -43,7 +43,6 @@ export class AnswerStatsComponent implements OnInit {
     switch (this.question.questionType) {
       case 'App\\MultiQuestion':
         this.aggregateChoiceAnswers();
-        console.log(this.dataAggregation);
         break;
 
       case 'App\\InputQuestion':
@@ -91,9 +90,9 @@ export class AnswerStatsComponent implements OnInit {
     this.dataAggregation = { options: [], total: 0 } as DataAggregation;
 
     // Fill aggregation element
-    for (let answer of this._questionAnswers) {
+    for (const answer of this._questionAnswers) {
         if (this.dataAggregation.options.length) {
-            let row = this.dataAggregation.options.find(item => item.label === answer.answers[0]);
+            const row = this.dataAggregation.options.find(item => item.label === answer.answers[0]);
             if (row !== undefined) {
                 row.value += 1;
             } else {
@@ -109,7 +108,7 @@ export class AnswerStatsComponent implements OnInit {
 
   aggregateMatrixAnswer(): void {
     const matrixQuestion = { ...this.question } as MatrixQuestion;
-    this.dataAggregation = new DataAggregation();
+    this.dataAggregation = { elements: [], options: [] } as DataAggregation;
 
     matrixQuestion.options.forEach(elem => {
       this.dataAggregation.elements.push({

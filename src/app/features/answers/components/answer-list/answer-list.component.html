@@ -41,7 +41,7 @@
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
       <td mat-cell *matCellDef="let answer">
-        <span class="d-block text-sm text-muted mb-3">{{answer.email}}</span>
+        <span class="d-block text-sm text-muted mb-3">{{ answer.email ? answer.email : '-' }}</span>
       </td>
     </ng-container>
 
@@ -53,7 +53,7 @@
           <span class="completion mr-2">{{(answer.totAnswers / getTotalQuestions()) * 100}}%</span>
           <div>
             <div class="progress" style="width:100px;">
-              <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style]="{'width': (answer.totAnswers / getTotalQuestions()) * 100 }"></div>
+              <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style]="{'width': (answer.totAnswers / getTotalQuestions()) * 100 + '%'}"></div>
             </div>
           </div>
         </div>
@@ -70,9 +70,9 @@
 
     <!-- Action Column -->
     <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef> Action </th>
-      <td mat-cell *matCellDef="let survey" class="action-td">
-        <a [routerLink]="[detailPage, survey.id]" title="Survey Detail" data-toggle="tooltip">&nbsp;<i class="far fa-clipboard"></i>&nbsp;</a>
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let answer" class="action-td">
+        <a href="#" title="Delete Answer" data-toggle="tooltip" (click)="deleteSurveyAnswer(answer)">&nbsp;<i class="fas fa-trash"></i>&nbsp;</a>
       </td>
     </ng-container>
 
