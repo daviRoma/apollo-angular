@@ -6,6 +6,7 @@ import { AnswerParams, MultiAnswer, SingleAnswer, MatrixSingleAnswer, MatrixMult
  */
 
 import { ApolloResponse } from './apollo-response.model';
+import { QuestionGroup } from './question-group.model';
 import { Question } from './question.model';
 
 export class SurveyAnswer {
@@ -14,6 +15,8 @@ export class SurveyAnswer {
   password?: string;
   survey?: any;
   answers?: QuestionAnswer[];
+  createDate?: Date;
+  questionGroups?: QuestionGroup[];
 }
 
 export class QuestionAnswer {

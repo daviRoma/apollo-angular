@@ -3,6 +3,8 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
 
+import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
+
 import { Survey } from 'src/app/models/survey.model';
 
 
@@ -15,10 +17,16 @@ export class SurveyOverviewComponent implements OnInit {
 
   @Input() survey: Survey;
 
+  public totSurveyAnswers: number;
+
   constructor(
     private store: Store<AppState>
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.store
+      .pipe(select(fromSurveyAnswer.selectSurveyAnswerTotal))
+      .subscribe((total) => (this.totSurveyAnswers = total));
+  }
 
 }

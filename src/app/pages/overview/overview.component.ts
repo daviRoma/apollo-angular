@@ -44,6 +44,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   public isLoadingSurvey: boolean;
   public isLoadingGroups: boolean;
+  public isLoadingAnswers: boolean;
 
   private routeParamsSubscription: Subscription;
 
@@ -51,6 +52,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
     const self = this;
     this.isLoadingSurvey = true;
     this.isLoadingGroups = true;
+    this.isLoadingAnswers = true;
 
     this.questions = [];
 
@@ -77,6 +79,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   onQuestionGroupChange(event): void {
     this.questionGroupId = event.target.value;
+    this.isLoadingAnswers = true;
+    this.questions = [];
+
     // Get questions
     this.store.dispatch(
       new QuestionLoadAction({
@@ -89,6 +94,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   onQuestionChange(event): void {
+    if (!this.questions.length) return;
     this.question = { ...this.questions.find(
       q => (q.id + '-' + q.idDB === event.target.value)
     )};
@@ -97,7 +103,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
       select(fromSurveyAnswer.selectAnswersByQuestion, { id: this.question.idDB, type: this.question.questionType }))
       .subscribe((response: QuestionAnswer[]) => {
         console.log('OverviewComponent', 'QuestionAnswers', response);
-        this.questionAnswers = [ ...response ];
+        if (response.length) {
+          this.questionAnswers = [ ...response ];
+          this.isLoadingAnswers = false;
+        }
     });
   }
 
@@ -126,7 +135,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       )
       .subscribe((response: QuestionGroup[]) => {
         this.survey = { ...this.survey, questionGroups: response };
-        this.questionGroups = response;
+        this.questionGroups = [ ...response ];
         this.isLoadingGroups = false;
       });
   }
@@ -137,9 +146,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
         select(fromQuestion.selectEntitiesByGroup, { id: this.questionGroupId })
       )
       .subscribe((response: Question[]) => {
-        if (response) {
-          console.log(response);
-
+        if (response && response.length) {
+          console.log('OverviewComponent', 'loadQuestionsData', response);
           this.questions = [...response];
         }
       });

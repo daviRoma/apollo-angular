@@ -28,6 +28,17 @@
   width: 14%;
 }
 
+.mat-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+}
+
+.mat-spinner-color::ng-deep circle{
+  stroke: #2ab942 !important;
+}
+
 /* ***** Footer style ***** */
 .index-of-selected {
   display: block;

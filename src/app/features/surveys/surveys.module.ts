@@ -8,6 +8,7 @@ import { QuestionGroupsModule } from 'src/app/features/question-groups/question-
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { SurveyListComponent } from './components/survey-list/survey-list.component';
 import { SurveyDetailComponent } from './components/survey-detail/survey-detail.component';
@@ -33,10 +34,11 @@ import { InvitationConfirmComponent } from './components/dialogs/invitation-conf
     FormsModule,
     ReactiveFormsModule,
     SurveysRoutingModule,
+    QuestionGroupsModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    QuestionGroupsModule,
+    MatProgressSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [SurveyDetailComponent, SurveyOverviewComponent],

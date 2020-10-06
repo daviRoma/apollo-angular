@@ -74,19 +74,18 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="spinner">
-      <th mat-header-cell *matHeaderCellDef>
-        <div class="" *ngIf="loading">
-          <mat-spinner [diameter]="20"></mat-spinner>
-        </div>
-      </th>
-      <td mat-cell *matCellDef="" class="custom-status-cell">
-      </td>
-    </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <!-- Spinner -->
+  <div *ngIf="isLoading" class="mat-spinner-container">
+    <mat-progress-spinner class="mat-spinner-color"
+      [diameter]="35"
+      color="accent"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
 
   <div class="row table-footer">
     <div class="col-md-12 col-sm-12 col-xs-12">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -41,10 +41,11 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   public selectionList: Survey[];
   public noData: Survey[] = [{} as Survey];
   public surveyTotal: number;
-  public loading: boolean;
+  public isLoading: boolean;
 
   public pageSizeOptions: number[];
   public pageSize: number;
+  public pageIndex: number;
 
   public displayedColumns: string[];
 
@@ -67,8 +68,8 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       (user: User) => {
         if (user) {
           this.user = user;
-          this.paginator.pageIndex = 1;
           this.loadSurveys();
+
         }
       }
     );
@@ -95,7 +96,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
         if (loading) {
           this.dataSource = new MatTableDataSource(this.noData);
         }
-        this.loading = loading;
+        this.isLoading = loading;
       })
     );
 
@@ -104,14 +105,14 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     let sort$ = this.sort.sortChange.pipe(
-      tap(() => (this.paginator.pageIndex = 1))
+      tap(() => (this.paginator.pageIndex = 0))
     ); // we should reset page index
 
     let filter$ = this.filterSubject.pipe(
       debounceTime(150),
       distinctUntilChanged(),
       tap((value: string) => {
-        this.paginator.pageIndex = 1; // we should reset page index
+        this.paginator.pageIndex = 0; // we should reset page index
         this.filter = value;
       })
     );
@@ -124,6 +125,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy(): void {
@@ -157,13 +159,14 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private initializeData(surveys: Survey[]): void {
     console.log('SurveyListComponent', surveys);
+    if (surveys.length) this.isLoading = false;
     this.dataSource = new MatTableDataSource(surveys.length ? surveys : []);
   }
 
   private loadSurveys(): void {
     const request = {
       user_id: this.user.id,
-      page: this.paginator ? this.paginator.pageIndex : 1,
+      page: this.paginator  ? (this.paginator.pageIndex + 1) : 1,
       pag_size: this.paginator ? this.paginator.pageSize : 5,
     } as SurveyRequest;
 

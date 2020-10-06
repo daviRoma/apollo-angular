@@ -12,7 +12,6 @@ import { AppState } from 'src/app/state/app.state';
 
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
-import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
 
 import { SurveyAnswerLoadAction } from '../../store/actions/survey-answer.actions';
 
@@ -20,7 +19,7 @@ import { User } from 'src/app/models/user.model';
 import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
 
 import { Paths } from 'src/app/shared/config/path.conf';
-import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
+import { QuestionGroup } from 'src/app/models/question-group.model';
 
 
 @Component({
@@ -33,6 +32,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   @Input() surveyId: number;
+  @Input() questionGroups: QuestionGroup[];
 
   // MatPaginator Output
   public pageEvent: PageEvent;
@@ -41,10 +41,9 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   public overviewPage = Paths.survey.overview;
 
   public dataSource: MatTableDataSource<SurveyAnswer>;
-  public selectionList: SurveyAnswer[];
-  public noData: SurveyAnswer[] = [{} as SurveyAnswer];
+  public noData: SurveyAnswer[] = [];
   public answerTotal: number;
-  public loading: boolean;
+  public isLoading: boolean;
 
   public pageSizeOptions: number[];
   public pageSize: number;
@@ -74,10 +73,11 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.displayedColumns = [
-      'icon',
       'id',
       'email',
+      'questionGroups',
       'totAnswers',
+      'createDate',
       'action',
     ];
 
@@ -94,7 +94,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
         if (loading) {
           this.dataSource = new MatTableDataSource(this.noData);
         }
-        this.loading = loading;
+        this.isLoading = loading;
       })
     );
 
@@ -103,14 +103,14 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     let sort$ = this.sort.sortChange.pipe(
-      tap(() => (this.paginator.pageIndex = 1))
+      tap(() => (this.paginator.pageIndex = 0))
     ); // we should reset page index
 
     let filter$ = this.filterSubject.pipe(
       debounceTime(150),
       distinctUntilChanged(),
       tap((value: string) => {
-        this.paginator.pageIndex = 1; // we should reset page index
+        this.paginator.pageIndex = 0; // we should reset page index
         this.filter = value;
       })
     );
@@ -133,29 +133,18 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // TO DO: Get total questions
-  getTotalQuestions(): number {
-
-    return 10;
-  }
-
-  deleteSurveyAnswer(answer: SurveyAnswer): void {
-
+  getPercentageCompletition(totAnswers: number): string {
+    return ((totAnswers / this.questionGroups.map(g => g.questions.length).reduce((g1, g2) => g1 + g2)) * 100).toFixed(2);
   }
 
   private initializeData(answers: SurveyAnswer[]): void {
-    console.log('ANSWERS', answers);
-
-    if (answers.length) {
-      this.store.dispatch(new QuestionGroupLoadAction(answers[0].survey));
-    }
-
-    this.dataSource = new MatTableDataSource(answers.length ? answers : []);
+    this.dataSource = new MatTableDataSource(answers.length ? answers.map( a => ({...a, questionGroups: this.questionGroups})) : []);
   }
 
   private loadAnswers(): void {
     this.store.dispatch( new SurveyAnswerLoadAction({
       params: {
-        page: this.paginator ? this.paginator.pageIndex : 1,
+        page: this.paginator ? (this.paginator.pageIndex + 1) : 1,
         pag_size: this.paginator ? this.paginator.pageSize : 5,
       },
       surveyId: this.surveyId

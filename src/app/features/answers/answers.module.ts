@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { InputQuestionAnswerComponent } from './components/answer-components/input-question-answer/input-question-answer.component';
 import { MatrixQuestionAnswerComponent } from './components/answer-components/matrix-question-answer/matrix-question-answer.component';
@@ -44,6 +45,7 @@ import { AnswerListComponent } from './components/answer-list/answer-list.compon
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [

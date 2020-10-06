@@ -22,18 +22,18 @@
     matSortDisableClear="true">
 
     <!-- Icon Column -->
-    <ng-container matColumnDef="icon">
+    <!-- <ng-container matColumnDef="icon">
       <th mat-header-cell *matHeaderCellDef> Icon </th>
       <td mat-cell *matCellDef="let answer">
         <span><i class="far fa-comment-alt-edit"></i></span>
       </td>
-    </ng-container>
+    </ng-container> -->
 
     <!-- ID column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
       <td mat-cell *matCellDef="let answer">
-        <div class="media-body ml-3"><a [routerLink]="['/answers/survey', answer.id]" class="name mb-0 h6 text-sm">{{answer.id}}</a></div>
+        <div class="media-body ml-3"><span class="name mb-0 h6 text-sm">{{answer.id}}</span></div>
       </td>
     </ng-container>
 
@@ -45,15 +45,25 @@
       </td>
     </ng-container>
 
+    <!-- Groups column -->
+    <ng-container matColumnDef="questionGroups">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Question Groups </th>
+      <td mat-cell *matCellDef="let answer">
+        <div *ngFor="let group of answer.questionGroups" style="display: inline;">
+          <a [routerLink]="['/survey/answer/view?group='+group.id, answer.survey]" class="badge badge-secondary">{{ group.title }}</a>&nbsp;
+        </div>
+      </td>
+    </ng-container>
+
     <!-- Tot Answer column -->
     <ng-container matColumnDef="totAnswers">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Answers </th>
       <td mat-cell *matCellDef="let answer">
         <div class="d-flex align-items-center">
-          <span class="completion mr-2">{{(answer.totAnswers / getTotalQuestions()) * 100}}%</span>
+          <span class="completion mr-2">{{ getPercentageCompletition(answer.totAnswers) }}%</span>
           <div>
             <div class="progress" style="width:100px;">
-              <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style]="{'width': (answer.totAnswers / getTotalQuestions()) * 100 + '%'}"></div>
+              <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style]="{'width': getPercentageCompletition(answer.totAnswers) + '%'}"></div>
             </div>
           </div>
         </div>
@@ -61,34 +71,36 @@
     </ng-container>
 
     <!-- Submitted date column -->
-    <!-- <ng-container matColumnDef="createDate">
+    <ng-container matColumnDef="createDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
       <td mat-cell *matCellDef="let answer">
-        <span>{{ answer.date | date }}</span>
+        <span>{{ answer.createDate | date }}</span>
       </td>
-    </ng-container> -->
+    </ng-container>
 
     <!-- Action Column -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let answer" class="action-td">
-        <a href="#" title="Delete Answer" data-toggle="tooltip" (click)="deleteSurveyAnswer(answer)">&nbsp;<i class="fas fa-trash"></i>&nbsp;</a>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="spinner">
-      <th mat-header-cell *matHeaderCellDef>
-        <div class="" *ngIf="loading">
-          <mat-spinner [diameter]="20"></mat-spinner>
-        </div>
-      </th>
-      <td mat-cell *matCellDef="" class="custom-status-cell">
+        <a [routerLink]="['/answers/survey', answer.id]" title="Go to answer" data-toggle="tooltip">&nbsp;
+          <i class="far fa-door-open fa-2x"></i>
+          &nbsp;
+        </a>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <!-- Spinner -->
+  <div *ngIf="isLoading" class="mat-spinner-container">
+    <mat-progress-spinner class="mat-spinner-color"
+      [diameter]="35"
+      color="accent"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
 
   <div class="row table-footer">
     <div class="col-md-12 col-sm-12 col-xs-12">

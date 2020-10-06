@@ -61,7 +61,7 @@
         </div>
 
         <div class="card-body answers-container">
-          <app-answer-stats *ngIf="!isLoadingSurvey" [question]="question" [questionAnswers]="questionAnswers"></app-answer-stats>
+          <app-answer-stats *ngIf="!isLoadingAnswers" [question]="question" [questionAnswers]="questionAnswers"></app-answer-stats>
         </div>
 
       </div>
@@ -85,7 +85,7 @@
         </div>
 
         <!-- Table -->
-        <app-answer-list *ngIf="!isLoadingSurvey" [surveyId]="survey.id"></app-answer-list>
+        <app-answer-list *ngIf="!isLoadingGroups" [surveyId]="survey.id"  [questionGroups]="questionGroups"></app-answer-list>
       </div>
 
     </div>
