@@ -24,8 +24,10 @@ export class AnswerStatsComponent implements OnInit {
   private _questionAnswers: QuestionAnswer[];
 
   @Input() set questionAnswers(questionAnswers: QuestionAnswer[]) {
-    this._questionAnswers = questionAnswers;
-    this.aggregateData();
+    if (questionAnswers) {
+      this._questionAnswers = questionAnswers;
+      this.aggregateData();
+    }
   }
 
   get questionAnswers(): QuestionAnswer[] {
@@ -41,6 +43,7 @@ export class AnswerStatsComponent implements OnInit {
     switch (this.question.questionType) {
       case 'App\\MultiQuestion':
         this.aggregateChoiceAnswers();
+        console.log(this.dataAggregation);
         break;
 
       case 'App\\InputQuestion':

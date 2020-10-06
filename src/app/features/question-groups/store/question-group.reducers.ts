@@ -88,8 +88,8 @@ function dataTransform(questions: any[]): any {
   return questions.map(
     (question) => ({
       ...question,
-      options: question.options ? question.options.map(op => op.value) : null,
-      elements: question.elements ? question.elements.map(el => el.title) : null,
+      // options: question.options ? question.options.map(op => op.value) : null,
+      // elements: question.elements ? question.elements.map(el => el.title) : null,
       survey: parseInt(question.survey.split('/')[question.survey.split('/').length - 1], 0),
       questionGroup: parseInt(question.questionGroup.split('/')[question.questionGroup.split('/').length - 1], 0)
     })
