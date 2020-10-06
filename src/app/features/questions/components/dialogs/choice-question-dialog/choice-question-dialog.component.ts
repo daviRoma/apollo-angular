@@ -105,7 +105,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
           new ChoiceQuestionNewAction({
             question: {
               ...payload,
-              options: this.choiceQuestion.options,
+              options: this.choiceQuestion.options.map(op => op.value),
               position: this.choiceQuestion.position,
               mandatory: this.choiceQuestion.mandatory,
             },
@@ -115,7 +115,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
         )
       : this.store.dispatch(
           new ChoiceQuestionUpdateAction({
-            question: { ...payload, id: this.choiceQuestion.id },
+            question: { ...payload, id: this.choiceQuestion.id, options: this.choiceQuestion.options.map(op => op.value) },
             questionGroupId: this.choiceQuestion.questionGroup,
             surveyId: this.choiceQuestion.survey,
           } as QuestionRequest)
@@ -141,7 +141,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
       this.isMinOptionsLengthError = true;
       watcher = false;
     } else if (
-      this.choiceQuestion.options.find((op) => op == null) !== undefined
+      this.choiceQuestion.options.find(op => op == null ) !== undefined
     ) {
       this.isMinOptionsLengthError = true;
       watcher = false;
@@ -151,7 +151,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
   }
 
   addOption(): void {
-    this.choiceQuestion.options.push('');
+    this.choiceQuestion.options = [...this.choiceQuestion.options, { value: ''}];
   }
 
   deleteOption(index: number): void {
@@ -161,7 +161,9 @@ export class ChoiceQuestionDialogComponent implements OnInit {
   }
 
   onOptionChange(event: any, index: number): void {
-    this.choiceQuestion.options[index] = event.target.value;
+    const options = [...this.choiceQuestion.options];
+    options[index] = { value: event.target.value };
+    this.choiceQuestion.options = [...options];
   }
 
   advancedOptionChange(event): void {

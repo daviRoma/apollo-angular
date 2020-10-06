@@ -24,13 +24,13 @@ export class InputQuestion extends Question {
 }
 
 export class ChoiceQuestion extends Question {
-  options: string[];
+  options: any[];
   other: boolean;
 }
 
 export class MatrixQuestion extends Question {
-  options: string[];
-  elements: string[];
+  options: any[];
+  elements: any[];
 }
 
 export class ChoiceOption {

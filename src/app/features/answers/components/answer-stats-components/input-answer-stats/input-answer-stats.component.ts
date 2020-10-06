@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Answer } from 'src/app/models/answer.model';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { DataAggregation } from 'src/app/models/data-aggregation.model';
 
 @Component({
   selector: 'app-input-answer-stats',
@@ -8,8 +9,9 @@ import { Answer } from 'src/app/models/answer.model';
 })
 export class InputAnswerStatsComponent implements OnInit {
 
-  public answers: Answer[];
-  public type: string;
+  @Input() data: DataAggregation;
+
+  @Input() type: string;
 
   constructor() { }
 

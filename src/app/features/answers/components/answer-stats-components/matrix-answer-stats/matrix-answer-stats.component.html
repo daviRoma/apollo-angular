@@ -1,16 +1,16 @@
 <!-- MATRIX ANSWER STATS -->
-<div class="card mb-3 border shadow-none">
+<div *ngFor="let item of data.options" class="card mb-3 border shadow-none">
   <div class="px-3 py-2">
     <div class="row align-items-center">
       <div class="col">
         <div class="row">
-          <div class="col-12 border-bottom"><span class="text-sm">  label  </span></div>
+          <div class="col-12 border-bottom"><span class="text-sm">{{ item.label }}</span></div>
         </div>
         <div class="row mt-1">
           <!-- TODO: for each -->
-          <div class="col text-left small">
-            <span class="d-block text-sm"> val.text </span>
-            <span class="h6 mb-0"> val.value  </span>
+          <div *ngFor="let elem of data.elements" class="col text-left small">
+            <span class="d-block text-sm"> {{ elem.label }} </span>
+            <span *ngFor="let val of elem.values" class="h6 mb-0"> {{ val.value }} </span>
           </div>
         </div>
       </div>
