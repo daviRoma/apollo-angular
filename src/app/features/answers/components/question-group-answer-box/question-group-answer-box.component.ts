@@ -101,7 +101,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     console.log("event", event);
 
     const notEmptyAnswer = event.answers.filter(
-      (item) => (item.answer && item.answer.length > 0) || (item.answerPair && item.answerPair.length > 0)
+      (item) => (item.answer && item.answer.length > 0) || (item.answerPair && item.answerPair.length > 0 || (item.answersPair && item.answersPair.length > 0))
     );
     console.log("Not Empty Answer", notEmptyAnswer);
 
@@ -155,13 +155,13 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     if (multiCheckQuestion.length != 0) {
 
       multiCheckQuestion.forEach((item) => {
-        let questionNumber = item.options.length;
+        let questionNumber = item.elements.length;
         let result = answerList.find(
           (obj) => obj.questionId === item.id && obj.questionType === item.questionType
         );
 
         if (result) {
-          if (result.answer.length !== questionNumber) {
+          if (result.answers.length !== questionNumber) {
             this.matrixCheckCompleted = false;
           } else {
             this.matrixCheckCompleted = true;
@@ -183,7 +183,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     if (multiRadioQuestion.length != 0) {
 
       multiRadioQuestion.forEach((item) => {
-        let questionNumber = item.options.length;
+        let questionNumber = item.elements.length;
 
         let result = answerList.find(
           (obj) => obj.questionId === item.id && obj.questionType === item.questionType

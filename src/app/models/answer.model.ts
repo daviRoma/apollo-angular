@@ -17,11 +17,16 @@ export class SingleAnswer extends Answer {
 }
 
 export class MultiAnswer extends Answer {
-  answer: string[];
+  answers: string[];
 }
 
-export class MatrixAnswer extends Answer {
-  answerPair: MatrixPair[];
+export class MatrixSingleAnswer extends Answer {
+  answerPair: MatrixSinglePair[];
+}
+
+export class MatrixMultiAnswer extends Answer{
+
+  answersPair: MatrixMultiPair[]
 }
 
 export class AnswerRequest {
@@ -42,9 +47,14 @@ export class AnswerParams {
 export class AnswerResponse extends ApolloResponse {}
 
 
-export class MatrixPair{
+export class MatrixSinglePair{
   element: string;
-  answer: string[];
+  answer: string;
+}
+
+export class MatrixMultiPair{
+  element: string;
+  answers: string[];
 }
 
 export class AnswersWrapper{

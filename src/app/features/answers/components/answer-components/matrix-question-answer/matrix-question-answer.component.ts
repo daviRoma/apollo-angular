@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatrixAnswer, MatrixPair } from 'src/app/models/answer.model';
+import { MatrixSingleAnswer, MatrixMultiAnswer, MatrixSinglePair, MatrixMultiPair } from 'src/app/models/answer.model';
 import { MatrixQuestion } from 'src/app/models/question.model';
 
 @Component({
@@ -12,68 +12,82 @@ export class MatrixQuestionAnswerComponent implements OnInit {
 
   @Output() optionSelected = new EventEmitter();
 
-  public matrixAnswer: MatrixAnswer;
+  public matrixSingleAnswer: MatrixSingleAnswer;
+  public matrixMultiAnswer: MatrixMultiAnswer;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.matrixAnswer = new MatrixAnswer();
-    this.matrixAnswer.questionId = this.question.id;
-    this.matrixAnswer.questionType = this.question.questionType;
-    this.matrixAnswer.answerPair = [];
+
+    this.matrixSingleAnswer = new MatrixSingleAnswer();
+    this.matrixSingleAnswer.questionId = this.question.id;
+    this.matrixSingleAnswer.questionType = this.question.questionType;
+    this.matrixSingleAnswer.answerPair = [];
+
+
+    this.matrixMultiAnswer = new MatrixMultiAnswer();
+    this.matrixMultiAnswer.questionId = this.question.id;
+    this.matrixMultiAnswer.questionType = this.question.questionType;
+    this.matrixMultiAnswer.answersPair = [];
 
     console.log(this.question)
   }
 
+
+
+
   radioMatrixAnswerChange(element, answer): void {
 
-    const result = this.matrixAnswer.answerPair.find(
+    const result = this.matrixSingleAnswer.answerPair.find(
       (item) => item.element == element
     );
 
     if (result) {
       result.answer = answer;
     } else {
-      let pair = new MatrixPair();
-      pair.answer = [];
+      let pair = new MatrixSinglePair();
       pair.element = element;
-      pair.answer.push(answer);
-      this.matrixAnswer.answerPair.push(pair);
+      pair.answer= answer;
+      this.matrixSingleAnswer.answerPair.push(pair);
     }
-    this.optionSelected.emit(this.matrixAnswer);
+    this.optionSelected.emit(this.matrixSingleAnswer);
   }
+
+
+
+
 
   checkMatrixAnswerChange(element, answer): void {
     console.log(element, answer);
 
-    let pair = new MatrixPair();
-    pair.answer = [];
+    let pair = new MatrixMultiPair();
+    pair.answers = [];
 
     pair.element = element;
-    pair.answer.push(answer);
+    pair.answers.push(answer);
 
-    const result = this.matrixAnswer.answerPair.find(
+    const result = this.matrixMultiAnswer.answersPair.find(
       (item) => item.element == element
     );
 
     if (result) {
-      if (result.answer.includes(answer)) {
-        result.answer = result.answer.filter((obj) => obj !== answer);
-        if (result.answer.length === 0) {
-          this.matrixAnswer.answerPair = this.matrixAnswer.answerPair.filter(
+      if (result.answers.includes(answer)) {
+        result.answers = result.answers.filter((obj) => obj !== answer);
+        if (result.answers.length === 0) {
+          this.matrixMultiAnswer.answersPair = this.matrixMultiAnswer.answersPair.filter(
             (obj) => obj.element != element
           );
         }
       } else {
-        result.answer.push(answer);
+        result.answers.push(answer);
       }
     } else {
       
-      this.matrixAnswer.answerPair.push(pair);
+      this.matrixMultiAnswer.answersPair.push(pair);
     }
 
-    console.log("matrix Pair", this.matrixAnswer)
+    console.log("matrix Pair", this.matrixMultiAnswer)
 
-    this.optionSelected.emit(this.matrixAnswer);
+    this.optionSelected.emit(this.matrixMultiAnswer);
   }
 }

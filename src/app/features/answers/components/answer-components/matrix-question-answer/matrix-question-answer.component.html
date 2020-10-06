@@ -30,37 +30,37 @@
 				<thead>
 					<tr class="table-divider">
 						<th scope="col"></th>
-						<th class="matrix-options-label" *ngFor="let element of question.elements; index as c"
-							id="{{ 'element_'  + c + '_' + question.id}}" scope="col">
-							{{element}}
+						<th class="matrix-options-label" *ngFor="let option of question.options; index as c"
+							id="{{ 'option_'  + c + '_' + question.id}}" scope="col">
+							{{option}}
 						</th>
 					</tr>
 				</thead>
 
 				<!-- Show questions -->
 				<tbody>
-					<tr *ngFor="let option of question.options; index as i;" class="shadow-none">
-						<th scope="row">{{option}}</th>
-						<td class="matrix-options-label mb-1" *ngFor="let element of question.elements; index as b">
+					<tr *ngFor="let element of question.elements; index as i;" class="shadow-none">
+						<th scope="row">{{element}}</th>
+						<td class="matrix-options-label mb-1" *ngFor="let option of question.options; index as b">
 
 							<div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
 								<div>
 									<input type="checkbox" class="custom-control-input"
-										id="{{ 'option_'  + i + '_' + b + '_' + question.id}}"
-										(click)="checkMatrixAnswerChange(option, element)">
+										id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
+										(click)="checkMatrixAnswerChange(element.id, option)">
 									<label class="custom-control-label"
-										for="{{ 'option_'  + i + '_' + b + '_'  + question.id}}"></label>
+										for="{{ 'element_'  + i + '_' + b + '_'  + question.id}}"></label>
 
 								</div>
 
 							</div>
 
 							<div *ngIf="question.type === 'RADIO'" class="custom-control custom-radio">
-									<input type="radio" id="{{ 'option_'  + i + '_' + b + '_' + question.id}}"
+									<input type="radio" id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
 										name="customRadio" class="custom-control-input"
-										(click)="radioMatrixAnswerChange(option, element)">
+										(click)="radioMatrixAnswerChange(element.id, option)">
 									<label class="custom-control-label"
-										for="{{ 'option_'  + i + '_' + b + '_' + question.id}}"></label>
+										for="{{ 'element_'  + i + '_' + b + '_' + question.id}}"></label>
 							</div>
 
 						</td>

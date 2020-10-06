@@ -1,4 +1,4 @@
-import { AnswerParams, MultiAnswer, SingleAnswer, MatrixAnswer } from './answer.model';
+import { AnswerParams, MultiAnswer, SingleAnswer, MatrixSingleAnswer, MatrixMultiAnswer } from './answer.model';
 /**
  * User Answer Model
  *
