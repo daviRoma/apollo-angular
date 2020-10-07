@@ -1,4 +1,4 @@
-<div class="col-lg-8 col-md-11 col-sm-12 mx-auto mx-auto mb-4">
+<div class="col-lg-8 col-md-11 col-sm-12 mx-auto mx-auto mb-4" *ngIf="surveyActive && surveyUnlocked">
     <!-- <script th:inline="javascript">
         var readonly = [[${ readonly }]];
         var groupIndex = [[${ groupIndex }]];
@@ -13,7 +13,7 @@
 
         <div class="row mb-4">
 
-            <img class="col-auto logo my-auto mx-auto" src="/dist/img/icons/custom/logo.svg">
+            <img class="col-auto logo my-auto mx-auto" src="/assets/dist/img/icons/custom/logo.svg">
 
         </div>
 
@@ -53,4 +53,15 @@
 
     </div>
 
+</div>
+
+
+<!-- Listing -->
+<div *ngIf="surveyActive && !surveyUnlocked">
+    <app-survey-private [surveyId]="survey.id" ></app-survey-private>
+</div>
+
+
+<div *ngIf="!surveyActive">
+    <app-survey-not-active></app-survey-not-active>
 </div>

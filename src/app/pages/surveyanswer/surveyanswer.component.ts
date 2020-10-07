@@ -22,26 +22,43 @@ export class SurveyanswerComponent implements OnInit {
   public survey: Survey;
   public questionGroups: QuestionGroup[];
 
+  public surveyUnlocked = false;
+  public surveyActive = false;
+
+
   private routeParamsSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
-  ) { 
+  ) {
     const self = this;
     this.questionGroups = [];
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
-    if (params.survey_id) {
-      // Select survey from store by url parameter
-      self.loadData(params.survey_id);
-    }
-  });}
+      if (params.survey_id) {
+        // Select survey from store by url parameter
+        self.loadData(params.survey_id);
+      }
+    });
+  }
 
   ngOnInit(): void {
+
+    if (this.survey.active) {
+      this.surveyActive = true;
+    } else {
+      this.surveyActive = false;
+    }
+    if (this.survey.secret) {
+      this.surveyUnlocked = false;
+    } else {
+      this.surveyUnlocked = true;
+    }
+
   }
 
   private loadData(surveyId: number): void {
-    this.store.dispatch( new QuestionGroupLoadAction(surveyId) );
+    this.store.dispatch(new QuestionGroupLoadAction(surveyId));
 
     this.store
       .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
@@ -49,12 +66,17 @@ export class SurveyanswerComponent implements OnInit {
         if (survey) { this.survey = survey; }
       });
 
-      this.store
+    this.store
       .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId }))
       .subscribe((response: QuestionGroup[]) => {
         this.survey = { ...this.survey, questionGroups: response };
         this.questionGroups = response;
       });
+  }
+
+  login(): void {
+
+    this.surveyActive = true;
   }
 
 }

@@ -32,7 +32,7 @@ export class AnswerEffects {
       )
     )
   );
-
+   
   @Effect()
   public submitSurveyAnswer = this.actions.pipe(
     ofType<SubmitAnswers>(AnswerActionTypes.SUBMIT_ANSWER),
@@ -40,8 +40,7 @@ export class AnswerEffects {
     switchMap((request: AnswerRequest) =>
       this.answerService.createAnswers(request).pipe(
         map((response: AnswerResponse) => new SubmitAnswers(response)),
-        catchError((error) => of(new SubmitAnswerFailureAction(error)))
-      )
+        catchError((error) => of(new SubmitAnswerFailureAction(error))))
     )
   );
 

@@ -29,8 +29,6 @@ export class MatrixQuestionAnswerComponent implements OnInit {
     this.matrixMultiAnswer.questionId = this.question.id;
     this.matrixMultiAnswer.questionType = this.question.questionType;
     this.matrixMultiAnswer.answersPair = [];
-
-    console.log(this.question)
   }
 
 

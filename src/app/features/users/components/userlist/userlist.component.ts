@@ -57,7 +57,7 @@ export class UserListComponent implements OnInit {
   public defaultSort: Sort = { active: 'id', direction: 'asc' };
 
   private subscription: Subscription = new Subscription();
-  private user: User;
+  public user: User;
   public router: Router;
 
   constructor(
