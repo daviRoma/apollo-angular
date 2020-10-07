@@ -10,15 +10,11 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
 
-import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
 
 import { SurveyAnswerLoadAction } from '../../store/actions/survey-answer.actions';
 
-import { User } from 'src/app/models/user.model';
 import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
-
-import { Paths } from 'src/app/shared/config/path.conf';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 
 
@@ -37,9 +33,6 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   // MatPaginator Output
   public pageEvent: PageEvent;
 
-  public detailPage = Paths.survey.detail;
-  public overviewPage = Paths.survey.overview;
-
   public dataSource: MatTableDataSource<SurveyAnswer>;
   public noData: SurveyAnswer[] = [];
   public answerTotal: number;
@@ -57,21 +50,10 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   public defaultSort: Sort = { active: 'id', direction: 'asc' };
 
   private subscription: Subscription = new Subscription();
-  private user: User;
 
   constructor(private store: Store<AppState>) {
     this.pageSize = 5;
     this.pageSizeOptions = [5, 10, 20];
-  }
-
-  ngOnInit(): void {
-    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe((user: User) => {
-      if (user) {
-        this.user = user;
-        this.loadAnswers();
-      }
-    });
-
     this.displayedColumns = [
       'id',
       'email',
@@ -80,6 +62,11 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
       'createDate',
       'action',
     ];
+  }
+
+  ngOnInit(): void {
+
+    this.loadAnswers();
 
     this.store
       .pipe(select(fromSurveyAnswer.selectAllSurveyAnswer))

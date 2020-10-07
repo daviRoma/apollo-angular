@@ -56,7 +56,7 @@ function answerTransform(answer: any): any {
   switch (answer.question.split('/')[answer.question.split('/').length - 2]) {
     case 'matrix_questions':
       resp.question.questionType = 'App\\MatrixQuestion';
-      resp.answers = answer.answer_pair;
+      resp.answers = answer.answersPair ? answer.answersPair : answer.answerPair;
       break;
 
     case 'input_questions':

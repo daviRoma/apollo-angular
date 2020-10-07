@@ -147,7 +147,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
       )
       .subscribe((response: Question[]) => {
         if (response && response.length) {
-          console.log('OverviewComponent', 'loadQuestionsData', response);
           this.questions = [...response];
         }
       });
