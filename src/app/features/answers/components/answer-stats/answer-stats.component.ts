@@ -63,7 +63,7 @@ export class AnswerStatsComponent implements OnInit {
     this.dataAggregation = { options: [], other: '', total: 0 } as DataAggregation;
 
     choiceQuestion.options.forEach(elem => {
-      this.dataAggregation.options.push({ label: elem, value: 0});
+      this.dataAggregation.options.push({ label: elem.value, value: 0});
     });
 
     // Fill aggregation element
@@ -108,23 +108,30 @@ export class AnswerStatsComponent implements OnInit {
 
   aggregateMatrixAnswer(): void {
     const matrixQuestion = { ...this.question } as MatrixQuestion;
-    this.dataAggregation = { elements: [], options: [] } as DataAggregation;
+    this.dataAggregation = { elements: [], total: 0 } as DataAggregation;
 
-    matrixQuestion.options.forEach(elem => {
+    matrixQuestion.elements.forEach(elem => {
       this.dataAggregation.elements.push({
-        label: elem,
-        values: matrixQuestion.elements.map(val => ({title: val, value: 0}))
+        name: elem.title,
+        values: matrixQuestion.options.map(opt => ({label: opt.value, value: 0}))
       });
     });
 
     // Fill aggregation element
-    for (let answer of this._questionAnswers) {
-      for (let data of answer.answers) {
+    for (const answer of this._questionAnswers) {
+      for (const data of answer.answers) {
         this.dataAggregation.elements.forEach(elem => {
-          elem.values.forEach(val => {
-            if (data.element === val.title) val.value += 1;
-            this.dataAggregation.total += 1;
-          });
+
+          if (data.element === elem.name) {
+            elem.values.forEach(val => {
+              data.answers.forEach(item => {
+                if (item === val.label) {
+                  val.value += 1
+                  this.dataAggregation.total += 1;
+                }
+              });
+            });
+          }
         });
       }
     }

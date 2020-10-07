@@ -9,7 +9,6 @@ export function surveyAnswerReducer(state = initialSurveyAnswerState, action: Su
     }
 
     case SurveyAnswerActionTypes.LOAD_SUCCESS: {
-      console.log(action.payload.data);
       return surveyAnswerAdapter.setAll(dataTransform(action.payload.data), {
         ...state,
         error: false,
@@ -57,7 +56,7 @@ function answerTransform(answer: any): any {
   switch (answer.question.split('/')[answer.question.split('/').length - 2]) {
     case 'matrix_questions':
       resp.question.questionType = 'App\\MatrixQuestion';
-      resp.answers = answer.answersPair ? answer.answersPair : answer.answerPair;
+      resp.answers = answer.answersPair ? answer.answersPair : answer.answerPair.map(el => ({element: el.element, answers: [el.answer]}));
       break;
 
     case 'input_questions':

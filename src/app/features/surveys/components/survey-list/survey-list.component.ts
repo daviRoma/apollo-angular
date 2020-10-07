@@ -69,7 +69,6 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
         if (user) {
           this.user = user;
           this.loadSurveys();
-
         }
       }
     );
@@ -132,10 +131,6 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  public retry(): void {
-    this.loadSurveys();
-  }
-
   public openDeleteDialog(survey: Survey): void {
     const dialogRef = this.confirmDialog.open(DeleteSurveyComponent, {
       minWidth: '20%',
@@ -158,7 +153,6 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initializeData(surveys: Survey[]): void {
-    console.log('SurveyListComponent', surveys);
     if (surveys.length) this.isLoading = false;
     this.dataSource = new MatTableDataSource(surveys.length ? surveys : []);
   }

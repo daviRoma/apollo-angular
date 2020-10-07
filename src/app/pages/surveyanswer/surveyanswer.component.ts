@@ -55,7 +55,7 @@ export class SurveyanswerComponent implements OnInit {
   private loadData(surveyId: number): void {
     this.store.dispatch(new QuestionGroupLoadAction(surveyId));
 
-    this.store.dispatch(new SurveyLoadOneAction(surveyId));
+    this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true }));
 
     this.store
       .pipe(select(fromSurvey.selectEntity, { id: surveyId }))

@@ -7,21 +7,16 @@
 export class DataAggregation {
   options?: OptionData[];
   elements?: ElementData[];
-  other: string;
+  other?: string;
   total: number;
 }
 
 class OptionData {
   label: string;
-  value: number;
+  value?: number;
 }
 
 class ElementData {
-  label: string;
-  values: ElementValue[];
-}
-
-class ElementValue {
-  title: string;
-  value: number;
+  name: string;
+  values?: OptionData[];
 }

@@ -54,21 +54,22 @@ export class SurveyEffects {
   public loadOne = this.actions.pipe(
     ofType<SurveyLoadOneAction>(SurveyActionTypes.LOADONE),
     map((action) => action.payload),
-    switchMap((params: number) =>
-      this.surveyService.getSurvey(params).pipe(
-        map((response: SurveyResponse) => new SurveyLoadOneSuccessAction(response)),
+    switchMap((params: any) =>
+      this.surveyService.getSurvey(params.id).pipe(
+        map((response: SurveyResponse) => {
+          if (!params.dispatch) return new SurveyLoadOneRedirectAction(response)
+          else return new SurveyLoadOneSuccessAction(response);
+        }),
         catchError((error) => of(new SurveyLoadOneFailAction(error)))
       )
     )
   );
 
-  // @Effect({ dispatch: false })
-  // public loadOneRedirect = this.actions.pipe(
-  //   ofType<SurveyLoadOneRedirectAction>(SurveyActionTypes.LOADONE_REDIRECT),
-  //   // tap((action) => this.router.navigate(['/survey/detail', action.payload.data.id]))
-  //   map((action) => )
-
-  // );
+  @Effect({ dispatch: false })
+  public loadOneRedirect = this.actions.pipe(
+    ofType<SurveyLoadOneRedirectAction>(SurveyActionTypes.LOADONE_REDIRECT),
+    tap((action) => this.router.navigate(['/survey/detail', action.payload.data.id]))
+  );
 
   @Effect()
   public createSurvey = this.actions.pipe(
@@ -76,8 +77,12 @@ export class SurveyEffects {
     map((action) => action.payload),
     switchMap((params: Survey) =>
       this.surveyService.createSurvey(params).pipe(
-        map((response: SurveyResponse) => new SurveyLoadOneAction(
-          parseInt(response.self.split('/')[response.self.split('/').length - 1], 0)
+        map((response: SurveyResponse) =>
+          new SurveyLoadOneAction(
+            {
+              id: parseInt(response.self.split('/')[response.self.split('/').length - 1], 0),
+              dispatch: false
+            }
           )
         ),
         catchError((error) => of(new SurveyNewFailureAction(error)))
@@ -131,17 +136,6 @@ export class SurveyEffects {
       )
     )
   );
-
-  // @Effect()
-  // public publishSuccess = this.actions.pipe(
-  //   ofType<SurveyPublishSuccessAction>(SurveyActionTypes.PUBLISH_SUCCESS),
-  //   map((action) => action.payload),
-  //   switchMap(
-  //     (request: number) => this.surveyService.getSurvey(request).pipe(
-  //       map((response: SurveyResponse) => new SurveyLoadOneSuccessAction(response)),
-  //       catchError((error) => of(new SurveyLoadOneFailAction(error)))
-  //     ))
-  // );
 
 }
 

@@ -40,7 +40,7 @@ export class SurveyLoadFailAction implements Action {
 
 export class SurveyLoadOneAction implements Action {
   public readonly type = SurveyActionTypes.LOADONE;
-  constructor(public payload: number) {}
+  constructor(public payload: any) {}
 }
 
 export class SurveyLoadOneRedirectAction implements Action {

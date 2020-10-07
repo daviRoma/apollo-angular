@@ -1,11 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
 
-import { Survey } from 'src/app/models/survey.model';
 import { SurveyDeleteAction } from '../../../store/actions/survey.actions';
+
+import { Survey } from 'src/app/models/survey.model';
 
 @Component({
   selector: 'app-delete-survey',
@@ -38,11 +39,7 @@ export class DeleteSurveyComponent implements OnInit {
    */
   confirm(): void {
     this.store.dispatch(new SurveyDeleteAction(this.survey.id));
-
-    this.dialogRef.close({
-      result: 'close_after_delete',
-      data: this.survey,
-    });
+    this.dialogRef.close({result: 'close_after_delete' });
   }
 
   cancel(): void {
