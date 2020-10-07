@@ -8,6 +8,10 @@ import { QuestionGroup } from 'src/app/models/question-group.model';
 import { MatrixQuestion, Question } from 'src/app/models/question.model';
 import { AppState } from 'src/app/state/app.state';
 import { SubmitAnswers } from '../../store/actions/answer.actions';
+import { CloseSurveyAnswerDialogConf } from 'src/app/shared/config/dialog.conf';
+import { CloseSurveyAnswerComponent } from '../dialogs/close-survey-answer/close-survey-answer.component';
+
+
 
 @Component({
   selector: 'app-question-group-answer-box',
@@ -16,6 +20,7 @@ import { SubmitAnswers } from '../../store/actions/answer.actions';
 })
 export class QuestionGroupAnswerBoxComponent implements OnInit {
   @Input() questionGroups: QuestionGroup[];
+  @Input() userUnlocked: any;
 
   public group: QuestionGroup;
   private index = 0;
@@ -31,7 +36,9 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
   public surveyEnd = false;
 
-  constructor(private store: Store<AppState>
+  constructor(private store: Store<AppState>,
+    public endSurveyAnswerDialog: MatDialog,
+
   ) { }
 
   ngOnInit(): void {
@@ -60,12 +67,23 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     let answer = JSON.parse(JSON.stringify(this.answerWrapper.answers));
 
     console.log('SumbitSurveyAnswer', 'OnSubmit', this.answerWrapper);
-    const payload = {
-      // email: this.answerWrapper.email,
-      // password: this.answerWrapper.password,
-      answers: answer
-    };
+    let payload: any;
+    if (this.userUnlocked != null) {
+      payload = {
+        email: this.userUnlocked.email,
+        password: this.userUnlocked.password,
+        answers: answer
+      };
+
+    } else {
+      payload = {
+        answers: answer
+      }
+    }
+
     this.store.dispatch(new SubmitAnswers(JSON.stringify(payload)));
+
+    this.openEndSurveyAnswerDialog()
 
   }
 
@@ -105,8 +123,6 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     }
 
   }
-
-
 
   areMandatoryCompleted(answerList): boolean {
 
@@ -177,5 +193,15 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     }
     else this.matrixRadioCompleted = true;
   };
+
+
+  openEndSurveyAnswerDialog(): void {
+    const endDialogConfig = { ...CloseSurveyAnswerDialogConf };
+    endDialogConfig.data.dialogConfig.title = 'Answers Submitted';
+    endDialogConfig.data.dialogConfig.content = 'You have completed the survey';
+
+    let dialogRef = this.endSurveyAnswerDialog.open(CloseSurveyAnswerComponent, endDialogConfig);
+
+  }
 
 }

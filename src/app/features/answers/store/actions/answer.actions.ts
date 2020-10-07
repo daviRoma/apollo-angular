@@ -27,7 +27,6 @@ export class AnswerLoadFailAction implements Action {
 export class SubmitAnswers implements Action {
   public readonly type = AnswerActionTypes.SUBMIT_ANSWER;
   constructor(public payload: any) { 
-    console.log("submit", payload);
   }
 }
 

@@ -24,6 +24,8 @@ import { SurveyPrivateComponent } from './components/survey-private/survey-priva
 import { SurveyNotActiveComponent } from './components/survey-not-active/survey-not-active.component';
 import { SurveySubmittedComponent } from './components/survey-submitted/survey-submitted.component';
 import { SurveyAlreadyAnsweredComponent } from './components/survey-already-answered/survey-already-answered.component';
+import { SecretSurveyLoginComponent } from './components/dialogs/secret-survey-login/secret-survey-login.component';
+import { CloseSurveyAnswerComponent } from './components/dialogs/close-survey-answer/close-survey-answer.component';
 
 
 @NgModule({
@@ -42,6 +44,8 @@ import { SurveyAlreadyAnsweredComponent } from './components/survey-already-answ
     SurveyNotActiveComponent,
     SurveySubmittedComponent,
     SurveyAlreadyAnsweredComponent,
+    SecretSurveyLoginComponent,
+    CloseSurveyAnswerComponent,
   ],
   imports: [
     CommonModule,

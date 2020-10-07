@@ -10,6 +10,10 @@ import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/surv
 import { Answer, AnswerRequest, AnswersWrapper } from 'src/app/models/answer.model';
 import { AnswerLoadAction } from '../../store/actions/answer.actions';
 import { QuestionAnswer, SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
+import { EmailValidator } from '@angular/forms';
+import { AccesSecretSurveyDialogConf } from 'src/app/shared/config/dialog.conf';
+import { MatDialog } from '@angular/material/dialog';
+import { SecretSurveyLoginComponent } from '../dialogs/secret-survey-login/secret-survey-login.component';
 
 
 @Component({
@@ -19,28 +23,68 @@ import { QuestionAnswer, SurveyAnswer, SurveyAnswerRequest } from 'src/app/model
 })
 export class SurveyPrivateComponent implements OnInit {
 
-  @Input() surveyId: number
+  @Input() survey: Survey
   @Output() unlock = new EventEmitter();
 
-  private surveyAnswer: SurveyAnswer[];
+  private ALREADY_ANSWERED = "already_answered";
+  private USER_ABILITATED = "user_abilitated";
+  private USER_NOT_ABILITATED = "user_not_abilitated";
+  private WRONG_CODE = "wrong_code";
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+  public surveyAnswers: SurveyAnswer[] = [];
 
-    this.loadData(this.surveyId);
-  }
+
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store<AppState>,
+    public accessSecretSurveyDialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
-
-    console.log("Survey ID", this.surveyId);
-
+    this.loadData();
   }
 
-  private loadData(surveyId: number): void {
+  private loadData(): void {
+
+    this.store.dispatch(new SurveyAnswerLoadAction({ surveyId: this.survey.id, params: { order: "email", order_dir: "asc" } } as SurveyAnswerRequest));
+
     this.store.pipe(
-      select(fromSurveyAnswer.selectAllSurveyAnswer))
-      .subscribe((response: any) => {
-        console.log('SurveyPrivate', 'SurveyAnswer', response);
-        // this.surveyAnswer = [ ...response ];
+      select(fromSurveyAnswer.selectEntityBySurvey, { id: this.survey.id }))
+      .subscribe((response: SurveyAnswer[]) => {
+        console.log(response);
+        if (response) {
+          this.surveyAnswers = [...response];
+        }
+      });
+  }
+
+  openAccessSecretDialog(): void {
+    const accessDialogConfig = { ...AccesSecretSurveyDialogConf };
+    accessDialogConfig.data.dialogConfig.title = 'Enter the Secret Survey';
+    accessDialogConfig.data.dialogConfig.content = 'Are you sure to delete the question group selected?';
+    accessDialogConfig.data.invitationPool = { ...this.survey.invitationPool };
+    console.log("PRIMA", this.surveyAnswers);
+    accessDialogConfig.data.surveyAnswers = this.surveyAnswers;
+
+    let dialogRef = this.accessSecretSurveyDialog.open(SecretSurveyLoginComponent, accessDialogConfig);
+
+    dialogRef.afterClosed().subscribe(res => {
+      // received data from confirm-component
+
+     if(res.result === "abilitated"){
+
+      console.log("abilitated");
+
+        let userUnlock= {
+          unlock: true,
+          email: res.email,
+          password: res.password
+        };
+
+        this.unlock.emit(userUnlock);
+
+     }
+
     });
   }
 

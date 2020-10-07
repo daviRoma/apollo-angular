@@ -51,3 +51,24 @@ export const DeleteDialogConf = {
   },
 };
 
+export const AccesSecretSurveyDialogConf = {
+  minWidth: '40%',
+  maxWidth: '60%',
+  position: { top: '14%' },
+  data: {
+    invitationPool: null,
+    surveyAnswers: null,
+    dialogConfig
+  },
+};
+
+export const CloseSurveyAnswerDialogConf = {
+  minWidth: '40%',
+  maxWidth: '60%',
+  minHeight: "40%",
+  position: { top: '14%' },
+  data: {
+    dialogConfig
+  },
+};
+

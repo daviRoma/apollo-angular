@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
-import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
+import { SurveyLoadAction, SurveyLoadOneAction } from 'src/app/features/surveys/store/actions/survey.actions';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 import { AppState } from 'src/app/state/app.state';
@@ -10,7 +10,6 @@ import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.sel
 import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
 
 import { Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-surveyanswer',
@@ -22,9 +21,12 @@ export class SurveyanswerComponent implements OnInit {
   public survey: Survey;
   public questionGroups: QuestionGroup[];
 
+  public userUnlocked: any;
+
   public surveyUnlocked = false;
   public surveyActive = false;
 
+  public isLoading: boolean;
 
   private routeParamsSubscription: Subscription;
 
@@ -40,30 +42,29 @@ export class SurveyanswerComponent implements OnInit {
         self.loadData(params.survey_id);
       }
     });
+
+    this.isLoading = true;
   }
 
   ngOnInit(): void {
 
-    if (this.survey.active) {
-      this.surveyActive = true;
-    } else {
-      this.surveyActive = false;
-    }
-    if (this.survey.secret) {
-      this.surveyUnlocked = false;
-    } else {
-      this.surveyUnlocked = true;
-    }
+
 
   }
 
   private loadData(surveyId: number): void {
     this.store.dispatch(new QuestionGroupLoadAction(surveyId));
 
+    this.store.dispatch(new SurveyLoadOneAction(surveyId));
+
     this.store
       .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
       .subscribe((survey: Survey) => {
-        if (survey) { this.survey = survey; }
+        if (survey) {
+          this.survey = survey;
+          this.isLoading = false;
+          this.initializeSelectors();
+        }
       });
 
     this.store
@@ -77,6 +78,28 @@ export class SurveyanswerComponent implements OnInit {
   login(): void {
 
     this.surveyActive = true;
+  }
+
+  initializeSelectors(): void {
+
+    if (this.survey.active) {
+      this.surveyActive = true;
+    } else {
+      this.surveyActive = false;
+    }
+    if (this.survey.secret) {
+      this.surveyUnlocked = false;
+    } else {
+      this.surveyUnlocked = true;
+    }
+  }
+
+  unlockAccess(event): void{
+
+    this.surveyUnlocked = true;
+    this.userUnlocked = event;
+    console.log("User Unlocked", this.userUnlocked);
+
   }
 
 }
