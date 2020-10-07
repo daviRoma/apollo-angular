@@ -24,11 +24,11 @@
 		<!-- Id Column -->
 		<ng-container matColumnDef="icon">
 			<th mat-header-cell *matHeaderCellDef> Icon </th>
-			
-			<td mat-cell *matCellDef="let user"> <img class="dashboard-user-image"
-				src="./assets/dist/img/theme/light/brand-avatar-3.png"> </td>
-			<!-- <td mat-cell *matCellDef="let user"> <img class="dashboard-user-image"
-					src="data:image/;base64,{{user.icon}}"> </td> -->
+			<td mat-cell *matCellDef="let user">
+				<img *ngIf="user.avatar" class="dashboard-survey-image my-2" src="{{user.avatar.data}}">
+				<img *ngIf="!user.avatar" class="dashboard-survey-image my-2"
+					src="assets/dist/img/theme/light/brand-avatar-3.png">
+			</td>
 		</ng-container>
 
 		<!-- Name column -->
@@ -38,12 +38,12 @@
 				<a [routerLink]="[detailPage, user.id]"> {{user.username}} </a></td>
 		</ng-container>
 
-			<!-- Name column -->
-			<ng-container matColumnDef="email">
-				<th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-				<td mat-cell *matCellDef="let user">
-					<a [routerLink]="[detailPage, user.id]"> {{user.email}} </a></td>
-			</ng-container>
+		<!-- Name column -->
+		<ng-container matColumnDef="email">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+			<td mat-cell *matCellDef="let user">
+				<a [routerLink]="[detailPage, user.id]"> {{user.email}} </a></td>
+		</ng-container>
 
 		<!-- Action Column -->
 		<ng-container matColumnDef="action">
@@ -51,9 +51,9 @@
 			<td mat-cell *matCellDef="let user" class="action-td">
 				<a [routerLink]="[detailPage, user.id]" title="User Detail" data-toggle="tooltip">&nbsp;<i
 						class="far fa-clipboard"></i>&nbsp;</a>
-				<a *ngIf="!user.active" title="Delete User" data-toggle="tooltip" href="#"  data-action="delete-open" data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
-				(click)="openDeleteDialog()" >&nbsp;<i
-						class="fas fa-trash"></i>&nbsp;</a>
+				<a *ngIf="!user.active" title="Delete User" data-toggle="tooltip" href="#" data-action="delete-open"
+					data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
+					(click)="openDeleteDialog()">&nbsp;<i class="fas fa-trash"></i>&nbsp;</a>
 			</td>
 		</ng-container>
 

@@ -56,17 +56,19 @@ export class SurveyEffects {
     map((action) => action.payload),
     switchMap((params: number) =>
       this.surveyService.getSurvey(params).pipe(
-        map((response: SurveyResponse) => new SurveyLoadOneRedirectAction(response)),
+        map((response: SurveyResponse) => new SurveyLoadOneSuccessAction(response)),
         catchError((error) => of(new SurveyLoadOneFailAction(error)))
       )
     )
   );
 
-  @Effect({ dispatch: false })
-  public loadOneRedirect = this.actions.pipe(
-    ofType<SurveyLoadOneRedirectAction>(SurveyActionTypes.LOADONE_REDIRECT),
-    tap((action) => this.router.navigate(['/survey/detail', action.payload.data.id]))
-  );
+  // @Effect({ dispatch: false })
+  // public loadOneRedirect = this.actions.pipe(
+  //   ofType<SurveyLoadOneRedirectAction>(SurveyActionTypes.LOADONE_REDIRECT),
+  //   // tap((action) => this.router.navigate(['/survey/detail', action.payload.data.id]))
+  //   map((action) => )
+
+  // );
 
   @Effect()
   public createSurvey = this.actions.pipe(

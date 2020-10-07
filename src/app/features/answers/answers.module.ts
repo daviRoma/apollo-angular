@@ -20,6 +20,12 @@ import { ChoiceAnswerStatsComponent } from './components/answer-stats-components
 import { InputAnswerStatsComponent } from './components/answer-stats-components/input-answer-stats/input-answer-stats.component';
 import { MatrixAnswerStatsComponent } from './components/answer-stats-components/matrix-answer-stats/matrix-answer-stats.component';
 import { AnswerListComponent } from './components/answer-list/answer-list.component';
+import { SurveyPrivateComponent } from './components/survey-private/survey-private.component';
+import { SurveyNotActiveComponent } from './components/survey-not-active/survey-not-active.component';
+import { SurveySubmittedComponent } from './components/survey-submitted/survey-submitted.component';
+import { SurveyAlreadyAnsweredComponent } from './components/survey-already-answered/survey-already-answered.component';
+import { SecretSurveyLoginComponent } from './components/dialogs/secret-survey-login/secret-survey-login.component';
+import { CloseSurveyAnswerComponent } from './components/dialogs/close-survey-answer/close-survey-answer.component';
 
 
 @NgModule({
@@ -34,6 +40,12 @@ import { AnswerListComponent } from './components/answer-list/answer-list.compon
     InputAnswerStatsComponent,
     MatrixAnswerStatsComponent,
     AnswerListComponent,
+    SurveyPrivateComponent,
+    SurveyNotActiveComponent,
+    SurveySubmittedComponent,
+    SurveyAlreadyAnsweredComponent,
+    SecretSurveyLoginComponent,
+    CloseSurveyAnswerComponent,
   ],
   imports: [
     CommonModule,
@@ -52,7 +64,9 @@ import { AnswerListComponent } from './components/answer-list/answer-list.compon
     QuestionGroupAnswerBoxComponent,
     QuestionGroupAnswerDetailComponent,
     AnswerStatsComponent,
-    AnswerListComponent
+    AnswerListComponent,
+    SurveyNotActiveComponent,
+    SurveyPrivateComponent
   ],
 })
 export class AnswersModule {}

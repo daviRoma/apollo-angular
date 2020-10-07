@@ -59,7 +59,8 @@ export class AnswerService {
     const url = `${this.BASE_URL}/surveys/1/answers/`;
     // const url = `${this.BASE_URL}/surveys/${request.surveyId}/answers/`;
 
-    return this.httpClient.post<AnswerResponse>(url, request.answerWrapper, {
+    console.log("REQUEST", request);
+    return this.httpClient.post<AnswerResponse>(url, request, {
       headers: this.authService.setHttpSecurityHeaders(),
     });
   }

@@ -24,8 +24,8 @@
     <div *ngIf="question.type == 'RADIO'" class="col-12 px-3 py-2">
       <!-- OPTIONS -->
       <div *ngFor="let option of question.options; index as i" class="custom-control custom-radio">
-        <input type="radio" id="{{'customRadio_' + i  + '_' + question.id}}" name="customRadio" class="custom-control-input" value="{{option}}" (click)="choiceRadioAnswerChange($event, option)">
-        <label class="custom-control-label" for="{{'customRadio_' + i  + '_' + question.id}}">{{option}}</label>
+        <input type="radio" id="{{'customRadio_' + i  + '_' + question.id}}" name="customRadio" class="custom-control-input" value="{{option}}" (click)="choiceRadioAnswerChange($event, option.value)">
+        <label class="custom-control-label" for="{{'customRadio_' + i  + '_' + question.id}}">{{option.value}}</label>
       </div>
 
       <!-- Other -->
@@ -44,8 +44,8 @@
     <div *ngIf="question.type == 'CHECK'" class="col-12 px-3 py-2">
       <!-- OPTIONS -->
       <div *ngFor="let option of question.options; index as i" class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="{{'customCheck' + i + '_' + question.id}}" (click)="choiceCheckAnswerChange($event, option)">
-        <label class="custom-control-label" for="{{'customCheck' + i  + '_' + question.id}}">{{option}}</label>
+        <input type="checkbox" class="custom-control-input" id="{{'customCheck' + i + '_' + question.id}}" (click)="choiceCheckAnswerChange($event, option.value)">
+        <label class="custom-control-label" for="{{'customCheck' + i  + '_' + question.id}}">{{option.value}}</label>
       </div>
       <!-- Other -->
       <div *ngIf="question.other" class="custom-control custom-checkbox">
@@ -62,8 +62,8 @@
 
       <select class="custom-select">
         <option value="" selected disabled hidden>Choose here</option>
-        <option *ngFor="let option of question.options" [value]="option">
-          {{option}}
+        <option *ngFor="let option of question.options" [value]="option.value">
+          {{option.value}}
         </option>
       </select>
 

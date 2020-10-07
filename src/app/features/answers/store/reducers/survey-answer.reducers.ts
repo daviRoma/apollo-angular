@@ -9,6 +9,7 @@ export function surveyAnswerReducer(state = initialSurveyAnswerState, action: Su
     }
 
     case SurveyAnswerActionTypes.LOAD_SUCCESS: {
+      console.log(action.payload.data);
       return surveyAnswerAdapter.setAll(dataTransform(action.payload.data), {
         ...state,
         error: false,
