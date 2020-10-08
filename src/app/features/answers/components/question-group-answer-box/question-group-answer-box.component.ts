@@ -44,6 +44,12 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     console.log('Groups', this.questionGroups);
     this.group = this.questionGroups[0];
 
+    if(this.questionGroups.length == 1){
+
+      this.surveyEnd = true;
+
+    }
+
     this.answerWrapper = new AnswersWrapper();
     this.answerWrapper.answers = [];
 
@@ -112,6 +118,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
       if (this.matrixCheckCompleted && this.matrixRadioCompleted) {
 
+        console.log("Wrapper", this.answerWrapper);
         this.answerWrapper.answers = notEmptyAnswer;
         this.canContinue = true;
 
