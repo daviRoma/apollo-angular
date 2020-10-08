@@ -12,7 +12,7 @@
           <input type="text" class="form-control" placeholder="Question title..." data-toggle="autosize" required
             size="255" maxlength="255" minlength="12" formControlName="title"/>
           <mat-error class="font-weight-bold text-danger text-xs mx-1"
-            *ngIf="questionForm.get('title').hasError('required') && questionForm.get('title').touched">*The title must be 12 characters length</mat-error>
+            *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">*The title must be 12 characters length</mat-error>
         </div>
 
         <!-- Other option -->

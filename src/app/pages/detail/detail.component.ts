@@ -9,12 +9,11 @@ import * as fromQuestionGroup from 'src/app/features/question-groups/store/quest
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 import { AppState } from 'src/app/state/app.state';
 
+import { SurveyLoadOneAction } from 'src/app/features/surveys/store/actions/survey.actions';
 import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
 
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
-import { catchError } from 'rxjs/operators';
-import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
 import { User } from 'src/app/models/user.model';
 
 @Component({
@@ -71,9 +70,8 @@ export class DetailComponent implements OnInit, OnDestroy {
         if (survey) {
           this.survey = survey;
           this.isLoading = false;
-        }
-        else {
-          this.store.dispatch( new SurveyLoadAction({ user_id: this.user.id } as SurveyRequest));
+        } else {
+          this.store.dispatch( new SurveyLoadOneAction({ id: surveyId, dispatch: true } as SurveyRequest));
         }
       });
 

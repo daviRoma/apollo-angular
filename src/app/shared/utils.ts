@@ -30,4 +30,17 @@ export default class Utils {
     return text;
   }
 
+  public static hasDuplicates(arr: any[]): boolean {
+    let counts = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (counts[arr[i]] === undefined) {
+            counts[arr[i]] = 1;
+        } else {
+            return true;
+        }
+    }
+    return false;
+}
+
 }

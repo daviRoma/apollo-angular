@@ -58,6 +58,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
         options: [],
         type: this.data.type,
         questionGroup: this.data.questionGroupId,
+        mandatory: false
       } as ChoiceQuestion;
     }
 
@@ -77,7 +78,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
           })
         )
         .subscribe((response: QuestionGroup) => {
-          this.choiceQuestion.position = response.questions.length + 1;
+          if (response) this.choiceQuestion.position = response.questions.length + 1;
         });
     }
   }
@@ -140,9 +141,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     if (this.choiceQuestion.options.length < 2) {
       this.isMinOptionsLengthError = true;
       watcher = false;
-    } else if (
-      this.choiceQuestion.options.find(op => op == null ) !== undefined
-    ) {
+    } else if ( this.choiceQuestion.options.find(op => op == null ) !== undefined || Utils.hasDuplicates(this.choiceQuestion.options.map(op => op.value))) {
       this.isMinOptionsLengthError = true;
       watcher = false;
     }
@@ -171,7 +170,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
       this.iconFile.name = event.value.file.name;
       this.iconFile.data = event.value.base64;
     } else {
-      this.choiceQuestion.mandatory = event.value;
+      this.choiceQuestion.mandatory = Boolean(event.value);
     }
   }
 

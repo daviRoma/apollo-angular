@@ -43,17 +43,11 @@ export class SurveyDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('SurveyDetailComponent', 'survey', this.survey);
-    this.editDialogRef.data.survey = { ...this.survey };
-    this.editDialogRef.data.dialogConfig.title = 'Edit Survey';
-    this.deleteDialogRef.data.item = { ...this.survey };
-    this.deleteDialogRef.data.dialogConfig.title = 'Delete Survey';
-    this.deleteDialogRef.data.dialogConfig.content = 'Are you sure to delete the survey?';
-    this.publishDialogConf.minWidth = '40%';
-    this.publishDialogConf.position.top = '8%';
   }
 
   public openEditSurveyDialog(): void {
+    this.editDialogRef.data.survey = { ...this.survey };
+    this.editDialogRef.data.dialogConfig.title = 'Edit Survey';
     const updateDialogRef = this.dialog.open(EditSurveyComponent, this.editDialogRef);
 
     updateDialogRef.afterClosed().subscribe((response) => {
@@ -62,6 +56,9 @@ export class SurveyDetailComponent implements OnInit {
   }
 
   public openDeleteDialog(): void {
+    this.deleteDialogRef.data.item = { ...this.survey };
+    this.deleteDialogRef.data.dialogConfig.title = 'Delete Survey';
+    this.deleteDialogRef.data.dialogConfig.content = 'Are you sure to delete the survey?';
     const dialogRef = this.dialog.open(DeleteSurveyComponent, this.deleteDialogRef);
 
     dialogRef.afterClosed().subscribe(
@@ -74,6 +71,8 @@ export class SurveyDetailComponent implements OnInit {
 
   public openPublishDialog(): void {
     this.publishDialogConf.data.dialogConfig.title = 'Publish Survey';
+    this.publishDialogConf.minWidth = '40%';
+    this.publishDialogConf.position.top = '8%';
     const publishDialogRef = this.dialog.open(PublishSurveyComponent, this.publishDialogConf);
 
     publishDialogRef.afterClosed().subscribe((response) => {

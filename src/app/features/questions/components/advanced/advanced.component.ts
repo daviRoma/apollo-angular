@@ -28,10 +28,10 @@ export class AdvancedComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-      const changes = this.fileDiffer.diff(this.iconData);
-      if (changes) {
-        this.fileChanged(changes);
-      }
+    const changes = this.fileDiffer.diff(this.iconData);
+    if (changes) {
+      this.fileChanged(changes);
+    }
   }
 
   fileChanged(changes: KeyValueChanges<string, any>): void {
@@ -39,11 +39,6 @@ export class AdvancedComponent implements OnInit, DoCheck {
     if (this.iconData.base64 !== null) {
       this.advancedOptions.emit({ name: 'file', value: this.iconData });
     }
-    /* If you want to see details then use
-      changes.forEachRemovedItem((record) => ...);
-      changes.forEachAddedItem((record) => ...);
-      changes.forEachChangedItem((record) => ...);
-    */
   }
 
   onMandatoryChange(event): void {
