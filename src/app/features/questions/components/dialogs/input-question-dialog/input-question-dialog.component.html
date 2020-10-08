@@ -11,7 +11,7 @@
             <div class="col-12">
               <mat-label th:for="title" class="form-control-label">Question </mat-label>
               <input type="text" class="form-control" formControlName="title" placeholder="Question title..." data-toggle="autosize" required size="255" maxlength="255" minlength="12"/>
-              <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="questionForm.get('title').hasError('required') && questionForm.get('title').touched">*The title must be 12 characters length</mat-error>
+              <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">*The title must be 12 characters length</mat-error>
             </div>
           </div>
 
