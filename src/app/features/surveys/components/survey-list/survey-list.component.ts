@@ -147,7 +147,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.afterClosed().subscribe((response) => {
       if (response.result === 'close_after_delete') {
         // Delete action
-        this.store.dispatch(new SurveyDeleteAction(survey.id));
+        // this.store.dispatch(new SurveyDeleteAction(survey.id));
       }
     });
   }

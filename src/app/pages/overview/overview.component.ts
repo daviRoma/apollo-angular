@@ -15,7 +15,7 @@ import { QuestionLoadAction } from 'src/app/features/questions/store/actions/que
 import { AppState } from 'src/app/state/app.state';
 
 import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
-import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
+import { SurveyLoadAction, SurveyLoadOneAction } from 'src/app/features/surveys/store/actions/survey.actions';
 import { SurveyAnswerLoadAction } from 'src/app/features/answers/store/actions/survey-answer.actions';
 
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
@@ -121,9 +121,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
           this.isLoadingSurvey = false;
           this.loadQuestionGroupsData();
         } else {
-          this.store.dispatch(
-            new SurveyLoadAction({ user_id: this.user.id } as SurveyRequest)
-          );
+          this.store.dispatch( new SurveyLoadOneAction({ id: surveyId, dispatch: true } as SurveyRequest));
         }
       });
   }

@@ -29,7 +29,7 @@ export class PublishSurveyComponent implements OnInit {
 
   public publicLink: string;
 
-  public result: any;
+  public isError: any;
   public isLoading: boolean;
 
   constructor(
@@ -38,23 +38,23 @@ export class PublishSurveyComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
+    this.publicLink = Paths.surveyAnswer.publicLink;
 
     // Edit case
     if (this.data.survey) {
       this.survey = { ...this.data.survey };
+      this.isLoading = false;
     }
 
-    this.publicLink = Paths.surveyAnswer.publicLink;
-    this.result = {};
-    this.isLoading = false;
   }
 
   ngOnInit(): void {
-    this.store.select(fromSurvey.selectEntity, { id: this.survey.id })
+    this.store
+      .select(fromSurvey.selectEntity, { id: this.survey.id })
       .subscribe((survey: Survey) => {
         if (survey) {
-          console.log(survey);
           this.survey = { ...survey };
+          this.isLoading = false;
         }
       });
   }
@@ -67,17 +67,27 @@ export class PublishSurveyComponent implements OnInit {
   }
 
   handleSubmit(): void {
+    if (!this.hasQuestions()) {
+      this.isError = true;
+      return;
+    }
     if (this.survey.secret && !this.survey.active) {
       this.dialogRef.close({ result: 'close_send_invitation' });
     } else {
       if (this.survey.active) {
         const payload = Utils.deleteNullKey({ ...this.survey });
-        console.log('Payload', payload);
         this.store.dispatch(new SurveyUpdateAction({ ...payload, active: false }));
       } else {
         this.store.dispatch(new SurveyPublishAction({ id: this.survey.id, url: Paths.surveyAnswer.publicLink }));
       }
     }
+  }
+
+  hasQuestions(): boolean {
+    if (this.survey.questionGroups && this.survey.questionGroups.length) {
+      return !(this.survey.questionGroups.find( group => (group.questions == null)) !== undefined);
+    }
+    return false;
   }
 
   closeDialog(): void {

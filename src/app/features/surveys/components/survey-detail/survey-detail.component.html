@@ -48,7 +48,7 @@
                 (click)="openInvitationPoolDialog()">
                 <i class="far fa-envelope"></i>
             </a>
-            <a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip" title="Edit" data-target="#actions-update"
+            <a *ngIf="!survey.active" href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip" title="Edit" data-target="#actions-update"
                 (click)="openEditSurveyDialog()">
                 <i class="far fa-edit"></i>
             </a>
@@ -56,7 +56,7 @@
                 (click)="openPublishDialog()">
                 <i class="fas fa-share-square"></i>
             </a>
-            <a href="#" class="action-item" data-action="delete-open" data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
+            <a *ngIf="!survey.active" href="#" class="action-item" data-action="delete-open" data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
                 (click)="openDeleteDialog()">
                 <i class="far fa-trash text-danger"></i>
             </a>

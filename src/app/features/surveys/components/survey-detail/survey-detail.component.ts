@@ -70,6 +70,7 @@ export class SurveyDetailComponent implements OnInit {
   }
 
   public openPublishDialog(): void {
+    this.publishDialogConf.data.survey = { ...this.survey };
     this.publishDialogConf.data.dialogConfig.title = 'Publish Survey';
     this.publishDialogConf.minWidth = '40%';
     this.publishDialogConf.position.top = '8%';
