@@ -16,13 +16,13 @@
 
         <div *ngIf="question.icon != null" class="col-auto">
           <div class="rounded-lg shadow">
-            <img class="rounded-lg question-image border question-image"  src="{{question.icon.data}}">
+            <img class="rounded-lg question-image border question-image" src="{{question.icon.data}}">
           </div>
         </div>
       </div>
 
       <!-- Question options -->
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-12 overflow-auto">
 
           <table class="table table-cards align-items-center" width="100%" cellspacing="0">
@@ -37,26 +37,26 @@
             </thead>
 
             <!-- Show questions -->
+
             <tbody>
-              <span *ngFor="let element of question.elements; index as i;">
-                <tr class="shadow-none">
-                  <th scope="row">{{element.title}}</th>
-                  <td class="matrix-options-label" *ngFor="let option of question.options">
+              <tr *ngFor="let element of question.elements; index as i;" class="shadow-none">
+                <th scope="row">{{element.title}}</th>
+                <td class="matrix-options-label mb-1" *ngFor="let option of question.options; index as b">
 
-                    <div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck2" disabled>
-                      <label class="custom-control-label" for="customCheck2"></label>
-                    </div>
-
-                    <div *ngIf="question.type === 'RADIO'" class="custom-control custom-radio">
-                      <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" disabled>
+                  <div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
+                    <div>
+                      <input type="checkbox" class="custom-control-input" id="customRadio1">
                       <label class="custom-control-label" for="customRadio1"></label>
                     </div>
 
-                  </td>
-                </tr>
-                <tr class="table-divider"></tr>
-              </span>
+                  </div>
+                  <div *ngIf="question.type === 'RADIO'" class="custom-control custom-radio">
+                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadio1"></label>
+                  </div>
+
+                </td>
+              </tr>
             </tbody>
           </table>
 
@@ -67,7 +67,8 @@
 
     <div *ngIf="!readonly" lass="col-auto bg-gray-100 pr-0 modify">
       <div class="dropdown" data-toggle="dropdown">
-        <a href="#" class="action-item pr-0" role="button" title="Open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a href="#" class="action-item pr-0" role="button" title="Open" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
           <i class="far fa-cog"></i>
         </a>
 

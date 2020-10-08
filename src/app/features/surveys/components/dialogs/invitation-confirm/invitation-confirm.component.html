@@ -1,30 +1,26 @@
 <!-- INVITATION POOL MODAL -->
-<h2 mat-dialog-title>
-  {{dialogConfig.title}}
-</h2>
+<div class="row justify-content-center mb-3">
+  <h2 class="col-auto mat-dialog-title justify-content-center">{{dialogConfig.title}}</h2>
 
-<!-- Content -->
-<div mat-dialog-content>
-  <div class="row mt-3">
-    <div class="col">
-      Pubblicando il sondaggio invierai la mail agli utenti invitati. Confermare?
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-12 py-2">
-      <div *ngIf="isError" id="result_message" class="text-left justify-content-between text-xs text-muted mt-2">
-        <span id="error_message" class="font-weight-bold text-danger ">No email address found</span>
+  <div class="col-auto mat-dialog-content justify-content-center mb-2">
+    <div class="row justify-content-center">
+      <div class="col-12 justify-content-center">
+        <span class="justify-content-center">Pubblicando il sondaggio invierai la mail agli utenti invitati.
+          Confermare?</span>
+      </div>
+      <div class="col-12 py-2 justify-content-center">
+        <div *ngIf="isError" id="result_message" class="text-left justify-content-between text-xs text-muted mt-2">
+          <span id="error_message" class="font-weight-bold text-danger ">No email address found</span>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Footer -->
-<div mat-dialog-actions>
-  <div class="text-right buttons-container">
-    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendInvitationAndPublish()"
-      [disabled]="survey.active">Invia</button>
+  <div class="mat-dialog-actions col-12 justify-content-center">
+    <div class="text-right buttons-container">
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
+      <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendInvitationAndPublish()"
+        [disabled]="survey.active">Invia</button>
+    </div>
   </div>
 </div>

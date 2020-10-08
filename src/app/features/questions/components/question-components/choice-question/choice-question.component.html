@@ -57,15 +57,14 @@
         </div>
 
         <div *ngIf="question.type == 'SELECT'" class="col-12 px-3 py-2">
-          <mat-form-field appearance="fill">
-            <mat-label class="form-control-label">Options</mat-label>
-            <mat-select>
-              <mat-option>-- None --</mat-option>
-              <mat-option *ngFor="let option of question.options" [value]="option.value">
-                {{ option.value }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <!-- <mat-form-field appearance="fill"> -->
+
+            <select class="custom-select col-4">
+              <option value="" selected disabled hidden>Choose here</option>
+              <option *ngFor="let option of question.options" [value]="option.value" disabled>
+                {{option.value}}
+              </option>
+            </select>
         </div>
 			</div>
 

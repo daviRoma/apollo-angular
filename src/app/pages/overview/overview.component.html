@@ -6,7 +6,8 @@
       <!-- Page title + Go Back button -->
       <div class="d-inline-block p-1">
         <div class="row">
-          <a href="#" [routerLink]="['/dashboard']" title="Home" class="link font-weight-400 pt-1 col-auto my-auto text-white">
+          <a href="#" [routerLink]="['/dashboard']" title="Home"
+            class="link font-weight-400 pt-1 col-auto my-auto text-white">
             <i class="fas fa-arrow-left"></i>
           </a>
 
@@ -33,7 +34,7 @@
 
     <!-- Survey overview -->
     <ng-template #loadGroupsComplete>
-      <app-survey-overview [survey]="survey"></app-survey-overview>
+      <app-survey-overview [survey]="survey" style="width: 100%;"></app-survey-overview>
     </ng-template>
 
     <!-- Answers Stats -->
@@ -54,14 +55,16 @@
               <label class="form-control-label">Questions</label>
               <select id="question_select" class="custom-select" (change)="onQuestionChange($event)">
                 <option id="default_option" value="" selected="true">-- None --</option>
-                <option *ngFor="let question of questions" [value]="question.id + '-' +question.idDB">{{question.title}}</option>
+                <option *ngFor="let question of questions" [value]="question.id + '-' +question.idDB">{{question.title}}
+                </option>
               </select>
             </div>
           </div>
         </div>
 
         <div class="card-body answers-container">
-          <app-answer-stats *ngIf="!isLoadingAnswers" [question]="question" [questionAnswers]="questionAnswers"></app-answer-stats>
+          <app-answer-stats *ngIf="!isLoadingAnswers" [question]="question" [questionAnswers]="questionAnswers">
+          </app-answer-stats>
         </div>
 
       </div>
@@ -85,7 +88,8 @@
         </div>
 
         <!-- Table -->
-        <app-answer-list *ngIf="!isLoadingGroups" [surveyId]="survey.id"  [questionGroups]="questionGroups"></app-answer-list>
+        <app-answer-list *ngIf="!isLoadingGroups" [surveyId]="survey.id" [questionGroups]="questionGroups">
+        </app-answer-list>
       </div>
 
     </div>
