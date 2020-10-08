@@ -1,17 +1,19 @@
 <!-- DELETE SURVEY DIALOG -->
-<h2 class="mat-dialog-title">{{dialogConfig.title}}</h2>
+<div class="row justify-content-center mb-3 mt-1">
+  <h2 class="col-auto mat-dialog-title justify-content-center">{{dialogConfig.title}}</h2>
 
-<div class="mat-dialog-content">
-  <div class="row">
-    <div class="col-md-12">
-      <span class="form-control-label"> {{dialogConfig.content}} </span>
+  <div class="col-12 mat-dialog-content justify-content-center mb-3">
+    <div class="row">
+      <div class="col-md-12">
+        <span class="form-control-label justify-content-center">  {{dialogConfig.content}}</span>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="mat-dialog-actions">
-  <div class="text-right buttons-container">
-    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="confirm()">Confirm</button>
+  <div class="mat-dialog-actions col-12 justify-content-center">
+    <div class="text-right buttons-container">
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
+      <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="confirm()">Confirm</button>
+    </div>
   </div>
 </div>

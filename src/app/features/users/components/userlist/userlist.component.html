@@ -49,8 +49,6 @@
 		<ng-container matColumnDef="action">
 			<th mat-header-cell *matHeaderCellDef> Action </th>
 			<td mat-cell *matCellDef="let user" class="action-td">
-				<a [routerLink]="[detailPage, user.id]" title="User Detail" data-toggle="tooltip">&nbsp;<i
-						class="far fa-clipboard"></i>&nbsp;</a>
 				<a *ngIf="!user.active" title="Delete User" data-toggle="tooltip" href="#" data-action="delete-open"
 					data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
 					(click)="openDeleteDialog()">&nbsp;<i class="fas fa-trash"></i>&nbsp;</a>
