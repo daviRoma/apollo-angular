@@ -28,6 +28,8 @@ export class SurveyanswerComponent implements OnInit {
 
   public isLoading: boolean;
 
+  public surveySubmitted = false;
+
   private routeParamsSubscription: Subscription;
 
   constructor(
@@ -99,6 +101,18 @@ export class SurveyanswerComponent implements OnInit {
     this.surveyUnlocked = true;
     this.userUnlocked = event;
     console.log("User Unlocked", this.userUnlocked);
+
+  }
+
+  showSubmittedView(event): void{
+
+    if(event){
+
+      this.surveySubmitted = true;
+      this.surveyActive = false;
+      this.surveyUnlocked = false;
+
+    }
 
   }
 
