@@ -12,7 +12,7 @@
           <input type="text" class="form-control" placeholder="Question title..." formControlName="title" data-toggle="autosize" required
             size="255" maxlength="255" minlength="12" />
           <mat-error class="font-weight-bold text-danger text-xs mx-1"
-            *ngIf="questionForm.get('title').hasError('required') && questionForm.get('title').touched">*Please insert a title</mat-error>
+            *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">*Please insert a title</mat-error>
         </div>
 
         <!-- Question options -->

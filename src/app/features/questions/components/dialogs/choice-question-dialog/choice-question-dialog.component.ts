@@ -170,7 +170,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
       this.iconFile.name = event.value.file.name;
       this.iconFile.data = event.value.base64;
     } else {
-      this.choiceQuestion.mandatory = Boolean(event.value);
+      this.choiceQuestion.mandatory = event.value;
     }
   }
 
