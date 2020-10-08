@@ -47,7 +47,7 @@
 
                 <!-- GROUPS CONTAINER -->
                 <div id="question_group_section">
-                    <app-question-group-answer-box [questionGroups]="questionGroups" [userUnlocked]="userUnlocked"></app-question-group-answer-box>
+                    <app-question-group-answer-box [questionGroups]="questionGroups" [userUnlocked]="userUnlocked" (submitted)="showSubmittedView($event)"></app-question-group-answer-box>
                 </div>
 
 
@@ -66,8 +66,12 @@
     </div>
 
 
-    <div *ngIf="!surveyActive">
+    <div *ngIf="!surveyActive && !surveySubmitted">
         <app-survey-not-active></app-survey-not-active>
+    </div>
+
+    <div *ngIf="surveySubmitted">
+        <app-survey-submitted></app-survey-submitted>
     </div>
 
 </div>

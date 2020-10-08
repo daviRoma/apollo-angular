@@ -24,7 +24,7 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
 
   private otherStatus = false;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.choiceAnswer = new SingleAnswer();
@@ -64,6 +64,12 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     } else {
       this.checkAnswer.answer.push(option);
     }
+    this.optionSelected.emit(this.checkAnswer);
+  }
+
+  choiceSelectAnswerChange(option): void {
+
+    this.checkAnswer.answer= option;
     this.optionSelected.emit(this.checkAnswer);
   }
 
