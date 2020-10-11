@@ -1,6 +1,4 @@
-import { not } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AnswersWrapper } from 'src/app/models/answer.model';
 
@@ -8,8 +6,6 @@ import { QuestionGroup } from 'src/app/models/question-group.model';
 import { MatrixQuestion, Question } from 'src/app/models/question.model';
 import { AppState } from 'src/app/state/app.state';
 import { SubmitAnswers } from '../../store/actions/answer.actions';
-
-
 
 
 @Component({
@@ -21,7 +17,8 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   @Input() questionGroups: QuestionGroup[];
   @Input() userUnlocked: any;
 
-  @Output() submitted= new EventEmitter();
+  @Output() submitted = new EventEmitter();
+  @Input() answerId: number;
 
   public group: QuestionGroup;
   private index = 0;
@@ -35,19 +32,17 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   private matrixCheckCompleted = false;
   private matrixRadioCompleted = false;
 
-  public surveyEnd = false;
+  public surveyEnd: boolean;
 
   constructor(private store: Store<AppState>,
   ) { }
 
   ngOnInit(): void {
-    console.log('Groups', this.questionGroups);
+    this.surveyEnd = false;
     this.group = this.questionGroups[0];
 
-    if(this.questionGroups.length == 1){
-
+    if (this.questionGroups.length === 1) {
       this.surveyEnd = true;
-
     }
 
     this.answerWrapper = new AnswersWrapper();

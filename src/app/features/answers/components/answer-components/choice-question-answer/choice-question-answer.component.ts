@@ -17,10 +17,15 @@ import { ChoiceQuestion } from 'src/app/models/question.model';
 })
 export class ChoiceQuestionAnswerComponent implements OnInit {
   @Input() question: ChoiceQuestion;
+  @Input() answers: any[];
+
   @Output() optionSelected = new EventEmitter();
 
   public choiceAnswer: SingleAnswer;
   public checkAnswer: MultiAnswer;
+
+  public selectedValue: string;
+  public readOnly: boolean;
 
   private otherStatus = false;
 
@@ -35,6 +40,31 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     this.checkAnswer.questionId = this.question.id;
     this.checkAnswer.questionType = this.question.questionType;
     this.checkAnswer.answer = [];
+
+    // View answer
+    if (this.answers) {
+      this.readOnly = true;
+      this.showAnswer();
+    }
+
+  }
+
+  showAnswer(): void {
+    const answer = this.answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'));
+    const options = [ ...this.question.options ].map(op => ({ id: op.id, value: op.value, checked: false }) );
+
+    this.question = {
+      ...this.question,
+      options: options.map(op => {
+        answer.answers.forEach( value => {
+          if (op.value === value ) {
+            op.checked = true;
+            if (this.question.type === 'SELECT') this.selectedValue = op.value;
+          }
+        });
+        return op;
+      })
+    };
   }
 
   // GESTIRE LA RIMOZIONE

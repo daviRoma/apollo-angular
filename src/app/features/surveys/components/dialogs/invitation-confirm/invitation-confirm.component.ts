@@ -45,7 +45,7 @@ export class InvitationConfirmComponent implements OnInit {
 
   sendInvitationAndPublish(): void {
     if (this.survey.invitationPool && this.survey.invitationPool.emails.length) {
-      this.store.dispatch(new SurveyPublishAction({ id: this.survey.id, url: Paths.surveyAnswer.publicLink }));
+      this.store.dispatch(new SurveyPublishAction({ id: this.survey.id, url: `${Paths.surveyAnswer.publicLink}/${this.survey.id}/${this.survey.urlId}` }));
       this.dialogRef.close({ result: 'close_after_invitation_confirm '});
     } else {
       this.isError = true;

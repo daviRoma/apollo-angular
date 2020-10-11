@@ -88,7 +88,7 @@
         </div>
 
         <!-- Table -->
-        <app-answer-list *ngIf="!isLoadingGroups" [surveyId]="survey.id" [questionGroups]="questionGroups">
+        <app-answer-list *ngIf="!isLoadingGroups" [survey]="survey" [questionGroups]="questionGroups">
         </app-answer-list>
       </div>
 

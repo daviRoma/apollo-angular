@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AppState } from 'src/app/state/app.state';
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 
-import { LogOut, LogIn, LoadSessionUser } from 'src/app/core/auth/store/auth.actions';
+import { LogOut, LoadSessionUser } from 'src/app/core/auth/store/auth.actions';
+
+import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
+
 import { User } from 'src/app/models/user.model';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,7 +21,7 @@ export class SidebarComponent implements OnInit {
   public user: User;
 
   constructor (
-    private authService: AuthService,
+    public newSurveyDialog: MatDialog,
     private store: Store<AppState>
   ) {}
 
@@ -33,7 +35,20 @@ export class SidebarComponent implements OnInit {
       });
   }
 
-  public logoutUser(): void {
+  openNewSurveyModal(): void {
+    const dialogRef = this.newSurveyDialog.open(EditSurveyComponent, {
+      width: '45%',
+      position: { top: '3%' },
+      data: {
+        dialogConfig: {
+          title: 'New Survey',
+          operation: 'new'
+        }
+      }
+    });
+  }
+
+  logoutUser(): void {
     this.store.dispatch(new LogOut());
   }
 

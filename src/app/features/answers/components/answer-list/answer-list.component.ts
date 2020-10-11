@@ -16,6 +16,7 @@ import { SurveyAnswerLoadAction } from '../../store/actions/survey-answer.action
 
 import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
+import { Survey } from 'src/app/models/survey.model';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  @Input() surveyId: number;
+  @Input() survey: Survey;
   @Input() questionGroups: QuestionGroup[];
 
   // MatPaginator Output
@@ -134,7 +135,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
         page: this.paginator ? (this.paginator.pageIndex + 1) : 1,
         pag_size: this.paginator ? this.paginator.pageSize : 5,
       },
-      surveyId: this.surveyId
+      surveyId: this.survey.id
     } as SurveyAnswerRequest));
 
   }

@@ -57,8 +57,6 @@
         </div>
 
         <div *ngIf="question.type == 'SELECT'" class="col-12 px-3 py-2">
-          <!-- <mat-form-field appearance="fill"> -->
-
             <select class="custom-select col-4">
               <option value="" selected disabled hidden>Choose here</option>
               <option *ngFor="let option of question.options" [value]="option.value" disabled>

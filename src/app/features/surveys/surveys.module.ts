@@ -41,6 +41,6 @@ import { InvitationConfirmComponent } from './components/dialogs/invitation-conf
     MatProgressSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [SurveyDetailComponent, SurveyOverviewComponent],
+  exports: [SurveyDetailComponent, SurveyOverviewComponent, EditSurveyComponent],
 })
 export class SurveysModule {}

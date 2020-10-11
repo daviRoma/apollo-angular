@@ -1,18 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
-import { selectSurveyState } from '../../../store/selectors/survey.selectors';
 import { SurveyNewAction, SurveyUpdateAction } from '../../../store/actions/survey.actions';
 
-import { Survey } from 'src/app/models/survey.model';
+import { Survey, SurveyRequest } from 'src/app/models/survey.model';
+import { IconData, Icon } from 'src/app/models/icon.model';
 
 import Utils from 'src/app/shared/utils';
-import { IconData, Icon } from 'src/app/models/icon.model';
 
 @Component({
   selector: 'app-edit-survey',
@@ -28,6 +26,7 @@ export class EditSurveyComponent implements OnInit {
   public iconData: IconData;
 
   public isFileError: boolean;
+  public dateError: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<EditSurveyComponent>,
@@ -39,12 +38,12 @@ export class EditSurveyComponent implements OnInit {
     this.dialogConfig = this.data.dialogConfig;
 
     this.surveyForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(6)]],
       description: [''],
       secret: [false],
-      start_date: [],
-      end_date: [],
-      icon: []
+      startDate: [],
+      endDate: [],
+      icon: [],
     });
 
     // Edit case
@@ -60,6 +59,9 @@ export class EditSurveyComponent implements OnInit {
 
   onSubmit(event): void {
     event.preventDefault();
+
+    // Form validation
+    if (!this.isFieldsValid()) return;
 
     // Remove null attributes
     const payload = Utils.deleteNullKey({ ...this.surveyForm.value }) as Survey;
@@ -80,6 +82,28 @@ export class EditSurveyComponent implements OnInit {
       result: 'close_after_' + this.dialogConfig.operation,
       data: payload,
     });
+  }
+
+  isFieldsValid(): boolean {
+    let watcher = true;
+    const today = Utils.getCurrentFormattedDate();
+
+    if (!this.surveyForm.get('name').valid) {
+      watcher = false;
+      return;
+    }
+
+    if (
+      this.surveyForm.get('startDate').value >= this.surveyForm.get('endDate').value ||
+      this.surveyForm.get('startDate').value <= today ||
+      this.surveyForm.get('endDate').value === today
+      ) {
+        watcher = false;
+        this.dateError = true;
+        return;
+      }
+
+    return watcher;
   }
 
   closeDialog(): void {

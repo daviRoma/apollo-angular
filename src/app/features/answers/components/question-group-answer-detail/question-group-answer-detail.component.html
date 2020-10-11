@@ -10,7 +10,7 @@
 
       <!-- If Choice Question -->
       <div *ngIf="question.questionType === 'App\\MultiQuestion'">
-        <app-choice-question-answer [question]="question" (optionSelected)="updateWrapper($event)"></app-choice-question-answer>
+        <app-choice-question-answer [question]="question" [answers]="surveyAnswer ? surveyAnswer.answers : null" (optionSelected)="updateWrapper($event)"></app-choice-question-answer>
       </div>
 
       <!-- If Input Question -->

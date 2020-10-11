@@ -1,25 +1,29 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
-import { SurveyLoadAction, SurveyLoadOneAction } from 'src/app/features/surveys/store/actions/survey.actions';
-import { QuestionGroup } from 'src/app/models/question-group.model';
-import { Survey, SurveyRequest } from 'src/app/models/survey.model';
+import { Subscription } from 'rxjs';
+
 import { AppState } from 'src/app/state/app.state';
+import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
+import { SurveyLoadOneAction } from 'src/app/features/surveys/store/actions/survey.actions';
+
 import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
 import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
 
-import { Subscription } from 'rxjs';
+import { QuestionGroup } from 'src/app/models/question-group.model';
+import { Survey } from 'src/app/models/survey.model';
 
 @Component({
   selector: 'app-surveyanswer',
   templateUrl: './surveyanswer.component.html',
   styleUrls: ['./surveyanswer.component.scss']
 })
-export class SurveyanswerComponent implements OnInit {
+export class SurveyanswerComponent implements OnInit, OnDestroy {
 
   public survey: Survey;
   public questionGroups: QuestionGroup[];
+
+  public surveyAnswerId: number;
 
   public userUnlocked: any;
 
@@ -42,39 +46,21 @@ export class SurveyanswerComponent implements OnInit {
       if (params.survey_id) {
         // Select survey from store by url parameter
         self.loadData(params.survey_id);
+
+        // Read only survey
+        if (params.answer_id) {
+          this.surveyAnswerId = params.answer_id;
+        }
       }
     });
 
     this.isLoading = true;
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-
-
-  }
-
-  private loadData(surveyId: number): void {
-    this.store.dispatch(new QuestionGroupLoadAction(surveyId));
-
-    this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true }));
-
-    this.store
-      .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
-      .subscribe((survey: Survey) => {
-        if (survey) {
-          this.survey = survey;
-          this.isLoading = false;
-          this.initializeSelectors();
-        }
-      });
-
-    this.store
-      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId }))
-      .subscribe((response: QuestionGroup[]) => {
-        this.survey = { ...this.survey, questionGroups: response };
-        this.questionGroups = response;
-      });
+  ngOnDestroy(): void {
+    this.routeParamsSubscription.unsubscribe();
   }
 
   login(): void {
@@ -114,6 +100,29 @@ export class SurveyanswerComponent implements OnInit {
 
     }
 
+  }
+
+    private loadData(surveyId: number): void {
+    this.store.dispatch(new QuestionGroupLoadAction(surveyId));
+
+    this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true }));
+
+    this.store
+      .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
+      .subscribe((survey: Survey) => {
+        if (survey) {
+          this.survey = survey;
+          this.isLoading = false;
+          this.initializeSelectors();
+        }
+      });
+
+    this.store
+      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId }))
+      .subscribe((response: QuestionGroup[]) => {
+        this.survey = { ...this.survey, questionGroups: response };
+        this.questionGroups = response;
+      });
   }
 
 }

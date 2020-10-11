@@ -78,7 +78,11 @@ export class PublishSurveyComponent implements OnInit {
         const payload = Utils.deleteNullKey({ ...this.survey });
         this.store.dispatch(new SurveyUpdateAction({ ...payload, active: false }));
       } else {
-        this.store.dispatch(new SurveyPublishAction({ id: this.survey.id, url: Paths.surveyAnswer.publicLink }));
+        this.store.dispatch(new SurveyPublishAction(
+          {
+            id: this.survey.id,
+            url: `${Paths.surveyAnswer.publicLink}/${this.survey.id}/${this.survey.urlId}`
+          }));
       }
     }
   }

@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
 
 import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
-import { SurveyNewAction } from 'src/app/features/surveys/store/actions/survey.actions';
 
 @Component({
   selector: 'app-dashboard',

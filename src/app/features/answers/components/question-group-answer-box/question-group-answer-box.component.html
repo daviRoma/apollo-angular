@@ -1,7 +1,7 @@
 <!-- QUESTION GROUP BOX -->
 <div class="card-body pb-0 pt-3 mb-3" title="group-container">
 
-  <app-question-group-answer-detail [questionGroup]="group" (answerChange)="updateWrapper($event)"></app-question-group-answer-detail>
+  <app-question-group-answer-detail [questionGroup]="group" [answerId]="answerId" (answerChange)="updateWrapper($event)"></app-question-group-answer-detail>
 
 </div>
 
@@ -16,7 +16,6 @@
 
     <button *ngIf="surveyEnd === false" class="btn btn-primary rounded-pill" (click)="onNextGroup()">Next</button>
     <button *ngIf="surveyEnd === true" class="btn btn-primary rounded-pill" (click)="submitSurveyAnswers()">Submit</button>
-
 
   </div>
 </div>

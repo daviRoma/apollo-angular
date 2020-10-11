@@ -42,12 +42,13 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
             username: action.payload.user.username,
             firstname: action.payload.user.firstname,
             lastname: action.payload.user.lastname,
+            avatar: action.payload.data.avatar,
           },
           role: action.payload.role,
           token: action.payload.token,
         },
         error: null,
-        errorMessage: null
+        errorMessage: null,
       };
     }
     case fromActions.AuthActionTypes.REGISTRATION_FAILURE: {
@@ -71,6 +72,7 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
             username: action.payload.data.username,
             firstname: action.payload.data.firstname,
             lastname: action.payload.data.lastname,
+            avatar: action.payload.data.avatar
           },
           role: action.payload.data.role,
           token: action.payload.token,
