@@ -10,6 +10,7 @@ import { LogOut, LoadSessionUser } from 'src/app/core/auth/store/auth.actions';
 import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
 
 import { User } from 'src/app/models/user.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,9 +20,11 @@ import { User } from 'src/app/models/user.model';
 export class SidebarComponent implements OnInit {
 
   public user: User;
+  public currentLang: string;
 
   constructor (
     public newSurveyDialog: MatDialog,
+    private translate: TranslateService,
     private store: Store<AppState>
   ) {}
 
@@ -33,6 +36,8 @@ export class SidebarComponent implements OnInit {
         if (!user) this.store.dispatch(new LoadSessionUser());
         else this.user = user;
       });
+
+    this.currentLang = this.translate.currentLang;
   }
 
   openNewSurveyModal(): void {
@@ -46,6 +51,11 @@ export class SidebarComponent implements OnInit {
         }
       }
     });
+  }
+
+  useLanguage(language: string): void {
+    this.translate.use(language);
+    this.currentLang = this.translate.currentLang;
   }
 
   logoutUser(): void {

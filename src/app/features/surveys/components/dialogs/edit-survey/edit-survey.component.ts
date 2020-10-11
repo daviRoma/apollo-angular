@@ -90,18 +90,21 @@ export class EditSurveyComponent implements OnInit {
 
     if (!this.surveyForm.get('name').valid) {
       watcher = false;
-      return;
     }
 
     if (
-      this.surveyForm.get('startDate').value >= this.surveyForm.get('endDate').value ||
-      this.surveyForm.get('startDate').value <= today ||
-      this.surveyForm.get('endDate').value === today
-      ) {
-        watcher = false;
-        this.dateError = true;
-        return;
-      }
+      (this.surveyForm.get('startDate').value && this.surveyForm.get('endDate').value)
+      && this.surveyForm.get('startDate').value >= this.surveyForm.get('endDate').value
+    ) {
+      watcher = false;
+      this.dateError = true;
+    } else if (this.surveyForm.get('startDate').value && this.surveyForm.get('startDate').value <= today) {
+      watcher = false;
+      this.dateError = true;
+    } else if (this.surveyForm.get('endDate').value && this.surveyForm.get('endDate').value) {
+      watcher = false;
+      this.dateError = true;
+    }
 
     return watcher;
   }

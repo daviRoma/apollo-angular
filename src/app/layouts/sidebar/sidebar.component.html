@@ -55,24 +55,20 @@
             <ul class="navbar-nav flex-row align-items-center">
 
               <li class="nav-item dropdown dropdown-animate mr-2">
-                <!-- <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img class="locale-image" alt="Image placeholder" src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'"
-                                                th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
-                </a> -->
+                <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <img class="locale-image" alt="Image placeholder" src="{{ currentLang == 'en' ? 'assets/dist/img/icons/flags/en.svg' : 'assets/dist/img/icons/flags/it.svg'}}">
+                </a>
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
-                  <!-- <a href="#" th:href="@{?lang=en}" class="dropdown-item">
-                        <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
-                              th:src="@{/dist/img/icons/flags/en.svg}"
-                              class="mr-2">[[#{common.english}]]
-                    </a> -->
-                  <!-- <a href="#"
-                        th:href="@{?lang=it}"
-                        class="dropdown-item"><img
-                            alt="Image placeholder"
-                            src="./dist/img/icons/flags/it.svg"
-                            th:src="@{/dist/img/icons/flags/it.svg}"
-                            class="mr-2">[[#{common.italian}]]
-                    </a> -->
+                  <a href="#" class="dropdown-item" (click)="useLanguage('en')">
+                    <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
+                              src="assets/dist/img/icons/flags/en.svg"
+                              class="mr-2">EN
+                    </a>
+                    <a href="#" class="dropdown-item" (click)="useLanguage('it')">
+                      <img alt="Image placeholder"
+                            src="assets/dist/img/icons/flags/it.svg"
+                            class="mr-2">IT
+                    </a>
                 </div>
               </li>
 

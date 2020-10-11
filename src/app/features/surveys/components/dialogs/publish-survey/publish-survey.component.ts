@@ -88,8 +88,8 @@ export class PublishSurveyComponent implements OnInit {
   }
 
   hasQuestions(): boolean {
-    if (this.survey.questionGroups && this.survey.questionGroups.length) {
-      return !(this.survey.questionGroups.find( group => (group.questions == null)) !== undefined);
+    if (this.data.survey.questionGroups && this.data.survey.questionGroups.length) {
+      return !(this.data.survey.questionGroups.find( group => (group.questions == null)) !== undefined);
     }
     return false;
   }

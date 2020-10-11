@@ -9,16 +9,18 @@ import { MatrixQuestion } from 'src/app/models/question.model';
 })
 export class MatrixQuestionAnswerComponent implements OnInit {
   @Input() question: MatrixQuestion;
+  @Input() answers: any[];
 
   @Output() optionSelected = new EventEmitter();
 
   public matrixSingleAnswer: MatrixSingleAnswer;
   public matrixMultiAnswer: MatrixMultiAnswer;
 
+  public readOnly: boolean;
+
   constructor() {}
 
   ngOnInit(): void {
-
     this.matrixSingleAnswer = new MatrixSingleAnswer();
     this.matrixSingleAnswer.questionId = this.question.id;
     this.matrixSingleAnswer.questionType = this.question.questionType;
@@ -29,10 +31,33 @@ export class MatrixQuestionAnswerComponent implements OnInit {
     this.matrixMultiAnswer.questionId = this.question.id;
     this.matrixMultiAnswer.questionType = this.question.questionType;
     this.matrixMultiAnswer.answersPair = [];
+
+    // View answer
+    if (this.answers) {
+      this.readOnly = true;
+      this.showAnswer();
+    }
+
   }
 
+  showAnswer(): void {
+    const answer = this.answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\MatrixQuestion'));
+    const options = [ ...this.question.options ].map(op => ({ id: op.id, value: op.value, checked: false }) );
 
-
+    if (answer) {
+      this.question = {
+        ...this.question,
+        options: options.map(op => {
+          answer.answers.forEach( value => {
+            if (op.value === value ) {
+              op.checked = true;
+            }
+          });
+          return op;
+        })
+      };
+    }
+  }
 
   radioMatrixAnswerChange(element, answer): void {
 
@@ -80,7 +105,7 @@ export class MatrixQuestionAnswerComponent implements OnInit {
         result.answers.push(answer);
       }
     } else {
-      
+
       this.matrixMultiAnswer.answersPair.push(pair);
     }
 

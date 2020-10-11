@@ -15,10 +15,10 @@ import { AnswersModule } from '../features/answers/answers.module';
 
 
 import { ProfileComponent } from './profile/profile.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdministrationComponent } from './administration/administration.component';
 import { UseroverviewComponent } from './useroverview/useroverview.component';
 import { SurveyanswerComponent } from './surveyanswer/surveyanswer.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { SurveyanswerComponent } from './surveyanswer/surveyanswer.component';
     ProfileComponent,
     AdministrationComponent,
     UseroverviewComponent,
-    SurveyanswerComponent,
+    SurveyanswerComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +37,7 @@ import { SurveyanswerComponent } from './surveyanswer/surveyanswer.component';
     QuestionGroupsModule,
     UsersModule,
     AnswersModule,
+    TranslateModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

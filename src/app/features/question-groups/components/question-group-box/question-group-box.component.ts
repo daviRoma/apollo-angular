@@ -24,7 +24,6 @@ export class QuestionGroupBoxComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Question Groups', this.questionGroups);
   }
 
   openAddQuestionGroupModal(): void {

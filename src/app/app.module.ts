@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { EffectsModule } from '@ngrx/effects';
@@ -49,8 +49,7 @@ import { ChoiceQuestionAnswerEffects } from 'src/app/features/answers/store/effe
 import { MatrixQuestionAnswerEffects } from 'src/app/features/answers/store/effects/matrix-questions-answer.effects';
 
 import { reducers } from 'src/app/state/app.state';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { from } from 'rxjs';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
@@ -114,6 +113,7 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
   ],
-  bootstrap: [AppComponent],
+  exports: [TranslateModule],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

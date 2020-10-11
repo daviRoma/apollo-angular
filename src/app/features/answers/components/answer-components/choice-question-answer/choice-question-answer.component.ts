@@ -53,18 +53,20 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     const answer = this.answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'));
     const options = [ ...this.question.options ].map(op => ({ id: op.id, value: op.value, checked: false }) );
 
-    this.question = {
-      ...this.question,
-      options: options.map(op => {
-        answer.answers.forEach( value => {
-          if (op.value === value ) {
-            op.checked = true;
-            if (this.question.type === 'SELECT') this.selectedValue = op.value;
-          }
-        });
-        return op;
-      })
-    };
+    if (answer) {
+      this.question = {
+        ...this.question,
+        options: options.map(op => {
+          answer.answers.forEach( value => {
+            if (op.value === value ) {
+              op.checked = true;
+              if (this.question.type === 'SELECT') this.selectedValue = op.value;
+            }
+          });
+          return op;
+        })
+      };
+    }
   }
 
   // GESTIRE LA RIMOZIONE

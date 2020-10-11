@@ -9,10 +9,15 @@ import { InputQuestion } from 'src/app/models/question.model';
 })
 export class InputQuestionAnswerComponent implements OnInit {
   @Input() question: InputQuestion;
+  @Input() answers: any[];
 
   @Output() inputInjected = new EventEmitter();
 
   public inputAnswer: SingleAnswer;
+
+  public inputvalue: string;
+
+  public readOnly: boolean;
 
   constructor() {}
 
@@ -20,15 +25,22 @@ export class InputQuestionAnswerComponent implements OnInit {
     this.inputAnswer = new SingleAnswer();
     this.inputAnswer.questionId = this.question.id;
     this.inputAnswer.questionType = this.question.questionType;
+
+    // View answer
+    if (this.answers) {
+      this.readOnly = true;
+      this.showAnswer();
+    }
+
+  }
+
+  showAnswer(): void {
+    const answer = this.answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\InputQuestion'));
+    if (answer) this.inputvalue = answer.answers[0];
   }
 
   inputAnswerChange(event): void {
-    let inputField = <HTMLInputElement>(
-      document.getElementById('input-' + this.question.id)
-    );
-
-    this.inputAnswer.answer = inputField.value;
-
+    this.inputAnswer.answer = event.target.value;
     this.inputInjected.emit(this.inputAnswer);
   }
 }

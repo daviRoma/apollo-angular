@@ -46,7 +46,7 @@ export class DetailComponent implements OnInit, OnDestroy {
           .subscribe((user: User) => {
             if (user) {
               self.user = user;
-              self.loadData(params.survey_id);
+              self.loadSurveyData(params.survey_id);
             }
           });
       }
@@ -61,7 +61,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.routeParamsSubscription.unsubscribe();
   }
 
-  private loadData(surveyId: number): void {
+  private loadSurveyData(surveyId: number): void {
     this.store.dispatch( new QuestionGroupLoadAction(surveyId) );
 
     this.store
@@ -70,18 +70,21 @@ export class DetailComponent implements OnInit, OnDestroy {
         if (survey) {
           this.survey = survey;
           this.isLoading = false;
+          this.loadQuestionGroups();
         } else {
           this.store.dispatch( new SurveyLoadOneAction({ id: surveyId, dispatch: true } as SurveyRequest));
         }
       });
 
+  }
+
+  private loadQuestionGroups(): void {
     this.store
-      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId }))
+      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.survey.id }))
       .subscribe((response: QuestionGroup[]) => {
         this.survey = { ...this.survey, questionGroups: response };
         this.questionGroups = response;
       });
-
   }
 
 }

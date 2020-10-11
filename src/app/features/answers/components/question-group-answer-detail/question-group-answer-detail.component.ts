@@ -54,7 +54,6 @@ export class QuestionGroupAnswerDetailComponent implements OnInit {
     this.store
       .pipe(select(fromSurveyAnswer.selectEntity, { id: answerId }))
       .subscribe((surveyAnswer: SurveyAnswer) => {
-        console.log('SurveyAnswer', surveyAnswer);
         if (surveyAnswer) this.surveyAnswer = { ...surveyAnswer };
       });
   }
