@@ -7,7 +7,7 @@
 
 				<div class="row">
 
-					<a href="users/administration/list" class="link font-weight-400 pt-1 col-auto my-auto text-white">
+					<a [routerLink]="['/users/administration/list']" class="link font-weight-400 pt-1 col-auto my-auto text-white">
 						<i class="fas fa-arrow-left"></i></a>
 
 					<h4 class="font-weight-400 col-auto mb-0 text-white ml-2">{{user.username}}</h4>
@@ -32,8 +32,7 @@
 								<div class="row align-items-center">
 									<div class="col-12 text-center">
 										<!-- Avatar -->
-										<!-- <img th:if="${managedUser.pic != null}" class="overview-image" alt="User Icon" th:src="${'data:image/;base64,'+ user.pic}"/> -->
-										<!-- <img th:if="${managedUser.pic == null}" class="overview-image" alt="Image Default" th:src="@{/dist/img/icons/user/user.png}"> -->
+										<img class="profile-image" src="{{ user.avatar ? user.avatar.data : '/assets/dist/img/theme/light/team-4-800x800.jpg'}}">
 									</div>
 
 								</div>
@@ -136,18 +135,18 @@
 
 				<!-- Stats card 2 -->
 				<!-- <div class="col-xl-12 col-sm-6"> -->
-					<!-- Stats card -->
-					<!-- <div class="card card-stats"> -->
-						<!-- Card body -->
-						<!-- <div class="card-body">
+				<!-- Stats card -->
+				<!-- <div class="card card-stats"> -->
+				<!-- Card body -->
+				<!-- <div class="card-body">
 							<div class="row">
 								<div class="col">
 									<h6 class="text-muted mb-1">Active Survey</h6> -->
-									<!-- <span class="h3 font-weight-bold mb-0">#</span> -->
+				<!-- <span class="h3 font-weight-bold mb-0">#</span> -->
 
-									<!-- <h6 class="text-muted mb-1">[[#{survey.active}]]</h6>
+				<!-- <h6 class="text-muted mb-1">[[#{survey.active}]]</h6>
 								<span class="h3 font-weight-bold mb-0">[[${activeSurveys}]]</span> -->
-								<!-- </div>
+				<!-- </div>
 								<div class="col-auto">
 									<span class="h3 font-weight-bold mb-0 text-success">
 										<i class="fas fa-globe fa-2x"></i>
@@ -160,8 +159,9 @@
 
 				<!-- Stats card 2 -->
 				<div class="col-xl-12 col-sm-6">
-					<button type="button" class="btn btn-lg btn-danger rounded-pill text-sm" data-action="delete-open" data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
-					(click)="openDeleteDialog()">Delete</button>
+					<button type="button" class="btn btn-lg btn-danger rounded-pill text-sm" data-action="delete-open"
+						data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
+						(click)="openDeleteDialog()">Delete</button>
 				</div>
 
 			</div>

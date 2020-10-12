@@ -30,7 +30,9 @@ export class LogInFailure implements Action {
 
 export class Registration implements Action {
   readonly type = AuthActionTypes.REGISTRATION;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    console.log(payload)
+  }
 }
 
 export class RegistrationSuccess implements Action {

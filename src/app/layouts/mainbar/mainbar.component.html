@@ -15,69 +15,49 @@
     <div class="row">
       <!-- Avatar -->
       <h5 class="mb-0 text-white col-auto my-auto mx-auto">
-        Ciao Pippo!
+        Hello!
+        <span *ngIf="user">{{user.firstname}}</span>
       </h5>
 
       <ul class="navbar-nav flex-row align-items-center">
 
         <li class="nav-item dropdown dropdown-animate mr-2">
-          <!-- <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="locale-image" alt="Image placeholder" src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'"
-                                    th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
-          </a> -->
-
-          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-            <!-- <a href="#" th:href="@{?lang=en}" class="dropdown-item">
-                <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
-                      th:src="@{/dist/img/icons/flags/en.svg}"
-                      class="mr-2">[[#{common.english}]]
-            </a> -->
-            <!-- <a href="#"
-                th:href="@{?lang=it}"
-                class="dropdown-item"><img
-                    alt="Image placeholder"
-                    src="./dist/img/icons/flags/it.svg"
-                    th:src="@{/dist/img/icons/flags/it.svg}"
-                    class="mr-2">[[#{common.italian}]]
-            </a> -->
+          <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img class="locale-image" alt="Image placeholder"
+              src="{{ currentLang == 'en' ? 'assets/dist/img/icons/flags/en.svg' : 'assets/dist/img/icons/flags/it.svg'}}">
+          </a>
+          <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
+            <a href="#" class="dropdown-item" (click)="useLanguage('en')">
+              <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg" src="assets/dist/img/icons/flags/en.svg"
+                class="mr-2">EN
+            </a>
+            <a href="#" class="dropdown-item" (click)="useLanguage('it')">
+              <img alt="Image placeholder" src="assets/dist/img/icons/flags/it.svg" class="mr-2">IT
+            </a>
           </div>
         </li>
 
+
         <li class="nav-item dropdown dropdown-animate">
-          <div type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
+          <div type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                <span class="col-auto px-0 py-0">
-                  <img alt="Image placeholder"
-                        class="profile-image-mainnav"
-                        src="/assets/dist/img/theme/light/team-4-800x800.jpg"
-                      >
-                </span>
-              <!-- <span class="col-auto px-0 py-0">
-                  <img alt="Image placeholder"
-                        class="profile-image-mainnav"
-                        src="./dist/img/theme/light/team-4-800x800.jpg"
-                        th:src="@{/dist/img/icons/user/user.png}"
-                        th:if="${user.pic == null}">
+            <span class="col-auto px-0 py-0">
+              <img class="profile-image-mainnav"
+                src="{{ user.avatar ? user.avatar.data : '/assets/dist/img/theme/light/team-4-800x800.jpg'}}">
+            </span>
 
-                  <img alt="Image placeholder"
-                        class="profile-image-mainnav"
-                        src="./dist/img/theme/light/team-4-800x800.jpg"
-                        th:src="${'data:image/jpg;base64,'+user.pic}"
-                        th:if="${user.pic != null}">
-              </span> -->
           </div>
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="/apollo/user/update">
-                  <i class="far fa-user"></i>
-                  <span>Modifica profilo</span>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="/apollo/logout" class="dropdown-item">
-                  <i class="far fa-sign-out-alt"></i>
-                  <span>Logout</span>
-              </a>
+            <a class="dropdown-item" [routerLink]="['/users/profile/edit']" routerLinkActive="active">
+              <i class="far fa-user"></i>
+              <span>Modifica profilo</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a (click)="logoutUser()" class="dropdown-item">
+              <i class="far fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </a>
           </div>
         </li>
 
@@ -88,21 +68,18 @@
 
     <div class="collapse navbar-collapse" id="navbar-primary">
 
-        <ul class="navbar-nav ml-lg-auto">
-          <li class="nav-item">
-                <a class="nav-link" href="#" ><i class="far fa-home"></i>Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" ><i class="far fa-users"></i>Users</a>
-            </li>
+      <ul class="navbar-nav ml-lg-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/dashboard/surveys/list']" routerLinkActive="active"><i
+              class="far fa-home"></i>Home</a>
+        </li>
 
-            <!-- <li class="nav-item">
-                <a class="nav-link"th:classappend="${#request.requestURI == '/apollo/surveys/dashboard' ? 'active':''}"  href="#" th:href="@{/surveys/dashboard}"><i class="far fa-home"></i>Home</a>
-            </li>
-            <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-                <a class="nav-link"th:classappend="${#request.requestURI.startsWith('/apollo/administration') ? 'active':''}" href="#" th:href="@{/administration/users}" ><i class="far fa-users"></i>Users</a>
-            </li> -->
-        </ul>
+        <li class="nav-item" *ngIf="role.name === 'ADMIN'">
+          <a class="nav-link" [routerLink]="['/users/administration/list']" routerLinkActive="active"><i
+              class="far fa-users"></i>Users</a>
+        </li>
+        
+      </ul>
 
     </div>
   </div>

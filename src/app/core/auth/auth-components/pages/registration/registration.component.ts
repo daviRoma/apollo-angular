@@ -55,6 +55,8 @@ export class RegistrationComponent implements OnInit {
       email: this.registrationForm.value.email,
       password: this.registrationForm.value.password
     };
+
+    console.log("PAYLOAD",payload),
     this.store.dispatch(new Registration(payload));
   }
 

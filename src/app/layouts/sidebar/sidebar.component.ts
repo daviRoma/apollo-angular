@@ -11,6 +11,7 @@ import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs
 
 import { User } from 'src/app/models/user.model';
 import { TranslateService } from '@ngx-translate/core';
+import { Role } from 'src/app/models/auth.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,6 +22,8 @@ export class SidebarComponent implements OnInit {
 
   public user: User;
   public currentLang: string;
+
+  public role : Role;
 
   constructor (
     public newSurveyDialog: MatDialog,
@@ -35,6 +38,13 @@ export class SidebarComponent implements OnInit {
         // tslint:disable-next-line: curly
         if (!user) this.store.dispatch(new LoadSessionUser());
         else this.user = user;
+      });
+
+      this.store
+      .pipe(select(fromAuth.selectAuthRole))
+      .subscribe((role: Role) => {
+       this.role = role;
+       console.log(role);
       });
 
     this.currentLang = this.translate.currentLang;

@@ -17,7 +17,7 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
             firstname: action.payload.user.firstname,
             lastname: action.payload.user.lastname
           },
-          role: action.payload.role,
+          role: action.payload.user.role,
           token: action.payload.token
         },
         error: null,
