@@ -1,4 +1,4 @@
-import { Icon } from "./icon.model";
+import { Icon } from './icon.model';
 
 /**
  * User Model
@@ -10,6 +10,14 @@ export class User {
   firstname?: string;
   lastname?: string;
   avatar?: Icon;
+}
+
+export class RegistrationRequest {
+  username: string;
+  password: string;
+  email: string;
+  firstname?: string;
+  lastname?: string;
 }
 
 export class UserRequest {

@@ -9,6 +9,7 @@ import { MainbarComponent } from './mainbar/mainbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { LayoutBaseComponent } from './layout-base/layout-base.component';
 import { LayoutBaseAnswerComponent } from './layout-base-answer/layout-base-answer.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { LayoutBaseAnswerComponent } from './layout-base-answer/layout-base-answ
   ],
   imports: [
     CommonModule,
+    TranslateModule,
     RouterModule.forChild(LayoutsRoutes)
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

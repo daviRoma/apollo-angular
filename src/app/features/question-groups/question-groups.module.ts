@@ -7,6 +7,7 @@ import { QuestionGroupBoxComponent } from './components/question-group-box/quest
 import { EditQuestionGroupComponent } from './components/dialogs/edit-question-group/edit-question-group.component';
 import { DeleteQuestionGroupComponent } from './components/dialogs/delete-question-group/delete-question-group.component';
 import { QuestionGroupDetailComponent } from './components/question-group-detail/question-group-detail.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { QuestionGroupDetailComponent } from './components/question-group-detail
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     QuestionsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

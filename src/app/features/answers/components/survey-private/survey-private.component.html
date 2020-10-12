@@ -17,14 +17,14 @@
 			<div class="modal-header">
 				<div class="modal-title align-items-center">
 					<!-- MODAL TITLE -->
-					<h6 class="mb-0">Warning</h6>
+					<h6 class="mb-0">{{ 'common.warning' | translate }}</h6>
 				</div>
 			</div>
 			<div class="modal-body">
-				<p>Survey already answered</p>
+				<p>{{ 'survey.alreadyanswered' | translate }}</p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-danger rounded-pill" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger rounded-pill" data-dismiss="modal">{{ 'common.cancel' | translate }}</button>
 			</div>
 		</div>
 	</div>
@@ -33,9 +33,9 @@
 <div class="card col-lg-6 col-md-6 col-sm-10 mx-auto mt-7">
 	<div class="card-body p-5 mx-auto">
 		<div class="row justify-content-center">
-			<h4 class="card-title mx-auto col-auto">Secret survey</h4>
-			<p class="col-12 mx-auto text-center mb-0">This survey is private.</p>
-			<button type="button" class="btn btn-primary rounded-pill mt-3" (click)="openAccessSecretDialog()">Enter</button>
+			<h4 class="card-title mx-auto col-auto">{{ 'survey.issecret' | translate }}</h4>
+			<p class="col-12 mx-auto text-center mb-0">{{ 'survey.private' | translate }}</p>
+			<button type="button" class="btn btn-primary rounded-pill mt-3" (click)="openAccessSecretDialog()">{{ 'common.enter' | translate }}</button>
 		</div>
 
 	</div>

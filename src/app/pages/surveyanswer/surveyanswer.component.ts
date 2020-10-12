@@ -91,9 +91,7 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
   }
 
   showSubmittedView(event): void{
-
-    if(event){
-
+    if (event) {
       this.surveySubmitted = true;
       this.surveyActive = false;
       this.surveyUnlocked = false;
@@ -102,7 +100,7 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
 
   }
 
-    private loadData(surveyId: number): void {
+  private loadData(surveyId: number): void {
     this.store.dispatch(new QuestionGroupLoadAction(surveyId));
 
     this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true }));

@@ -34,19 +34,7 @@ export function reducer(state = initialAuthState, action: fromActions.All): Auth
     case fromActions.AuthActionTypes.REGISTRATION_SUCCESS: {
       return {
         ...state,
-        isAuthenticated: true,
-        auth: {
-          user: {
-            id: action.payload.user.id,
-            email: action.payload.user.email,
-            username: action.payload.user.username,
-            firstname: action.payload.user.firstname,
-            lastname: action.payload.user.lastname,
-            avatar: action.payload.data.avatar,
-          },
-          role: action.payload.role,
-          token: action.payload.token,
-        },
+        isAuthenticated: false,
         error: null,
         errorMessage: null,
       };

@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -48,6 +49,7 @@ import { SecretSurveyLoginComponent } from './components/dialogs/secret-survey-l
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    TranslateModule,
     MatSelectModule,
     MatInputModule,
     MatTableModule,

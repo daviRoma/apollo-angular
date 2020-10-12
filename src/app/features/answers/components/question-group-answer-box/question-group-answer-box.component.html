@@ -14,8 +14,8 @@
 
   <div class="col-auto">
 
-    <button *ngIf="surveyEnd === false" class="btn btn-primary rounded-pill" (click)="onNextGroup()">Next</button>
-    <button *ngIf="surveyEnd === true" class="btn btn-primary rounded-pill" (click)="submitSurveyAnswers()">Submit</button>
+    <button *ngIf="surveyEnd === false" class="btn btn-primary rounded-pill" (click)="onNextGroup()">{{ 'common.next' | translate }}</button>
+    <button *ngIf="surveyEnd === true" class="btn btn-primary rounded-pill" (click)="submitSurveyAnswers()">{{ 'common.save' | translate }}</button>
 
   </div>
 </div>

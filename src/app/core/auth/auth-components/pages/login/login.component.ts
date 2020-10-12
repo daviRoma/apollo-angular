@@ -9,6 +9,7 @@ import { selectAuthState } from 'src/app/core/auth/store/auth.selectors';
 
 import { LogIn } from '../../../store/auth.actions';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
+    private translate: TranslateService,
     private store: Store<AppState>
   ) {
     this.loginResult = { error: false, errorMessage: null };
@@ -44,7 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAuthState.subscribe((state) => {
       this.loginResult.error = state.error;
-      this.loginResult.errorMessage = 'Wrong username or password';
+      this.loginResult.errorMessage = this.translate.instant('error.session.loginerror');
     });
   }
 

@@ -21,30 +21,37 @@ import { Role } from 'src/app/models/auth.model';
 export class SidebarComponent implements OnInit {
 
   public user: User;
+  public role: Role;
+
   public currentLang: string;
 
-  public role : Role;
+  public isLoading: boolean;
 
   constructor (
     public newSurveyDialog: MatDialog,
     private translate: TranslateService,
     private store: Store<AppState>
-  ) {}
+  ) {
+    this.isLoading = true;
+  }
 
   ngOnInit(): void {
+    this.store.dispatch(new LoadSessionUser());
+
     this.store
       .pipe(select(fromAuth.selectAuthUser))
       .subscribe((user: User) => {
         // tslint:disable-next-line: curly
-        if (!user) this.store.dispatch(new LoadSessionUser());
-        else this.user = user;
+        if (user) {
+          this.user = user;
+          this.isLoading = false;
+        }
       });
 
-      this.store
+    this.store
       .pipe(select(fromAuth.selectAuthRole))
       .subscribe((role: Role) => {
-       this.role = role;
-       console.log(role);
+        if (role) this.role = role;
       });
 
     this.currentLang = this.translate.currentLang;

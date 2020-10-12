@@ -1,22 +1,12 @@
 <div *ngIf="!isLoading">
 
     <div class="col-lg-8 col-md-11 col-sm-12 mx-auto mx-auto mb-4" *ngIf="surveyActive && surveyUnlocked">
-        <!-- <script th:inline="javascript">
-        var readonly = [[${ readonly }]];
-        var groupIndex = [[${ groupIndex }]];
-        var translations = {
-            next: [[#{ common.next }]],
-            submit: [[#{ common.submit }]]
-        };
-    </script> -->
 
         <!-- Page title -->
         <div class="page-title my-4 mx-2">
 
             <div class="row mb-4">
-
                 <img class="col-auto logo my-auto mx-auto" src="/assets/dist/img/icons/custom/logo.svg">
-
             </div>
 
             <div class="row justify-content-between align-items-center">
@@ -33,12 +23,7 @@
         <!-- Listing -->
         <div class="card">
             <!-- Card header -->
-            <!-- <div class="card-header actions-toolbar" th:if="${surveyanswer.survey.description != ''}"> -->
             <div class="card-header actions-toolbar">
-
-
-                <!-- <p id="survey_desc" class="mb-0"
-			   th:text="${surveyanswer.survey.description}"></p> -->
                 <p id="survey_desc" class="mb-0">{{survey.description}}</p>
             </div>
 
@@ -50,7 +35,6 @@
                     <app-question-group-answer-box [questionGroups]="questionGroups" [answerId]="surveyAnswerId" [userUnlocked]="userUnlocked" (submitted)="showSubmittedView($event)"></app-question-group-answer-box>
                 </div>
 
-
             </div>
 
         </div>
@@ -59,8 +43,6 @@
 
 
     <!-- Listing -->
-
-
     <div *ngIf="surveyActive && !surveyUnlocked">
         <app-survey-private [survey]="survey" (unlock)="unlockAccess($event)"></app-survey-private>
     </div>

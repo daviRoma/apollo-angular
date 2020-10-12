@@ -1,0 +1,231 @@
+{
+  "common": {
+    "add": "Add",
+    "administration": "Administration",
+    "birthDate": "Birthdate",
+    "createdDate": "Created Date",
+    "code": "Code",
+    "description": "Description",
+    "loginheader": "Enter for starting session",
+    "logout": "Logout",
+    "version": "Version",
+    "allrightreserved": "All Copyright are reserved",
+    "profile": "Profile",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "email": "Email",
+    "confirm": "Confirm",
+    "completion": "Completion",
+    "submit": "Save",
+    "enter": "Enter",
+    "actions": "Actions",
+    "welcome": "Welcome!",
+    "operazioneok": "Operation OK!",
+    "empty": "empty",
+    "english": "English",
+    "italian": "Italian",
+    "hi": "Hello!",
+    "username": "Username",
+    "firstname": "First Name",
+    "lastname": "Last Name",
+    "alreadyregistered": "Already registered?",
+    "notegistered": "Not registered?",
+    "passwordconfirm": "Confirm password",
+    "usercreated": "User created",
+    "groups": "Groups",
+    "yes": "Yes",
+    "next": "Next",
+    "previous": "Previous",
+    "thankyou": "Thank you!",
+    "passwordupdate": "Update password",
+    "oldpassword": "Current password",
+    "newpassword": "New password",
+    "new": "New",
+    "choose": "Choose here",
+    "notprovided": "Not Provided",
+    "changeavatar": "Update avatar",
+    "active": "Active",
+    "inactive": "Inactive",
+    "surveys": "Surveys",
+    "survey": "Survey",
+    "group": "Group",
+    "addgroup": "New Group",
+    "addoption": "Add Option",
+    "cannotdelete": "Impossible to delete",
+    "publish": "Publish",
+    "disable": "Disable",
+    "published": "Published",
+    "deleteaccount": "Delete account",
+    "access": "Access",
+    "send": "Send",
+    "invalidcredentials": "Wrong credentials",
+    "notallowed": "Not allowed",
+    "warning": "Warning",
+    "surveypublished": "Survey successfully published!",
+    "surveyalreadypublished": "Survey already published!",
+    "surveydisabled": "Survey deactivated",
+    "publiclink": "Public Link",
+    "ops": "Ops!",
+    "name": "Name",
+    "submitted": "Submitted",
+    "attention": "Attention!",
+    "answer": "Answer",
+    "answers": "Answers",
+    "answerlist": "Answer List",
+    "questions": "Questions",
+    "choosequestion": "Select a question by group...",
+    "submitteddate": "Submitted Date",
+    "inputpassword": "Insert your password",
+    "invitations": "Invitations",
+    "sendinvitationtitle": "Invite other people to respond.",
+    "sendinvitationconfirm": "By publishing the survey you will send the email to the invited users. Confirm?",
+    "emails": "Email Addresses",
+    "emailprompttext": "Type emails here separated by comma...",
+    "sendinvitation": "Send intiations",
+    "backtohome": "Return To Home",
+    "title": "Title",
+    "signintocontinue": "Sign in to your account to continue."
+  },
+
+  "placeholder": {
+    "textinput": "Type something here...",
+    "areainput": "Type something in the area...",
+    "dateinput": "Select a date...",
+    "numberinput": "Type number here..."
+  },
+
+  "error": {
+    "title": "Error",
+    "sendinvitationerror": "One or more email addresses are invalid.",
+    "duplicateoptions": "Duplicate options",
+    "duplicateoptionval" : "Duplicate range values",
+    "singleoption": "Single option/value not allowed",
+    "resourcenotfound": "Sorry, the page you are looking for could not be found.",
+    "servererror": "Sorry, something has gone wrong on the website's server.",
+    "accessdenied": "You don't have the necessary permissions to access the page.",
+    "noemailaddress": "No email address was found.",
+    "nodatatodisplay": "There is no data to display.",
+    "startdateLower": "Start date not valid",
+    "enddateLower": "End date not valid",
+    "startdateGreater": "Start date greater than end date",
+    "dateEquals": "Start date and end date cannot be equals.",
+    "notBlankQuestion": "The question is required",
+    "notBlank": "The field is required",
+    "invalidIcon": "Icon not valid",
+    "invalidEmail": "The email is not valid",
+    "invalidCode": "Invalid code",
+
+    "file": {
+      "invalid": "File not valid",
+      "invalidsize": "Invalid file size"
+    },
+
+    "session": {
+      "pwdError": "Wrong password",
+      "usernameSize": "The field must be of at least 6 characters length",
+      "passwordSize": "The field must be of at least 6 characters length",
+      "passwordsNotMatch": "Passwords do not match",
+      "duplicateUsername": "Username already used",
+      "loginerror": "Wrong username and/or password"
+    }
+
+  },
+
+  "profile": {
+    "updateProfile": "Update Profile",
+    "phone": "Phone Number",
+    "fiscalCode": "Fiscal Code"
+  },
+
+  "survey": {
+    "create": "New Survey",
+    "created": "Created Surveys",
+    "edit": "Edit Survey",
+    "icon" : "Icon",
+    "secret": "Private",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "datedisclamer": "The start and end date must be greater than the actual date and must be different from each other",
+    "status": "Status",
+    "creationDate": "Creation Date",
+    "delete": "Delete Survey",
+    "deletemessage": "Are you sure you want to delete the current survey? \nThe operation cannot be canceled.",
+    "publishtitle": "Do you want to publish the survey?",
+    "disabletitle": "Do you want to disable the survey?",
+    "publishplaceholder": "Publish the survey to generate the link...",
+    "issecret": "Private Survey",
+    "issecretdesc": "To see the survey you must access using the password provided by email",
+    "overview": "Survey Overview",
+    "submitted": "The survey has been submitted successfully",
+    "notactive": "Survey not active",
+    "notactivedesc": "The survey has not been activated yet or has been deactivated by his owner",
+    "alreadyanswered": "You have already answered the survey!",
+    "private": "This survey is private",
+    "active": "Active Survey"
+  },
+
+  "group": {
+    "create": "New question group",
+    "delete": "Delete question group",
+    "deletemessage": "Are you sure you want to delete the current question group? In this way you will also delete all the associated questions.",
+    "edit": "Edit question group",
+    "title": "Question Groups"
+  },
+
+  "question": {
+    "title": "Question",
+    "options": "Options",
+    "optionplaceholder": "Answer text",
+    "titleplaceholder": "Question text",
+    "inputquestion": "Open Question",
+    "singlechoicequestion": "Single choice question",
+    "multichoicequestion": "Multiple choice question",
+    "selectionquestion": "Selection",
+    "questiontype": "Type",
+    "otherChoice": "Other",
+    "radioquestion": "Single Choice",
+    "checkquestion": "Multi Choice",
+    "matrixquestion": "Matrix Question",
+    "otherchoiceplaceholder": "Type here your choice",
+    "delete": "Delete question",
+    "deletemessage": "Are you sure you want to delete the question?",
+    "advanced": "Advanced",
+    "mandatory": "Mandatory question",
+    "noquestion": "No question loaded"
+  },
+
+  "answer": {
+    "totanswers": "Total Answers"
+  },
+
+  "file": {
+    "title": "Add an image (PNG or JPEG) of max 5MB",
+    "nofile": "No file present"
+  },
+
+  "user": {
+    "create": "Create Account",
+    "delete": "Delete account",
+    "deletemessage": "Are you sure to delete your account? This operation is not reversible",
+    "signupdate": "SignUp",
+    "signIn": "Sign In!",
+    "role": "Role"
+  },
+
+  "email": {
+    "yoursurvey": "Your survey",
+    "surveyactivated": "has been activated",
+    "surveydeactivated": "has been deactivated",
+    "activeuntil": "and will be active until",
+    "welcome": "Welcome to Apollo! You have been invited to answer to a survey. Click the link below to reach the page.",
+    "confirm": "Confirm your identity by entering your email and password.",
+    "regards": "Regards"
+  },
+
+  "menu": {
+    "adminpanel": "Admin Panel",
+    "home": "Home",
+    "users": "Users"
+  }
+}

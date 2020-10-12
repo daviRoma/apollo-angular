@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { RegistrationRequest } from 'src/app/models/user.model';
 
 export enum AuthActionTypes {
   LOGIN = '[Auth] Login',
@@ -30,9 +31,7 @@ export class LogInFailure implements Action {
 
 export class Registration implements Action {
   readonly type = AuthActionTypes.REGISTRATION;
-  constructor(public payload: any) {
-    console.log(payload)
-  }
+  constructor(public payload: RegistrationRequest) {}
 }
 
 export class RegistrationSuccess implements Action {

@@ -1,6 +1,232 @@
 {
-  "survey": {
-    "surveys": "Surveys"
+  "common": {
+    "actions": "Azioni",
+    "add": "Aggiungi",
+    "administration": "Amministrazione",
+    "active": "Attivo",
+    "birthDate": "Data di Nascita",
+    "completion": "Completion",
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "createdDate": "Data di creazione",
+    "code": "Codice",
+    "description": "Descrizione",
+    "empty": "vuoto",
+    "enter": "Entra",
+    "loginheader": "Entra per cominciare con Apollo!",
+    "logout": "Esci",
+    "version": "Versione",
+    "allrightreserved": "Tutti i diritti sono riservati",
+    "profile": "Profilo",
+    "delete": "Cancella",
+    "edit": "Modifica",
+    "email": "Email",
+    "submit": "Salva",
+    "submitted": "Submitted",
+    "welcome": "Benvenuto!",
+    "operazioneok": "Operazione conclusa!",
+    "english": "Inglese",
+    "italian": "Italiano",
+    "hi": "Ciao!",
+    "username": "Username",
+    "firstname": "Nome",
+    "lastname": "Cognome",
+    "alreadyregistered": "Sei già registrato?",
+    "notegistered": "Non sei registrato?",
+    "passwordconfirm": "Conferma password",
+    "usercreated": "Utente creato",
+    "yes": "Si",
+    "next": "Avanti",
+    "previous": "Precedente",
+    "thankyou": "Grazie!",
+    "passwordupdate": "Aggiorna password",
+    "oldpassword": "Password corrente",
+    "newpassword": "Nuova password",
+    "new": "Nuovo",
+    "choose": "Scegli qui",
+    "notprovided": "Non disponibile",
+    "changeavatar": "Aggiorna avatar",
+    "inactive": "Non attivo",
+    "surveys": "Sondaggi",
+    "survey": "Sondaggio",
+    "groups": "Gruppi",
+    "group": "Gruppo",
+    "addgroup": "Nuovo gruppo",
+    "addoption": "Aggungi Opzione",
+    "cannotdelete": "Impossibile cancellare",
+    "publish": "Pubblica",
+    "disable": "Disabilita",
+    "published": "Pubblicato",
+    "deleteaccount": "Cancella account",
+    "access": "Accesso",
+    "send": "Invia",
+    "invalidcredentials": "Credenziali errate",
+    "notallowed": "Non disponibile",
+    "warning": "Pericolo",
+    "surveypublished": "Sondaggio pubblicato!",
+    "surveyalreadypublished": "Sondaggio già pubblicato!",
+    "surveydisabled": "Sondaggio disattivo",
+    "publiclink": "Link pubblico",
+    "ops": "Ops!",
+    "name": "Nome",
+    "attention": "Attenzione!",
+    "answer": "Risposta",
+    "answers": "Risposte",
+    "answerlist": "Lista di risposte",
+    "questions": "Domande",
+    "choosequestion": "Seleziona una domanda da un gruppo...",
+    "submitteddate": "Data invio",
+    "inputpassword": "Inserisci la password",
+    "invitations": "Inviti",
+    "sendinvitationtitle": "Invita gli altri a rispondere.",
+    "sendinvitationconfirm": "Pubblicando il sondaggio invierai una mail a tutti gli utenti selezionati. Confermare?",
+    "emails": "Indirizzi email",
+    "emailprompttext": "Scrivi qui le email separate da virgola...",
+    "sendinvitation": "Manda gli inviti",
+    "backtohome": "Ritorna alla Home",
+    "title": "Titolo",
+    "signintocontinue": "Accedi al tuo account per continuare."
 
+  },
+
+  "placeholder": {
+    "textinput": "Scrivi qualcosa qui...",
+    "areainput": "Scrivi qualcosa nella textarea...",
+    "dateinput": "Seleziona una data...",
+    "numberinput": "Scrivi un numero..."
+  },
+
+  "error": {
+    "title": "Errore",
+    "sendinvitationerror": "Uno o più indirizzi email sono invalidi.",
+    "duplicateoptions": "Opzioni duplicate",
+    "duplicateoptionval" : "Range di valori duplicato",
+    "singleoption": "Valore singolo non permesso",
+    "resourcenotfound": "Ci dispiace, la risorsa che stai cercando non è stata trovata",
+    "servererror": "Ci dispiace, qualcosa è andato storto durante l'operazione.",
+    "accessdenied": "Non hai i permessi necessari per accedere alla pagina.",
+    "noemailaddress": "Nessun indirizzo mail trovato.",
+    "nodatatodisplay": "Non ci sono dati da visualizzare.",
+    "startdateLower": "Data inizio non valida",
+    "enddateLower": "Data fine non valida",
+    "startdateGreater": "Data inizio maggiore della data fine",
+    "dateEquals": "Data inizio e data fine non possono essere uguali.",
+    "notBlankQuestion": "La domanda è obbligatoria",
+    "notBlank": "Il campo è obbligatorio",
+    "invalidIcon": "Icona non valida",
+    "invalidEmail": "Email non valida",
+    "invalidCode": "Codice non valido",
+
+    "file": {
+      "invalid": "File non valido",
+      "invalidsize": "File troppo grande!"
+    },
+
+    "session": {
+      "pwdError": "Password sbagliata",
+      "usernameSize": "The field must be of at least 6 characters length",
+      "passwordSize": "The field must be of at least 6 characters length",
+      "passwordsNotMatch": "Passwords are different",
+      "duplicateUsername": "Username already used",
+      "loginerror": "Wrong username and/or password"
+    }
+
+  },
+
+  "profile": {
+    "updateProfile": "Aggiorna Profilo",
+    "phone": "Phone Number",
+    "fiscalCode": "Fiscal Code"
+  },
+
+  "survey": {
+    "create": "New Survey",
+    "created": "Sondaggi Creati",
+    "edit": "Edit Survey",
+    "icon" : "Icon",
+    "secret": "Private",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "datedisclamer": "The start and end date must be greater than the actual date and must be different from each other",
+    "status": "Status",
+    "creationDate": "Creation Date",
+    "delete": "Delete Survey",
+    "deletemessage": "Are you sure you want to delete the current survey? \nThe operation cannot be canceled.",
+    "publishtitle": "Do you want to publish the survey?",
+    "disabletitle": "Do you want to disable the survey?",
+    "publishplaceholder": "Publish the survey to generate the link...",
+    "issecret": "Private Survey",
+    "issecretdesc": "To see the survey you must access using the password provided by email",
+    "overview": "Survey Overview",
+    "submitted": "The survey has been submitted successfully",
+    "notactive": "Survey not active",
+    "notactivedesc": "The survey has not been activated yet or has been deactivated by his owner",
+    "alreadyanswered": "You have already answered the survey!",
+    "private": "This survey is private",
+    "active": "Active Survey"
+  },
+
+  "group": {
+    "create": "New question group",
+    "delete": "Delete question group",
+    "deletemessage": "Are you sure you want to delete the current question group? In this way you will also delete all the associated questions.",
+    "edit": "Edit question group",
+    "title": "Question Group"
+  },
+
+  "question": {
+    "title": "Question",
+    "options": "Options",
+    "optionplaceholder": "Answer text",
+    "titleplaceholder": "Question text",
+    "inputquestion": "Open Question",
+    "singlechoicequestion": "Single choice question",
+    "multichoicequestion": "Multiple choice question",
+    "selectionquestion": "Selection",
+    "questiontype": "Type",
+    "otherChoice": "Other",
+    "radioquestion": "Single Choice",
+    "checkquestion": "Multi Choice",
+    "matrixquestion": "Matrix Question",
+    "otherchoiceplaceholder": "Type here your choice",
+    "delete": "Delete question",
+    "deletemessage": "Are you sure you want to delete the question?",
+    "advanced": "Advanced",
+    "mandatory": "Mandatory question",
+    "noquestion": "Nessuna domanda caricata"
+  },
+
+  "answer": {
+    "totanswers": "Tot Answers"
+  },
+
+  "file": {
+    "title": "Add an image (PNG or JPEG) of max 5MB",
+    "nofile": "No file present"
+  },
+
+  "user": {
+    "create": "Crea Account",
+    "delete": "Delete account",
+    "deletemessage": "Are you sure to delete your account? This operation is not reversible",
+    "signupdate": "SignUp",
+    "signIn": "Registrati!",
+    "role": "Role"
+  },
+
+  "email": {
+    "yoursurvey": "Your survey",
+    "surveyactivated": "has been activated",
+    "surveydeactivated": "has been deactivated",
+    "activeuntil": "and will be active until",
+    "welcome": "Welcome to Apollo! You have been invited to answer to a survey. Click the link below to reach the page.",
+    "confirm": "Confirm your identity by entering your email and password.",
+    "regards": "Regards"
+  },
+
+  "menu": {
+    "adminpanel": "Admin Panel",
+    "home": "Home",
+    "users": "Users"
   }
 }

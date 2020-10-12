@@ -61,7 +61,7 @@
     <div *ngIf="question.type == 'SELECT'" class="col-12 px-3 py-2">
 
       <select id="{{'select-' + question.id }}" class="custom-select" (change)="choiceSelectAnswerChange($event.target.value)" [value]="selectedValue" [disabled]="readOnly">
-        <option value="" selected disabled hidden>Choose here</option>
+        <option value="" selected disabled hidden>{{ 'common.choose' | translate }}</option>
         <option *ngFor="let option of question.options" [value]="option.value" >
           {{option.value}}
         </option>

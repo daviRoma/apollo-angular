@@ -17,6 +17,7 @@ import { EditSurveyComponent } from './components/dialogs/edit-survey/edit-surve
 import { InvitationPoolComponent } from 'src/app/features/surveys/components/dialogs/invitation-pool/invitation-pool.component';
 import { PublishSurveyComponent } from './components/dialogs/publish-survey/publish-survey.component';
 import { InvitationConfirmComponent } from './components/dialogs/invitation-confirm/invitation-confirm.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { InvitationConfirmComponent } from './components/dialogs/invitation-conf
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     SurveysRoutingModule,
     QuestionGroupsModule,
     MatTableModule,

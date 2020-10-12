@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+
 import { LoadSessionUser, LogOut } from 'src/app/core/auth/store/auth.actions';
-import { User } from 'src/app/models/user.model';
 import { AppState } from 'src/app/state/app.state';
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
-import { Auth, Role } from 'src/app/models/auth.model';
+
+import { User } from 'src/app/models/user.model';
+import { Role } from 'src/app/models/auth.model';
 
 @Component({
   selector: 'app-mainbar',
@@ -14,25 +16,37 @@ import { Auth, Role } from 'src/app/models/auth.model';
 })
 export class MainbarComponent implements OnInit {
 
+public user: User;
   public role: Role;
-  public user: User;
+
   public currentLang: string;
-  constructor(private translate: TranslateService,
-    private store: Store<AppState>) { }
+
+  public isLoading: boolean;
+
+  constructor (
+    private translate: TranslateService,
+    private store: Store<AppState>
+  ) {
+    this.isLoading = true;
+  }
 
   ngOnInit(): void {
+    this.store.dispatch(new LoadSessionUser());
+
     this.store
       .pipe(select(fromAuth.selectAuthUser))
       .subscribe((user: User) => {
         // tslint:disable-next-line: curly
-        if (!user) this.store.dispatch(new LoadSessionUser());
-        else this.user = user;
+        if (user) {
+          this.user = user;
+          this.isLoading = false;
+        }
       });
 
     this.store
       .pipe(select(fromAuth.selectAuthRole))
       .subscribe((role: Role) => {
-       this.role = role;
+        if (role) this.role = role;
       });
 
     this.currentLang = this.translate.currentLang;
@@ -46,4 +60,5 @@ export class MainbarComponent implements OnInit {
   logoutUser(): void {
     this.store.dispatch(new LogOut());
   }
+
 }

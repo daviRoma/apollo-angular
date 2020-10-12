@@ -1,6 +1,10 @@
 <!-- Navbar primary -->
 <nav class="navbar navbar-horizontal d-lg-none navbar-expand-lg navbar-dark bg-primary my-1 pb-0" id="navbar-main">
-  <div class="container-fluid pl-2 pr-4 mr-2">
+  <div *ngIf="isLoading" class="spinner-grow text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+
+  <div *ngIf="!isLoading" class="container-fluid pl-2 pr-4 mr-2">
     <div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-primary"
         aria-controls="navbar-primary" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +19,7 @@
     <div class="row">
       <!-- Avatar -->
       <h5 class="mb-0 text-white col-auto my-auto mx-auto">
-        Hello!
+        {{ 'common.hi' | translate }}
         <span *ngIf="user">{{user.firstname}}</span>
       </h5>
 
@@ -51,12 +55,12 @@
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" [routerLink]="['/users/profile/edit']" routerLinkActive="active">
               <i class="far fa-user"></i>
-              <span>Modifica profilo</span>
+              <span>{{ 'profile.updateProfile' | translate }}</span>
             </a>
             <div class="dropdown-divider"></div>
             <a (click)="logoutUser()" class="dropdown-item">
               <i class="far fa-sign-out-alt"></i>
-              <span>Logout</span>
+              <span>LogOut</span>
             </a>
           </div>
         </li>
@@ -76,9 +80,9 @@
 
         <li class="nav-item" *ngIf="role.name === 'ADMIN'">
           <a class="nav-link" [routerLink]="['/users/administration/list']" routerLinkActive="active"><i
-              class="far fa-users"></i>Users</a>
+              class="far fa-users"></i>{{ 'menu.users' | translate }}</a>
         </li>
-        
+
       </ul>
 
     </div>

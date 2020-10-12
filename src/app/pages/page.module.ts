@@ -33,11 +33,11 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [
     CommonModule,
     PageRoutingModule,
+    TranslateModule,
     SurveysModule,
     QuestionGroupsModule,
     UsersModule,
-    AnswersModule,
-    TranslateModule
+    AnswersModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

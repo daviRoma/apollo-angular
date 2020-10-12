@@ -44,7 +44,7 @@
           <div class="row justify-content-between">
 
             <div class="col-6">
-              <label class="form-control-label">Group</label>
+              <label class="form-control-label">{{ 'common.group' | translate }}</label>
               <select id="group_select" class="custom-select" (change)="onQuestionGroupChange($event)">
                 <option value="" selected="true">-- None --</option>
                 <option *ngFor="let group of questionGroups" [value]="group.id">{{group.title}}</option>
@@ -52,7 +52,7 @@
             </div>
 
             <div class="col-6">
-              <label class="form-control-label">Questions</label>
+              <label class="form-control-label">{{ 'question.title' | translate }}</label>
               <select id="question_select" class="custom-select" (change)="onQuestionChange($event)">
                 <option id="default_option" value="" selected="true">-- None --</option>
                 <option *ngFor="let question of questions" [value]="question.id + '-' +question.idDB">{{question.title}}
@@ -81,7 +81,7 @@
         <div class="card-header border-0">
           <div class="row align-items-center">
             <div class="col">
-              <h6 class="mb-0">Answers list</h6>
+              <h6 class="mb-0">{{ 'common.answerlist' | translate }}</h6>
             </div>
             <div class="col-auto"></div>
           </div>

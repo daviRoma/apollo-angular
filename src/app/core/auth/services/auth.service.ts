@@ -9,7 +9,7 @@ import { serverConfiguration } from 'src/app/shared/config/server.conf';
 
 import * as moment from 'moment';
 
-import { User } from 'src/app/models/user.model';
+import { RegistrationRequest, User } from 'src/app/models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -32,13 +32,9 @@ export class AuthService {
     return this.http.post<User>(url, { email, password });
   }
 
-  public signUp(
-    username: string,
-    email: string,
-    password: string
-  ): Observable<User> {
+  public signUp(request: RegistrationRequest): Observable<User> {
     const url = `${this.BASE_URL}/users`;
-    return this.http.post<User>(url, { username, email, password });
+    return this.http.post<User>(url, request);
   }
 
   public logout(): void {

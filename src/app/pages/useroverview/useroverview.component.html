@@ -54,7 +54,7 @@
 								<li class="list-group-item px-0">
 									<div class="row align-items-center">
 										<div class="col-4">
-											<span class="form-control-label">Firstname:</span>
+											<span class="form-control-label">{{ 'common.firstnmae' | translate }}:</span>
 										</div>
 										<div class="col-8 text-right">
 											<span id="firstname" class="text-right">{{user.firstname}}</span>
@@ -64,7 +64,7 @@
 								<li class="list-group-item px-0">
 									<div class="row align-items-center">
 										<div class="col-4">
-											<span class="form-control-label">Lastname:</span>
+											<span class="form-control-label">{{ 'common.lastname' | translate }}:</span>
 										</div>
 										<div class="col-8 text-right">
 											<span id="lastname" class="text-right">{{user.lastname}}</span>
@@ -85,11 +85,11 @@
 									<div class="row align-items-center">
 										<div class="col-4">
 											<!-- <span class="form-control-label">{{user.role}}</span> -->
-											<span class="form-control-label">Role:</span>
+											<span class="form-control-label">{{ 'user.role' | translate }}:</span>
 
 										</div>
 										<div class="col-8 text-right">
-											<span id="role" class="text-right">role</span>
+											<span id="role" class="text-right">{{ 'user.role' | translate }}</span>
 										</div>
 									</div>
 								</li>
@@ -115,7 +115,7 @@
 							<div class="row">
 								<div class="col">
 
-									<h6 class="text-muted mb-1">Created Survey</h6>
+									<h6 class="text-muted mb-1">{{ 'survey.created' | translate }}</h6>
 
 									<!-- <h6 class="text-muted mb-1">[[#{survey.created}]]</h6> -->
 									<span class="h3 font-weight-bold mb-0">{{surveyTotal}}</span>
@@ -161,7 +161,7 @@
 				<div class="col-xl-12 col-sm-6">
 					<button type="button" class="btn btn-lg btn-danger rounded-pill text-sm" data-action="delete-open"
 						data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
-						(click)="openDeleteDialog()">Delete</button>
+						(click)="openDeleteDialog()">{{ 'common.delete' | translate }}</button>
 				</div>
 
 			</div>

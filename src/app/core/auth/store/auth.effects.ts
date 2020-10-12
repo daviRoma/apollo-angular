@@ -11,10 +11,10 @@ import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 
-import { AuthActionTypes, LogInSuccess, LogInFailure, RegistrationSuccess, RegistrationFailure, LoadSessionUser, LoadSessionUserSuccess, LoadSessionUserFailure, LogOut } from './auth.actions';
+import { AuthActionTypes, LogInSuccess, LogInFailure, RegistrationSuccess, RegistrationFailure, LoadSessionUser, LoadSessionUserSuccess, LoadSessionUserFailure, LogOut, Registration } from './auth.actions';
 
 import { Paths } from 'src/app/shared/config/path.conf';
-import { User } from 'src/app/models/user.model';
+import { RegistrationRequest, User } from 'src/app/models/user.model';
 
 @Injectable()
 export class AuthEffects {
@@ -57,18 +57,19 @@ export class AuthEffects {
 
   @Effect()
   Registration: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.REGISTRATION),
-    switchMap((payload: any) => this.authService.signUp(payload.username, payload.email, payload.password)),
-    switchMap((signupResp: any) => of(new RegistrationSuccess(signupResp))),
-    catchError((signupResp: any) => of(new RegistrationFailure(signupResp)))
+    ofType<Registration>(AuthActionTypes.REGISTRATION),
+    map((action) => action.payload),
+    switchMap((request: RegistrationRequest) => this.authService.signUp(request).pipe(
+      map((response: User) => new RegistrationSuccess(response)),
+      catchError((error: any) => of(new RegistrationFailure(error)))
+    ))
   );
 
   @Effect({ dispatch: false })
   RegistrationSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.REGISTRATION_SUCCESS),
     tap((user) => {
-      localStorage.setItem('token', user.payload.token);
-      this.router.navigateByUrl(Paths.userHome);
+      this.router.navigateByUrl('/auth/login');
     })
   );
 

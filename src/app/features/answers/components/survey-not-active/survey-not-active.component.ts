@@ -11,7 +11,6 @@ export class SurveyNotActiveComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("eccomi");
   }
 
 }

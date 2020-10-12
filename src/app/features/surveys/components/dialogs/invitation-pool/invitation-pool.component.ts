@@ -6,8 +6,9 @@ import { AppState } from 'src/app/state/app.state';
 import { Store } from '@ngrx/store';
 import { InvitationPoolUpdateAction, InvitationPoolNewAction } from '../../../store/actions/invitation-pool.actions';
 
-import Utils from 'src/app/shared/utils';
 import { InvitationPool, InvitationPoolRequest } from 'src/app/models/invitation-pool.model';
+
+import Utils from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-invitation-pool',
@@ -109,7 +110,7 @@ export class InvitationPoolComponent implements OnInit {
 
   private checkEmailPool(): boolean {
     if (this.emails.length > 0) {
-      if (this.emails.filter(this.validateEmail).length !== this.emails.length) {
+      if (this.emails.filter(Utils.validateEmail).length !== this.emails.length) {
         this.errorMessage = 'Invalid emails';
         return false;
       }
@@ -119,11 +120,6 @@ export class InvitationPoolComponent implements OnInit {
 
     this.errorMessage = 'No emails found';
     return false;
-  }
-
-  private validateEmail(email): boolean {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
   }
 
 }
