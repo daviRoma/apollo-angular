@@ -40,31 +40,32 @@
 				<tbody>
 					<tr *ngFor="let element of question.elements; index as i;" class="shadow-none">
 						<th scope="row">{{element.title}}</th>
-						<td class="matrix-options-label mb-1" *ngFor="let option of question.options; index as b">
 
-							<div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
-								<div>
-									<input type="checkbox" class="custom-control-input"
-										id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
-                    (click)="checkMatrixAnswerChange(element.id, option.value)"
-                    [value]="option.value"
-                    [disabled]="readOnly">
-									<label class="custom-control-label"
-										for="{{ 'element_'  + i + '_' + b + '_'  + question.id}}"></label>
+							<td class="matrix-options-label mb-1" *ngFor="let option of question.options; index as b" >
+
+								<div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
+									<div>
+										<input type="checkbox" class="custom-control-input"
+											id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
+											(click)="checkMatrixAnswerChange(element.id, option.value)"
+											[value]="option.value" [disabled]="readOnly">
+										<label class="custom-control-label"
+											for="{{ 'element_'  + i + '_' + b + '_'  + question.id}}"></label>
+
+									</div>
 
 								</div>
 
-							</div>
-
-							<div *ngIf="question.type === 'RADIO'" class="custom-control custom-radio">
+								<div *ngIf="question.type === 'RADIO'" class="custom-control custom-radio">
 									<input type="radio" id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
-										name="customRadio" class="custom-control-input"
-										(click)="radioMatrixAnswerChange(element.id, option.value)" [disabled]="readOnly">
+										name="{{ 'radio_' + i + '_' + question.id}}" class="custom-control-input"
+										(click)="radioMatrixAnswerChange(element.id, option.value)"
+										[disabled]="readOnly">
 									<label class="custom-control-label"
 										for="{{ 'element_'  + i + '_' + b + '_' + question.id}}"></label>
-							</div>
+								</div>
 
-						</td>
+							</td>
 					</tr>
 				</tbody>
 			</table>
