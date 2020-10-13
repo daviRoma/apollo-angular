@@ -5,7 +5,7 @@
         <div class="card card-fluid">
 
             <div class="card-header">
-                <h6 class="mb-0">Overview</h6>
+                <h6 class="mb-0">{{ 'survey.overview' | translate }}</h6>
             </div>
 
             <div class="card-body py-3 flex-grow-1">
@@ -31,11 +31,11 @@
                     <li class="list-group-item px-0">
                         <div class="row align-items-center">
                             <div class="col-4">
-                                <span class="form-control-label">Secret:</span>
+                                <span class="form-control-label">{{ 'survey.secret' | translate }}:</span>
                             </div>
                             <div class="col-8 text-right">
                                 <span *ngIf="survey.secret" id="survey_secret"
-                                    class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                                    class="text-right badge badge-success badge-pill mx-2">{{ 'common.yes' | translate }}</span>
                                 <span *ngIf="!survey.secret" id="survey_secret"
                                     class="text-right badge badge-danger badge-pill mx-2">No</span>
                             </div>
@@ -44,11 +44,11 @@
                     <li class="list-group-item px-0">
                         <div class="row align-items-center">
                             <div class="col-4">
-                                <span class="form-control-label">Published:</span>
+                                <span class="form-control-label">{{ 'common.published' | translate }}:</span>
                             </div>
                             <div class="col-8 text-right">
                                 <span id="survey_active" *ngIf="survey.active"
-                                    class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                                    class="text-right badge badge-success badge-pill mx-2">{{ 'common.yes' | translate }}</span>
                                 <span id="survey_active" *ngIf="!survey.active"
                                     class="text-right badge badge-danger badge-pill mx-2">No</span>
                             </div>
@@ -57,7 +57,7 @@
                     <li class="list-group-item px-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <span class="form-control-label">Public Link</span>
+                                <span class="form-control-label">{{ 'common.publiclink' | translate }}</span>
                             </div>
                             <div class="col text-right">
                                 <span id="urlId" class="text-right">{{survey.urlId}}</span>
@@ -67,15 +67,15 @@
                     <li class="list-group-item px-0">
                         <div class="row justify-content-between">
                             <div class="col-6">
-                                <small>Start Date</small>
+                                <small>{{ 'survey.startDate' | translate }}</small>
                                 <div *ngIf="survey.startDate" class="h6 mb-0">{{ survey.startDate | date }}
                                 </div>
-                                <div *ngIf="survey.startDate == null" class="h6 mb-0">Not Provided</div>
+                                <div *ngIf="survey.startDate == null" class="h6 mb-0">{{ 'common.notprovided' | translate }}</div>
                             </div>
                             <div class="col-3">
-                                <small>End Date</small>
+                                <small>{{ 'common.endDate' | translate }}</small>
                                 <div *ngIf="survey.endDate" class="h6 mb-0">{{ survey.endDate | date }}</div>
-                                <div *ngIf="survey.endDate == null" class="h6 mb-0">Not Provided</div>
+                                <div *ngIf="survey.endDate == null" class="h6 mb-0">{{ 'common.notprovided' | translate }}</div>
                             </div>
                         </div>
                     </li>
@@ -99,7 +99,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <h6 class="text-muted mb-1">Answers</h6>
+                                <h6 class="text-muted mb-1">{{ 'common.answers' | translate }}</h6>
                                 <span class="h3 font-weight-bold mb-0">{{ totSurveyAnswers }}</span>
                             </div>
                             <div class="col-auto">
@@ -120,10 +120,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <h6 class="text-muted mb-1">Invitations</h6>
+                                <h6 class="text-muted mb-1">{{ 'common.invitations' | translate }}</h6>
                                 <span *ngIf="survey.secret"
                                     class="h3 font-weight-bold mb-0">{{ survey.invitationPool != null && survey.invitationPool.emails != null ? survey.invitationPool.emails.length : 0}}</span>
-                                <span *ngIf="!survey.secret" class="h4 font-weight-bold mb-0">Not disponibile</span>
+                                <span *ngIf="!survey.secret" class="h4 font-weight-bold mb-0">{{ 'common.notavailable' | translate }}</span>
                             </div>
                             <div class="col-auto">
                                 <span class="h3 font-weight-bold mb-0" style="color: rgb(51, 80, 211);">
