@@ -5,12 +5,11 @@
   <div class="col-auto mat-dialog-content justify-content-center mb-2">
     <div class="row justify-content-center">
       <div class="col-12 justify-content-center">
-        <span class="justify-content-center">Pubblicando il sondaggio invierai la mail agli utenti invitati.
-          Confermare?</span>
+        <span class="justify-content-center">{{ 'common.sendinvitationconfirm' | translate }}</span>
       </div>
       <div class="col-12 py-2 justify-content-center">
         <div *ngIf="isError" id="result_message" class="text-left justify-content-between text-xs text-muted mt-2">
-          <span id="error_message" class="font-weight-bold text-danger ">No email address found</span>
+          <span id="error_message" class="font-weight-bold text-danger">{{ 'error.noemailaddress' | translate }}</span>
         </div>
       </div>
     </div>
@@ -18,9 +17,8 @@
 
   <div class="mat-dialog-actions col-12 justify-content-center">
     <div class="text-right buttons-container">
-      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-      <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendInvitationAndPublish()"
-        [disabled]="survey.active">Invia</button>
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+      <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendInvitationAndPublish()" [disabled]="survey.active">{{ 'common.send' | translate }}</button>
     </div>
   </div>
 </div>

@@ -11,6 +11,7 @@ import { DeleteQuestionDialogComponent } from 'src/app/features/questions/compon
 import { MatrixQuestion } from 'src/app/models/question.model';
 import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
 import { DeleteDialogConf, QuestionDialogConf } from 'src/app/shared/config/dialog.conf';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-matrix-question',
@@ -27,18 +28,18 @@ export class MatrixQuestionComponent implements OnInit {
 
   constructor(
     public questionDialog: MatDialog,
+    private translate: TranslateService,
     private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    this.editDialogConf = { ...QuestionDialogConf };
-    this.deleteDilogConf = { ...DeleteDialogConf };
   }
 
   editQuestion(): void {
+    this.editDialogConf = { ...QuestionDialogConf };
     this.editDialogConf.data.question = { ...this.question };
     this.editDialogConf.data.type = this.question.type;
-    this.editDialogConf.data.dialogConfig.title = 'Edit Matrix Question';
+    this.editDialogConf.data.dialogConfig.title = this.translate.instant('question.edit');
     this.editDialogConf.data.dialogConfig.operation = 'edit';
 
     const dialogRef = this.questionDialog.open(MatrixQuestionDialogComponent, this.editDialogConf);
@@ -46,9 +47,10 @@ export class MatrixQuestionComponent implements OnInit {
   }
 
   deleteQuestion(): void {
+    this.deleteDilogConf = { ...DeleteDialogConf };
     this.deleteDilogConf.data.item = { ...this.question };
-    this.deleteDilogConf.data.dialogConfig.title = 'Delete Question';
-    this.deleteDilogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
+    this.deleteDilogConf.data.dialogConfig.title = this.translate.instant('question.delete');
+    this.deleteDilogConf.data.dialogConfig.content = this.translate.instant('question.deletemessage');
 
     const dialogRef = this.questionDialog.open(DeleteQuestionDialogComponent, this.deleteDilogConf);
     this.reload(dialogRef);

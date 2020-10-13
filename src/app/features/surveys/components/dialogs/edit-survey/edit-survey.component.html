@@ -9,17 +9,17 @@
 
           <!-- TITLE -->
           <div class="form-group">
-            <label for="name" class="form-control-label">Name</label>
+            <label for="name" class="form-control-label">{{ 'common.name' | translate }}</label>
             <input type="text" formControlName="name" class="form-control form-element" maxlength="80" minlength="6" required/>
             <mat-error class="font-weight-bold text-danger text-xs mx-1"
-            *ngIf=" (surveyForm.get('name').hasError('required') || surveyForm.get('name').hasError('minlength')) && surveyForm.get('name').touched">*The title must be at least 6 characters length</mat-error>
+            *ngIf=" (surveyForm.get('name').hasError('required') || surveyForm.get('name').hasError('minlength')) && surveyForm.get('name').touched">*{{ 'error.fieldSize' | translate }}</mat-error>
           </div>
 
           <!-- DESCRIPTION -->
           <div class="row">
               <div class="col-12">
                   <div class="form-group">
-                      <label for="description" class="form-control-label">Description</label>
+                      <label for="description" class="form-control-label">{{ 'common.description' | translate }}</label>
                       <textarea formControlName="description" class="form-control form-element" data-toggle="autosize" rows="2"></textarea>
                   </div>
               </div>
@@ -30,7 +30,7 @@
               <div class="col-6 my-1">
                   <div class="form-group custom-control custom-switch">
                       <input type="checkbox" formControlName="secret" class="custom-control-input form-element" name="secret" id="secret">
-                      <label class="custom-control-label form-control-label" for="secret">Secret</label>
+                      <label class="custom-control-label form-control-label" for="secret">{{ 'survey.secret' | translate }}</label>
                   </div>
               </div>
           </div>
@@ -39,24 +39,24 @@
           <div class="row">
               <div class="col-6">
                   <div class="form-group">
-                      <label for="startDate" class="form-control-label">Start Date</label>
+                      <label for="startDate" class="form-control-label">{{ 'survey.startDate' | translate }}</label>
                       <input type="date" name="startDate" formControlName="startDate" class="form-control form-element"/>
                   </div>
               </div>
               <div class="col-6">
                   <div class="form-group">
-                      <label for="endDate" class="form-control-label">End Date</label>
+                      <label for="endDate" class="form-control-label">{{ 'survey.endDate' | translate }}</label>
                       <input type="date" name="endDate" formControlName="endDate" class="form-control form-element"/>
                   </div>
               </div>
-              <small *ngIf="dateError" class="text-danger col-12 pl-3 pr-3 pb-3">* le date di inzio e fine devono essere successive alla data attuale e diverse tra loro</small>
+              <small *ngIf="dateError" class="text-danger col-12 pl-3 pr-3 pb-3">*{{ 'error.datedisclamer' | translate }}</small>
           </div>
 
           <!-- Icon container -->
           <div class="row">
               <div class="col-12">
                   <div class="form-group mb-0">
-                      <label class="form-control-label mb-0">Icon</label>
+                      <label class="form-control-label mb-0">{{ 'common.icon' | translate }}</label>
 
                       <!-- File -->
                       <div class="form-control-label">
@@ -66,8 +66,7 @@
                           <i class="fa fa-upload"></i>
                           <span>{{file ? file.name : 'Select survey icon...'}}</span>
                         </label>
-                        <span *ngIf="isFileError" id="file_error" class="text-danger text-xs">*The file must be of the format png/jpeg/jpg and 5MB
-                          maximum size.</span>
+                        <span *ngIf="isFileError" id="file_error" class="text-danger text-xs">*{{ 'error.file.msg' | translate }}</span>
                       </div>
 
                   </div>
@@ -90,8 +89,8 @@
 
   <div mat-dialog-actions>
     <div class="text-right buttons-container">
-      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-      <button type="submit" class="btn btn-sm btn-primary rounded-pill">Invia</button>
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+      <button type="submit" class="btn btn-sm btn-primary rounded-pill">{{ 'common.send' | translate }}</button>
     </div>
   </div>
 </form>

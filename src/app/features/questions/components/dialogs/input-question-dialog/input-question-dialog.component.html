@@ -9,8 +9,8 @@
         <!-- Question Text -->
           <div class="row form-group">
             <div class="col-12">
-              <mat-label th:for="title" class="form-control-label">Question </mat-label>
-              <input type="text" class="form-control" formControlName="title" placeholder="Question title..." data-toggle="autosize" required size="255" maxlength="255" minlength="12"/>
+              <mat-label th:for="title" class="form-control-label">{{ 'question.title' | translate }}</mat-label>
+              <input type="text" class="form-control" formControlName="title" placeholder="{{ 'question.placeholdertitle' | translate }}." data-toggle="autosize" required size="255" maxlength="255" minlength="12"/>
               <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">*The title must be 12 characters length</mat-error>
             </div>
           </div>
@@ -18,14 +18,14 @@
           <!-- Question Type -->
           <div class="row form-group">
             <mat-form-field appearance="fill" class="col-12">
-              <mat-label class="form-control-label">Type</mat-label>
+              <mat-label class="form-control-label">{{ 'common.type' | translate }}</mat-label>
               <mat-select [formControl]="questionForm.get('type')" required>
                 <mat-option>-- None --</mat-option>
                 <mat-option *ngFor="let item of inputType" [value]="item.value">
                   {{item.label}}
                 </mat-option>
               </mat-select>
-              <mat-error *ngIf="questionForm.get('type').hasError('required')">Please choose an input type</mat-error>
+              <mat-error *ngIf="questionForm.get('type').hasError('required')">*{{ 'error.invalidinputquestion' | translate }}</mat-error>
             </mat-form-field>
           </div>
 
@@ -39,8 +39,8 @@
 
   <div class="mat-dialog-actions">
     <div class="text-right buttons-container">
-      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-      <button type="submit" class="btn btn-sm btn-primary rounded-pill">Save</button>
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+      <button type="submit" class="btn btn-sm btn-primary rounded-pill">{{ 'common.save' | translate }}</button>
     </div>
   </div>
 

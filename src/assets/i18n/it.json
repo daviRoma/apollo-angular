@@ -1,22 +1,28 @@
 {
   "common": {
+    "activate": "Attiva",
     "actions": "Azioni",
-    "add": "Aggiungi",
-    "administration": "Amministrazione",
     "active": "Attivo",
+    "add": "Aggiungi",
+    "addcolumn": "Aggiungi colonna",
+    "addrow": "Aggiungi riga",
+    "administration": "Amministrazione",
+    "advanced": "Avanzate",
+    "allrightreserved": "Tutti i diritti sono riservati",
     "birthDate": "Data di Nascita",
     "completion": "Completion",
     "cancel": "Annulla",
     "confirm": "Conferma",
     "createdDate": "Data di creazione",
     "code": "Codice",
+    "columns": "Colonne",
     "description": "Descrizione",
+    "deactivate": "Disattiva",
     "empty": "vuoto",
     "enter": "Entra",
     "loginheader": "Entra per cominciare con Apollo!",
     "logout": "Esci",
     "version": "Versione",
-    "allrightreserved": "Tutti i diritti sono riservati",
     "profile": "Profilo",
     "delete": "Cancella",
     "edit": "Modifica",
@@ -46,6 +52,7 @@
     "choose": "Scegli qui",
     "notprovided": "Non disponibile",
     "changeavatar": "Aggiorna avatar",
+    "mandatory": "Obbligatoria",
     "inactive": "Non attivo",
     "surveys": "Sondaggi",
     "survey": "Sondaggio",
@@ -57,6 +64,7 @@
     "publish": "Pubblica",
     "disable": "Disabilita",
     "published": "Pubblicato",
+    "rows": "Righe",
     "deleteaccount": "Cancella account",
     "access": "Accesso",
     "send": "Invia",
@@ -74,6 +82,7 @@
     "answers": "Risposte",
     "answerlist": "Lista di risposte",
     "questions": "Domande",
+    "type": "Tipo",
     "choosequestion": "Seleziona una domanda da un gruppo...",
     "submitteddate": "Data invio",
     "inputpassword": "Inserisci la password",
@@ -116,107 +125,118 @@
     "invalidIcon": "Icona non valida",
     "invalidEmail": "Email non valida",
     "invalidCode": "Codice non valido",
+    "datedisclamer": "La data inizio e la data fine devono essere maggiori della data odierna e differenti tra loro.",
+    "invalidinputquestion": "Selezionare la tipologia di input",
+    "matrixcolumnerror": "Inserisci almeno due colonne valide.",
+    "matrixrowerror": "Inserisci almeno due righe valide.",
+    "fieldSize": "Il campo deve essere lungo almeno 6 caratteri",
+    "unabletopublish": "Il sondaggio non contiene gruppi o domande complete!",
 
     "file": {
       "invalid": "File non valido",
-      "invalidsize": "File troppo grande!"
+      "invalidsize": "File troppo grande!",
+      "msg": "Il file deve essere del formato png/jpeg/jpg e grande al massimo 5MB."
     },
 
     "session": {
       "pwdError": "Password sbagliata",
-      "usernameSize": "The field must be of at least 6 characters length",
-      "passwordSize": "The field must be of at least 6 characters length",
-      "passwordsNotMatch": "Passwords are different",
-      "duplicateUsername": "Username already used",
-      "loginerror": "Wrong username and/or password"
+      "usernameSize": "Il campo deve essere lungo almeno 6 caratteri",
+      "passwordSize": "Il campo deve essere lungo almeno 6 caratteri",
+      "passwordsNotMatch": "Le password sono differenti",
+      "duplicateUsername": "Username già in uso",
+      "loginerror": "Username e/o password errati"
     }
 
   },
 
   "profile": {
     "updateProfile": "Aggiorna Profilo",
-    "phone": "Phone Number",
-    "fiscalCode": "Fiscal Code"
+    "phone": "Numero di telefono",
+    "fiscalCode": "Codice Fiscale"
   },
 
   "survey": {
-    "create": "New Survey",
+    "create": "Nuovo Sondaggio",
     "created": "Sondaggi Creati",
-    "edit": "Edit Survey",
-    "icon" : "Icon",
-    "secret": "Private",
-    "startDate": "Start Date",
-    "endDate": "End Date",
-    "datedisclamer": "The start and end date must be greater than the actual date and must be different from each other",
-    "status": "Status",
-    "creationDate": "Creation Date",
-    "delete": "Delete Survey",
-    "deletemessage": "Are you sure you want to delete the current survey? \nThe operation cannot be canceled.",
-    "publishtitle": "Do you want to publish the survey?",
-    "disabletitle": "Do you want to disable the survey?",
-    "publishplaceholder": "Publish the survey to generate the link...",
-    "issecret": "Private Survey",
+    "edit": "Modifica Sondaggio",
+    "icon" : "Icona",
+    "secret": "Privato",
+    "startDate": "Data Inizio",
+    "endDate": "Data Fine",
+    "status": "Stato",
+    "creationDate": "Data di creazione",
+    "delete": "Cancella Sondaggio",
+    "deletemessage": "Sei sicuro di voler cancellare il sondaggio? \nL'operazione non può essere annullata.",
+    "publishtitle": "Vuoi pubblicare il sondaggio?",
+    "disabletitle": "Vuoi disabilitare il sondaggio?",
+    "publishplaceholder": "Pubblica il sondaggio per generare il link...",
+    "issecret": "Sondaggio privato",
     "issecretdesc": "To see the survey you must access using the password provided by email",
-    "overview": "Survey Overview",
+    "overview": "Overview del sondaggio",
     "submitted": "The survey has been submitted successfully",
     "notactive": "Survey not active",
     "notactivedesc": "The survey has not been activated yet or has been deactivated by his owner",
     "alreadyanswered": "You have already answered the survey!",
     "private": "This survey is private",
-    "active": "Active Survey"
+    "active": "Active Survey",
+    "activate": "Activate the survey",
+    "deactivate": "Do you want deactivate the survey?"
   },
 
   "group": {
-    "create": "New question group",
-    "delete": "Delete question group",
+    "add": "Aggiungi Gruppo",
+    "create": "Nuovo gruppo",
+    "delete": "Cancella gruppo",
     "deletemessage": "Are you sure you want to delete the current question group? In this way you will also delete all the associated questions.",
-    "edit": "Edit question group",
+    "edit": "Modifica gruppo",
     "title": "Question Group"
   },
 
   "question": {
-    "title": "Question",
-    "options": "Options",
-    "optionplaceholder": "Answer text",
-    "titleplaceholder": "Question text",
-    "inputquestion": "Open Question",
-    "singlechoicequestion": "Single choice question",
-    "multichoicequestion": "Multiple choice question",
-    "selectionquestion": "Selection",
-    "questiontype": "Type",
-    "otherChoice": "Other",
-    "radioquestion": "Single Choice",
-    "checkquestion": "Multi Choice",
-    "matrixquestion": "Matrix Question",
-    "otherchoiceplaceholder": "Type here your choice",
-    "delete": "Delete question",
-    "deletemessage": "Are you sure you want to delete the question?",
-    "advanced": "Advanced",
-    "mandatory": "Mandatory question",
-    "noquestion": "Nessuna domanda caricata"
+    "title": "Domanda",
+    "options": "Opzioni",
+    "edit": "Modifica Domanda",
+    "placeholdertitle": "Titolo della domanda...",
+    "optionplaceholder": "Inserisci opzione...",
+    "inputquestion": "Domanda aperta",
+    "singlechoicequestion": "Domanda a Risposta Singola",
+    "multichoicequestion": "Domanda a Risposta Multipla",
+    "selectionquestion": "Domanda a Selezione Singola",
+    "matrixquestion": "Domanda a Matrice",
+    "otherChoice": "Opzione libera",
+    "radioquestion": "Scelta Singola",
+    "checkquestion": "Scelta Multipla",
+    "selectquestion": "Selezione",
+    "matrixradioquestion": "Matrice Scelta Singola",
+    "matrixcheckquestion": "Matrice Scelta Multipla",
+    "otherchoiceplaceholder": "Digita qui la tua scelta",
+    "delete": "Cancella Domanda",
+    "deletemessage": "Sei sicuro di voler cancellare la domanda?",
+    "mandatory": "Domanda obbligatoria",
+    "noquestion": "Nessuna domanda caricata",
+    "validoptions": "Inserisci almeno 2 opzioni valide"
   },
 
   "answer": {
-    "totanswers": "Tot Answers"
+    "totanswers": "Totale Risposte"
   },
 
   "file": {
-    "title": "Add an image (PNG or JPEG) of max 5MB",
-    "nofile": "No file present"
+    "title": "Aggiungi una immagine (PNG o JPEG) di massimo 5MB",
+    "nofile": "Nessun file presente"
   },
 
   "user": {
     "create": "Crea Account",
-    "delete": "Delete account",
-    "deletemessage": "Are you sure to delete your account? This operation is not reversible",
-    "signupdate": "SignUp",
+    "delete": "Cancella Account",
+    "deletemessage": "Sei sicuro di voler cancellare il tuo account? \nQuesta operazione è irreversibile.",
     "signIn": "Registrati!",
-    "role": "Role"
+    "role": "Ruolo"
   },
 
   "email": {
-    "yoursurvey": "Your survey",
-    "surveyactivated": "has been activated",
+    "yoursurvey": "Il tuo sondaggio",
+    "surveyactivated": "è stato attivato",
     "surveydeactivated": "has been deactivated",
     "activeuntil": "and will be active until",
     "welcome": "Welcome to Apollo! You have been invited to answer to a survey. Click the link below to reach the page.",

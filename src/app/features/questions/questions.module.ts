@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -32,6 +33,7 @@ import { AdvancedComponent } from './components/advanced/advanced.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     MatSelectModule,
     MatInputModule,
   ],

@@ -11,6 +11,7 @@ import { DeleteQuestionDialogComponent } from 'src/app/features/questions/compon
 import { ChoiceQuestion } from 'src/app/models/question.model';
 import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
 import { DeleteDialogConf, QuestionDialogConf } from 'src/app/shared/config/dialog.conf';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-choice-question',
@@ -27,6 +28,7 @@ export class ChoiceQuestionComponent implements OnInit {
 
   constructor(
     public questionDialog: MatDialog,
+    private translate: TranslateService,
     private store: Store<AppState>
   ) {}
 
@@ -38,7 +40,7 @@ export class ChoiceQuestionComponent implements OnInit {
   editQuestion(): void {
     this.editDialogConf.data.question = { ...this.question };
     this.editDialogConf.data.type = this.question.type;
-    this.editDialogConf.data.dialogConfig.title = 'Edit Choice Question';
+    this.editDialogConf.data.dialogConfig.title = this.translate.instant('question.edit');
     this.editDialogConf.data.dialogConfig.operation = 'edit';
 
     const dialogRef = this.questionDialog.open(ChoiceQuestionDialogComponent, this.editDialogConf);
@@ -47,8 +49,8 @@ export class ChoiceQuestionComponent implements OnInit {
 
   deleteQuestion(): void {
     this.deleteDilogConf.data.item = { ...this.question };
-    this.deleteDilogConf.data.dialogConfig.title = 'Delete Question';
-    this.deleteDilogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
+    this.deleteDilogConf.data.dialogConfig.title = this.translate.instant('question.delete');
+    this.deleteDilogConf.data.dialogConfig.content = this.translate.instant('question.deletemessage');
 
     const dialogRef = this.questionDialog.open(DeleteQuestionDialogComponent, this.deleteDilogConf);
     this.reload(dialogRef);

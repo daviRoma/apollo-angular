@@ -5,15 +5,15 @@
   <div class="col-12 mat-dialog-content justify-content-center mb-3">
     <div class="row">
       <div class="col-md-12">
-        <span class="form-control-label"> Sei sicuro di voler cancellare la domanda? </span>
+        <span class="form-control-label"> {{ 'question.deletemessage' | translate }} </span>
       </div>
     </div>
   </div>
 
   <div class="mat-dialog-actions col-12 justify-content-center">
     <div class="text-right buttons-container">
-      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-      <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="confirm()">Confirm</button>
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+      <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="confirm()">{{ 'common.confirm' | translate }}</button>
     </div>
   </div>
 </div>

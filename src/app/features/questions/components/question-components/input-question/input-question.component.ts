@@ -12,6 +12,7 @@ import { DeleteQuestionDialogComponent } from 'src/app/features/questions/compon
 import { InputQuestion } from 'src/app/models/question.model';
 import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
 import { DeleteDialogConf, QuestionDialogConf } from 'src/app/shared/config/dialog.conf';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-input-question',
@@ -28,6 +29,7 @@ export class InputQuestionComponent implements OnInit {
 
   constructor(
     public questionDialog: MatDialog,
+    private transalte: TranslateService,
     private store: Store<AppState>
   ) {}
 
@@ -39,7 +41,7 @@ export class InputQuestionComponent implements OnInit {
   editQuestion(): void {
     this.editDialogConf.data.question = { ...this.question };
     this.editDialogConf.data.type = this.question.type;
-    this.editDialogConf.data.dialogConfig.title = 'Edit Input Question';
+    this.editDialogConf.data.dialogConfig.title = this.transalte.instant('question.edit');
     this.editDialogConf.data.dialogConfig.operation = 'edit';
 
     const dialogRef = this.questionDialog.open(InputQuestionDialogComponent, this.editDialogConf);
@@ -48,8 +50,8 @@ export class InputQuestionComponent implements OnInit {
 
   deleteQuestion(): void {
     this.deleteDilogConf.data.item = { ...this.question };
-    this.deleteDilogConf.data.dialogConfig.title = 'Delete Question';
-    this.deleteDilogConf.data.dialogConfig.content = 'Are you sure to delete this question?';
+    this.deleteDilogConf.data.dialogConfig.title = this.transalte.instant('question.delete');
+    this.deleteDilogConf.data.dialogConfig.content = this.transalte.instant('question.deletemessage');
 
     const dialogRef = this.questionDialog.open(DeleteQuestionDialogComponent, this.deleteDilogConf);
     this.reload(dialogRef);

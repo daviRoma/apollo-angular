@@ -1,11 +1,17 @@
 {
   "common": {
+    "activate": "Activate",
     "add": "Add",
+    "addcolumn": "Add column",
+    "addrow": "Add row",
     "administration": "Administration",
+    "advanced": "Advanced",
     "birthDate": "Birthdate",
     "createdDate": "Created Date",
     "code": "Code",
+    "columns": "Columns",
     "description": "Description",
+    "deactivate": "Deactivate",
     "loginheader": "Enter for starting session",
     "logout": "Logout",
     "version": "Version",
@@ -29,6 +35,7 @@
     "username": "Username",
     "firstname": "First Name",
     "lastname": "Last Name",
+    "mandatory": "Mandatory",
     "alreadyregistered": "Already registered?",
     "notegistered": "Not registered?",
     "passwordconfirm": "Confirm password",
@@ -59,6 +66,7 @@
     "deleteaccount": "Delete account",
     "access": "Access",
     "send": "Send",
+    "type": "Type",
     "invalidcredentials": "Wrong credentials",
     "notallowed": "Not allowed",
     "warning": "Warning",
@@ -67,6 +75,7 @@
     "surveydisabled": "Survey deactivated",
     "publiclink": "Public Link",
     "ops": "Ops!",
+    "rows": "Rows",
     "name": "Name",
     "submitted": "Submitted",
     "attention": "Attention!",
@@ -115,10 +124,17 @@
     "invalidIcon": "Icon not valid",
     "invalidEmail": "The email is not valid",
     "invalidCode": "Invalid code",
+    "datedisclamer": "The start and end date must be greater than the actual date and must be different from each other",
+    "invalidinputquestion": "Please choose an input type",
+    "matrixcolumnerror": "Please insert at least 2 valid columns.",
+    "matrixrowerror": "Please insert at least 2 valid rows.",
+    "fieldSize": "The field must be of at least 6 characters length",
+    "unabletopublish": "The survey must contains groups and questions!",
 
     "file": {
       "invalid": "File not valid",
-      "invalidsize": "Invalid file size"
+      "invalidsize": "Invalid file size",
+      "msg": "The file must be of the format png/jpeg/jpg and 5MB maximum size."
     },
 
     "session": {
@@ -146,7 +162,6 @@
     "secret": "Private",
     "startDate": "Start Date",
     "endDate": "End Date",
-    "datedisclamer": "The start and end date must be greater than the actual date and must be different from each other",
     "status": "Status",
     "creationDate": "Creation Date",
     "delete": "Delete Survey",
@@ -162,10 +177,13 @@
     "notactivedesc": "The survey has not been activated yet or has been deactivated by his owner",
     "alreadyanswered": "You have already answered the survey!",
     "private": "This survey is private",
-    "active": "Active Survey"
+    "active": "Active Survey",
+    "activate": "Activate the survey",
+    "deactivate": "Do you want deactivate the survey?"
   },
 
   "group": {
+    "add": "Add Group",
     "create": "New question group",
     "delete": "Delete question group",
     "deletemessage": "Are you sure you want to delete the current question group? In this way you will also delete all the associated questions.",
@@ -176,23 +194,27 @@
   "question": {
     "title": "Question",
     "options": "Options",
+    "edit": "Edit Question",
+    "placeholdertitle": "Question title...",
     "optionplaceholder": "Answer text",
-    "titleplaceholder": "Question text",
     "inputquestion": "Open Question",
-    "singlechoicequestion": "Single choice question",
-    "multichoicequestion": "Multiple choice question",
-    "selectionquestion": "Selection",
+    "singlechoicequestion": "Single Choice question",
+    "multichoicequestion": "Multiple Choice question",
+    "selectionquestion": "Selection Question",
+    "matrixquestion": "Matrix Question",
     "questiontype": "Type",
     "otherChoice": "Other",
     "radioquestion": "Single Choice",
     "checkquestion": "Multi Choice",
-    "matrixquestion": "Matrix Question",
+    "selectquestion": "Selection",
+    "matrixradioquestion": "Single Choice Matrix",
+    "matrixcheckquestion": "Multi Choice Matrix",
     "otherchoiceplaceholder": "Type here your choice",
-    "delete": "Delete question",
+    "delete": "Delete Question",
     "deletemessage": "Are you sure you want to delete the question?",
-    "advanced": "Advanced",
     "mandatory": "Mandatory question",
-    "noquestion": "No question loaded"
+    "noquestion": "No question loaded",
+    "validoptions": "Insert at least 2 valid options"
   },
 
   "answer": {
@@ -208,7 +230,6 @@
     "create": "Create Account",
     "delete": "Delete account",
     "deletemessage": "Are you sure to delete your account? This operation is not reversible",
-    "signupdate": "SignUp",
     "signIn": "Sign In!",
     "role": "Role"
   },

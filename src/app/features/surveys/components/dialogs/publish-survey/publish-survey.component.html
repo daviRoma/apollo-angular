@@ -5,15 +5,15 @@
 
   <div class="row align-items-center mb-2 mt-3">
     <div class="col-12">
-      <h6 class="mb-0" *ngIf="survey.active; else surveyNotActive">Vuoi disattivare il sondaggio?</h6>
-      <ng-template #surveyNotActive>Attiva il sondaggio</ng-template>
+      <h6 class="mb-0" *ngIf="survey.active; else surveyNotActive"> {{ 'survey.deactivate' | translate }} </h6>
+      <ng-template #surveyNotActive>{{ 'survey.activate' | translate }}</ng-template>
     </div>
   </div>
 
   <!-- Body -->
   <div class="row">
     <div class="col-11 px-1">
-      <span class="form-control-label">Link Pubblico</span>
+      <span class="form-control-label">{{ 'common.publiclink' | translate }} </span>
       <input id="urlId" type="text" class="form-control" value="{{'http://apollo.it/answer/surveyanswer/' + survey.id + '/' +survey.urlId}}" placeholder="Link pubblico..." readonly />
     </div>
     <div class="col-1 mt-4 p-2">
@@ -24,7 +24,7 @@
   <div  class="row">
     <div class="col-12 py-2">
       <div *ngIf="isError" id="result_message" class="text-center text-xs text-muted mt-2">
-        <span id="message" class="text-danger font-weight-bold">*Il sondaggio non contiene gruppi o domande complete.</span>
+        <span id="message" class="text-danger font-weight-bold">*{{ 'common.unabletopublish' | translate }}</span>
       </div>
     </div>
   </div>
@@ -33,8 +33,8 @@
 
 <div mat-dialog-actions>
   <div class="text-right buttons-container">
-    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="handleSubmit()">{{survey.active ? 'Disattiva' : 'Attiva'}}</button>
+    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="handleSubmit()">{{survey.active ? ('common.deactivate' | translate) : ('common.activate' | translate)}}</button>
   </div>
 </div>
 

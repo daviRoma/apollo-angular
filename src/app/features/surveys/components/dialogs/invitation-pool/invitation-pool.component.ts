@@ -9,6 +9,7 @@ import { InvitationPoolUpdateAction, InvitationPoolNewAction } from '../../../st
 import { InvitationPool, InvitationPoolRequest } from 'src/app/models/invitation-pool.model';
 
 import Utils from 'src/app/shared/utils';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-invitation-pool',
@@ -28,6 +29,7 @@ export class InvitationPoolComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<InvitationPoolComponent>,
+    private transalte: TranslateService,
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -111,14 +113,14 @@ export class InvitationPoolComponent implements OnInit {
   private checkEmailPool(): boolean {
     if (this.emails.length > 0) {
       if (this.emails.filter(Utils.validateEmail).length !== this.emails.length) {
-        this.errorMessage = 'Invalid emails';
+        this.errorMessage = this.transalte.instant('error.invalidEmail');
         return false;
       }
       this.isError = false;
       return true;
     }
 
-    this.errorMessage = 'No emails found';
+    this.errorMessage = this.transalte.instant('error.noemailaddress');
     return false;
   }
 

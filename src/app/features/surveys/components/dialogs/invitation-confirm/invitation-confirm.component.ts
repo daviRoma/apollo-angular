@@ -37,7 +37,6 @@ export class InvitationConfirmComponent implements OnInit {
     this.store.select(fromSurvey.selectEntity, { id: this.survey.id })
       .subscribe((survey: Survey) => {
         if (survey) {
-          console.log(survey);
           this.survey = { ...survey };
         }
       });

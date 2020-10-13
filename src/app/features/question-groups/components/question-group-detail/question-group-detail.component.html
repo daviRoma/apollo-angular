@@ -15,8 +15,8 @@
               <i class="far fa-cog"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-              <a href="#" (click)="openEditQuestionGroupModal()" class="dropdown-item">Edit</a>
-              <a href="#" (click)="openDeleteQuestionGroupDialog()" class="dropdown-item text-danger">Delete</a>
+              <a href="#" (click)="openEditQuestionGroupModal()" class="dropdown-item">{{ 'common.edit' | translate }}</a>
+              <a href="#" (click)="openDeleteQuestionGroupDialog()" class="dropdown-item text-danger">{{ 'common.delete' | translate }}</a>
             </div>
           </div>
         </div>
@@ -79,7 +79,7 @@
                         <img alt="Radio Question" src="/assets/dist/img/icons/custom/radio_single.svg">
                       </div>
                       <div class="col-12">
-                        <span>Single Choice</span>
+                        <span>{{ 'question.radioquestion' | translate }}</span>
                       </div>
 
                     </div>
@@ -96,7 +96,7 @@
                         <img alt="Multi Choice Question" src="/assets/dist/img/icons/custom/check_single.svg">
                       </div>
                       <div class="col-12">
-                        <span>Multi Choice</span>
+                        <span>{{ 'question.checkquestion' | translate }}</span>
                       </div>
 
                     </div>
@@ -113,7 +113,7 @@
                           <img alt="Selection Question" src="/assets/dist/img/icons/custom/select.svg">
                       </div>
                       <div class="col-12">
-                        <span>Selection Question</span>
+                        <span>{{ 'question.selectnquestion' | translate }}</span>
                       </div>
                     </div>
                   </div>
@@ -129,7 +129,7 @@
                         <img alt="Radio Question" src="/assets/dist/img/icons/custom/input_text.svg">
                       </div>
                       <div class="col-12">
-                        <span>Input Question</span>
+                        <span>{{ 'question.inputquestion' | translate }}</span>
                       </div>
 
                     </div>
@@ -146,7 +146,7 @@
                         <img alt="Radio Question" src="/assets/dist/img/icons/custom/radio_multi.svg">
                       </div>
                       <div class="col-12">
-                        <span>Matrix Radio Question</span>
+                        <span>{{ 'question.matrixradioquestion' | translate }}</span>
                       </div>
                     </div>
                   </div>
@@ -162,7 +162,7 @@
                         <img alt="Radio Question" src="/assets/dist/img/icons/custom/check_multi.svg">
                       </div>
                       <div class="col-12">
-                        <span>Matrix Check Question</span>
+                        <span>{{ 'question.matrixcheckquestion' | translate }}</span>
                       </div>
 
                     </div>

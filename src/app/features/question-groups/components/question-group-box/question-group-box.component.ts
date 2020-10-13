@@ -1,11 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppState } from 'src/app/state/app.state';
+import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
+
+import { EditQuestionGroupComponent } from '../dialogs/edit-question-group/edit-question-group.component';
 
 import { QuestionGroup } from 'src/app/models/question-group.model';
-import { EditQuestionGroupComponent } from '../dialogs/edit-question-group/edit-question-group.component';
 
 @Component({
   selector: 'app-question-group-box',
@@ -20,6 +23,7 @@ export class QuestionGroupBoxComponent implements OnInit {
 
   constructor(
     public questionGroupDialog: MatDialog,
+    private translate: TranslateService,
     private store: Store<AppState>
   ) {}
 
@@ -27,16 +31,27 @@ export class QuestionGroupBoxComponent implements OnInit {
   }
 
   openAddQuestionGroupModal(): void {
-    this.questionGroupDialog.open(EditQuestionGroupComponent, {
+    const dialogRef = this.questionGroupDialog.open(EditQuestionGroupComponent, {
       width: '35%',
       position: { top: '6%' },
       data: {
         surveyId: this.surveyId,
         dialogConfig: {
-          title: 'New Question Group',
+          title: this.translate.instant('group.create'),
           operation: 'new',
         },
       },
     });
+
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response.result === 'close_after_submit') {
+          this.store
+            .pipe(select(fromQuestionGroup.selectQuestionGroupError))
+            .subscribe((error: any) => {
+              if (error) console.error('Create Question Group');
+            });
+        }
+      });
   }
 }

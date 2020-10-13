@@ -9,21 +9,14 @@
 
         <!-- TITLE -->
         <div class="form-group">
-          <label for="title" class="form-control-label">Title</label>
+          <label for="title" class="form-control-label">{{ 'common.title' | translate }}</label>
           <input type="text" class="form-control" formControlName="title" maxlength="60" required />
         </div>
 
         <!-- DESCRIPTION -->
         <div class="form-group mb-0">
-          <label for="description" class="form-control-label">Description</label>
+          <label for="description" class="form-control-label">{{ 'common.description' | translate }}</label>
           <textarea type="text" class="form-control" formControlName="description" maxlength="250"></textarea>
-        </div>
-
-        <!-- Error container -->
-        <div class="row">
-          <div class="col-10 pt-2 pb-1 mt-2">
-            <span id="errors" class="text-danger text-sm hidden"></span>
-          </div>
         </div>
 
       </div>
@@ -32,8 +25,8 @@
 
   <div mat-dialog-actions>
     <div class="text-right buttons-container">
-      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-      <button type="submit" class="btn btn-sm btn-primary rounded-pill">Invia</button>
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+      <button type="submit" class="btn btn-sm btn-primary rounded-pill">{{ 'common.confirm' | translate }}</button>
     </div>
   </div>
 </form>

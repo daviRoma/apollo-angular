@@ -14,6 +14,7 @@ import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-gro
 import { QuestionGroupLoadAction, QuestionGroupLoadOneAction } from '../../store/question-group.actions';
 
 import { QuestionGroupDialogConf, QuestionDialogConf, DeleteDialogConf } from 'src/app/shared/config/dialog.conf';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-question-group-detail',
@@ -30,6 +31,7 @@ export class QuestionGroupDetailComponent implements OnInit {
 
   constructor(
     public questionGroupDialog: MatDialog,
+    private translate: TranslateService,
     private store: Store<AppState>
   ) {
 
@@ -41,7 +43,7 @@ export class QuestionGroupDetailComponent implements OnInit {
 
   openEditQuestionGroupModal(): void {
     this.questionGroupDialogConfig.data.questionGroup = { ...this.questionGroup };
-    this.questionGroupDialogConfig.data.dialogConfig.title = 'Edit Question Group';
+    this.questionGroupDialogConfig.data.dialogConfig.title = this.translate.instant('group.edit');
     this.questionGroupDialogConfig.data.dialogConfig.operation = 'edit';
 
     this.questionGroupDialog.open(EditQuestionGroupComponent, this.questionGroupDialogConfig);
@@ -49,8 +51,8 @@ export class QuestionGroupDetailComponent implements OnInit {
 
   openDeleteQuestionGroupDialog(): void {
     const deleteDialogConfig = { ...DeleteDialogConf };
-    deleteDialogConfig.data.dialogConfig.title = 'Delete Question Group';
-    deleteDialogConfig.data.dialogConfig.content = 'Are you sure to delete the question group selected?';
+    deleteDialogConfig.data.dialogConfig.title = this.translate.instant('group.delete');
+    deleteDialogConfig.data.dialogConfig.content = this.translate.instant('group.deletemessage');
     deleteDialogConfig.data.item = { ...this.questionGroup };
 
     this.questionGroupDialog.open(DeleteQuestionGroupComponent, deleteDialogConfig);
@@ -59,7 +61,10 @@ export class QuestionGroupDetailComponent implements OnInit {
   openChoiceQuestionDialog(choiceType: string): void {
     const dialogRef = this.questionGroupDialog.open(
       ChoiceQuestionDialogComponent,
-      this.buildQuestionDialogConfig('New Choice Question', 'new', choiceType)
+      this.buildQuestionDialogConfig(
+        `${this.translate.instant('common.new')} ${this.translate.instant('question.singlechoicequestion')}`,
+         'new', choiceType
+        )
     );
 
     dialogRef.afterClosed().subscribe(
@@ -78,7 +83,11 @@ export class QuestionGroupDetailComponent implements OnInit {
   openInputQuestionDialog(): void {
     const dialogRef = this.questionGroupDialog.open(
       InputQuestionDialogComponent,
-      this.buildQuestionDialogConfig('New Input Question', 'new', null));
+      this.buildQuestionDialogConfig(
+        `${this.translate.instant('common.new')} ${this.translate.instant('question.inputquestion')}`,
+        'new', null
+        )
+      );
 
     dialogRef.afterClosed().subscribe(
       response => {
@@ -96,7 +105,9 @@ export class QuestionGroupDetailComponent implements OnInit {
   openMatrixQuestionDialog(choiceType: string): void {
     const dialogRef = this.questionGroupDialog.open(
       MatrixQuestionDialogComponent,
-      this.buildQuestionDialogConfig('New Matrix Question', 'new', choiceType)
+      this.buildQuestionDialogConfig(
+        `${this.translate.instant('common.new')} ${this.translate.instant('question.matrixquestion')}`,
+         'new', choiceType)
     );
 
     dialogRef.afterClosed().subscribe(
