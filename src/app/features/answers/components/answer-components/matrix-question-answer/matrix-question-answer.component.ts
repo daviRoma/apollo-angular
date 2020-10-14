@@ -76,12 +76,7 @@ export class MatrixQuestionAnswerComponent implements OnInit {
     this.optionSelected.emit(this.matrixSingleAnswer);
   }
 
-
-
-
-
   checkMatrixAnswerChange(element, answer): void {
-    console.log(element, answer);
 
     let pair = new MatrixMultiPair();
     pair.answers = [];

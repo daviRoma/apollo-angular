@@ -5,8 +5,9 @@ export enum AnswerActionTypes {
   LOADING = '[Answer] Loading',
   LOAD_SUCCESS = '[Answer] Loading Success',
   LOAD_FAILURE = '[Answer] Loading Failure',
-  SUBMIT_ANSWER = '[Answer] Submit SurveyAnswer',
-  SUBMIT_FAILURE = '[Answer] Submit Failure'
+  SUBMIT_ANSWER = '[Answer] Submit Answer',
+  SUBMIT_ANSWER_SUCCESS = '[Answer] Submit Answer Success',
+  SUBMIT_ANSWER_FAILURE = '[Answer] Submit Answer Failure'
 }
 
 export class AnswerLoadAction implements Action {
@@ -24,17 +25,21 @@ export class AnswerLoadFailAction implements Action {
   constructor(public error: any) { }
 }
 
-export class SubmitAnswers implements Action {
+export class SubmitAnswersAction implements Action {
   public readonly type = AnswerActionTypes.SUBMIT_ANSWER;
-  constructor(public payload: any) { 
-  }
+  constructor(public payload: AnswerRequest) {}
+}
+
+export class SubmitAnswerSuccessAction implements Action {
+  public readonly type = AnswerActionTypes.SUBMIT_ANSWER_SUCCESS;
+  constructor(public error: any) {}
 }
 
 export class SubmitAnswerFailureAction implements Action {
-  public readonly type = AnswerActionTypes.SUBMIT_FAILURE;
+  public readonly type = AnswerActionTypes.SUBMIT_ANSWER_FAILURE;
   constructor(public error: any) { }
 }
 
 
 export type AnswerActionsAll =
-  AnswerLoadAction | AnswerLoadSuccessAction | AnswerLoadFailAction | SubmitAnswers | SubmitAnswerFailureAction;
+  AnswerLoadAction | AnswerLoadSuccessAction | AnswerLoadFailAction | SubmitAnswersAction | SubmitAnswerFailureAction;

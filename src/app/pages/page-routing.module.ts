@@ -47,10 +47,6 @@ const PageRoutes: Routes = [
   {
     path: 'surveyanswer/:survey_id/:url_id',
     component: SurveyanswerComponent,
-  },
-  {
-    path: 'surveyanswer/:survey_id/:url_id/:answer_id',
-    component: SurveyanswerComponent,
   }
 ];
 

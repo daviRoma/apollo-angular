@@ -2,7 +2,7 @@
  * Question classes.
  */
 
-import { ApolloResponse } from 'src/app/models/apollo-response.model';
+import { ApolloResponse } from './apollo-response.model';
 import { Icon } from './icon.model';
 
 export class Question {

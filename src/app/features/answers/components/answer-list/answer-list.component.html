@@ -68,7 +68,7 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> {{ 'common.actions' | translate }} </th>
       <td mat-cell *matCellDef="let answer" class="action-td">
-        <a [routerLink]="['/answer/surveyanswer/', survey.id, survey.urlId, answer.id]" title="Go to answer" data-toggle="tooltip">&nbsp;
+        <a [routerLink]="['/answers/survey/' + survey.id + '/view', survey.urlId, answer.id]" title="Go to answer" data-toggle="tooltip">&nbsp;
           <i class="far fa-door-open fa-2x"></i>
           &nbsp;
         </a>

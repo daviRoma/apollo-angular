@@ -67,10 +67,7 @@ export class InputQuestionEffects {
     map((action) => action.payload),
     switchMap((request: QuestionRequest) =>
       this.questionService.createInputQuestion(request).pipe(
-        map(
-          (response: QuestionResponse) =>
-            new InputQuestionNewSuccessAction(response)
-        ),
+        map((response: QuestionResponse) => new InputQuestionNewSuccessAction(response)),
         catchError((error) => of(new InputQuestionNewFailureAction(error)))
       )
     )
@@ -92,9 +89,7 @@ export class InputQuestionEffects {
     map((action) => action.payload),
     switchMap((request: QuestionRequest) =>
       this.questionService.updateInputQuestion(request).pipe(
-        map((response: any) =>
-          of(new InputQuestionUpdateSuccessAction(response))
-        ),
+        map((response: any) => new InputQuestionUpdateSuccessAction(request)),
         catchError((error) => of(new InputQuestionUpdateFailureAction(error)))
       )
     )

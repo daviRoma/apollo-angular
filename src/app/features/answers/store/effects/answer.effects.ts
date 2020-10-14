@@ -12,10 +12,12 @@ import {
   AnswerLoadAction,
   AnswerLoadSuccessAction,
   AnswerLoadFailAction,
-  SubmitAnswers, SubmitAnswerFailureAction
+  SubmitAnswersAction,
+  SubmitAnswerSuccessAction,
+  SubmitAnswerFailureAction
 } from '../actions/answer.actions';
 
-import { Answer, AnswerRequest, AnswerResponse, AnswersWrapper } from '../../../../models/answer.model';
+import { AnswerRequest, AnswerResponse, AnswersWrapper } from '../../../../models/answer.model';
 
 @Injectable()
 export class AnswerEffects {
@@ -32,14 +34,14 @@ export class AnswerEffects {
       )
     )
   );
-   
+
   @Effect()
   public submitSurveyAnswer = this.actions.pipe(
-    ofType<SubmitAnswers>(AnswerActionTypes.SUBMIT_ANSWER),
+    ofType<SubmitAnswersAction>(AnswerActionTypes.SUBMIT_ANSWER),
     map((action) => action.payload),
     switchMap((request: AnswerRequest) =>
       this.answerService.createAnswers(request).pipe(
-        map((response: AnswerResponse) => new SubmitAnswers(response)),
+        map((response: AnswerResponse) => new SubmitAnswerSuccessAction(response)),
         catchError((error) => of(new SubmitAnswerFailureAction(error))))
     )
   );

@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AnswersWrapper } from 'src/app/models/answer.model';
+import { AnswerRequest, AnswersWrapper } from 'src/app/models/answer.model';
 
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { MatrixQuestion, Question } from 'src/app/models/question.model';
 import { AppState } from 'src/app/state/app.state';
-import { SubmitAnswers } from '../../store/actions/answer.actions';
+import { SubmitAnswersAction } from '../../store/actions/answer.actions';
 
 
 @Component({
@@ -21,6 +21,8 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   @Input() answerId: number;
 
   public group: QuestionGroup;
+  public surveyId: number;
+
   private index = 0;
 
   private answerWrapper: AnswersWrapper;
@@ -40,6 +42,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   ngOnInit(): void {
     this.surveyEnd = false;
     this.group = this.questionGroups[0];
+    this.surveyId = this.group.survey;
 
     if (this.questionGroups.length === 1) {
       this.surveyEnd = true;
@@ -63,23 +66,25 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   submitSurveyAnswers(): void {
-
-    let answer = JSON.parse(JSON.stringify(this.answerWrapper.answers));
     let payload: any;
+
     if (this.userUnlocked != null) {
       payload = {
         email: this.userUnlocked.email,
         password: this.userUnlocked.password,
-        answers: answer
+        answers: [ ...this.answerWrapper.answers]
       };
 
     } else {
-      payload = {
-        answers: answer
-      }
+      payload = { answers: [ ...this.answerWrapper.answers ] };
     }
 
-    this.store.dispatch(new SubmitAnswers(JSON.stringify(payload)));
+    this.store.dispatch(new SubmitAnswersAction(
+      {
+        surveyId: this.surveyId,
+        answerWrapper: payload
+      } as AnswerRequest
+    ));
 
     this.submitted.emit(true);
 

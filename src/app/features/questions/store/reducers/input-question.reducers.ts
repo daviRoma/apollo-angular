@@ -5,10 +5,7 @@ import {
 } from '../../../../state/question.state';
 import { InputQuestionActionsAll, InputQuestionActionTypes } from '../actions/input-question.actions';
 
-export function inputQuestionReducer(
-  state = initialQuestionState,
-  action: InputQuestionActionsAll
-): QuestionState {
+export function inputQuestionReducer(state = initialQuestionState, action: InputQuestionActionsAll): QuestionState {
   switch (action.type) {
     case InputQuestionActionTypes.LOADING: {
       return { ...state, loading: true };

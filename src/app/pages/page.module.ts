@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 
 import { PageRoutingModule } from './page-routing.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailComponent } from './detail/detail.component';
@@ -18,7 +19,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { AdministrationComponent } from './administration/administration.component';
 import { UseroverviewComponent } from './useroverview/useroverview.component';
 import { SurveyanswerComponent } from './surveyanswer/surveyanswer.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { AnswersPageModule } from './answers/answers-page.module';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { TranslateModule } from '@ngx-translate/core';
     SurveysModule,
     QuestionGroupsModule,
     UsersModule,
-    AnswersModule
+    AnswersModule,
+    AnswersPageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

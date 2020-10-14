@@ -20,7 +20,7 @@ export function answerReducer(state = initialAnswerState, action: AnswerActionsA
         total: action.payload.data.length,
       });
     }
-    case AnswerActionTypes.SUBMIT_FAILURE: {
+    case AnswerActionTypes.SUBMIT_ANSWER_FAILURE: {
       return answerAdapter.removeAll({
         ...state,
         error: true,

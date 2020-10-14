@@ -36,24 +36,20 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'answer',
+    path: 'answers',
     component: LayoutBaseAnswerComponent,
-    loadChildren: () =>
-      import(`./pages/page.module`).then((m) => m.PageModule),
+    loadChildren: () => import(`./pages/answers/answers-page.module`).then((m) => m.AnswersPageModule),
     canActivate: [AuthGuard],
   },
-  // {
-  //   path: 'overview',
-  //   component: LayoutBaseComponent,
-  //   loadChildren: () =>
-  //     import(`./pages/page.module`).then((m) => m.PageModule),
-  //   canActivate: [AuthGuard],
-  // },
+  {
+    path: 'answer',
+    component: LayoutBaseAnswerComponent,
+    loadChildren: () => import(`./pages/page.module`).then((m) => m.PageModule)
+  },
   {
     path: 'auth',
     component: AuthBaseComponent,
-    loadChildren: () =>
-      import(`./core/auth/auth-components/auth-layouts.module`).then((m) => m.AuthLayoutsModule)
+    loadChildren: () => import(`./core/auth/auth-components/auth-layouts.module`).then((m) => m.AuthLayoutsModule)
   },
   // { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
 ];
