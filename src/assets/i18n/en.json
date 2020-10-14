@@ -100,7 +100,8 @@
     "icon": "Icon",
     "save": "Save",
     "endDate": "End Date",
-    "action": "Action"
+    "action": "Action",
+    "digitemail": "Digit an email..."
      },
 
   "placeholder": {

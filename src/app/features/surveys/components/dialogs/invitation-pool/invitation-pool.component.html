@@ -9,7 +9,7 @@
     <div class="col">
       <label class="form-control-label mb-3">{{'common.emails' | translate}}</label>
       <div class="bootstrap-tagsinput">
-        <input id="tagsinput" type="text" [value]="tagsInput" placeholder="Digita una email..." size="48" (keypress)="handleKeyUp($event)" (change)="handleChange($event)">
+        <input id="tagsinput" type="text" [value]="tagsInput" placeholder="{{ 'common.digitemail' | translate }}" size="48" (keypress)="handleKeyUp($event)" (change)="handleChange($event)">
 
         <div id="tags_input_container" class="custom-tagsinput py-2 mt-2">
 
