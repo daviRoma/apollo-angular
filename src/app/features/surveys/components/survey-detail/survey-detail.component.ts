@@ -51,6 +51,7 @@ export class SurveyDetailComponent implements OnInit {
   public openEditSurveyDialog(): void {
     this.editDialogRef.data.survey = { ...this.survey };
     this.editDialogRef.data.dialogConfig.title = this.translate.instant('survey.edit');
+    this.editDialogRef.data.dialogConfig.operation = 'edit';
     const updateDialogRef = this.dialog.open(EditSurveyComponent, this.editDialogRef);
 
     updateDialogRef.afterClosed().subscribe((response) => {
