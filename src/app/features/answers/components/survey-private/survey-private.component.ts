@@ -51,7 +51,6 @@ export class SurveyPrivateComponent implements OnInit {
     this.store.pipe(
       select(fromSurveyAnswer.selectEntityBySurvey, { id: this.survey.id }))
       .subscribe((response: SurveyAnswer[]) => {
-        console.log(response);
         if (response) {
           this.surveyAnswers = [...response];
         }
@@ -63,7 +62,6 @@ export class SurveyPrivateComponent implements OnInit {
     accessDialogConfig.data.dialogConfig.title = 'Enter the Secret Survey';
     accessDialogConfig.data.dialogConfig.content = 'Are you sure to delete the question group selected?';
     accessDialogConfig.data.invitationPool = { ...this.survey.invitationPool };
-    console.log("PRIMA", this.surveyAnswers);
     accessDialogConfig.data.surveyAnswers = this.surveyAnswers;
 
     let dialogRef = this.accessSecretSurveyDialog.open(SecretSurveyLoginComponent, accessDialogConfig);
@@ -72,8 +70,6 @@ export class SurveyPrivateComponent implements OnInit {
       // received data from confirm-component
 
      if(res.result === "abilitated"){
-
-      console.log("abilitated");
 
         let userUnlock= {
           unlock: true,

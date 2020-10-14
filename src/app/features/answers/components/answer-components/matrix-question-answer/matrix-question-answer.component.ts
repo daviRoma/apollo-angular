@@ -108,9 +108,6 @@ export class MatrixQuestionAnswerComponent implements OnInit {
 
       this.matrixMultiAnswer.answersPair.push(pair);
     }
-
-    console.log("matrix Pair", this.matrixMultiAnswer)
-
     this.optionSelected.emit(this.matrixMultiAnswer);
   }
 }

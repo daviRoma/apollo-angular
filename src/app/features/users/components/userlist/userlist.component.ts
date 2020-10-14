@@ -128,7 +128,6 @@ export class UserListComponent implements OnInit {
   }
 
   private initializeData(users: User[]): void {
-    console.log('users', users);
     this.dataSource = new MatTableDataSource(users.length ? users : []);
   }
 

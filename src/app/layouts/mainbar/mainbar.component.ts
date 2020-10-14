@@ -16,14 +16,14 @@ import { Role } from 'src/app/models/auth.model';
 })
 export class MainbarComponent implements OnInit {
 
-public user: User;
+  public user: User;
   public role: Role;
 
   public currentLang: string;
 
   public isLoading: boolean;
 
-  constructor (
+  constructor(
     private translate: TranslateService,
     private store: Store<AppState>
   ) {

@@ -12,11 +12,11 @@
           <input type="text" class="form-control" placeholder="{{ 'question.placeholdertitle' | translate }}" data-toggle="autosize" required
             size="255" maxlength="255" minlength="12" formControlName="title"/>
           <mat-error class="font-weight-bold text-danger text-xs mx-1"
-            *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">*The title must be 12 characters length</mat-error>
+            *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">{{ 'error.questionSize' | translate}}</mat-error>
         </div>
 
         <!-- Other option -->
-        <div class="row mt-4">
+        <div class="row mt-4" *ngIf="choiceQuestion.type !== 'SELECT'">
           <div class="col-12">
             <div class="form-group custom-control custom-switch">
               <input type="checkbox" formControlName="other" class="custom-control-input form-element" name="other" id="other" />

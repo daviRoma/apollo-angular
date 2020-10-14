@@ -42,6 +42,7 @@
     "usercreated": "User created",
     "groups": "Groups",
     "yes": "Yes",
+    "no": "No",
     "next": "Next",
     "previous": "Previous",
     "thankyou": "Thank you!",
@@ -95,8 +96,12 @@
     "sendinvitation": "Send intiations",
     "backtohome": "Return To Home",
     "title": "Title",
-    "signintocontinue": "Sign in to your account to continue."
-  },
+    "signintocontinue": "Sign in to your account to continue.",
+    "icon": "Icon",
+    "save": "Save",
+    "endDate": "End Date",
+    "action": "Action"
+     },
 
   "placeholder": {
     "textinput": "Type something here...",
@@ -130,6 +135,7 @@
     "matrixcolumnerror": "Please insert at least 2 valid columns.",
     "matrixrowerror": "Please insert at least 2 valid rows.",
     "fieldSize": "The field must be of at least 6 characters length",
+    "questionSize": "The question must be of at least 12 characters length",
     "unabletopublish": "The survey must contains groups and questions!",
 
     "file": {
@@ -152,7 +158,13 @@
   "profile": {
     "updateProfile": "Update Profile",
     "phone": "Phone Number",
-    "fiscalCode": "Fiscal Code"
+    "fiscalCode": "Fiscal Code",
+    "updatepassword": "Update password",
+    "oldpassword": "Current password",
+    "newpassword":"New password",
+    "newpasswordconfirm": "Confirm new password",
+    "changeavatar": "Change avatar"
+
   },
 
   "survey": {
@@ -180,7 +192,8 @@
     "private": "This survey is private",
     "active": "Active Survey",
     "activate": "Activate the survey",
-    "deactivate": "Do you want deactivate the survey?"
+    "deactivate": "Do you want deactivate the survey?",
+    "searchsurvey": "Search survey..."
   },
 
   "group": {
@@ -215,7 +228,13 @@
     "deletemessage": "Are you sure you want to delete the question?",
     "mandatory": "Mandatory question",
     "noquestion": "No question loaded",
-    "validoptions": "Insert at least 2 valid options"
+    "validoptions": "Insert at least 2 valid options",
+    "add": "Add",
+    "chooseOption": "Choose an option",
+    "textInput": "Text",
+    "areaInput": "Text Area",
+    "dataInput": "Data",
+    "numberInput": "Number"
   },
 
   "answer": {

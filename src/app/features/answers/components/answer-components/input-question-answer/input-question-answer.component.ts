@@ -41,7 +41,6 @@ export class InputQuestionAnswerComponent implements OnInit {
 
   inputAnswerChange(event): void {
     this.inputAnswer.answer = event.target.value;
-    console.log(event.target.value);
     this.inputInjected.emit(this.inputAnswer);
   }
 }

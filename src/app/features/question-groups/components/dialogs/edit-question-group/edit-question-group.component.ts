@@ -51,9 +51,7 @@ export class EditQuestionGroupComponent implements OnInit {
     event.preventDefault();
 
     const payload = Utils.deleteNullKey({ ...this.questionGroupForm.value });
-
-    console.log('EditQuestionGroupComponent', 'Payload', payload);
-
+    
     this.dialogConfig.operation === 'new'
       ? this.store.dispatch(
           new QuestionGroupNewAction({

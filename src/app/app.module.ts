@@ -116,4 +116,4 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
   exports: [TranslateModule],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

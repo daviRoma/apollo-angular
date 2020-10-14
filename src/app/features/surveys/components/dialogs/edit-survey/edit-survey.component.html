@@ -64,7 +64,7 @@
                           data-max-size="5" (change)="onFileChange($event)" />
                         <label for="surveyIcon">
                           <i class="fa fa-upload"></i>
-                          <span>{{file ? file.name : 'Select survey icon...'}}</span>
+                          <span>{{file ? file.name : 'file.title' | translate }}</span>
                         </label>
                         <span *ngIf="isFileError" id="file_error" class="text-danger text-xs">*{{ 'error.file.msg' | translate }}</span>
                       </div>

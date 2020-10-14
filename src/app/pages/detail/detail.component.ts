@@ -62,7 +62,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   private loadSurveyData(surveyId: number): void {
-    this.store.dispatch( new QuestionGroupLoadAction(surveyId) );
+    this.store.dispatch(new QuestionGroupLoadAction(surveyId));
 
     this.store
       .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
@@ -72,7 +72,7 @@ export class DetailComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.loadQuestionGroups();
         } else {
-          this.store.dispatch( new SurveyLoadOneAction({ id: surveyId, dispatch: true } as SurveyRequest));
+          this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true } as SurveyRequest));
         }
       });
 

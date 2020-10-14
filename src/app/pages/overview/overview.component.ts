@@ -102,7 +102,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.store.pipe(
       select(fromSurveyAnswer.selectAnswersByQuestion, { id: this.question.idDB, type: this.question.questionType }))
       .subscribe((response: QuestionAnswer[]) => {
-        console.log('OverviewComponent', 'QuestionAnswers', response);
         if (response.length) {
           this.questionAnswers = [ ...response ];
           this.isLoadingAnswers = false;

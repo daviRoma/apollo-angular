@@ -72,8 +72,6 @@ export class EditSurveyComponent implements OnInit {
       delete payload.icon;
     }
 
-    console.log('EditSurveyComponent', 'Payload', payload);
-
     this.dialogConfig.operation === 'new' ?
       this.store.dispatch(new SurveyNewAction(payload)) :
       this.store.dispatch(new SurveyUpdateAction({ ...payload, id: this.survey.id }));

@@ -35,7 +35,7 @@
 					<div *ngIf="question.other" class="custom-control custom-radio" >
 						<input type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" disabled>
 						<label class="custom-control-label" for="{{'other_choice-' + question.id}}">
-              <div class="border-bottom custom-input-text">Altro</div>
+              <div class="border-bottom custom-input-text">{{ 'question.otherChoice' | translate }}</div>
             </label>
 
 					</div>
@@ -51,14 +51,14 @@
           <div *ngIf="question.other" class="custom-control custom-checkbox">
               <input type="checkbox" id="{{'other_choice-' + question.id}}" name="customCheck" class="custom-control-input" disabled>
               <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
-                  <div class="border-bottom custom-input-text">Altro</div>
+                  <div class="border-bottom custom-input-text">{{ 'question.otherChoice' | translate }}</div>
               </label>
           </div>
         </div>
 
         <div *ngIf="question.type == 'SELECT'" class="col-12 px-3 py-2">
             <select class="custom-select col-4">
-              <option value="" selected disabled hidden>Choose here</option>
+              <option value="" selected disabled hidden>{{ 'question.chooseOption' | translate }}</option>
               <option *ngFor="let option of question.options" [value]="option.value" disabled>
                 {{option.value}}
               </option>

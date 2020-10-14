@@ -77,7 +77,6 @@ export class InputQuestionDialogComponent implements OnInit {
           })
         )
         .subscribe((response: QuestionGroup) => {
-          console.log(response);
           this.inputQuestion.position = response.questions.length + 1;
         });
     }
@@ -96,8 +95,6 @@ export class InputQuestionDialogComponent implements OnInit {
     } else {
       delete payload.icon;
     }
-
-    console.log('InputQuestionDialogComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new'
       ? this.store.dispatch(

@@ -93,7 +93,6 @@ export class ChoiceQuestionDialogComponent implements OnInit {
       ...this.questionForm.value,
       icon: this.choiceQuestion.icon,
     });
-    console.log('InputQuestionDialogComponent', 'Payload', payload);
 
     if (this.iconFile.data) {
       payload.icon = this.iconFile;

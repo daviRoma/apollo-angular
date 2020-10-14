@@ -16,9 +16,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     public newSurveyDialog: MatDialog,
     private store: Store<AppState>
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   public openNewSurveyModal(): void {
     const dialogRef = this.newSurveyDialog.open(EditSurveyComponent, {
@@ -35,9 +35,7 @@ export class DashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (response) => {
         if (response.result === 'close_after_new') {
-          // New action
-          // this.store.dispatch(new SurveyNewAction(response.data));
         }
-    });
+      });
   }
 }

@@ -86,7 +86,6 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
 
     this.surveyUnlocked = true;
     this.userUnlocked = event;
-    console.log("User Unlocked", this.userUnlocked);
 
   }
 

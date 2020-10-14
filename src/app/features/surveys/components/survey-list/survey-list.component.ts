@@ -160,7 +160,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   private loadSurveys(): void {
     const request = {
       user_id: this.user.id,
-      page: this.paginator  ? (this.paginator.pageIndex + 1) : 1,
+      page: this.paginator ? (this.paginator.pageIndex + 1) : 1,
       pag_size: this.paginator ? this.paginator.pageSize : 5,
     } as SurveyRequest;
 

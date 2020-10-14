@@ -1,142 +1,190 @@
 <!-- SURVEY OVERVIEW-->
 <!-- Survey overview -->
 <div class="row ml-0 mr-0">
-    <div class="col-xl-6 col-sm-12">
-        <div class="card card-fluid">
+  <div class="col-xl-6 col-sm-12">
+    <div class="card card-fluid">
+      <div class="card-header">
+        <h6 class="mb-0">{{ "survey.overview" | translate }}</h6>
+      </div>
 
-            <div class="card-header">
-                <h6 class="mb-0">{{ 'survey.overview' | translate }}</h6>
+      <div class="card-body py-3 flex-grow-1">
+        <!-- Progress -->
+        <div class="pb-4 my-3 border-bottom">
+          <div class="row align-items-center">
+            <div class="col-12 text-center">
+              <!-- Avatar -->
+              <img
+                *ngIf="survey.icon == null"
+                class="survey-image"
+                alt="Image placeholder"
+                src="./assets/dist/img/theme/light/brand-avatar-3.png"
+              />
+              <img
+                *ngIf="survey.icon != null"
+                class="survey-image"
+                alt="Survey Icon"
+                src="{{ survey.icon.data }}"
+              />
             </div>
-
-            <div class="card-body py-3 flex-grow-1">
-                <!-- Progress -->
-                <div class="pb-4 my-3 border-bottom">
-                    <div class="row align-items-center">
-                        <div class="col-12 text-center">
-                            <!-- Avatar -->
-                            <img *ngIf="survey.icon == null" class="survey-image" alt="Image placeholder"
-                                src="./assets/dist/img/theme/light/brand-avatar-3.png">
-                            <img *ngIf="survey.icon != null" class="survey-image" alt="Survey Icon"
-                                src="{{survey.icon.data}}">
-                        </div>
-
-                    </div>
-                </div>
-                <!-- Description -->
-                <p class="text-sm my-1 py-1">{{survey.description}}</p>
-            </div>
-
-            <div class="card-footer py-0 pb-2">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item px-0">
-                        <div class="row align-items-center">
-                            <div class="col-4">
-                                <span class="form-control-label">{{ 'survey.secret' | translate }}:</span>
-                            </div>
-                            <div class="col-8 text-right">
-                                <span *ngIf="survey.secret" id="survey_secret"
-                                    class="text-right badge badge-success badge-pill mx-2">{{ 'common.yes' | translate }}</span>
-                                <span *ngIf="!survey.secret" id="survey_secret"
-                                    class="text-right badge badge-danger badge-pill mx-2">No</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item px-0">
-                        <div class="row align-items-center">
-                            <div class="col-4">
-                                <span class="form-control-label">{{ 'common.published' | translate }}:</span>
-                            </div>
-                            <div class="col-8 text-right">
-                                <span id="survey_active" *ngIf="survey.active"
-                                    class="text-right badge badge-success badge-pill mx-2">{{ 'common.yes' | translate }}</span>
-                                <span id="survey_active" *ngIf="!survey.active"
-                                    class="text-right badge badge-danger badge-pill mx-2">No</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item px-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <span class="form-control-label">{{ 'common.publiclink' | translate }}</span>
-                            </div>
-                            <div class="col text-right">
-                                <span id="urlId" class="text-right">{{survey.urlId}}</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item px-0">
-                        <div class="row justify-content-between">
-                            <div class="col-6">
-                                <small>{{ 'survey.startDate' | translate }}</small>
-                                <div *ngIf="survey.startDate" class="h6 mb-0">{{ survey.startDate | date }}
-                                </div>
-                                <div *ngIf="survey.startDate == null" class="h6 mb-0">{{ 'common.notprovided' | translate }}</div>
-                            </div>
-                            <div class="col-3">
-                                <small>{{ 'common.endDate' | translate }}</small>
-                                <div *ngIf="survey.endDate" class="h6 mb-0">{{ survey.endDate | date }}</div>
-                                <div *ngIf="survey.endDate == null" class="h6 mb-0">{{ 'common.notprovided' | translate }}</div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+          </div>
         </div>
+        <!-- Description -->
+        <p class="text-sm my-1 py-1">{{ survey.description }}</p>
+      </div>
+
+      <div class="card-footer py-0 pb-2">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item px-0">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <span class="form-control-label"
+                  >{{ "survey.secret" | translate }}:</span
+                >
+              </div>
+              <div class="col-8 text-right">
+                <span
+                  *ngIf="survey.secret"
+                  id="survey_secret"
+                  class="text-right badge badge-success badge-pill mx-2"
+                  >{{ "common.yes" | translate }}</span
+                >
+                <span
+                  *ngIf="!survey.secret"
+                  id="survey_secret"
+                  class="text-right badge badge-danger badge-pill mx-2"
+                  >No</span
+                >
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item px-0">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <span class="form-control-label"
+                  >{{ "common.published" | translate }}:</span
+                >
+              </div>
+              <div class="col-8 text-right">
+                <span
+                  id="survey_active"
+                  *ngIf="survey.active"
+                  class="text-right badge badge-success badge-pill mx-2"
+                  >{{ "common.yes" | translate }}</span
+                >
+                <span
+                  id="survey_active"
+                  *ngIf="!survey.active"
+                  class="text-right badge badge-danger badge-pill mx-2"
+                  >No</span
+                >
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item px-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <span class="form-control-label">{{
+                  "common.publiclink" | translate
+                }}</span>
+              </div>
+              <div class="col text-right">
+                <span id="urlId" class="text-right">{{ survey.urlId }}</span>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item px-0">
+            <div class="row justify-content-between">
+              <div class="col-6">
+                <small>{{ "survey.startDate" | translate }}</small>
+                <div *ngIf="survey.startDate" class="h6 mb-0">
+                  {{ survey.startDate | date }}
+                </div>
+                <div *ngIf="survey.startDate == null" class="h6 mb-0">
+                  {{ "common.notprovided" | translate }}
+                </div>
+              </div>
+              <div class="col-3">
+                <small>{{ "common.endDate" | translate }}</small>
+                <div *ngIf="survey.endDate" class="h6 mb-0">
+                  {{ survey.endDate | date }}
+                </div>
+                <div *ngIf="survey.endDate == null" class="h6 mb-0">
+                  {{ "common.notprovided" | translate }}
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-    <!-- ./Survey overview -->
+  </div>
+  <!-- ./Survey overview -->
 
-
-
-    <!-- Survey Stats -->
-    <div class="col-xl-6 col-sm-12">
-        <div class="row ">
-
-            <!-- stats card 1 -->
-            <div class="col-xl-12 col-sm-6">
-                <!-- Stats card -->
-                <div class="card card-stats border-0">
-                    <!-- Card body -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h6 class="text-muted mb-1">{{ 'common.answers' | translate }}</h6>
-                                <span class="h3 font-weight-bold mb-0">{{ totSurveyAnswers }}</span>
-                            </div>
-                            <div class="col-auto">
-                                <span class="h3 font-weight-bold mb-0" style="color: rgb(54, 179, 126);">
-                                    <i class="far fa-user-edit fa-2x"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!-- Survey Stats -->
+  <div class="col-xl-6 col-sm-12">
+    <div class="row">
+      <!-- stats card 1 -->
+      <div class="col-xl-12 col-sm-6">
+        <!-- Stats card -->
+        <div class="card card-stats border-0">
+          <!-- Card body -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h6 class="text-muted mb-1">
+                  {{ "common.answers" | translate }}
+                </h6>
+                <span class="h3 font-weight-bold mb-0">{{
+                  totSurveyAnswers
+                }}</span>
+              </div>
+              <div class="col-auto">
+                <span
+                  class="h3 font-weight-bold mb-0"
+                  style="color: rgb(54, 179, 126)"
+                >
+                  <i class="far fa-user-edit fa-2x"></i>
+                </span>
+              </div>
             </div>
-
-            <!-- Stats card 2 -->
-            <div class="col-xl-12 col-sm-6">
-                <!-- Stats card -->
-                <div class="card card-stats">
-                    <!-- Card body -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h6 class="text-muted mb-1">{{ 'common.invitations' | translate }}</h6>
-                                <span *ngIf="survey.secret"
-                                    class="h3 font-weight-bold mb-0">{{ survey.invitationPool != null && survey.invitationPool.emails != null ? survey.invitationPool.emails.length : 0}}</span>
-                                <span *ngIf="!survey.secret" class="h4 font-weight-bold mb-0">{{ 'common.notavailable' | translate }}</span>
-                            </div>
-                            <div class="col-auto">
-                                <span class="h3 font-weight-bold mb-0" style="color: rgb(51, 80, 211);">
-                                    <i class="far fa-paper-plane fa-2x"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+          </div>
         </div>
-    </div>
-    <!-- ./ Survey Stats -->
+      </div>
 
+      <!-- Stats card 2 -->
+      <div class="col-xl-12 col-sm-6">
+        <!-- Stats card -->
+        <div class="card card-stats">
+          <!-- Card body -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h6 class="text-muted mb-1">
+                  {{ "common.invitations" | translate }}
+                </h6>
+                <span *ngIf="survey.secret" class="h3 font-weight-bold mb-0">{{
+                  survey.invitationPool != null &&
+                  survey.invitationPool.emails != null
+                    ? survey.invitationPool.emails.length
+                    : 0
+                }}</span>
+                <span *ngIf="!survey.secret" class="h4 font-weight-bold mb-0">{{
+                  "common.notavailable" | translate
+                }}</span>
+              </div>
+              <div class="col-auto">
+                <span
+                  class="h3 font-weight-bold mb-0"
+                  style="color: rgb(51, 80, 211)"
+                >
+                  <i class="far fa-paper-plane fa-2x"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ./ Survey Stats -->
 </div>

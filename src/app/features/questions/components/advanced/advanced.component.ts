@@ -35,20 +35,16 @@ export class AdvancedComponent implements OnInit, DoCheck {
   }
 
   fileChanged(changes: KeyValueChanges<string, any>): void {
-    console.log('changes', this.iconData);
     if (this.iconData.base64 !== null) {
       this.advancedOptions.emit({ name: 'file', value: this.iconData });
     }
   }
 
   onMandatoryChange(event): void {
-    console.log('Mandatory Change Event', event);
     this.advancedOptions.emit({ name: 'mandatory', value: Boolean(event.target.value)});
   }
 
   onFileChange(event): void {
-    console.log('File Change Event', event);
-
     if (this.fileValidation(event.target.files[0])) {
       this.file = event.target.files[0];
       this.iconData.file = this.file;

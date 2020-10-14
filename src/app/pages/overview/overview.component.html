@@ -6,35 +6,52 @@
       <!-- Page title + Go Back button -->
       <div class="d-inline-block p-1">
         <div class="row">
-          <a href="#" [routerLink]="['/dashboard']" title="Home"
-            class="link font-weight-400 pt-1 col-auto my-auto text-white">
+          <a
+            href="#"
+            [routerLink]="['/dashboard']"
+            title="Home"
+            class="link font-weight-400 pt-1 col-auto my-auto text-white"
+          >
             <i class="fas fa-arrow-left"></i>
           </a>
 
-          <div *ngIf="isLoadingSurvey; else loadSurveyComplete" class="spinner-border text-primary" role="status">
+          <div
+            *ngIf="isLoadingSurvey; else loadSurveyComplete"
+            class="spinner-border text-primary"
+            role="status"
+          >
             <span class="sr-only">Loading...</span>
           </div>
           <ng-template #loadSurveyComplete>
-            <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">{{survey.name}}</h4>
+            <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">
+              {{ survey.name }}
+            </h4>
           </ng-template>
-
         </div>
       </div>
-
     </div>
   </div>
 
   <div class="row">
-
-    <div *ngIf="isLoadingGroups; else loadGroupsComplete" class="text-center my-4">
-      <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+    <div
+      *ngIf="isLoadingGroups; else loadGroupsComplete"
+      class="text-center my-4"
+    >
+      <div
+        class="spinner-border text-success"
+        style="width: 3rem; height: 3rem"
+        role="status"
+      >
         <span class="sr-only">Loading...</span>
       </div>
     </div>
 
     <!-- Survey overview -->
     <ng-template #loadGroupsComplete>
-      <app-survey-overview [survey]="survey" style="width: 100%;"></app-survey-overview>
+      <app-survey-overview
+        [survey]="survey"
+        style="width: 100%"
+      ></app-survey-overview>
     </ng-template>
 
     <!-- Answers Stats -->
@@ -42,20 +59,39 @@
       <div class="card">
         <div class="card-header">
           <div class="row justify-content-between">
-
             <div class="col-6">
-              <label class="form-control-label">{{ 'common.group' | translate }}</label>
-              <select id="group_select" class="custom-select" (change)="onQuestionGroupChange($event)">
+              <label class="form-control-label">{{
+                "common.group" | translate
+              }}</label>
+              <select
+                id="group_select"
+                class="custom-select"
+                (change)="onQuestionGroupChange($event)"
+              >
                 <option value="" selected="true">-- None --</option>
-                <option *ngFor="let group of questionGroups" [value]="group.id">{{group.title}}</option>
+                <option *ngFor="let group of questionGroups" [value]="group.id">
+                  {{ group.title }}
+                </option>
               </select>
             </div>
 
             <div class="col-6">
-              <label class="form-control-label">{{ 'question.title' | translate }}</label>
-              <select id="question_select" class="custom-select" (change)="onQuestionChange($event)">
-                <option id="default_option" value="" selected="true">-- None --</option>
-                <option *ngFor="let question of questions" [value]="question.id + '-' +question.idDB">{{question.title}}
+              <label class="form-control-label">{{
+                "question.title" | translate
+              }}</label>
+              <select
+                id="question_select"
+                class="custom-select"
+                (change)="onQuestionChange($event)"
+              >
+                <option id="default_option" value="" selected="true">
+                  -- None --
+                </option>
+                <option
+                  *ngFor="let question of questions"
+                  [value]="question.id + '-' + question.idDB"
+                >
+                  {{ question.title }}
                 </option>
               </select>
             </div>
@@ -63,10 +99,13 @@
         </div>
 
         <div class="card-body answers-container">
-          <app-answer-stats *ngIf="!isLoadingAnswers" [question]="question" [questionAnswers]="questionAnswers">
+          <app-answer-stats
+            *ngIf="!isLoadingAnswers"
+            [question]="question"
+            [questionAnswers]="questionAnswers"
+          >
           </app-answer-stats>
         </div>
-
       </div>
     </div>
   </div>
@@ -76,24 +115,25 @@
     <div class="col-xl-12">
       <!-- Listing -->
       <div class="card">
-
         <!-- Card Header -->
         <div class="card-header border-0">
           <div class="row align-items-center">
             <div class="col">
-              <h6 class="mb-0">{{ 'common.answerlist' | translate }}</h6>
+              <h6 class="mb-0">{{ "common.answerlist" | translate }}</h6>
             </div>
             <div class="col-auto"></div>
           </div>
         </div>
 
         <!-- Table -->
-        <app-answer-list *ngIf="!isLoadingGroups" [survey]="survey" [questionGroups]="questionGroups">
+        <app-answer-list
+          *ngIf="!isLoadingGroups"
+          [survey]="survey"
+          [questionGroups]="questionGroups"
+        >
         </app-answer-list>
       </div>
-
     </div>
   </div>
   <!-- ./Answers list-->
-
 </div>

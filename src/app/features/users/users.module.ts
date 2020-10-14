@@ -12,6 +12,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { QuestionGroupsModule } from '../question-groups/question-groups.module';
 import { DeleteUserComponent } from './components/dialogs/delete-user/delete-user.component';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 @NgModule({
   declarations: [EditUserComponent, UserListComponent, DeleteUserComponent],
@@ -27,7 +29,8 @@ import { DeleteUserComponent } from './components/dialogs/delete-user/delete-use
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    QuestionGroupsModule
+    QuestionGroupsModule,
+    TranslateModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports:[EditUserComponent]

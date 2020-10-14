@@ -1,90 +1,140 @@
 <!-- Navbar primary -->
-<nav class="navbar navbar-horizontal d-lg-none navbar-expand-lg navbar-dark bg-primary my-1 pb-0" id="navbar-main">
+<nav
+  class="navbar navbar-horizontal d-lg-none navbar-expand-lg navbar-dark bg-primary my-1 pb-0"
+  id="navbar-main"
+>
   <div *ngIf="isLoading" class="spinner-grow text-primary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 
   <div *ngIf="!isLoading" class="container-fluid pl-2 pr-4 mr-2">
     <div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-primary"
-        aria-controls="navbar-primary" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbar-primary"
+        aria-controls="navbar-primary"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <a href="#" href="/dashboard">
-        <img class="col-12 logo-mainnav" src="/assets/dist/img/icons/custom/logo.svg">
+        <img
+          class="col-12 logo-mainnav"
+          src="/assets/dist/img/icons/custom/logo.svg"
+        />
       </a>
     </div>
 
     <div class="row">
       <!-- Avatar -->
       <h5 class="mb-0 text-white col-auto my-auto mx-auto">
-        {{ 'common.hi' | translate }}
-        <span *ngIf="user">{{user.firstname}}</span>
+        {{ "common.hi" | translate }}
+        <span *ngIf="user">{{ user.firstname }}</span>
       </h5>
 
       <ul class="navbar-nav flex-row align-items-center">
-
         <li class="nav-item dropdown dropdown-animate mr-2">
-          <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="locale-image" alt="Image placeholder"
-              src="{{ currentLang == 'en' ? 'assets/dist/img/icons/flags/en.svg' : 'assets/dist/img/icons/flags/it.svg'}}">
+          <a
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img
+              class="locale-image"
+              alt="Image placeholder"
+              src="{{
+                currentLang == 'en'
+                  ? 'assets/dist/img/icons/flags/en.svg'
+                  : 'assets/dist/img/icons/flags/it.svg'
+              }}"
+            />
           </a>
           <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
             <a href="#" class="dropdown-item" (click)="useLanguage('en')">
-              <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg" src="assets/dist/img/icons/flags/en.svg"
-                class="mr-2">EN
+              <img
+                alt="Image placeholder"
+                src="./dist/img/icons/flags/en.svg"
+                src="assets/dist/img/icons/flags/en.svg"
+                class="mr-2"
+              />EN
             </a>
             <a href="#" class="dropdown-item" (click)="useLanguage('it')">
-              <img alt="Image placeholder" src="assets/dist/img/icons/flags/it.svg" class="mr-2">IT
+              <img
+                alt="Image placeholder"
+                src="assets/dist/img/icons/flags/it.svg"
+                class="mr-2"
+              />IT
             </a>
           </div>
         </li>
 
-
         <li class="nav-item dropdown dropdown-animate">
-          <div type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
+          <div
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             <span class="col-auto px-0 py-0">
-              <img class="profile-image-mainnav"
-                src="{{ user.avatar ? user.avatar.data : '/assets/dist/img/theme/light/team-4-800x800.jpg'}}">
+              <img
+                class="profile-image-mainnav"
+                src="{{
+                  user.avatar
+                    ? user.avatar.data
+                    : '/assets/dist/img/theme/light/team-4-800x800.jpg'
+                }}"
+              />
             </span>
-
           </div>
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" [routerLink]="['/users/profile/edit']" routerLinkActive="active">
+            <a
+              class="dropdown-item"
+              [routerLink]="['/users/profile/edit']"
+              routerLinkActive="active"
+            >
               <i class="far fa-user"></i>
-              <span>{{ 'profile.updateProfile' | translate }}</span>
+              <span>{{ "profile.updateProfile" | translate }}</span>
             </a>
             <div class="dropdown-divider"></div>
             <a (click)="logoutUser()" class="dropdown-item">
               <i class="far fa-sign-out-alt"></i>
-              <span>LogOut</span>
+              <span>{{ "common.logout" | translate }}</span>
             </a>
           </div>
         </li>
-
       </ul>
 
       <div class="dropdown dropdown-animate dropdown-menu-left dropleft"></div>
     </div>
 
     <div class="collapse navbar-collapse" id="navbar-primary">
-
       <ul class="navbar-nav ml-lg-auto">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/dashboard/surveys/list']" routerLinkActive="active"><i
-              class="far fa-home"></i>Home</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/dashboard/surveys/list']"
+            routerLinkActive="active"
+            ><i class="far fa-home"></i>Home</a
+          >
         </li>
 
         <li class="nav-item" *ngIf="role.name === 'ADMIN'">
-          <a class="nav-link" [routerLink]="['/users/administration/list']" routerLinkActive="active"><i
-              class="far fa-users"></i>{{ 'menu.users' | translate }}</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/users/administration/list']"
+            routerLinkActive="active"
+            ><i class="far fa-users"></i>{{ "menu.users" | translate }}</a
+          >
         </li>
-
       </ul>
-
     </div>
   </div>
 </nav>

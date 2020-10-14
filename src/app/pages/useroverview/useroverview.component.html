@@ -1,170 +1,172 @@
 <!-- Page title -->
 <div>
-	<div class="page-title my-4 mx-2">
-		<div class="row justify-content-between align-items-center">
-			<!-- Page title + Go Back button -->
-			<div class="d-inline-block p-1">
+  <div class="page-title my-4 mx-2">
+    <div class="row justify-content-between align-items-center">
+      <!-- Page title + Go Back button -->
+      <div class="d-inline-block p-1">
+        <div class="row">
+          <a
+            [routerLink]="['/users/administration/list']"
+            class="link font-weight-400 pt-1 col-auto my-auto text-white"
+          >
+            <i class="fas fa-arrow-left"></i
+          ></a>
 
-				<div class="row">
+          <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">
+            {{ user.username }}
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
 
-					<a [routerLink]="['/users/administration/list']" class="link font-weight-400 pt-1 col-auto my-auto text-white">
-						<i class="fas fa-arrow-left"></i></a>
+  <div class="row">
+    <!-- Survey overview -->
+    <div class="col-xl-6 col-sm-12">
+      <div class="row">
+        <div class="col-xl-12 col-sm-12">
+          <div class="card card-fluid">
+            <div class="card-body py-3 flex-grow-1">
+              <!-- Progress -->
+              <div class="my-3">
+                <div class="row align-items-center">
+                  <div class="col-12 text-center">
+                    <!-- Avatar -->
+                    <img
+                      class="profile-image"
+                      src="{{
+                        user.avatar
+                          ? user.avatar.data
+                          : '/assets/dist/img/theme/light/team-4-800x800.jpg'
+                      }}"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
 
-					<h4 class="font-weight-400 col-auto mb-0 text-white ml-2">{{user.username}}</h4>
+            <div class="card-footer py-0 pb-2">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item px-0">
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <span class="form-control-label"
+                        >{{ "common.username" | translate }}:</span
+                      >
+                    </div>
+                    <div class="col-8 text-right">
+                      <span id="username" class="text-right">{{
+                        user.username
+                      }}</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item px-0">
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <span class="form-control-label"
+                        >{{ "common.firstname" | translate }}:</span
+                      >
+                    </div>
+                    <div class="col-8 text-right">
+                      <span id="firstname" class="text-right">{{
+                        user.firstname
+                      }}</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item px-0">
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <span class="form-control-label"
+                        >{{ "common.lastname" | translate }}:</span
+                      >
+                    </div>
+                    <div class="col-8 text-right">
+                      <span id="lastname" class="text-right">{{
+                        user.lastname
+                      }}</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item px-0">
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <span class="form-control-label"
+                        >{{ "common.email" | translate }}:</span
+                      >
+                    </div>
+                    <div class="col-8 text-right">
+                      <span id="email" class="text-right">{{
+                        user.email
+                      }}</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item px-0">
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <!-- <span class="form-control-label">{{user.role}}</span> -->
+                      <span class="form-control-label"
+                        >{{ "user.role" | translate }}:</span
+                      >
+                    </div>
+                    <div class="col-8 text-right">
+                      <span id="role" class="text-right">{{
+                        "user.role" | translate
+                      }}</span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-				</div>
-			</div>
+    <div class="col-xl-6 col-sm-12">
+      <div class="row">
+        <!-- stats card 1 -->
+        <div class="col-xl-12 col-sm-6">
+          <!-- Stats card -->
+          <div class="card card-stats border-0">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h6 class="text-muted mb-1">
+                    {{ "survey.created" | translate }}
+                  </h6>
+                  <span class="h3 font-weight-bold mb-0">{{
+                    surveyTotal
+                  }}</span>
+                </div>
+                <div class="col-auto">
+                  <span class="h3 font-weight-bold mb-0 text-warning">
+                    <i class="far fa-poll fa-2x"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-		</div>
-	</div>
-
-
-	<div class="row">
-
-		<!-- Survey overview -->
-		<div class="col-xl-6 col-sm-12">
-			<div class="row">
-				<div class="col-xl-12 col-sm-12">
-					<div class="card card-fluid">
-						<div class="card-body py-3 flex-grow-1">
-							<!-- Progress -->
-							<div class="my-3">
-								<div class="row align-items-center">
-									<div class="col-12 text-center">
-										<!-- Avatar -->
-										<img class="profile-image" src="{{ user.avatar ? user.avatar.data : '/assets/dist/img/theme/light/team-4-800x800.jpg'}}">
-									</div>
-
-								</div>
-							</div>
-						</div>
-
-						<div class="card-footer py-0 pb-2">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item px-0">
-									<div class="row align-items-center">
-										<div class="col-4">
-											<span class="form-control-label">Username:</span>
-										</div>
-										<div class="col-8 text-right">
-											<span id="username" class="text-right">{{user.username}}</span>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item px-0">
-									<div class="row align-items-center">
-										<div class="col-4">
-											<span class="form-control-label">{{ 'common.firstnmae' | translate }}:</span>
-										</div>
-										<div class="col-8 text-right">
-											<span id="firstname" class="text-right">{{user.firstname}}</span>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item px-0">
-									<div class="row align-items-center">
-										<div class="col-4">
-											<span class="form-control-label">{{ 'common.lastname' | translate }}:</span>
-										</div>
-										<div class="col-8 text-right">
-											<span id="lastname" class="text-right">{{user.lastname}}</span>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item px-0">
-									<div class="row align-items-center">
-										<div class="col-4">
-											<span class="form-control-label">Email:</span>
-										</div>
-										<div class="col-8 text-right">
-											<span id="email" class="text-right">{{user.email}}</span>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item px-0">
-									<div class="row align-items-center">
-										<div class="col-4">
-											<!-- <span class="form-control-label">{{user.role}}</span> -->
-											<span class="form-control-label">{{ 'user.role' | translate }}:</span>
-
-										</div>
-										<div class="col-8 text-right">
-											<span id="role" class="text-right">{{ 'user.role' | translate }}</span>
-										</div>
-									</div>
-								</li>
-
-							</ul>
-						</div>
-
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-
-		<div class="col-xl-6 col-sm-12">
-			<div class="row">
-				<!-- stats card 1 -->
-				<div class="col-xl-12 col-sm-6">
-					<!-- Stats card -->
-					<div class="card card-stats border-0">
-						<!-- Card body -->
-						<div class="card-body">
-							<div class="row">
-								<div class="col">
-
-									<h6 class="text-muted mb-1">{{ 'survey.created' | translate }}</h6>
-
-									<!-- <h6 class="text-muted mb-1">[[#{survey.created}]]</h6> -->
-									<span class="h3 font-weight-bold mb-0">{{surveyTotal}}</span>
-
-									<!-- <span class="h3 font-weight-bold mb-0">[[${createdSurveys}]]</span> -->
-
-								</div>
-								<div class="col-auto">
-									<span class="h3 font-weight-bold mb-0 text-warning">
-										<i class="far fa-poll fa-2x"></i>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Stats card 2 -->
-				<!-- <div class="col-xl-12 col-sm-6"> -->
-				<!-- Stats card -->
-				<!-- <div class="card card-stats"> -->
-				<!-- Card body -->
-				<!-- <div class="card-body">
-							<div class="row">
-								<div class="col">
-									<h6 class="text-muted mb-1">Active Survey</h6> -->
-				<!-- <span class="h3 font-weight-bold mb-0">#</span> -->
-
-				<!-- <h6 class="text-muted mb-1">[[#{survey.active}]]</h6>
-								<span class="h3 font-weight-bold mb-0">[[${activeSurveys}]]</span> -->
-				<!-- </div>
-								<div class="col-auto">
-									<span class="h3 font-weight-bold mb-0 text-success">
-										<i class="fas fa-globe fa-2x"></i>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div> -->
-				<!-- </div> -->
-
-				<!-- Stats card 2 -->
-				<div class="col-xl-12 col-sm-6">
-					<button type="button" class="btn btn-lg btn-danger rounded-pill text-sm" data-action="delete-open"
-						data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
-						(click)="openDeleteDialog()">{{ 'common.delete' | translate }}</button>
-				</div>
-
-			</div>
-		</div>
-	</div>
+        <!-- Stats card 2 -->
+        <div class="col-xl-12 col-sm-6">
+          <button
+            type="button"
+            class="btn btn-lg btn-danger rounded-pill text-sm"
+            data-action="delete-open"
+            data-toggle="tooltip"
+            title="Delete"
+            data-target="#actions-deletem"
+            (click)="openDeleteDialog()"
+          >
+            {{ "common.delete" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -33,7 +33,7 @@
 
     <!-- Groups column -->
     <ng-container matColumnDef="questionGroups">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'groups.title' | translate }} </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'group.title' | translate }} </th>
       <td mat-cell *matCellDef="let answer">
         <div *ngFor="let group of answer.questionGroups" style="display: inline;">
           <a [routerLink]="['/answer/surveyanswer/', survey.id, survey.urlId, answer.id]" class="badge badge-secondary">{{ group.title }}</a>&nbsp;
@@ -43,7 +43,7 @@
 
     <!-- Tot Answer column -->
     <ng-container matColumnDef="totAnswers">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'answers.totanswers' | translate }} </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'answer.totanswers' | translate }} </th>
       <td mat-cell *matCellDef="let answer">
         <div class="d-flex align-items-center">
           <span class="completion mr-2">{{ getPercentageCompletition(answer.totAnswers) }}%</span>

@@ -108,7 +108,6 @@ export class EditUserComponent implements OnInit {
 
   onSubmit(event): void {
     event.preventDefault();
-    console.log('ProfileComponent', 'OnSubmit', this.editProfileForm.value);
     let payload: any
     if (this.isfileChanged) {
       payload = { ...this.editProfileForm.value, id: this.user.id, avatar: { data: this.iconData.base64, name: this.iconData.file.name } } as User;

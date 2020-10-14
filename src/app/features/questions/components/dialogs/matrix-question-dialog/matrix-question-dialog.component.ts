@@ -95,7 +95,6 @@ export class MatrixQuestionDialogComponent implements OnInit {
     } else {
       delete payload.icon;
     }
-    console.log('InputQuestionDialogComponent', 'Payload', payload);
 
     this.dialogConfig.operation === 'new'
       ? this.store.dispatch(

@@ -7,7 +7,7 @@
 <div mat-dialog-content>
   <div class="row mt-3">
     <div class="col">
-      <label class="form-control-label mb-3">Emails</label>
+      <label class="form-control-label mb-3">{{'common.emails' | translate}}</label>
       <div class="bootstrap-tagsinput">
         <input id="tagsinput" type="text" [value]="tagsInput" placeholder="Digita una email..." size="48" (keypress)="handleKeyUp($event)" (change)="handleChange($event)">
 
@@ -36,7 +36,7 @@
 <!-- Footer -->
 <div mat-dialog-actions>
   <div class="text-right buttons-container">
-    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
-    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendInvitationPool()" [disabled]="survey.active">Invia</button>
+    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate}}</button>
+    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendInvitationPool()" [disabled]="survey.active">{{ 'common.save' | translate}}</button>
   </div>
 </div>

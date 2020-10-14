@@ -27,28 +27,28 @@
                         <div class="col-auto my-auto">
                             <img class="input-question-icon" src="assets/dist/img/icons/custom/icon_text.svg">
                         </div>
-                        <span class="col-auto my-auto">Text input</span>
+                        <span class="col-auto my-auto">{{ 'question.textInput' | translate }}</span>
                     </div>
 
                     <div *ngIf="question.type == 'TEXTAREA'" class="row">
                         <div class="col-auto my-auto">
                             <img class="input-question-icon" src="assets/dist/img/icons/custom/icon_textarea.svg">
                         </div>
-                        <span class="col-auto my-auto">Area input</span>
+                        <span class="col-auto my-auto">{{ 'question.areaInput' | translate }}</span>
                     </div>
 
                     <div *ngIf="question.type == 'DATE'" class="row">
                         <div class="col-auto my-auto">
                             <img class="input-question-icon" src="assets/dist/img/icons/custom/icon_date.svg">
                         </div>
-                        <span class="col-auto my-auto">Date input</span>
+                        <span class="col-auto my-auto">{{ 'question.dateInput' | translate }}</span>
                     </div>
 
                     <div *ngIf="question.type == 'NUMBER'" class="row">
                         <div class="col-auto my-auto">
                             <img class="input-question-icon" src="assets/dist/img/icons/custom/icon_number.svg">
                         </div>
-                        <span class="col-auto my-auto">Number input</span>
+                        <span class="col-auto my-auto">{{ 'question.numberInput' | translate }}</span>
                     </div>
 
                 </div>

@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit(event): void {
     event.preventDefault();
-    console.log('LoginComponent', 'OnSubmit', this.loginForm.value);
     const payload = {
       email: this.loginForm.value.email,
       password: this.loginForm.value.password

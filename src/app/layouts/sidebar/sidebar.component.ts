@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit {
 
   public isLoading: boolean;
 
-  constructor (
+  constructor(
     public newSurveyDialog: MatDialog,
     private translate: TranslateService,
     private store: Store<AppState>

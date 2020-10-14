@@ -1,18 +1,27 @@
 <!-- Sidenav -->
 <div class="fixed-content show ml-4 d-none d-lg-block" id="sidebar-main">
-
   <!-- Sidenav header -->
   <div class="sidenav-header d-flex mt-1">
     <div class="row mx-auto">
-      <a [routerLink]="['/dashboard/surveys/list']" routerLinkActive="router-link-active">
-        <img class="col-12 logo pt-1 my-auto mx-auto" src="/assets/dist/img/icons/custom/logo.svg">
+      <a
+        [routerLink]="['/dashboard/surveys/list']"
+        routerLinkActive="router-link-active"
+      >
+        <img
+          class="col-12 logo pt-1 my-auto mx-auto"
+          src="/assets/dist/img/icons/custom/logo.svg"
+        />
       </a>
     </div>
   </div>
 
   <div class="col-12">
     <!-- Sidenav toggler -->
-    <div class="sidenav-toggler sidenav-toggler-dark d-md-none" data-action="sidenav-unpin" data-target="#sidenav-main">
+    <div
+      class="sidenav-toggler sidenav-toggler-dark d-md-none"
+      data-action="sidenav-unpin"
+      data-target="#sidenav-main"
+    >
       <div class="sidenav-toggler-inner">
         <i class="sidenav-toggler-line bg-white"></i>
         <i class="sidenav-toggler-line bg-white"></i>
@@ -26,127 +35,148 @@
   </div>
 
   <!-- User mini profile -->
-  <div *ngIf="!isLoading" class="sidenav-user d-flex flex-column align-items-center justify-content-between text-center">
-
+  <div
+    *ngIf="!isLoading"
+    class="sidenav-user d-flex flex-column align-items-center justify-content-between text-center"
+  >
     <!-- Avatar -->
     <div class="row">
       <h5 class="mb-0 text-white col-auto mx-auto">
-        {{ 'common.hi' | translate }}
-        <span *ngIf="user">{{user.firstname}} {{user.lastname}}</span>
+        {{ "common.hi" | translate }}
+        <span *ngIf="user">{{ user.firstname }} {{ user.lastname }}</span>
       </h5>
     </div>
 
     <!-- User pic -->
-    <div class="row ">
+    <div class="row">
       <span class="col-auto px-0 py-0">
-        <img class="profile-image" src="{{ user.avatar ? user.avatar.data : '/assets/dist/img/theme/light/team-4-800x800.jpg'}}">
+        <img
+          class="profile-image"
+          src="{{
+            user.avatar
+              ? user.avatar.data
+              : '/assets/dist/img/theme/light/team-4-800x800.jpg'
+          }}"
+        />
       </span>
     </div>
 
     <div class="row">
-
       <nav class="navbar mx-0 my-0 force-padding-0 col-auto" id="navbar-main">
         <div class="container-fluid">
           <div class="navbar-user">
             <ul class="navbar-nav flex-row align-items-center">
-
               <li class="nav-item dropdown dropdown-animate mr-2">
-                <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img class="locale-image" alt="Image placeholder" src="{{ currentLang == 'en' ? 'assets/dist/img/icons/flags/en.svg' : 'assets/dist/img/icons/flags/it.svg'}}">
+                <a
+                  href="#"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <img
+                    class="locale-image"
+                    alt="Image placeholder"
+                    src="{{
+                      currentLang == 'en'
+                        ? 'assets/dist/img/icons/flags/en.svg'
+                        : 'assets/dist/img/icons/flags/it.svg'
+                    }}"
+                  />
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
                   <a href="#" class="dropdown-item" (click)="useLanguage('en')">
-                    <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
-                              src="assets/dist/img/icons/flags/en.svg"
-                              class="mr-2">EN
-                    </a>
-                    <a href="#" class="dropdown-item" (click)="useLanguage('it')">
-                      <img alt="Image placeholder"
-                            src="assets/dist/img/icons/flags/it.svg"
-                            class="mr-2">IT
-                    </a>
+                    <img
+                      alt="Image placeholder"
+                      src="./dist/img/icons/flags/en.svg"
+                      src="assets/dist/img/icons/flags/en.svg"
+                      class="mr-2"
+                    />EN
+                  </a>
+                  <a href="#" class="dropdown-item" (click)="useLanguage('it')">
+                    <img
+                      alt="Image placeholder"
+                      src="assets/dist/img/icons/flags/it.svg"
+                      class="mr-2"
+                    />IT
+                  </a>
                 </div>
               </li>
 
               <li class="nav-item dropdown dropdown-animate">
-                <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a
+                  href="#"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
                   <i class="fas fa-cog text-white"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
-                  <a class="dropdown-item" [routerLink]="['/users/profile/edit']" routerLinkActive="active">
+                  <a
+                    class="dropdown-item"
+                    [routerLink]="['/users/profile/edit']"
+                    routerLinkActive="active"
+                  >
                     <i class="far fa-user"></i>
-                    <span>{{ 'profile.updateProfile' | translate }}</span>
+                    <span>{{ "profile.updateProfile" | translate }}</span>
                   </a>
                   <div class="dropdown-divider"></div>
                   <a href="#" class="dropdown-item" (click)="logoutUser()">
                     <i class="far fa-sign-out-alt"></i>
-                    <span>LogOut</span>
+                    <span>{{ "common.logout" | translate }}</span>
                   </a>
                 </div>
               </li>
-
             </ul>
           </div>
         </div>
       </nav>
-
     </div>
 
     <!-- Menu -->
     <div class="w-100 mt-4 actions d-flex justify-content-center">
+      <a
+        [routerLink]="['/dashboard/surveys/list']"
+        routerLinkActive="active"
+        class="btn btn-square text-sm mr-0"
+      >
+        <span class="btn-inner--icon d-block">
+          <i class="far fa-home fa-1x"></i>
+        </span>
+        <span class="btn-inner--icon d-block pt-2">Home</span>
+      </a>
 
-      <a [routerLink]="['/dashboard/surveys/list']" routerLinkActive="active"
-            class="btn btn-square text-sm mr-0">
-            <span class="btn-inner--icon d-block">
-                <i class="far fa-home fa-1x"></i>
-            </span>
-            <span class="btn-inner--icon d-block pt-2">Home</span>
-        </a>
+      <a
+        id="create_survey"
+        class="btn btn-square text-sm"
+        (click)="openNewSurveyModal()"
+      >
+        <span class="btn-inner--icon d-block">
+          <i class="far fa-plus"></i>
+        </span>
+        <span class="btn-inner--icon d-block pt-2">{{
+          "common.survey" | translate
+        }}</span>
+      </a>
 
-        <a id="create_survey" class="btn btn-square text-sm" (click)="openNewSurveyModal()">
-            <span class="btn-inner--icon d-block">
-                <i class="far fa-plus"></i>
-            </span>
-            <span class="btn-inner--icon d-block pt-2">{{ 'common.survey' | translate }}</span>
-        </a>
-
-          <a [routerLink]="['/users/administration/list']" routerLinkActive="active" *ngIf="role.name === 'ADMIN'" class="btn btn-square text-sm mr-0">
-              <span class="btn-inner--icon d-block">
-                  <i class="far fa-users"></i>
-              </span>
-              <span class="btn-inner--icon d-block pt-2">{{ 'menu.users' | translate }}</span>
-          </a>
-
-      <!-- <a th:classappend="${#request.requestURI == '/apollo/surveys/dashboard' ? 'active':''}" href="#"
-            th:href="@{/surveys/dashboard}" class="btn btn-square text-sm mr-0">
-            <span class="btn-inner--icon d-block">
-                <i class="far fa-home fa-1x"></i>
-            </span>
-            <span class="btn-inner--icon d-block pt-2">[[#{menu.home}]]</span>
-        </a> -->
-
-      <!-- <a id="create_survey" class="btn btn-square text-sm" href="#"
-            th:onclick="getSurveyRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)">
-            <span class="btn-inner--icon d-block">
-                <i class="far fa-plus"></i>
-            </span>
-            <span class="btn-inner--icon d-block pt-2">[[#{menu.new}]]</span>
-        </a> -->
-
-      <!-- <div sec:authorize="hasRole('ROLE_ADMIN')">
-            <a th:classappend="${#request.requestURI.startsWith('/apollo/administration') ? 'active':''}"
-                href="#" th:href="@{/administration/users}" class="btn btn-square text-sm mr-0">
-                <span class="btn-inner--icon d-block">
-                    <i class="far fa-users"></i>
-                </span>
-                <span class="btn-inner--icon d-block pt-2">[[#{menu.users}]]</span>
-            </a>
-        </div> -->
+      <a
+        [routerLink]="['/users/administration/list']"
+        routerLinkActive="active"
+        *ngIf="role.name === 'ADMIN'"
+        class="btn btn-square text-sm mr-0"
+      >
+        <span class="btn-inner--icon d-block">
+          <i class="far fa-users"></i>
+        </span>
+        <span class="btn-inner--icon d-block pt-2">{{
+          "menu.users" | translate
+        }}</span>
+      </a>
     </div>
-
   </div>
 
   <!-- Footer -->
   <app-footer></app-footer>
-
 </div>

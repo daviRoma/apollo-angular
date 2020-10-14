@@ -65,8 +65,6 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   submitSurveyAnswers(): void {
 
     let answer = JSON.parse(JSON.stringify(this.answerWrapper.answers));
-
-    console.log('SumbitSurveyAnswer', 'OnSubmit', this.answerWrapper);
     let payload: any;
     if (this.userUnlocked != null) {
       payload = {
@@ -112,11 +110,8 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
 
       if (this.matrixCheckCompleted && this.matrixRadioCompleted) {
-
-        console.log("Wrapper", this.answerWrapper);
         this.answerWrapper.answers = notEmptyAnswer;
         this.canContinue = true;
-
       } else {
         this.canContinue = false;
       }
