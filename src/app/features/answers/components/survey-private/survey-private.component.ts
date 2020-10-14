@@ -14,6 +14,7 @@ import { EmailValidator } from '@angular/forms';
 import { AccesSecretSurveyDialogConf } from 'src/app/shared/config/dialog.conf';
 import { MatDialog } from '@angular/material/dialog';
 import { SecretSurveyLoginComponent } from '../dialogs/secret-survey-login/secret-survey-login.component';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class SurveyPrivateComponent implements OnInit {
     private route: ActivatedRoute,
     private store: Store<AppState>,
     public accessSecretSurveyDialog: MatDialog,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -59,8 +61,7 @@ export class SurveyPrivateComponent implements OnInit {
 
   openAccessSecretDialog(): void {
     const accessDialogConfig = { ...AccesSecretSurveyDialogConf };
-    accessDialogConfig.data.dialogConfig.title = 'Enter the Secret Survey';
-    accessDialogConfig.data.dialogConfig.content = 'Are you sure to delete the question group selected?';
+    accessDialogConfig.data.dialogConfig.title = this.translate.instant('survey.enterSecret');
     accessDialogConfig.data.invitationPool = { ...this.survey.invitationPool };
     accessDialogConfig.data.surveyAnswers = this.surveyAnswers;
 

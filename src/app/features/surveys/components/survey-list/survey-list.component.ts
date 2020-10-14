@@ -21,6 +21,7 @@ import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 
 import { Paths } from 'src/app/shared/config/path.conf';
 import { User } from 'src/app/models/user.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-survey-list',
@@ -58,7 +59,8 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscription: Subscription = new Subscription();
   private user: User;
 
-  constructor(public confirmDialog: MatDialog, private store: Store<AppState>) {
+  constructor(public confirmDialog: MatDialog, private store: Store<AppState>, private translate: TranslateService,
+  ) {
     this.pageSize = 5;
     this.pageSizeOptions = [5, 10, 20];
   }
@@ -138,8 +140,8 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       data: {
         item: { ...survey }, // clone object
         dialogConfig: {
-          title: 'Delete Survey',
-          content: 'Are you sure to delete the survey?',
+          title: this.translate.instant('survey.delete'),
+          content: this.translate.instant('survey.deletemessage'),
         },
       },
     });

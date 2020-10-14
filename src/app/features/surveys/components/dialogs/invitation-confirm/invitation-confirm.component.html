@@ -5,20 +5,20 @@
   </h2>
 
   <div class="col-12 mat-dialog-content justify-content-center mb-3">
-    <div class="row">
-      <div class="col-md-12">
-        <span class="form-control-label">{{
+    <div class="row justify-content-center">
+      <div class="col-md-12 justify-content-center">
+        <span class="form-control-label justify-content-center">{{
           "common.sendinvitationconfirm" | translate
         }}</span>
         <div
-        *ngIf="isError"
-        id="result_message"
-        class="text-left justify-content-between text-xs text-muted mt-2"
-      >
-        <span id="error_message" class="font-weight-bold text-danger">{{
-          "error.noemailaddress" | translate
-        }}</span>
-      </div>
+          *ngIf="isError"
+          id="result_message"
+          class="text-left justify-content-between text-xs text-muted mt-2"
+        >
+          <span id="error_message" class="font-weight-bold text-danger">{{
+            "error.noemailaddress" | translate
+          }}</span>
+        </div>
       </div>
     </div>
   </div>

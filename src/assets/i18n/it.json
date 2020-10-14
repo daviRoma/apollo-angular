@@ -137,6 +137,8 @@
     "fieldSize": "Il campo deve essere lungo almeno 6 caratteri",
     "questionSize": "La domanda deve essere lungo almeno 12 caratteri",
     "unabletopublish": "Il sondaggio non contiene gruppi o domande complete!",
+    "usernotabilithated": "Utente non abilitato al sondaggio",
+
 
     "file": {
       "invalid": "File non valido",
@@ -189,10 +191,14 @@
     "notactivedesc": "Questo sondaggio non è più attivo o è stato disattivato dal proprietario",
     "alreadyanswered": "Hai già risposto a questo sondaggio!",
     "private": "Sondaggio privato",
+    "privatemessage": "Questo sondaggio è privato",
     "active": "Sondaggio Attivo",
     "activate": "Attiva il sondaggio",
     "deactivate": "Vuoi disattivare il sondaggio?",
-    "searchsurvey": "Cerca sondaggio..."
+    "searchsurvey": "Cerca sondaggio...",
+    "invitationPoolTitle": "Invia gli inviti e pubblica",
+    "setInvitationPool": "Imposta la coda di inviti",
+    "enterSecret": "Accedi al sondaggio provato"
 
   },
 

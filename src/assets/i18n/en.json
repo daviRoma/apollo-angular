@@ -137,6 +137,7 @@
     "fieldSize": "The field must be of at least 6 characters length",
     "questionSize": "The question must be of at least 12 characters length",
     "unabletopublish": "The survey must contains groups and questions!",
+    "usernotabilithated": "User not abilithated for this survey",
 
     "file": {
       "invalid": "File not valid",
@@ -190,10 +191,17 @@
     "notactivedesc": "The survey has not been activated yet or has been deactivated by his owner",
     "alreadyanswered": "You have already answered the survey!",
     "private": "This survey is private",
+    "privatemessage": "This survey is private",
     "active": "Active Survey",
     "activate": "Activate the survey",
     "deactivate": "Do you want deactivate the survey?",
-    "searchsurvey": "Search survey..."
+    "searchsurvey": "Search survey...",
+    "invitationPoolTitle": "Send invitations and publish",
+    "setInvitationPool": "Set invitation pool",
+    "enterSecret": "Enter to the private survey"
+
+
+
   },
 
   "group": {

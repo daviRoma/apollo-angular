@@ -18,6 +18,7 @@ import { InvitationConfirmComponent } from 'src/app/features/surveys/components/
 import { Survey } from 'src/app/models/survey.model';
 
 import { SurveyDialogConf, DeleteDialogConf } from 'src/app/shared/config/dialog.conf';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-survey-detail',
@@ -36,6 +37,8 @@ export class SurveyDetailComponent implements OnInit {
     public dialog: MatDialog,
     private store: Store<AppState>,
     private router: Router,
+    private translate: TranslateService,
+
   ) {
     this.editDialogRef = { ...SurveyDialogConf };
     this.deleteDialogRef = { ...DeleteDialogConf };
@@ -47,7 +50,7 @@ export class SurveyDetailComponent implements OnInit {
 
   public openEditSurveyDialog(): void {
     this.editDialogRef.data.survey = { ...this.survey };
-    this.editDialogRef.data.dialogConfig.title = 'Edit Survey';
+    this.editDialogRef.data.dialogConfig.title = this.translate.instant('survey.edit');
     const updateDialogRef = this.dialog.open(EditSurveyComponent, this.editDialogRef);
 
     updateDialogRef.afterClosed().subscribe((response) => {
@@ -57,8 +60,8 @@ export class SurveyDetailComponent implements OnInit {
 
   public openDeleteDialog(): void {
     this.deleteDialogRef.data.item = { ...this.survey };
-    this.deleteDialogRef.data.dialogConfig.title = 'Delete Survey';
-    this.deleteDialogRef.data.dialogConfig.content = 'Are you sure to delete the survey?';
+    this.deleteDialogRef.data.dialogConfig.title = this.translate.instant('survey.delete');
+    this.deleteDialogRef.data.dialogConfig.content = this.translate.instant('survey.deletemessage');
     const dialogRef = this.dialog.open(DeleteSurveyComponent, this.deleteDialogRef);
 
     dialogRef.afterClosed().subscribe(
@@ -71,14 +74,14 @@ export class SurveyDetailComponent implements OnInit {
 
   public openPublishDialog(): void {
     this.publishDialogConf.data.survey = { ...this.survey };
-    this.publishDialogConf.data.dialogConfig.title = 'Publish Survey';
-    this.publishDialogConf.minWidth = '40%';
+    this.publishDialogConf.data.dialogConfig.title = this.translate.instant('survey.publishtitle');
+    this.publishDialogConf.maxWidth = '30%';
     this.publishDialogConf.position.top = '8%';
     const publishDialogRef = this.dialog.open(PublishSurveyComponent, this.publishDialogConf);
 
     publishDialogRef.afterClosed().subscribe((response) => {
       if (response.result === 'close_send_invitation') {
-        this.publishDialogConf.data.dialogConfig.title = 'Send invitations and publish';
+        this.publishDialogConf.data.dialogConfig.title = this.translate.instant('survey.invitationPoolTitle');
         this.dialog.open(InvitationConfirmComponent, this.publishDialogConf);
       }
     });
@@ -86,12 +89,12 @@ export class SurveyDetailComponent implements OnInit {
 
   public openInvitationPoolDialog(): void {
     const invitationPoolDialogRef = this.dialog.open(InvitationPoolComponent, {
-      minWidth: '45%',
+      minWidth: '30%',
       position: { top: '5%' },
       data: {
         survey: {...this.survey },
         dialogConfig: {
-          title: 'Set Invitation Pool'
+          title: this.translate.instant('survey.setInvitationPool'),
         },
       },
     });

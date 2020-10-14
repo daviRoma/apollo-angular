@@ -21,9 +21,6 @@ export class SecretSurveyLoginComponent implements OnInit {
   private surveyAnswers: SurveyAnswer[];
   private invitationPool: InvitationPool;
 
-  public email: string;
-  public code: string;
-
   public errorValue: string;
 
   constructor(
@@ -40,6 +37,7 @@ export class SecretSurveyLoginComponent implements OnInit {
     if (this.data.surveyAnswers) {
       this.surveyAnswers = this.data.surveyAnswers;
     }
+
   }
 
   ngOnInit(): void { }
@@ -52,20 +50,27 @@ export class SecretSurveyLoginComponent implements OnInit {
    * Manage confirm click on delete window.
    */
   confirm(): void {
-    if (this.invitationPool.emails.find(item => item === this.email)) {
 
-      if (this.surveyAnswers.find(answer => answer.email === this.email)) {
+    let email = <HTMLInputElement>(document.getElementById('email'));
+    let code =<HTMLInputElement>(document.getElementById('code'));
+
+      console.log(this.invitationPool);
+    console.log(this.surveyAnswers);
+
+    if (this.invitationPool.emails.find(item => item === email.value)) {
+
+      if (this.surveyAnswers.find(answer => answer.email === email.value)) {
 
         this.errorValue = this.translate.instant('survey.alreadyanswered');
 
       } else {
 
-        if (this.invitationPool.password === this.code) {
+        if (this.invitationPool.password === code.value) {
 
           this.dialogRef.close({
             result: 'abilitated',
-            email: this.email,
-            password: this.code,
+            email: email.value,
+            password: code.value,
           });
 
         } else {
@@ -74,7 +79,7 @@ export class SecretSurveyLoginComponent implements OnInit {
 
       }
     } else {
-      this.errorValue = this.translate.instant('survey.notactive');
+      this.errorValue = this.translate.instant('error.usernotabilithated');
     }
 
   }
