@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, NgControl } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { SurveysRoutingModule } from './surveys-routing.module';
 import { QuestionGroupsModule } from 'src/app/features/question-groups/question-groups.module';
@@ -17,7 +18,7 @@ import { EditSurveyComponent } from './components/dialogs/edit-survey/edit-surve
 import { InvitationPoolComponent } from 'src/app/features/surveys/components/dialogs/invitation-pool/invitation-pool.component';
 import { PublishSurveyComponent } from './components/dialogs/publish-survey/publish-survey.component';
 import { InvitationConfirmComponent } from './components/dialogs/invitation-confirm/invitation-confirm.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { DeleteSurveyComponent } from './components/dialogs/delete-survey/delete-survey.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
     SurveyListComponent,
     SurveyDetailComponent,
     SurveyOverviewComponent,
+    DeleteSurveyComponent,
     EditSurveyComponent,
     InvitationPoolComponent,
     PublishSurveyComponent,
