@@ -50,15 +50,15 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   }
 
   showAnswer(): void {
-    const answer = this.answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'));
-    const options = [ ...this.question.options ].map(op => ({ id: op.id, value: op.value, checked: false }) );
+    const answer = this.answers.find(answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'));
+    const options = [...this.question.options].map(op => ({ id: op.id, value: op.value, checked: false }));
 
     if (answer) {
       this.question = {
         ...this.question,
         options: options.map(op => {
-          answer.answers.forEach( value => {
-            if (op.value === value ) {
+          answer.answers.forEach(value => {
+            if (op.value === value) {
               op.checked = true;
               if (this.question.type === 'SELECT') this.selectedValue = op.value;
             }
@@ -101,7 +101,7 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
 
   choiceSelectAnswerChange(option): void {
 
-    this.checkAnswer.answer= option;
+    this.checkAnswer.answer = option;
     this.optionSelected.emit(this.checkAnswer);
   }
 
