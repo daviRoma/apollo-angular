@@ -39,7 +39,7 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     this.checkAnswer = new MultiAnswer();
     this.checkAnswer.questionId = this.question.id;
     this.checkAnswer.questionType = this.question.questionType;
-    this.checkAnswer.answer = [];
+    this.checkAnswer.answers = [];
 
     // View answer
     if (this.answers) {
@@ -89,12 +89,12 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   }
 
   choiceCheckAnswerChange(event, option): void {
-    if (this.checkAnswer.answer.includes(option)) {
-      this.checkAnswer.answer = this.checkAnswer.answer.filter(
+    if (this.checkAnswer.answers.includes(option)) {
+      this.checkAnswer.answers = this.checkAnswer.answers.filter(
         (element) => element !== option
       );
     } else {
-      this.checkAnswer.answer.push(option);
+      this.checkAnswer.answers.push(option);
     }
     this.optionSelected.emit(this.checkAnswer);
   }
@@ -116,14 +116,14 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
       otherInput.disabled = true;
 
       if (otherInput.value != '') {
-        this.checkAnswer.answer.push(otherInput.value);
+        this.checkAnswer.answers.push(otherInput.value);
       }
     } else {
       otherInput.disabled = false;
 
       if (otherInput.value != '') {
-        if (this.checkAnswer.answer.includes(otherInput.value)) {
-          this.checkAnswer.answer = this.checkAnswer.answer.filter(
+        if (this.checkAnswer.answers.includes(otherInput.value)) {
+          this.checkAnswer.answers = this.checkAnswer.answers.filter(
             (element) => element !== otherInput.value
           );
         }

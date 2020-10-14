@@ -100,7 +100,9 @@
     "icon": "Icona",
     "save": "Salva",
     "endDate": "Data Fine",
-    "action": "Azione"
+    "action": "Azione",
+    "digitemail": "Inserisci un indirizzo email..."
+
   },
 
   "placeholder": {
