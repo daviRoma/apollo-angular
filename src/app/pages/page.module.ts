@@ -19,7 +19,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { AdministrationComponent } from './administration/administration.component';
 import { UseroverviewComponent } from './useroverview/useroverview.component';
 import { SurveyanswerComponent } from './surveyanswer/surveyanswer.component';
-import { AnswersPageModule } from './answers/answers-page.module';
+import { AnswersPageModule } from './answers/modules/answers-page.module';
+import { SurveyAnswerPageModule } from './surveyanswer/modules/surveyanswer-page.module';
+import { NotFoundErrorComponent } from './errors/not-found-error/not-found-error.component';
+import { InternalServerErrorComponent } from './errors/internal-server-error/internal-server-error.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { AnswersPageModule } from './answers/answers-page.module';
     ProfileComponent,
     AdministrationComponent,
     UseroverviewComponent,
-    SurveyanswerComponent
+    SurveyanswerComponent,
+    NotFoundErrorComponent,
+    InternalServerErrorComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +44,8 @@ import { AnswersPageModule } from './answers/answers-page.module';
     QuestionGroupsModule,
     UsersModule,
     AnswersModule,
-    AnswersPageModule
+    AnswersPageModule,
+    SurveyAnswerPageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

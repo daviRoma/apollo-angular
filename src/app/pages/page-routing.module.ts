@@ -44,10 +44,10 @@ const PageRoutes: Routes = [
     path: 'useroverview/:user_id',
     component: UseroverviewComponent,
   },
-  {
-    path: 'surveyanswer/:survey_id/:url_id',
-    component: SurveyanswerComponent,
-  }
+  // {
+  //   path: 'surveyanswer/:survey_id/:url_id',
+  //   component: SurveyanswerComponent,
+  // }
 ];
 
 @NgModule({

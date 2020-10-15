@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 
 import { Routes, RouterModule } from '@angular/router';
 
-import { AnswersComponent } from './answers.component';
+import { AnswersComponent } from '../answers.component';
 
 
-const PageRoutes: Routes = [
+const AnswersPageRoutes: Routes = [
   {
     path: '',
     redirectTo: 'survey/:survey_id/view/:url_id/:answer_id',
@@ -19,7 +19,7 @@ const PageRoutes: Routes = [
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forChild(PageRoutes)],
+  imports: [RouterModule.forChild(AnswersPageRoutes)],
   exports: [RouterModule]
 })
 export class AnswersPageRoutingModule {}

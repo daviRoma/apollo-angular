@@ -25,14 +25,7 @@ export class AnswersComponent implements OnInit, OnDestroy {
 
   public surveyAnswerId: number;
 
-  public userUnlocked: any;
-
-  public surveyUnlocked = false;
-  public surveyActive = false;
-
   public isLoading: boolean;
-
-  public surveySubmitted = false;
 
   private routeParamsSubscription: Subscription;
 
@@ -41,20 +34,18 @@ export class AnswersComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
   ) {
     const self = this;
+    this.isLoading = true;
     this.questionGroups = [];
-    this.routeParamsSubscription = this.route.params.subscribe((params) => {
-      if (params.survey_id) {
-        // Select survey from store by url parameter
-        self.loadData(params.survey_id);
 
-        // Read only survey
-        if (params.answer_id) {
+    this.routeParamsSubscription = this.route.params
+      .subscribe((params) => {
+        if (params.survey_id && params.answer_id) {
+          // Select survey from store by url parameter
           this.surveyAnswerId = params.answer_id;
+          self.loadData(params.survey_id);
         }
-      }
     });
 
-    this.isLoading = true;
   }
 
   ngOnInit(): void {}
@@ -63,39 +54,8 @@ export class AnswersComponent implements OnInit, OnDestroy {
     this.routeParamsSubscription.unsubscribe();
   }
 
-  login(): void {
-
-    this.surveyActive = true;
-  }
-
-  initializeSelectors(): void {
-
-    if (this.survey.active) {
-      this.surveyActive = true;
-    } else {
-      this.surveyActive = false;
-    }
-    if (this.survey.secret) {
-      this.surveyUnlocked = false;
-    } else {
-      this.surveyUnlocked = true;
-    }
-  }
-
-  unlockAccess(event): void{
-
-    this.surveyUnlocked = true;
-    this.userUnlocked = event;
-
-  }
-
   showSubmittedView(event): void{
-    if (event) {
-      this.surveySubmitted = true;
-      this.surveyActive = false;
-      this.surveyUnlocked = false;
 
-    }
 
   }
 
@@ -110,7 +70,6 @@ export class AnswersComponent implements OnInit, OnDestroy {
         if (survey) {
           this.survey = survey;
           this.isLoading = false;
-          this.initializeSelectors();
         }
       });
 

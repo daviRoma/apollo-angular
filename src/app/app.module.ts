@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
-import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { EffectsModule } from '@ngrx/effects';
