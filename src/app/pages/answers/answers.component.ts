@@ -57,10 +57,7 @@ export class AnswersComponent implements OnInit, OnDestroy {
     this.routeParamsSubscription.unsubscribe();
   }
 
-  showSubmittedView(event): void{
-
-
-  }
+  showSubmittedView(event): void{}
 
   private loadData(surveyId: number): void {
     this.store.dispatch(new QuestionGroupLoadAction(surveyId));

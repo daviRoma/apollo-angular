@@ -1,11 +1,9 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
-  Output,
-  ViewChild,
+  Output
 } from '@angular/core';
 import { MultiAnswer, SingleAnswer } from 'src/app/models/answer.model';
 import { ChoiceQuestion } from 'src/app/models/question.model';
@@ -26,10 +24,13 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
 
   public selectedValue: string;
   public readOnly: boolean;
+  public otherChoice: string;
 
   private otherStatus = false;
 
-  constructor() { }
+  constructor() {
+    this.otherChoice = null;
+  }
 
   ngOnInit(): void {
     this.choiceAnswer = new SingleAnswer();
@@ -51,22 +52,36 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
 
   showAnswer(): void {
     const answer = this.answers.find(answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'));
-    const options = [...this.question.options].map(op => ({ id: op.id, value: op.value, checked: false }));
+    let options = [...this.question.options].map(op => ({ id: op.id, value: op.value, checked: false }));
 
     if (answer) {
-      this.question = {
-        ...this.question,
-        options: options.map(op => {
+      // Find answer
+      options = options.map(op => {
+        answer.answers.forEach(value => {
+          if (op.value === value) {
+            op.checked = true;
+            if (this.question.type === 'SELECT') this.selectedValue = op.value;
+          }
+        });
+        return op;
+      });
+
+      if (answer.answers.length > 1) {
+        const optionsTemp = options.filter(op => op.checked);
+        if (optionsTemp.length !== answer.answers.length) {
           answer.answers.forEach(value => {
-            if (op.value === value) {
-              op.checked = true;
-              if (this.question.type === 'SELECT') this.selectedValue = op.value;
+            if (!options.find(op => op.value === value)) {
+              this.otherChoice = value;
+              return;
             }
           });
-          return op;
-        })
-      };
+        }
+      } else if (!this.question.options.find(op => op.checked)) {
+        this.otherChoice = answer.answers[0];
+      }
+      this.question = { ...this.question, options: [ ...options] };
     }
+
   }
 
   // GESTIRE LA RIMOZIONE
@@ -77,14 +92,12 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   }
 
   choiceRadioOtherAnswerChange(event): void {
-    let value = (<HTMLInputElement>event.target).value;
-    this.choiceAnswer.answer = value;
+    this.choiceAnswer.answer = event.target.value;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
   updateRadioOtherAnswerChange(event): void {
-    let value = (<HTMLInputElement>event.target).value;
-    this.choiceAnswer.answer = value;
+    this.choiceAnswer.answer = event.target.value;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
@@ -115,13 +128,13 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     if (this.otherStatus) {
       otherInput.disabled = true;
 
-      if (otherInput.value != '') {
+      if (otherInput.value !== '') {
         this.checkAnswer.answers.push(otherInput.value);
       }
     } else {
       otherInput.disabled = false;
 
-      if (otherInput.value != '') {
+      if (otherInput.value !== '') {
         if (this.checkAnswer.answers.includes(otherInput.value)) {
           this.checkAnswer.answers = this.checkAnswer.answers.filter(
             (element) => element !== otherInput.value

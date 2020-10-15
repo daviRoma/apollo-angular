@@ -35,28 +35,28 @@ export class MatrixQuestionAnswerComponent implements OnInit {
     // View answer
     if (this.answers) {
       this.readOnly = true;
-      this.showAnswer();
     }
 
   }
 
-  showAnswer(): void {
-    const answer = this.answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\MatrixQuestion'));
-    const options = [ ...this.question.options ].map(op => ({ id: op.id, value: op.value, checked: false }) );
+  isChecked(option: any, element: any): boolean {
+    let checked = false;
+    const answer = this.answers.find(
+      answ => (
+        answ.question.id === this.question.id && answ.question.questionType === 'App\\MatrixQuestion'
+      )
+    );
 
-    if (answer) {
-      this.question = {
-        ...this.question,
-        options: options.map(op => {
-          answer.answers.forEach( value => {
-            if (op.value === value ) {
-              op.checked = true;
-            }
-          });
-          return op;
-        })
-      };
-    }
+    answer.answers.forEach(value => {
+      if (value.element === element.title) {
+        value.answers.forEach(item => {
+          if (option.value === item) {
+            checked = true;
+          }
+        });
+      }
+    });
+    return checked;
   }
 
   radioMatrixAnswerChange(element, answer): void {
