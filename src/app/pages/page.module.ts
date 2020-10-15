@@ -31,10 +31,7 @@ import { InternalServerErrorComponent } from './errors/internal-server-error/int
     OverviewComponent,
     ProfileComponent,
     AdministrationComponent,
-    UseroverviewComponent,
-    SurveyanswerComponent,
-    NotFoundErrorComponent,
-    InternalServerErrorComponent
+    UseroverviewComponent
   ],
   imports: [
     CommonModule,

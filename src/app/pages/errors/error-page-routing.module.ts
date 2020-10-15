@@ -23,7 +23,7 @@ const ErrorPageRoutes: Routes = [
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forChild(SurveyAnswerPageRoutes)],
+  imports: [RouterModule.forChild(ErrorPageRoutes)],
   exports: [RouterModule],
 })
 export class ErrorPageRoutingModule {}

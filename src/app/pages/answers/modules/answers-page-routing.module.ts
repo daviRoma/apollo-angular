@@ -8,11 +8,11 @@ import { AnswersComponent } from '../answers.component';
 const AnswersPageRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'survey/:survey_id/view/:url_id/:answer_id',
+    redirectTo: 'view',
     pathMatch: 'full',
   },
   {
-    path: 'survey/:survey_id/view/:url_id/:answer_id',
+    path: 'view/:survey_id/:url_id/:answer_id',
     component: AnswersComponent,
   },
 ];

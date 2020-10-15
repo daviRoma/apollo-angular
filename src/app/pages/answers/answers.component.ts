@@ -6,12 +6,15 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/app.state';
 import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
 import { SurveyLoadOneAction } from 'src/app/features/surveys/store/actions/survey.actions';
+import { SurveyAnswerLoadOneAction } from 'src/app/features/answers/store/actions/survey-answer.actions';
 
 import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
 import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
+import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
 
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Survey } from 'src/app/models/survey.model';
+import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
 
 @Component({
   selector: 'app-answers',
@@ -70,6 +73,7 @@ export class AnswersComponent implements OnInit, OnDestroy {
         if (survey) {
           this.survey = survey;
           this.isLoading = false;
+          this.loadAnswerData();
         }
       });
 
@@ -81,4 +85,16 @@ export class AnswersComponent implements OnInit, OnDestroy {
       });
   }
 
+  private loadAnswerData(): void {
+    this.store
+      .pipe(select(fromSurveyAnswer.selectEntity, { id: this.surveyAnswerId }))
+      .subscribe((surveyAnswer: SurveyAnswer) => {
+        if (!surveyAnswer) {
+          this.store.dispatch( new SurveyAnswerLoadOneAction({
+            id: this.surveyAnswerId,
+            surveyId: this.survey.id
+          } as SurveyAnswerRequest));
+        }
+      });
+  }
 }

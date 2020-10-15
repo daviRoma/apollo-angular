@@ -7,7 +7,7 @@ import { SurveyanswerComponent } from '../surveyanswer.component';
 const SurveyAnswerPageRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'surveyanswer/:survey_id/:url_id',
+    redirectTo: 'surveyanswer',
     pathMatch: 'full',
   },
   {

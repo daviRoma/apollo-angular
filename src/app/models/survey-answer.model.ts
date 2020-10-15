@@ -26,6 +26,7 @@ export class QuestionAnswer {
 }
 
 export class SurveyAnswerRequest {
+  id?: number;
   surveyId: number;
   params: AnswerParams;
 }

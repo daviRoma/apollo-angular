@@ -27,6 +27,10 @@ export function surveyAnswerReducer(state = initialSurveyAnswerState, action: Su
       });
     }
 
+    case SurveyAnswerActionTypes.LOADONE_SUCCESS: {
+      return surveyAnswerAdapter.addOne(dataTransform([action.payload.data])[0], { ...state });
+    }
+
     default:
       return state;
   }

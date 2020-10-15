@@ -11,7 +11,7 @@ import {
   SurveyAnswerLoadAction,
   SurveyAnswerLoadSuccessAction,
   SurveyAnswerLoadFailAction,
-  SurveyAnswerActionTypes
+  SurveyAnswerActionTypes, SurveyAnswerLoadOneAction, SurveyAnswerLoadOneSuccessAction
 } from '../actions/survey-answer.actions';
 
 import { SurveyAnswerRequest } from '../../../../models/survey-answer.model';
@@ -27,6 +27,18 @@ export class SurveyAnswerEffects {
     switchMap((params: SurveyAnswerRequest) =>
       this.answerService.getAnswers(params).pipe(
         map((response: any) => new SurveyAnswerLoadSuccessAction(response)),
+        catchError((error) => of(new SurveyAnswerLoadFailAction(error)))
+      )
+    )
+  );
+
+  @Effect()
+  public loadOne = this.actions.pipe(
+    ofType<SurveyAnswerLoadOneAction>(SurveyAnswerActionTypes.LOADONE),
+    map((action) => action.payload),
+    switchMap((params: SurveyAnswerRequest) =>
+      this.answerService.getAnswer(params).pipe(
+        map((response: any) => new SurveyAnswerLoadOneSuccessAction(response)),
         catchError((error) => of(new SurveyAnswerLoadFailAction(error)))
       )
     )

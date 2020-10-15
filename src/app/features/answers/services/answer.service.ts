@@ -42,9 +42,9 @@ export class AnswerService {
    * Get single answer by answer id
    * @param request : AnswerRequest
    */
-  public getAnswer(request: AnswerRequest): Observable<AnswerResponse> {
+  public getAnswer(request: AnswerRequest | SurveyAnswerRequest): Observable<AnswerResponse> {
     this.logger.debug('AnswerService', 'getAnswer', 'retrieving...');
-    const url = `${this.BASE_URL}/surveys/${request.surveyId}/answer/${request.id}`;
+    const url = `${this.BASE_URL}/surveys/${request.surveyId}/answers/${request.id}`;
     const options = { headers: this.authService.setHttpSecurityHeaders() };
 
     return this.httpClient.get<AnswerResponse>(url, options);

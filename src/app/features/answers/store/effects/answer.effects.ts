@@ -17,7 +17,7 @@ import {
   SubmitAnswerFailureAction
 } from '../actions/answer.actions';
 
-import { AnswerRequest, AnswerResponse, AnswersWrapper } from '../../../../models/answer.model';
+import { AnswerRequest, AnswerResponse } from '../../../../models/answer.model';
 
 @Injectable()
 export class AnswerEffects {

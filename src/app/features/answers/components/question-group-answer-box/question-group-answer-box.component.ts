@@ -20,11 +20,20 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   @Output() submitted = new EventEmitter();
   @Input() answerId: number;
 
+  get isSurveyEnd(): boolean {
+    return this.surveyEnd && !this.answerId;
+  }
+
+  get hasNext(): boolean {
+    return !this.surveyEnd;
+  }
+
   public group: QuestionGroup;
   public surveyId: number;
 
-  private index = 0;
+  public pageIndex: number;
 
+  private surveyEnd: boolean;
   private answerWrapper: AnswersWrapper;
 
   private mandatoryCompleted = false;
@@ -34,13 +43,11 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   private matrixCheckCompleted = false;
   private matrixRadioCompleted = false;
 
-  public surveyEnd: boolean;
-
-  constructor(private store: Store<AppState>,
-  ) { }
+  constructor(private store: Store<AppState>) {
+    this.pageIndex = 0;
+  }
 
   ngOnInit(): void {
-    this.surveyEnd = false;
     this.group = this.questionGroups[0];
     this.surveyId = this.group.survey;
 
@@ -55,14 +62,20 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   onNextGroup(): void {
-    if (this.index < this.questionGroups.length - 1 && this.canContinue) {
-      this.index++;
-      this.group = this.questionGroups[this.index];
+    if ((this.pageIndex < this.questionGroups.length - 1 && this.canContinue) || this.answerId) {
+      this.pageIndex += 1;
+      this.group = this.questionGroups[this.pageIndex];
 
-      if (this.index === this.questionGroups.length - 1) {
+      if (this.pageIndex === this.questionGroups.length - 1) {
         this.surveyEnd = true;
       }
     }
+  }
+
+  onPreviousGroup(): void {
+    this.pageIndex -= 1;
+    this.group = this.questionGroups[this.pageIndex];
+    this.surveyEnd = false;
   }
 
   submitSurveyAnswers(): void {
@@ -72,39 +85,34 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
       payload = {
         email: this.userUnlocked.email,
         password: this.userUnlocked.password,
-        answers: [ ...this.answerWrapper.answers]
+        answers: [...this.answerWrapper.answers],
       };
-
     } else {
-      payload = { answers: [ ...this.answerWrapper.answers ] };
+      payload = { answers: [...this.answerWrapper.answers] };
     }
 
-    this.store.dispatch(new SubmitAnswersAction(
-      {
+    this.store.dispatch(
+      new SubmitAnswersAction({
         surveyId: this.surveyId,
-        answerWrapper: payload
-      } as AnswerRequest
-    ));
+        answerWrapper: payload,
+      } as AnswerRequest)
+    );
 
     this.submitted.emit(true);
-
   }
 
-  // onPreviousGroup(): void {
-  //   if (this.index > 0) {
-  //     this.index--;
-  //     this.group = this.questionGroups[this.index]; }
-  // }
-
   updateMandatoryQuestion(): void {
-    this.mandatoryQuestion = this.questionGroups[this.index].questions.filter(
-      (item) => item.mandatory == true
-    );
+    this.mandatoryQuestion = this.questionGroups[
+      this.pageIndex
+    ].questions.filter((item) => item.mandatory == true);
   }
 
   updateWrapper(event): void {
     const notEmptyAnswer = event.answers.filter(
-      (item) => (item.answer && item.answer.length > 0) || (item.answerPair && item.answerPair.length > 0 || (item.answersPair && item.answersPair.length > 0))
+      (item) =>
+        (item.answer && item.answer.length > 0) ||
+        (item.answerPair && item.answerPair.length > 0) ||
+        (item.answersPair && item.answersPair.length > 0)
     );
     this.mandatoryCompleted = this.areMandatoryCompleted(notEmptyAnswer);
 
@@ -112,25 +120,29 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     this.isMatrixRadioAnswerCompleted(notEmptyAnswer);
 
     if (this.mandatoryCompleted) {
-
-
       if (this.matrixCheckCompleted && this.matrixRadioCompleted) {
         this.answerWrapper.answers = notEmptyAnswer;
         this.canContinue = true;
       } else {
         this.canContinue = false;
       }
-
     }
-
   }
 
   areMandatoryCompleted(answerList): boolean {
-
     if (this.mandatoryQuestion.length !== 0) {
-      for (let i = 0; i < this.mandatoryQuestion.length && this.mandatoryCompleted; i++) {
-        if (!answerList.find(
-          (obj) => obj.questionId === this.mandatoryQuestion[i].id && obj.questionType === this.mandatoryQuestion[i].questionType)) {
+      for (
+        let i = 0;
+        i < this.mandatoryQuestion.length && this.mandatoryCompleted;
+        i++
+      ) {
+        if (
+          !answerList.find(
+            (obj) =>
+              obj.questionId === this.mandatoryQuestion[i].id &&
+              obj.questionType === this.mandatoryQuestion[i].questionType
+          )
+        ) {
           return false;
         }
       }
@@ -138,18 +150,20 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
     } else return true;
   }
 
-
   isMatrixCheckAnswerCompleted(answerList): void {
-
     let multiCheckQuestion: MatrixQuestion[] = this.group.questions.filter(
-      (item) => item.questionType === 'App\\MatrixQuestion' && item.type == 'CHECK' && item.mandatory === true) as MatrixQuestion[];
+      (item) =>
+        item.questionType === 'App\\MatrixQuestion' &&
+        item.type == 'CHECK' &&
+        item.mandatory === true
+    ) as MatrixQuestion[];
 
     if (multiCheckQuestion.length != 0) {
-
       multiCheckQuestion.forEach((item) => {
         let questionNumber = item.elements.length;
         let result = answerList.find(
-          (obj) => obj.questionId === item.id && obj.questionType === item.questionType
+          (obj) =>
+            obj.questionId === item.id && obj.questionType === item.questionType
         );
 
         if (result) {
@@ -160,29 +174,27 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
           }
         }
       });
-
     } else this.matrixCheckCompleted = true;
-
   }
 
-
   isMatrixRadioAnswerCompleted(answerList): void {
-
     let multiRadioQuestion: MatrixQuestion[] = this.group.questions.filter(
-      (item) => item.questionType === 'App\\MatrixQuestion' && item.type == 'RADIO' && item.mandatory == true
+      (item) =>
+        item.questionType === 'App\\MatrixQuestion' &&
+        item.type == 'RADIO' &&
+        item.mandatory == true
     ) as MatrixQuestion[];
 
     if (multiRadioQuestion.length != 0) {
-
       multiRadioQuestion.forEach((item) => {
         let questionNumber = item.elements.length;
 
         let result = answerList.find(
-          (obj) => obj.questionId === item.id && obj.questionType === item.questionType
+          (obj) =>
+            obj.questionId === item.id && obj.questionType === item.questionType
         );
 
         if (result) {
-
           if (result.answerPair.length !== questionNumber) {
             this.matrixRadioCompleted = false;
           } else {
@@ -190,9 +202,6 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
           }
         }
       });
-
-    }
-    else this.matrixRadioCompleted = true;
-  };
-
+    } else this.matrixRadioCompleted = true;
+  }
 }
