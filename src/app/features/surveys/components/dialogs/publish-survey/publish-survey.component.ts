@@ -76,6 +76,7 @@ export class PublishSurveyComponent implements OnInit {
     } else {
       if (this.survey.active) {
         const payload = Utils.deleteNullKey({ ...this.survey });
+        delete payload.icon;
         this.store.dispatch(new SurveyUpdateAction({ ...payload, active: false }));
       } else {
         this.store.dispatch(new SurveyPublishAction(
@@ -89,7 +90,7 @@ export class PublishSurveyComponent implements OnInit {
 
   hasQuestions(): boolean {
     if (this.data.survey.questionGroups && this.data.survey.questionGroups.length) {
-      return !(this.data.survey.questionGroups.find( group => (group.questions == null)) !== undefined);
+      return !(this.data.survey.questionGroups.find(group => (group.questions == null)) !== undefined);
     }
     return false;
   }

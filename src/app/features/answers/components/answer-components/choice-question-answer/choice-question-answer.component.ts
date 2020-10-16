@@ -101,6 +101,12 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     this.optionSelected.emit(this.choiceAnswer);
   }
 
+  choiceSelectAnswerChange(option): void {
+
+    this.choiceAnswer.answer = option;
+    this.optionSelected.emit(this.choiceAnswer);
+  }
+
   choiceCheckAnswerChange(event, option): void {
     if (this.checkAnswer.answers.includes(option)) {
       this.checkAnswer.answers = this.checkAnswer.answers.filter(
@@ -109,12 +115,6 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     } else {
       this.checkAnswer.answers.push(option);
     }
-    this.optionSelected.emit(this.checkAnswer);
-  }
-
-  choiceSelectAnswerChange(option): void {
-
-    this.checkAnswer.answer = option;
     this.optionSelected.emit(this.checkAnswer);
   }
 

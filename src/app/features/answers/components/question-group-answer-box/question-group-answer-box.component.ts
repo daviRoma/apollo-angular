@@ -108,11 +108,16 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   updateWrapper(event): void {
+
+    console.log("EVENT", event);
+
+
     const notEmptyAnswer = event.answers.filter(
       (item) =>
         (item.answer && item.answer.length > 0) ||
+        (item.answers && item.answers.length > 0) ||
         (item.answerPair && item.answerPair.length > 0) ||
-        (item.answersPair && item.answersPair.length > 0)
+        (item.answersPair && item.answersPair.length > 0) 
     );
     this.mandatoryCompleted = this.areMandatoryCompleted(notEmptyAnswer);
 
@@ -121,7 +126,9 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
     if (this.mandatoryCompleted) {
       if (this.matrixCheckCompleted && this.matrixRadioCompleted) {
+
         this.answerWrapper.answers = notEmptyAnswer;
+
         this.canContinue = true;
       } else {
         this.canContinue = false;

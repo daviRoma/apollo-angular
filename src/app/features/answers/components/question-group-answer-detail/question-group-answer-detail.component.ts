@@ -36,6 +36,9 @@ export class QuestionGroupAnswerDetailComponent implements OnInit {
   }
 
   updateWrapper(event): void {
+
+    console.log("Updating", event);
+
     let result = this.answerGroup.answers.find(
       (item) =>
         item.questionId == event.questionId &&
