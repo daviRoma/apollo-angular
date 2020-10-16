@@ -218,6 +218,7 @@
     "title": "Question",
     "options": "Options",
     "edit": "Edit Question",
+    "dateInput": "Insert date...",
     "placeholdertitle": "Question title...",
     "optionplaceholder": "Answer text",
     "inputquestion": "Open Question",

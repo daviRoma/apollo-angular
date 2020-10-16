@@ -22,7 +22,6 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   public choiceAnswer: SingleAnswer;
   public checkAnswer: MultiAnswer;
 
-  public selectedValue: string;
   public readOnly: boolean;
   public otherChoice: string;
 
@@ -45,43 +44,67 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     // View answer
     if (this.answers) {
       this.readOnly = true;
-      this.showAnswer();
     }
 
   }
 
-  showAnswer(): void {
-    const answer = this.answers.find(answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'));
-    let options = [...this.question.options].map(op => ({ id: op.id, value: op.value, checked: false }));
+  isChecked(option: any): boolean {
+    let checked = false;
+    const answer = this.answers.find(
+      answ => (
+        answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
+      )
+    );
 
-    if (answer) {
-      // Find answer
-      options = options.map(op => {
-        answer.answers.forEach(value => {
-          if (op.value === value) {
-            op.checked = true;
-            if (this.question.type === 'SELECT') this.selectedValue = op.value;
-          }
-        });
-        return op;
-      });
-
-      if (answer.answers.length > 1) {
-        const optionsTemp = options.filter(op => op.checked);
-        if (optionsTemp.length !== answer.answers.length) {
-          answer.answers.forEach(value => {
-            if (!options.find(op => op.value === value)) {
-              this.otherChoice = value;
-              return;
-            }
-          });
-        }
-      } else if (!this.question.options.find(op => op.checked)) {
-        this.otherChoice = answer.answers[0];
+    answer.answers.forEach(value => {
+      if (value === option.value) {
+        checked = true;
       }
-      this.question = { ...this.question, options: [ ...options] };
-    }
+    });
+    return checked;
+  }
 
+  hasOtherChoice(): boolean {
+    const answer = this.answers.find(
+      answ => (
+        answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
+      )
+    );
+
+    answer.answers.forEach(value => {
+      if (!this.question.options.find(op => op.value === value)) {
+        this.otherChoice = value;
+        return;
+      }
+    });
+
+    return this.otherChoice !== null;
+  }
+
+  getSelected(): string {
+    if (!this.answers) return null;
+    let options = [...this.question.options].map(op => ({ id: op.id, value: op.value, selected: false }));
+    let selectedValue;
+    const answer = this.answers.find(
+      answ => (
+        answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
+      )
+    );
+
+    answer.answers.forEach(value => {
+      if (options.find(op => op.value === value)) {
+        options.find(op => op.value === value).selected = true;
+        selectedValue = value;
+        return;
+      }
+    });
+
+    this.question = {
+      ...this.question,
+      options: [ ...options ]
+    };
+
+    return selectedValue;
   }
 
   // GESTIRE LA RIMOZIONE

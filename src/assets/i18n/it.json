@@ -217,6 +217,7 @@
     "title": "Domanda",
     "options": "Opzioni",
     "edit": "Modifica Domanda",
+    "dateInput": "Inserisci una data...",
     "placeholdertitle": "Titolo della domanda...",
     "optionplaceholder": "Inserisci opzione...",
     "inputquestion": "Domanda aperta",

@@ -48,18 +48,17 @@
 									<div *ngIf="readOnly">
 										<input type="checkbox" class="custom-control-input"
 											id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
-											(click)="checkMatrixAnswerChange(element.id, option.value)"
-                      [value]="option.value"
                       [checked]="isChecked(option, element)"
                       [disabled]="readOnly">
                     <label class="custom-control-label" for="{{ 'element_'  + i + '_' + b + '_'  + question.id}}"></label>
                   </div>
                   <!-- Answer -->
                   <div *ngIf="!readOnly">
-                    <input type="checkbox" class="custom-control-input"
-                    id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
-                    (click)="checkMatrixAnswerChange(element.id, option.value)"
-                    [value]="option.value">
+                    <input
+                      type="checkbox" class="custom-control-input"
+                      id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
+                      (click)="checkMatrixAnswerChange(element.id, option.value)"
+                      [value]="option.value">
                     <label class="custom-control-label" for="{{ 'element_'  + i + '_' + b + '_'  + question.id}}"></label>
                   </div>
 
@@ -70,7 +69,6 @@
                   <div *ngIf="readOnly">
                     <input type="radio" id="{{ 'element_'  + i + '_' + b + '_' + question.id}}"
                       name="{{ 'radio_' + i + '_' + question.id}}" class="custom-control-input"
-                      (click)="radioMatrixAnswerChange(element.id, option.value)"
                       [checked]="isChecked(option, element)"
                       [disabled]="readOnly">
                     <label class="custom-control-label" for="{{ 'element_'  + i + '_' + b + '_' + question.id}}"></label>

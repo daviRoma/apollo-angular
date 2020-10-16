@@ -9,6 +9,6 @@ export const Paths = {
     detail: '/users/useroverview',
   },
   surveyAnswer: {
-    publicLink: 'http://localhost:4200/answer/surveyanswer/'
+    publicLink: 'http://localhost:4200/answer/surveyanswer'
   }
 };

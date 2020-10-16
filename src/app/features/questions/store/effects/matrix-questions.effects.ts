@@ -92,9 +92,7 @@ export class MatrixQuestionEffects {
     map((action) => action.payload),
     switchMap((request: QuestionRequest) =>
       this.questionService.updateMatrixQuestion(request).pipe(
-        map((response: any) =>
-          of(new MatrixQuestionUpdateSuccessAction(response))
-        ),
+        map((response: any) => new MatrixQuestionUpdateSuccessAction(response)),
         catchError((error) => of(new MatrixQuestionUpdateFailureAction(error)))
       )
     )

@@ -26,7 +26,7 @@ const routes: Routes = [
     path: 'survey',
     component: LayoutBaseComponent,
     loadChildren: () =>
-      import(`./pages/page.module`).then((m) => m.PageModule),
+      import(`./pages/survey/survey-page.module`).then((m) => m.SurveyPageModule),
     canActivate: [AuthGuard],
   },
   {

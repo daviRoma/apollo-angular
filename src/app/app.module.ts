@@ -49,6 +49,8 @@ import { ChoiceQuestionAnswerEffects } from 'src/app/features/answers/store/effe
 import { MatrixQuestionAnswerEffects } from 'src/app/features/answers/store/effects/matrix-questions-answer.effects';
 
 import { reducers } from 'src/app/state/app.state';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 // AoT requires an exported function for factories
@@ -109,6 +111,7 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     MatDialogModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

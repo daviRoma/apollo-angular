@@ -121,7 +121,7 @@
         <!-- Advanced option -->
         <div class="form-group mt-3">
           <app-advanced [mandatory]="matrixQuestion ? matrixQuestion.mandatory : false"
-            [file]="matrixQuestion ? matrixQuestion.icon : null"></app-advanced>
+            [file]="matrixQuestion ? matrixQuestion.icon : null" (advancedOptions)="advancedOptionChange($event)"></app-advanced>
         </div>
       </div>
     </div>
