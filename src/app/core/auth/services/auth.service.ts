@@ -4,17 +4,15 @@ import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 
 import { Observable } from 'rxjs';
 
-import { HttpClient } from '@angular/common/http';
-import { serverConfiguration } from 'src/app/shared/server.conf';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { serverConfiguration } from 'src/app/shared/config/server.conf';
 
 import * as moment from 'moment';
 
-import { User } from 'src/app/models/user.model';
-
+import { RegistrationRequest, User } from 'src/app/models/user.model';
 
 @Injectable()
 export class AuthService {
-
   private BASE_URL = serverConfiguration.api;
 
   constructor(
@@ -23,29 +21,34 @@ export class AuthService {
     private jwtHelper: JwtHelperService
   ) {}
 
-
   /**
    * Login the given user:
    *
    * @param username username
    * @param password password
    */
-  public doLogin(
-    email: string,
-    password: string,
-    redirectUrl: string
-  ): Observable<User> {
+  public doLogin(email: string, password: string): Observable<User> {
     const url = `${this.BASE_URL}/auth/login`;
     return this.http.post<User>(url, { email, password });
   }
 
-  public signUp(username: string, email: string,  password: string): Observable<User> {
-    const url = `${this.BASE_URL}/auth/register`;
-    return this.http.post<User>(url, { username, email, password });
+  public signUp(request: RegistrationRequest): Observable<User> {
+    const url = `${this.BASE_URL}/users`;
+    return this.http.post<User>(url, request);
   }
 
   public logout(): void {
-    // this.router.navigate(['/auth/login']);
+    localStorage.clear();
+    this.router.navigate(['/auth/login']);
+  }
+
+  public getCurrentUser(): Observable<User> {
+    if (this.isAuthenticated) {
+      const url = `${this.BASE_URL}/users/${localStorage.getItem('user_id')}`;
+      return this.http.get<User>(url, {
+        headers: this.setHttpSecurityHeaders(),
+      });
+    }
   }
 
   public isAuthenticated(): boolean {
@@ -55,6 +58,7 @@ export class AuthService {
   }
 
   public isLoggedOut(): void {
+    localStorage.setItem('token', null);
     // TO DO: check when the user is logged out
   }
 
@@ -68,24 +72,20 @@ export class AuthService {
     return moment(expiresAt);
   }
 
+  public setHttpSecurityHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.getToken(),
+    });
+  }
+
+  public setStorage(data: any): void {
+    localStorage.setItem('token', data.access_token);
+    localStorage.setItem('expires_in', data.expires_in);
+    localStorage.setItem('user_id', data.user.id);
+  }
+
   private getToken(): string {
-    return localStorage.getItem('id_token');
-  }
-
-  private getCurrentUser(): Observable<object> {
-    const obs: Observable<object> = new Observable((observer) => {});
-    // TO DO: get the current user from user session
-    return obs;
-  }
-
-  /**
-   * Tranform a given email to username
-   * @param email user email
-   */
-  private toUsername(email): string {
-    // tslint:disable-next-line: curly
-    if (!email) return '';
-
-    return email.replace('@', '-at-');
+    return localStorage.getItem('token');
   }
 }

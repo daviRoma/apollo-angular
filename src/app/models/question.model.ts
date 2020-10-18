@@ -2,29 +2,51 @@
  * Question classes.
  */
 
+import { ApolloResponse } from './apollo-response.model';
+import { Icon } from './icon.model';
+
 export class Question {
-  id: string;
+  id: number;
+  idDB?: number;
   title: string;
   mandatory: boolean;
-  creationDate: Date;
+  icon?: Icon;
+  createDate?: Date;
+  questionType: string;
+  type?: string;
+  survey?: number;
+  questionGroup?: number;
+  position?: number;
 }
 
 export class InputQuestion extends Question {
-  inputType: string;
+  type: string;
 }
 
 export class ChoiceQuestion extends Question {
-  choiceType: string;
-  options: string[];
-  otherChoice: boolean;
-}
-
-export class SelectionQuestion extends Question {
-  options: string[];
+  options: any[];
+  other: boolean;
 }
 
 export class MatrixQuestion extends Question {
-  choiceType: string;
-  options: string[];
-  optionValues: string[];
+  options: any[];
+  elements: any[];
 }
+
+export class ChoiceOption {
+  id: number;
+  value: string;
+}
+
+export class ChoiceOptionValue {
+  id: number;
+  value: string;
+}
+
+export class QuestionRequest {
+  surveyId: number;
+  questionGroupId: number;
+  question: Question | ChoiceQuestion | MatrixQuestion;
+}
+
+export class QuestionResponse extends ApolloResponse {}

@@ -1,0 +1,37 @@
+<!-- ANSWER STATS COMPONENTS -->
+
+<!-- Answers -->
+<div *ngIf="question == null" id="answers_paceholder" class="row justify-content-center">
+  <div class="col-12 text-center">
+  </div>
+  <div class="col-4 mt-5 mb-3">
+    <span>{{ 'question.noquestion' | translate }}</span>
+  </div>
+</div>
+
+<!-- Answers container -->
+<div *ngIf="question != null" id="answers_container">
+
+  <!-- Question Title -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <h6 id="question_title" class="text-sm mb-0">
+        {{ question.title }}
+      </h6>
+    </div>
+  </div>
+
+  <!-- Answers -->
+  <div *ngIf="question.questionType === 'App\\MultiQuestion'">
+    <app-choice-answer-stats [data]="dataAggregation"></app-choice-answer-stats>
+  </div>
+
+  <div *ngIf="question.questionType === 'App\\InputQuestion'">
+    <app-input-answer-stats [data]="dataAggregation" [type]="question.type"></app-input-answer-stats>
+  </div>
+
+  <div *ngIf="question.questionType === 'App\\MatrixQuestion'">
+    <app-matrix-answer-stats [data]="dataAggregation"></app-matrix-answer-stats>
+  </div>
+</div>
+<!-- ./Answers container -->

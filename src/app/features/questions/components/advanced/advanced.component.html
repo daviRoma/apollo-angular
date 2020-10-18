@@ -1,0 +1,72 @@
+<!-- ADVANCED OPTION -->
+<div class="input-file-container">
+  <div id="accordion-file" class="accordion accordion-spaced">
+    <div class="card border shadow-none">
+      <div
+        class="card-header shadow-none no-border force-padding-10 bg-primary text-white"
+        id="heading-1-3"
+        data-toggle="collapse"
+        role="button"
+        data-target="#collapse-file-input"
+        aria-expanded="false"
+        aria-controls="collapse-file-input"
+      >
+        <div class="mb-0 form-control-label text-white">
+          <i class="far fa-cog mr-3"></i>
+          {{ "common.advanced" | translate }}
+        </div>
+      </div>
+
+      <div
+        id="collapse-file-input"
+        class="collapse"
+        aria-labelledby="heading-1-3"
+        data-parent="#accordion-file"
+      >
+        <div class="card-body shadow-none">
+          <div class="col-12">
+            <!-- Mandatory -->
+            <div class="form-group custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="mandatory"
+                name="mandatory"
+                [value]="mandatory"
+                (change)="onMandatoryChange($event)"
+                class="custom-control-input form-element"
+              />
+              <label
+                class="custom-control-label form-control-label"
+                for="mandatory"
+                >{{ "common.mandatory" | translate }}</label
+              >
+            </div>
+          </div>
+
+          <!-- File -->
+          <div class="form-control-label">
+            <input
+              type="file"
+              id="questionfile"
+              name="questionfile"
+              class="custom-input-file"
+              accept=".png, .jpg, .jpeg"
+              data-max-size="5"
+              (change)="onFileChange($event)"
+            />
+            <label for="questionfile"
+              ><i class="fa fa-upload"></i
+              ><span id="questionfile_label">{{
+                file ? file.name : ("file.title" | translate)
+              }}</span></label
+            >
+            <span *ngIf="isError" id="file_error" class="text-danger text-xs"
+              >*{{ "file.msg" | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ./Accordion -->
+</div>

@@ -1,0 +1,96 @@
+<!-- NEW/EDIT SURVEY MODAL -->
+<h2 mat-dialog-title> {{dialogConfig.title}} </h2>
+
+<form id="survey_form" [formGroup]="surveyForm" class="form-horizontal" (ngSubmit)="onSubmit($event)">
+
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+
+          <!-- TITLE -->
+          <div class="form-group">
+            <label for="name" class="form-control-label">{{ 'common.name' | translate }}</label>
+            <input type="text" formControlName="name" class="form-control form-element" maxlength="80" minlength="6" required/>
+            <mat-error class="font-weight-bold text-danger text-xs mx-1"
+            *ngIf=" (surveyForm.get('name').hasError('required') || surveyForm.get('name').hasError('minlength')) && surveyForm.get('name').touched">*{{ 'error.fieldSize' | translate }}</mat-error>
+          </div>
+
+          <!-- DESCRIPTION -->
+          <div class="row">
+              <div class="col-12">
+                  <div class="form-group">
+                      <label for="description" class="form-control-label">{{ 'common.description' | translate }}</label>
+                      <textarea formControlName="description" class="form-control form-element" data-toggle="autosize" rows="2"></textarea>
+                  </div>
+              </div>
+          </div>
+
+          <!-- SECRET -->
+          <div class="row">
+              <div class="col-6 my-1">
+                  <div class="form-group custom-control custom-switch">
+                      <input type="checkbox" formControlName="secret" class="custom-control-input form-element" name="secret" id="secret">
+                      <label class="custom-control-label form-control-label" for="secret">{{ 'survey.secret' | translate }}</label>
+                  </div>
+              </div>
+          </div>
+
+          <!--  DATES -->
+          <div class="row">
+              <div class="col-6">
+                  <div class="form-group">
+                      <label for="startDate" class="form-control-label">{{ 'survey.startDate' | translate }}</label>
+                      <input type="date" name="startDate" formControlName="startDate" class="form-control form-element"/>
+                  </div>
+              </div>
+              <div class="col-6">
+                  <div class="form-group">
+                      <label for="endDate" class="form-control-label">{{ 'survey.endDate' | translate }}</label>
+                      <input type="date" name="endDate" formControlName="endDate" class="form-control form-element"/>
+                  </div>
+              </div>
+              <small *ngIf="dateError" class="text-danger col-12 pl-3 pr-3 pb-3">*{{ 'error.datedisclamer' | translate }}</small>
+          </div>
+
+          <!-- Icon container -->
+          <div class="row">
+              <div class="col-12">
+                  <div class="form-group mb-0">
+                      <label class="form-control-label mb-0">{{ 'common.icon' | translate }}</label>
+
+                      <!-- File -->
+                      <div class="form-control-label">
+                        <input type="file" id="surveyIcon" name="surveyIcon" class="custom-input-file" accept=".png, .jpg, .jpeg"
+                          data-max-size="5" (change)="onFileChange($event)" />
+                        <label for="surveyIcon">
+                          <i class="fa fa-upload"></i>
+                          <span>{{file ? file.name : 'file.title' | translate }}</span>
+                        </label>
+                        <span *ngIf="isFileError" id="file_error" class="text-danger text-xs">*{{ 'error.file.msg' | translate }}</span>
+                      </div>
+
+                  </div>
+              </div>
+              <div class="col-10">
+                  <span id="file_error" class="text-danger text-sm hidden"></span>
+              </div>
+          </div>
+
+          <!-- Error container -->
+          <div class="row">
+              <div class="col-10 pt-2 pb-1 mt-2">
+                  <span id="errors" class="text-danger text-sm hidden"></span>
+              </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <div class="text-right buttons-container">
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+      <button type="submit" class="btn btn-sm btn-primary rounded-pill">{{ 'common.send' | translate }}</button>
+    </div>
+  </div>
+</form>

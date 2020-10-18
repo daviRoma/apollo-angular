@@ -1,0 +1,42 @@
+<!-- Page title -->
+<div class="col-12 page-title my-4">
+
+    <div class="row mb-2">
+
+        <img class="col-auto logo my-auto mx-auto" src="/assets/dist/img/icons/custom/logo.svg">
+
+    </div>
+</div>
+
+
+<div id="modal_holder"></div>
+
+<div class="modal hide fade" id="answered_modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="modal-title align-items-center">
+					<!-- MODAL TITLE -->
+					<h6 class="mb-0">{{ 'common.warning' | translate }}</h6>
+				</div>
+			</div>
+			<div class="modal-body">
+				<p>{{ 'survey.alreadyanswered' | translate }}</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger rounded-pill" data-dismiss="modal">{{ 'common.cancel' | translate }}</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card col-lg-6 col-md-6 col-sm-10 mx-auto mt-7">
+	<div class="card-body p-5 mx-auto">
+		<div class="row justify-content-center">
+			<h4 class="card-title mx-auto col-auto">{{ 'survey.issecret' | translate }}</h4>
+			<p class="col-12 mx-auto text-center mb-0">{{ 'survey.privatemessage' | translate }}</p>
+			<button type="button" class="btn btn-primary rounded-pill mt-3" (click)="openAccessSecretDialog()">{{ 'common.enter' | translate }}</button>
+		</div>
+
+	</div>
+</div>

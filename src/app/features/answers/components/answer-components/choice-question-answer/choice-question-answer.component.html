@@ -1,0 +1,102 @@
+<!-- CHOICE QUESTION -->
+<div class="col-12 card border shadow-none mb-0 p-3">
+
+  <!-- Question Title -->
+  <div class="m-1">
+    <h6 class="mb-0">
+      <span class="text-danger" *ngIf="question.mandatory">*</span>
+      {{question.title}}
+    </h6>
+  </div>
+
+  <div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
+
+    <div *ngIf="question.icon != null" class="col-auto">
+      <div class="rounded-lg shadow">
+        <img class="rounded-lg border question-image" src="{{question.icon.data}}">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Question options -->
+  <div class="row">
+
+    <div *ngIf="question.type == 'RADIO'" class="col-12 px-3 py-2">
+      <!-- OPTIONS -->
+      <div *ngFor="let option of question.options; index as i" class="custom-control custom-radio">
+        <input
+          *ngIf="!readOnly"
+          type="radio"
+          id="{{'customRadio_' + i  + '_' + question.id}}"
+          name="customRadio"
+          class="custom-control-input" value="{{option}}"
+          (change)="choiceRadioAnswerChange($event, option.value)">
+        <input
+          *ngIf="readOnly"
+          type="radio"
+          id="{{'customRadio_' + i  + '_' + question.id}}"
+          name="customRadio"
+          class="custom-control-input" value="{{option}}"
+          [checked]="isChecked(option)"
+          [disabled]="readOnly">
+        <label class="custom-control-label" for="{{'customRadio_' + i  + '_' + question.id}}">{{option.value}}</label>
+      </div>
+
+      <!-- Other -->
+      <div *ngIf="question.other" class="custom-control custom-radio">
+        <input *ngIf="readOnly" type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" [checked]="hasOtherChoice()" [disabled]="readOnly">
+        <input *ngIf="!readOnly" type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" (click)="choiceRadioOtherAnswerChange($event)">
+
+        <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
+          <div class="border-bottom custom-input-text">
+            <input type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" id="{{'other_choice-answer-' + question.id}}" [value]="otherChoice" [disabled]="readOnly"/>
+          </div>
+        </label>
+
+      </div>
+    </div>
+
+    <div *ngIf="question.type == 'CHECK'" class="col-12 px-3 py-2">
+      <!-- OPTIONS -->
+      <div *ngFor="let option of question.options; index as i" class="custom-control custom-checkbox">
+        <input
+          *ngIf="!readOnly"
+          type="checkbox"
+          class="custom-control-input"
+          id="{{'customCheck' + i + '_' + question.id}}"
+          (click)="choiceCheckAnswerChange($event, option.value)">
+        <input
+          *ngIf="readOnly"
+          type="checkbox"
+          class="custom-control-input"
+          id="{{'customCheck' + i + '_' + question.id}}"
+          [checked]="isChecked(option)"
+          [disabled]="readOnly">
+        <label class="custom-control-label" for="{{'customCheck' + i  + '_' + question.id}}">{{option.value}}</label>
+      </div>
+
+      <!-- Other -->
+      <div *ngIf="question.other" class="custom-control custom-checkbox">
+        <input *ngIf="!readOnly" type="checkbox" id="{{'other_choice-' + question.id }}" name="customCheck" class="custom-control-input" (click)="choiceCheckOtherAnswerChange($event)">
+        <input *ngIf="readOnly" type="checkbox" id="{{'other_choice-' + question.id }}" name="customCheck" class="custom-control-input" [checked]="hasOtherChoice()" [disabled]="readOnly">
+        <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
+          <div class="border-bottom custom-input-text">
+            <input type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" id="{{'other_choice-answer-' + question.id}}" [value]="otherChoice" [disabled]="readOnly"/>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div *ngIf="question.type == 'SELECT'" class="col-12 px-3 py-2">
+
+      <select id="{{'select-' + question.id }}" class="custom-select" (change)="choiceSelectAnswerChange($event.target.value)" [value]="getSelected()" [disabled]="readOnly">
+        <option value="" selected disabled hidden>{{ 'common.choose' | translate }}</option>
+        <option *ngFor="let option of question.options" [value]="option.value" [selected]="option.selected">
+          {{option.value}}
+        </option>
+      </select>
+
+    </div>
+  </div>
+</div>

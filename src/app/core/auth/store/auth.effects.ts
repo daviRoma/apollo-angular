@@ -6,12 +6,15 @@ import { Router } from '@angular/router';
 import { Actions, ofType, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
-import { switchMap, catchError, tap } from 'rxjs/operators';
+import { switchMap, catchError, tap, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 
-import { AuthActionTypes, LogInSuccess, LogInFailure, RegistrationSuccess, RegistrationFailure } from './auth.actions';
+import { AuthActionTypes, LogInSuccess, LogInFailure, RegistrationSuccess, RegistrationFailure, LoadSessionUser, LoadSessionUserSuccess, LoadSessionUserFailure, LogOut, Registration } from './auth.actions';
+
+import { Paths } from 'src/app/shared/config/path.conf';
+import { RegistrationRequest, User } from 'src/app/models/user.model';
 
 @Injectable()
 export class AuthEffects {
@@ -27,22 +30,21 @@ export class AuthEffects {
   @Effect()
   LogIn: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN),
-    switchMap((request: any) => this.authService.doLogin(request.payload.email, request.payload.password, '')),
-    switchMap((loginResp: any) => of(new LogInSuccess(loginResp))),
-    catchError((loginResp: any) => {
-      console.error('[Login Error]', loginResp);
-      return of(new LogInFailure(loginResp));
-    })
+    switchMap(
+      (request: any) =>
+      this.authService.doLogin(request.payload.email, request.payload.password).pipe(
+        map((response: any) => new LogInSuccess(response)),
+        catchError((error: any) => of(new LogInFailure(error)))
+      )
+    )
   );
 
   @Effect({ dispatch: false })
   LogInSuccess: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((authResp: any) => {
-      console.log('resp', authResp);
-      localStorage.setItem('token', authResp.payload.access_token);
-      localStorage.setItem('expires_in', authResp.payload.expires_in);
-      this.router.navigateByUrl('/dashboard/survey-list');
+      this.authService.setStorage(authResp.payload);
+      this.router.navigateByUrl(Paths.userHome);
     })
   );
 
@@ -55,18 +57,19 @@ export class AuthEffects {
 
   @Effect()
   Registration: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.REGISTRATION),
-    switchMap((payload: any) => this.authService.signUp(payload.username, payload.email, payload.password)),
-    switchMap((signupResp: any) => of(new RegistrationSuccess(signupResp))),
-    catchError((signupResp: any) => of(new RegistrationFailure(signupResp)))
+    ofType<Registration>(AuthActionTypes.REGISTRATION),
+    map((action) => action.payload),
+    switchMap((request: RegistrationRequest) => this.authService.signUp(request).pipe(
+      map((response: User) => new RegistrationSuccess(response)),
+      catchError((error: any) => of(new RegistrationFailure(error)))
+    ))
   );
 
   @Effect({ dispatch: false })
   RegistrationSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.REGISTRATION_SUCCESS),
     tap((user) => {
-      localStorage.setItem('token', user.payload.token);
-      this.router.navigateByUrl('/dashboard/survey-list');
+      this.router.navigateByUrl('/auth/login');
     })
   );
 
@@ -77,10 +80,19 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   LogOut: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.LOGOUT),
-    tap((user) => {
-      localStorage.removeItem('token');
-    })
+    ofType<LogOut>(AuthActionTypes.LOGOUT),
+    tap(() => this.authService.logout())
+  );
+
+  @Effect()
+  public loadSessionUser = this.actions.pipe(
+    ofType<LoadSessionUser>(AuthActionTypes.LOAD_SESSIONUSER),
+    switchMap(() =>
+      this.authService.getCurrentUser().pipe(
+        map((response: User) => new LoadSessionUserSuccess({...response, token: localStorage.getItem('token')})),
+        catchError((error) => of(new LoadSessionUserFailure(error)))
+      )
+    )
   );
 
 }

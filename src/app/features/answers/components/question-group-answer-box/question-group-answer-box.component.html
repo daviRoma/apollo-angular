@@ -1,0 +1,19 @@
+<!-- QUESTION GROUP BOX -->
+<div class="card-body pb-0 pt-3 mb-3" title="group-container">
+
+  <app-question-group-answer-detail [questionGroup]="group" [answerId]="answerId" (answerChange)="updateWrapper($event)"></app-question-group-answer-detail>
+
+</div>
+
+<div class="row justify-content-center mx-4 mb-4">
+  <div class="col-6 text-left">
+    <button *ngIf="pageIndex" class="btn btn-primary rounded-pill" (click)="onPreviousGroup()">{{ 'common.previous' | translate }}</button>
+  </div>
+
+  <div class="col-6 text-right">
+
+    <button *ngIf="hasNext" class="btn btn-primary rounded-pill" (click)="onNextGroup()">{{ 'common.next' | translate }}</button>
+    <button *ngIf="isSurveyEnd" class="btn btn-primary rounded-pill" (click)="submitSurveyAnswers()">{{ 'common.save' | translate }}</button>
+
+  </div>
+</div>

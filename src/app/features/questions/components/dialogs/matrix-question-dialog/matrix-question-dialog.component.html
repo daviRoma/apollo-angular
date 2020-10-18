@@ -1,0 +1,137 @@
+<!-- MATRIX QUESTION DIALOG -->
+<h2 class="mat-dialog-title">{{dialogConfig.title}}</h2>
+
+<form id="input_question_form" enctype="multipart/form-data" [formGroup]="questionForm" (ngSubmit)="onSubmit($event)"  class="mb-4">
+  <div class="mat-dialog-content">
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- Question Text -->
+        <div class="form-group">
+          <label th:for="title" class="form-control-label">{{ 'question.title' | translate }} </label>
+          <input type="text" class="form-control" placeholder="{{ 'question.placeholdertitle' | translate }}" formControlName="title" data-toggle="autosize" required
+            size="255" maxlength="255" minlength="12" />
+          <mat-error class="font-weight-bold text-danger text-xs mx-1"
+            *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">{{ 'error.questionSize' | translate}}</mat-error>
+        </div>
+
+        <!-- Question options -->
+        <div class="row">
+
+          <div class="col-12">
+            <div id="accordion" class="accordion accordion-stacked">
+
+              <!-- Accordion card 1 -->
+              <div class="card">
+                  <div class="card-header no-border force-padding-10" id="heading-1-1" data-toggle="collapse" role="button" data-target="#collapse-theme" aria-expanded="false" aria-controls="collapse-1-1">
+                      <h6 class="mb-0"><i class="fas fa-ellipsis-h-alt mr-3"></i>{{ 'common.columns' | translate }}</h6>
+                  </div>
+                  <div id="collapse-theme" class="collapse" aria-labelledby="heading-1-1" data-parent="#accordion">
+                      <div class="card-body">
+
+                          <div class="row">
+                              <div class="col-12">
+                                  <!-- OPTIONS BLOCK -->
+                                  <div id="options_container">
+                                    <div *ngFor="let option of matrixQuestion.options; index as i" class="row form-group">
+                                      <div name="input_container" class="col-11">
+                                        <input class="form-control choice-input" type="text" placeholder="Inserisci opzione" [value]="option.value" (change)="onOptionChange($event, i)" required>
+                                      </div>
+                                      <!-- Delete Button -->
+                                      <div name="delete_container" class="col-1 align-self-center">
+                                        <span class="option-trash" (click)="deleteOption(option)"><i class="far fa-trash text-danger"></i></span>
+                                      </div>
+                                    </div>
+                                    <!-- Option error -->
+                                    <div class="row form-group">
+                                      <div *ngIf="isMinOptionsLengthError" id="option_length_error" class="col-10 px-3 align-self-center">
+                                        <span class="text-danger text-xs">*{{ 'error.matrixcolumnerror' | translate }}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- ADD BUTTON BLOCK -->
+                                  <div class="row justify-content-center align-items-center">
+                                      <button type="button" class="btn btn-sm btn-soft-primary btn-icon rounded-pill" (click)="addOption()">
+                                          <span class="btn-inner--icon"><i class="far fa-plus"></i></span>
+                                          <span class="btn-inner--text">{{ 'common.addcolumn' | translate }}</span>
+                                      </button>
+                                  </div>
+
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Accordion card 2 -->
+              <div class="card shadow-none">
+                <div class="card-header no-border force-padding-10 shadow-none" id="heading-1-2" data-toggle="collapse" role="button" data-target="#collapse-range" aria-expanded="false" aria-controls="collapse-1-2">
+                  <h6 class="mb-0"><i class="fas fa-ellipsis-v-alt mr-3"></i>{{ 'common.rows' | translate }}</h6>
+                </div>
+
+                <div id="collapse-range" class="collapse" aria-labelledby="heading-1-2" data-parent="#accordion">
+                  <div class="card-body shadow-none">
+
+                    <!-- OPTION VALUES BLOCK -->
+                    <div id="elements_container">
+
+                      <!-- OPTIONS BLOCK -->
+                      <div *ngFor="let element of matrixQuestion.elements; index as i" class="row form-group">
+                        <div name="input_value_container" class="col-11">
+                          <input class="form-control choice-value" type="text" [value]="element.title" (change)="onElementChange($event, i)" required>
+                        </div>
+                        <!-- DELETE BUTTON -->
+                        <div name="delete_value_container" class="col-1 align-self-center">
+                          <span class="option-trash" (click)="deleteElement(i)">
+                            <i class="far fa-trash text-danger"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <!-- Element error -->
+                      <div class="row form-group">
+                        <div *ngIf="isMinElementsLengthError" id="option_length_error" class="col-10 px-3 align-self-center">
+                          <span class="text-danger text-xs">*{{ 'error.matrixrowerror' | translate }}</span>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                    <!-- ADD BUTTON BLOCK -->
+                    <div class="row justify-content-center align-items-center">
+                        <button
+                                type="button"
+                                class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
+                                (click)="addElement()">
+                            <span class="btn-inner--icon"><i class="far fa-plus"></i></span>
+                            <span class="btn-inner--text">{{ 'common.addrow' | translate }}</span>
+                        </button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced option -->
+        <div class="form-group mt-3">
+          <app-advanced [mandatory]="matrixQuestion ? matrixQuestion.mandatory : false"
+            [file]="matrixQuestion ? matrixQuestion.icon : null" (advancedOptions)="advancedOptionChange($event)"></app-advanced>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mat-dialog-actions">
+    <div class="text-right buttons-container">
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-sm btn-primary rounded-pill">Save</button>
+    </div>
+  </div>
+
+</form>

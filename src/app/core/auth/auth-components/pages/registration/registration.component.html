@@ -11,19 +11,44 @@
         <div class="card shadow zindex-100 mb-0">
           <div class="card-body px-md-5 py-5">
             <div class="mb-5">
-              <h6 class="h3">Create Apollo account</h6>
+              <h6 class="h3">{{ 'user.create' | translate }}</h6>
             </div>
             <span class="clearfix"></span>
 
             <!-- Registration form -->
             <form role="form" action="#" method="post" [formGroup]="registrationForm" (ngSubmit)="onSubmit($event)">
-							<div class="form-group">
+              <!-- Firstname -->
+              <div class="form-group">
+								<label class="form-control-label">{{ 'common.firstname' | translate }}</label>
+								<div class="input-group input-group-merge">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="far fa-user"></i></span>
+									</div>
+									<input type="text" formControlName="firstname" class="form-control" placeholder="First Name" required />
+                </div>
+                <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="registrationForm.get('firstname').hasError('required') && registrationForm.get('firstname').touched">*{{ 'error.notBlank' | translate }}</mat-error>
+              </div>
+
+              <!-- Lastname -->
+              <div class="form-group">
+								<label class="form-control-label">{{ 'common.lastname' | translate }}</label>
+								<div class="input-group input-group-merge">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="far fa-user"></i></span>
+									</div>
+									<input type="text" formControlName="lastname" class="form-control" placeholder="Last Name" required />
+                </div>
+                <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="registrationForm.get('lastname').hasError('required') && registrationForm.get('lastname').touched">*{{ 'error.notBlank' | translate }}</mat-error>
+              </div>
+
+              <div class="form-group">
 								<label class="form-control-label">Username</label>
 								<div class="input-group input-group-merge">
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="far fa-user"></i></span>
 									</div>
-									<input type="text" formControlName="username" class="form-control" placeholder="Username" required />
+                  <input type="text" formControlName="username" class="form-control" placeholder="Username" required />
+                  <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="(registrationForm.get('username').hasError('required') || registrationForm.get('username').hasError('minlength')) && registrationForm.get('username').touched">*{{ 'error.session.usernameSize' | translate }}</mat-error>
 								</div>
 							</div>
 
@@ -33,7 +58,8 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="far fa-at"></i></span>
 									</div>
-									<input type="email" class="form-control" formControlName="email" placeholder="name@example.com" required />
+                  <input type="email" class="form-control" formControlName="email" placeholder="name@example.com" required />
+                  <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="(registrationForm.get('email').hasError('required') || invalidEmail) && registrationForm.get('email').touched">*{{ 'error.invalidEmail' | translate }}</mat-error>
 								</div>
               </div>
 
@@ -56,11 +82,14 @@
                   <input type="password" formControlName="passwordConfirm" class="form-control" placeholder="********" required />
                   <div class="input-group-append"></div>
                 </div>
+                <mat-error *ngIf="registrationForm.hasError('notSame')" class="text-danger text-sm">
+                  *{{ 'error.session.passwordsNotMatch' | translate }}
+                </mat-error>
               </div>
 
               <div class="mt-4">
                 <button type="submit" class="btn btn-sm btn-primary btn-icon rounded-pill">
-                  <span class="btn-inner--text">Create account</span> <span class="btn-inner--icon"><i class="far fa-long-arrow-alt-right"></i></span>
+                  <span class="btn-inner--text">{{ 'user.create' | translate }}</span> <span class="btn-inner--icon"><i class="far fa-long-arrow-alt-right"></i></span>
                 </button>
               </div>
             </form>
@@ -68,7 +97,7 @@
           </div>
 
 					<div class="card-footer px-md-5">
-							<small>Già registrato? </small> <a [routerLink]="['/log-in']" class="small font-weight-bold">Sing In!</a>
+							<small>{{ 'common.alreadyregistered' | translate }}</small> <a href="#" [routerLink]="['/auth/login']" class="small font-weight-bold">&nbsp;{{ 'user.signIn' | translate }}</a>
 					</div>
 				</div>
 			</div>

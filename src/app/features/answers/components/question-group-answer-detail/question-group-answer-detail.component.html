@@ -1,0 +1,30 @@
+<!-- Group Info -->
+<div class="row mb-2">
+    <div class="col-12">
+      <h5>{{questionGroup.title}}</h5>
+      <h6 *ngIf="!questionGroup.description" class="text-muted">{{questionGroup.description}}</h6>
+    </div>
+
+    <div *ngFor="let question of questionGroup.questions" class="card-body col-12 pb-0 pt-3 mb-3" title="group-container">
+      <!-- Group Info -->
+
+      <!-- If Choice Question -->
+      <div *ngIf="question.questionType === 'App\\MultiQuestion'">
+        <app-choice-question-answer [question]="question" [answers]="surveyAnswer ? surveyAnswer.answers : null" (optionSelected)="updateWrapper($event)"></app-choice-question-answer>
+      </div>
+
+      <!-- If Input Question -->
+      <div *ngIf="question.questionType === 'App\\InputQuestion'">
+        <app-input-question-answer [question]="question" [answers]="surveyAnswer ? surveyAnswer.answers : null" (inputInjected)="updateWrapper($event)"></app-input-question-answer>
+      </div>
+
+      <!-- If Matrix Question -->
+      <div *ngIf="question.questionType === 'App\\MatrixQuestion'">
+        <app-matrix-question-answer [question]="question" [answers]="surveyAnswer ? surveyAnswer.answers : null" (optionSelected)="updateWrapper($event)"></app-matrix-question-answer>
+      </div>
+      <!-- ./Group Info -->
+    </div>
+
+
+  </div>
+  <!-- ./Group Info -->

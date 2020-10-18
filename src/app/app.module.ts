@@ -13,15 +13,45 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { AppRoutingModule } from './app-routing.module';
+/* MATERIAL */
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+} from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { LayoutsModule } from './layouts/layouts.module';
 import { AuthModule } from './core/auth/auth.module';
-
-import { AppComponent } from './app.component';
 import { AuthLayoutsModule } from 'src/app/core/auth/auth-components/auth-layouts.module';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
 import { AuthEffects } from 'src/app/core/auth/store/auth.effects';
-import { reducers } from './state/app.state';
+import { SurveyEffects } from 'src/app/features/surveys/store/effects/survey.effects';
+import { InvitationPoolEffects } from 'src/app/features/surveys/store/effects/invitation-pool.effects';
+import { QuestionGroupEffects } from 'src/app/features/question-groups/store/question-group.effects';
+import { UserEffects } from 'src/app/features/users/store/effects/user.effects';
+import { QuestionEffects } from 'src/app/features/questions/store/effects/question.effects';
+import { InputQuestionEffects } from 'src/app/features/questions/store/effects/input-question.effects';
+import { ChoiceQuestionEffects } from 'src/app/features/questions/store/effects/choice-question.effects';
+import { MatrixQuestionEffects } from 'src/app/features/questions/store/effects/matrix-questions.effects';
+import { AnswerEffects } from 'src/app/features/answers/store/effects/answer.effects';
+import { SurveyAnswerEffects } from 'src/app/features/answers/store/effects/survey-answer.effects';
+import { InputQuestionAnswerEffects } from 'src/app/features/answers/store/effects/input-question-answer.effects';
+import { ChoiceQuestionAnswerEffects } from 'src/app/features/answers/store/effects/choice-question-answer.effects';
+import { MatrixQuestionAnswerEffects } from 'src/app/features/answers/store/effects/matrix-questions-answer.effects';
+
+import { reducers } from 'src/app/state/app.state';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
@@ -41,7 +71,22 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     AuthModule,
     AuthLayoutsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([
+      AuthEffects,
+      SurveyEffects,
+      InvitationPoolEffects,
+      QuestionGroupEffects,
+      UserEffects,
+      QuestionEffects,
+      InputQuestionEffects,
+      ChoiceQuestionEffects,
+      MatrixQuestionEffects,
+      AnswerEffects,
+      SurveyAnswerEffects,
+      ChoiceQuestionAnswerEffects,
+      InputQuestionAnswerEffects,
+      MatrixQuestionAnswerEffects,
+    ]),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token'),
@@ -58,8 +103,20 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
         deps: [HttpClient],
       },
     }),
+    MatPaginatorModule,
+    MatInputModule,
+    MatSortModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
-  providers: [],
-  bootstrap: [AppComponent],
+  providers: [
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+  ],
+  exports: [TranslateModule],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,24 +1,25 @@
 /**
  * Auth State interface.
  */
-import { User } from '../models/user.model';
+import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { Auth } from 'src/app/models/auth.model';
 
 export interface AuthState {
-  token: string;
-  role: Role;
-  user: User;
+  auth: Auth;
   isAuthenticated: boolean;
   error: boolean;
+  errorMessage: string;
 }
 
-export interface Role {
-  name: string;
-}
+export const authAdapter: EntityAdapter<Auth> = createEntityAdapter<Auth>(
+  {
+    selectId: (auth: Auth) => auth.user.id,
+  }
+);
 
 export const initialAuthState: AuthState = {
-  token: null,
-  role: null,
-  user: null,
+  auth: null,
   isAuthenticated: false,
-  error: false
+  error: false,
+  errorMessage: null
 };

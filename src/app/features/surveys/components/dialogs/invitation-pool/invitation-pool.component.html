@@ -1,0 +1,42 @@
+<!-- INVITATION POOL MODAL -->
+<h2 mat-dialog-title>
+  {{dialogConfig.title}}
+</h2>
+
+<!-- Content -->
+<div mat-dialog-content>
+  <div class="row mt-3">
+    <div class="col">
+      <label class="form-control-label mb-3">{{'common.emails' | translate}}</label>
+      <div class="bootstrap-tagsinput">
+        <input id="tagsinput" type="text" [value]="tagsInput" placeholder="{{ 'common.digitemail' | translate }}" size="48" (keypress)="handleKeyUp($event)" (change)="handleChange($event)">
+
+        <div id="tags_input_container" class="custom-tagsinput py-2 mt-2">
+
+            <span *ngFor="let email of emails; index as i" class="tag badge badge-primary">
+              {{email}}
+              <span data-role="remove" (click)="handleRemoveTag($event, i)"></span>
+            </span>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div *ngIf="isError" class="col-12 py-2">
+          <div class="text-left justify-content-between text-xs text-muted mt-2">
+            <span id="invalid_mail_msg" class="font-weight-bold text-danger">*{{errorMessage}}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div mat-dialog-actions>
+  <div class="text-right buttons-container">
+    <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate}}</button>
+    <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="sendInvitationPool()" [disabled]="survey.active">{{ 'common.save' | translate}}</button>
+  </div>
+</div>

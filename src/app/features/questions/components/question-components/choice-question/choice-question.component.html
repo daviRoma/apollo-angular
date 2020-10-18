@@ -1,0 +1,84 @@
+<!-- CHOICE QUESTION -->
+<div class="col-12" th:fragment="singleChoice">
+	<div class="row align-items-center mx-0 mb-4 justify-content-center">
+		<div class="col-11 card border shadow-none mb-0 p-3">
+
+      <!-- Question Title -->
+			<div class="m-1">
+				<h6 class="mb-0">
+          <span class="text-danger" *ngIf="question.mandatory">*</span>
+          {{question.title}}
+				</h6>
+      </div>
+
+			<div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
+
+        <div *ngIf="question.icon != null" class="col-auto">
+            <div class="rounded-lg shadow">
+                <img class="rounded-lg border question-image" src="{{question.icon.data}}">
+            </div>
+        </div>
+
+			</div>
+
+      <!-- Question options -->
+			<div class="row">
+
+				<div *ngIf="question.type == 'RADIO'" class="col-12 px-3 py-2">
+					<!-- OPTIONS -->
+					<div *ngFor="let option of question.options; index as i" class="custom-control custom-radio">
+						<input type="radio" id="{{'customRadio_' + i}}" name="customRadio" class="custom-control-input" disabled>
+						<label class="custom-control-label" for="{{'customRadio_' + i}}">{{option.value}}</label>
+					</div>
+
+					<!-- Other -->
+					<div *ngIf="question.other" class="custom-control custom-radio" >
+						<input type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" disabled>
+						<label class="custom-control-label" for="{{'other_choice-' + question.id}}">
+              <div class="border-bottom custom-input-text">{{ 'question.otherChoice' | translate }}</div>
+            </label>
+
+					</div>
+        </div>
+
+        <div *ngIf="question.type == 'CHECK'" class="col-12 px-3 py-2">
+          <!-- OPTIONS -->
+          <div *ngFor="let option of question.options; index as i"  class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="{{'customCheck' + i}}" disabled>
+              <label class="custom-control-label" for="{{'customCheck' + i}}">{{option.value}}</label>
+          </div>
+          <!-- Other -->
+          <div *ngIf="question.other" class="custom-control custom-checkbox">
+              <input type="checkbox" id="{{'other_choice-' + question.id}}" name="customCheck" class="custom-control-input" disabled>
+              <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
+                  <div class="border-bottom custom-input-text">{{ 'question.otherChoice' | translate }}</div>
+              </label>
+          </div>
+        </div>
+
+        <div *ngIf="question.type == 'SELECT'" class="col-12 px-3 py-2">
+            <select class="custom-select col-4">
+              <option value="" selected disabled hidden>{{ 'question.chooseOption' | translate }}</option>
+              <option *ngFor="let option of question.options" [value]="option.value" disabled>
+                {{option.value}}
+              </option>
+            </select>
+        </div>
+			</div>
+
+		</div>
+
+		<div *ngIf="!readonly" class="col-auto bg-gray-100 pr-0 modify">
+			<div class="dropdown" data-toggle="dropdown">
+				<a href="#" class="action-item pr-0" role="button" data-toggle="dropdown" title="Open"
+				   aria-haspopup="true" aria-expanded="false"> <i class="far fa-cog"></i>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a href="#" (click)="editQuestion()" class="dropdown-item">{{ 'common.edit' | translate }}</a>
+					<a href="#" (click)="deleteQuestion()" class="dropdown-item text-danger">{{ 'common.delete' | translate }}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

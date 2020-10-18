@@ -1,0 +1,85 @@
+<!-- MATRIX QUESTION -->
+<div class="col-12">
+  <div class="row mb-4 align-items-center mx-0 justify-content-center">
+    <div class="col-11 card border shadow-none mb-0 pt-3 pb-0 pr-3 pl-3">
+
+      <!-- Question title -->
+      <div class="m-1">
+        <h6 class="mb-0">
+          <span class="text-danger" *ngIf="question.mandatory">*</span>
+          {{question.title}}
+        </h6>
+      </div>
+
+      <!-- Question File -->
+      <div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
+
+        <div *ngIf="question.icon != null" class="col-auto">
+          <div class="rounded-lg shadow">
+            <img class="rounded-lg question-image border question-image" src="{{question.icon.data}}">
+          </div>
+        </div>
+      </div>
+
+      <!-- Question options -->
+      <div class="row mb-3">
+        <div class="col-12 overflow-auto">
+
+          <table class="table table-cards align-items-center" width="100%" cellspacing="0">
+            <!-- Show options label -->
+            <thead>
+              <tr class="table-divider">
+                <th scope="col"></th>
+                <th class="matrix-options-label" *ngFor="let option of question.options" scope="col">
+                  {{ option.value }}
+                </th>
+              </tr>
+            </thead>
+
+            <!-- Show questions -->
+
+            <tbody>
+              <tr *ngFor="let element of question.elements; index as i;" class="shadow-none">
+                <th scope="row">{{element.title}}</th>
+                <td class="matrix-options-label mb-1" *ngFor="let option of question.options; index as b">
+
+                  <div *ngIf="question.type === 'CHECK'" class="custom-control custom-checkbox">
+                    <div>
+                      <input type="checkbox" class="custom-control-input" id="customRadio1">
+                      <label class="custom-control-label" for="customRadio1"></label>
+                    </div>
+
+                  </div>
+                  <div *ngIf="question.type === 'RADIO'" class="custom-control custom-radio">
+                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadio1"></label>
+                  </div>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="!readonly" lass="col-auto bg-gray-100 pr-0 modify">
+      <div class="dropdown" data-toggle="dropdown">
+        <a href="#" class="action-item pr-0" role="button" title="Open" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <i class="far fa-cog"></i>
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <a href="#" (click)="editQuestion()" class="dropdown-item" data-toggle="modal">{{ 'common.edit' | translate }}</a>
+          <a href="#" (click)="deleteQuestion()" class="dropdown-item text-danger">{{ 'common.delete' | translate }}</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!-- ./Matrix Question -->

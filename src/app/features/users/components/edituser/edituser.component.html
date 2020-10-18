@@ -1,0 +1,192 @@
+<form
+  action="#"
+  method="post"
+  enctype="multipart/form-data"
+  [formGroup]="editProfileForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <!-- Change avatar -->
+  <div class="row mb-4">
+    <div class="col-auto">
+      <span>
+        <img
+          class="profile-image"
+          src="{{
+            user.avatar
+              ? user.avatar.data
+              : '/assets/dist/img/theme/light/team-4-800x800.jpg'
+          }}"
+        />
+      </span>
+    </div>
+    <div class="col-auto my-auto">
+      <div class="row">
+        <h5 class="mb-0">{{ user.firstname }} {{ user.lastname }}</h5>
+      </div>
+
+      <div class="row">
+        <input
+          type="file"
+          id="questionfile"
+          name="questionfile"
+          class="custom-input-file custom-input-file-link"
+          accept=".png, .jpg, .jpeg"
+          data-max-size="5"
+          (change)="onFileChange($event)"
+        />
+        <label for="questionfile"
+          ><i class="fa fa-upload"></i
+          ><span id="questionfile_label">{{
+            file ? file.name : ("profile.changeavatar" | translate)
+          }}</span></label
+        >
+        <span *ngIf="isError" id="file_error" class="text-danger text-xs"
+          >*{{ "error.file.msg" | translate }}</span
+        >
+        <label class="mb-0 ml-2 profile-image-name" id="filename"></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Common Informations -->
+  <div class="row mb-4">
+    <div class="col-lg-6 col-sm-12 border-right mb-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-control-label">{{
+              "common.firstname" | translate
+            }}</label>
+            <input
+              class="form-control"
+              type="text"
+              formControlName="firstname"
+            />
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="form-group mb-0">
+            <label class="form-control-label">{{
+              "common.lastname" | translate
+            }}</label>
+            <input
+              class="form-control"
+              type="text"
+              formControlName="lastname"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-control-label">{{
+              "common.username" | translate
+            }}</label>
+            <input
+              class="form-control"
+              type="text"
+              required
+              formControlName="username"
+            />
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="form-group mb-0">
+            <label class="form-control-label">{{
+              "common.email" | translate
+            }}</label>
+            <input
+              class="form-control"
+              type="email"
+              required
+              formControlName="email"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-6 col-sm-12">
+      <div id="accordion-2" class="accordion accordion-spaced">
+        <!-- Accordion card 3 -->
+        <div class="card mb-0 border-bottom shadow-none">
+          <div
+            class="card-header no-border border-"
+            id="heading-2-3"
+            data-toggle="collapse"
+            role="button"
+            data-target="#collapse-2-3"
+            aria-expanded="false"
+            aria-controls="collapse-2-3"
+          >
+            <h6 class="mb-0">
+              <i class="far fa-exclamation mr-3"></i
+              >{{ "profile.updatepassword" | translate }}
+            </h6>
+          </div>
+          <div
+            id="collapse-2-3"
+            class="collapse"
+            aria-labelledby="heading-2-3"
+            data-parent="#accordion-2"
+          >
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-control-label">{{
+                  "profile.oldpassword" | translate
+                }}</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  formControlName="oldpassword"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label">{{
+                  "profile.newpassword" | translate
+                }}</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  formControlName="newpassword"
+                />
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-control-label">{{
+                  "profile.newpasswordconfirm" | translate
+                }}</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  formControlName="passwordconfirm"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-2 alert-container hidden"></div>
+
+  <div class="row justify-content-end mb-0">
+    <button
+      type="button"
+      class="btn btn-link text-danger rounded-pill text-sm"
+    ></button>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary rounded-pill">
+        {{ "common.save" | translate }}
+      </button>
+    </div>
+  </div>
+</form>

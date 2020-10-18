@@ -1,0 +1,85 @@
+<!-- CHOICE QUESTION DIALOG -->
+<h2 class="mat-dialog-title">{{dialogConfig.title}}</h2>
+
+<form id="input_question_form" enctype="multipart/form-data" [formGroup]="questionForm" (ngSubmit)="onSubmit($event)" class="mb-4">
+  <div class="mat-dialog-content">
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- Question Text -->
+        <div class="form-group">
+          <label th:for="title" class="form-control-label">{{ 'question.title' | translate }} </label>
+          <input type="text" class="form-control" placeholder="{{ 'question.placeholdertitle' | translate }}" data-toggle="autosize" required
+            size="255" maxlength="255" minlength="12" formControlName="title"/>
+          <mat-error class="font-weight-bold text-danger text-xs mx-1"
+            *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">{{ 'error.questionSize' | translate}}</mat-error>
+        </div>
+
+        <!-- Other option -->
+        <div class="row mt-4" *ngIf="choiceQuestion.type !== 'SELECT'">
+          <div class="col-12">
+            <div class="form-group custom-control custom-switch">
+              <input type="checkbox" formControlName="other" class="custom-control-input form-element" name="other" id="other" />
+              <label class="custom-control-label form-control-label" for="other">{{ 'question.otherChoice' | translate }}</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question options -->
+        <div class="row">
+          <div class="col-12">
+
+            <label class="form-control-label">{{ 'question.options' | translate }}</label>
+
+            <!-- OPTIONS BLOCK -->
+            <div id="options_container">
+
+              <div *ngFor="let option of choiceQuestion.options; index as i" class="row form-group">
+                <div name="input_container" class="col-11">
+                  <input class="form-control choice-input" type="text" placeholder="{{ 'question.optionplaceholder' | translate }}" [value]="option.value" (change)="onOptionChange($event, i)" required>
+                </div>
+                <!-- Delete Button -->
+                <div name="delete_container" class="col-1 align-self-center">
+                  <span class="option-trash" (click)="deleteOption(i)"><i class="far fa-trash text-danger"></i></span>
+                </div>
+              </div>
+              <!-- Option error -->
+              <div class="row form-group">
+                <div *ngIf="isMinOptionsLengthError" id="option_length_error" class="col-10 px-3 align-self-center">
+                  <span class="text-danger text-xs">*{{ 'question.validoptions' | translate }}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ADD Option Button  -->
+          <div class="col-12">
+            <div class="row justify-content-center align-items-center">
+              <button type="button" class="btn btn-sm btn-soft-primary btn-icon rounded-pill" (click)="addOption()">
+                <span class="btn-inner--icon">
+                  <i class="far fa-plus"></i>
+                </span>
+                <span class="btn-inner--text">{{ 'question.add' | translate }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced option -->
+        <div class="form-group mt-4">
+          <app-advanced [mandatory]="choiceQuestion ? choiceQuestion.mandatory : false"
+            [file]="choiceQuestion ? choiceQuestion.icon : null" (advancedOptions)="advancedOptionChange($event)"></app-advanced>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mat-dialog-actions">
+    <div class="text-right buttons-container">
+      <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+      <button type="submit" class="btn btn-sm btn-primary rounded-pill">{{ 'common.save' | translate }}</button>
+    </div>
+  </div>
+
+</form>
