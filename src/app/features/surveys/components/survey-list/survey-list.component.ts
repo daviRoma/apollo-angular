@@ -6,8 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 
 import { Store, select } from '@ngrx/store';
-import { SurveyLoadAction, SurveyDeleteAction } from 'src/app/features/surveys/store/actions/survey.actions';
-import { selectAllSurvey, selectSurveyTotal, selectSurveyLoading, selectSurveyError } from 'src/app/features/surveys/store/selectors/survey.selectors';
+import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
+import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
 import { AppState } from 'src/app/state/app.state';
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 
@@ -85,15 +85,15 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     ];
 
     this.store
-      .pipe(select(selectAllSurvey))
+      .pipe(select(fromSurvey.selectAllSurvey))
       .subscribe((surveys) => this.initializeData(surveys));
 
     this.store
-      .pipe(select(selectSurveyTotal))
+      .pipe(select(fromSurvey.selectSurveyTotal))
       .subscribe((total) => (this.surveyTotal = total));
 
     this.subscription.add(
-      this.store.pipe(select(selectSurveyLoading)).subscribe((loading) => {
+      this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
         if (loading) {
           this.dataSource = new MatTableDataSource(this.noData);
         }
@@ -101,7 +101,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
-    this.error$ = this.store.pipe(select(selectSurveyError));
+    this.error$ = this.store.pipe(select(fromSurvey.selectSurveyError));
   }
 
   ngAfterViewInit(): void {
