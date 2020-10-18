@@ -19,21 +19,28 @@ const routes: Routes = [
     path: 'dashboard',
     component: LayoutBaseComponent,
     loadChildren: () =>
-      import(`./pages/page.module`).then((m) => m.PageModule),
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'survey',
-    component: LayoutBaseComponent,
-    loadChildren: () =>
-      import(`./pages/survey/survey-page.module`).then((m) => m.SurveyPageModule),
+      import(`./pages/main-pages/dashboard/modules/dashboard-page.module`).then((m) => m.DashboardPageModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'users',
     component: LayoutBaseComponent,
     loadChildren: () =>
-      import(`./pages/page.module`).then((m) => m.PageModule),
+      import(`./pages/main-pages/admin/administration-page.module`).then((m) => m.AdministrationPageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user',
+    component: LayoutBaseComponent,
+    loadChildren: () =>
+      import(`./pages/main-pages/profile/modules/profile-page.module`).then((m) => m.ProfilePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'survey',
+    component: LayoutBaseComponent,
+    loadChildren: () =>
+      import(`./pages/survey/survey-page.module`).then((m) => m.SurveyPageModule),
     canActivate: [AuthGuard],
   },
   {

@@ -172,6 +172,7 @@
   "survey": {
     "create": "New Survey",
     "created": "Created Surveys",
+    "totActive": "Active Surveys",
     "edit": "Edit Survey",
     "icon" : "Icon",
     "secret": "Private",
@@ -200,9 +201,6 @@
     "invitationPoolTitle": "Send invitations and publish",
     "setInvitationPool": "Set invitation pool",
     "enterSecret": "Enter to the private survey"
-
-
-
   },
 
   "group": {

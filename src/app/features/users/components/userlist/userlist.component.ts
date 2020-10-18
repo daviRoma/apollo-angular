@@ -1,29 +1,31 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { Paths } from 'src/app/shared/config/path.conf';
 import { MatTableDataSource } from '@angular/material/table';
-import { Survey, SurveyRequest } from 'src/app/models/survey.model';
-import { Observable, Subject, Subscription, merge, from } from 'rxjs';
-import { User, UserRequest } from 'src/app/models/user.model';
+import { Observable, Subject, Subscription, merge } from 'rxjs';
+import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
+
 import { AppState } from 'src/app/state/app.state';
+import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 import {
   selectAllUser,
   selectUserTotal,
   selectUserLoading,
   selectUserError,
 } from 'src/app/features/users/store/selectors/user.selectors';
-import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { DeleteSurveyComponent } from 'src/app/features/surveys/components/dialogs/delete-survey/delete-survey.component';
+
 import {
   UserDeleteAction,
   UserLoadAction,
 } from 'src/app/features/users/store/actions/user.actions';
-import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
+
 import { DeleteUserComponent } from '../dialogs/delete-user/delete-user.component';
-import { Router } from '@angular/router';
+
+import { User, UserRequest } from 'src/app/models/user.model';
+import { Paths } from 'src/app/shared/config/path.conf';
 
 @Component({
   selector: 'app-userlist',

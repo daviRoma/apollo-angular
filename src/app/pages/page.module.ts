@@ -4,26 +4,19 @@ import { CommonModule } from '@angular/common';
 import { PageRoutingModule } from './page-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
-
 import { SurveysModule } from '../features/surveys/surveys.module';
 import { QuestionGroupsModule } from '../features/question-groups/question-groups.module';
 import { UsersModule } from '../features/users/users.module';
 import { AnswersModule } from '../features/answers/answers.module';
 
-import { ProfileComponent } from './profile/profile.component';
-import { AdministrationComponent } from './administration/administration.component';
-import { UseroverviewComponent } from './useroverview/useroverview.component';
 import { AnswersPageModule } from './answers/modules/answers-page.module';
 import { SurveyAnswerPageModule } from './surveyanswer/modules/surveyanswer-page.module';
+import { DashboardPageModule } from './main-pages/dashboard/modules/dashboard-page.module';
+import { AdministrationPageModule } from './main-pages/admin/administration-page.module';
+import { ProfilePageModule } from './main-pages/profile/modules/profile-page.module';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    ProfileComponent,
-    AdministrationComponent,
-    UseroverviewComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     PageRoutingModule,
@@ -33,7 +26,10 @@ import { SurveyAnswerPageModule } from './surveyanswer/modules/surveyanswer-page
     UsersModule,
     AnswersModule,
     AnswersPageModule,
-    SurveyAnswerPageModule
+    SurveyAnswerPageModule,
+    DashboardPageModule,
+    AdministrationPageModule,
+    ProfilePageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

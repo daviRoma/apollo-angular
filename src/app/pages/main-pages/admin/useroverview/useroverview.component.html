@@ -152,8 +152,33 @@
           </div>
         </div>
 
-        <!-- Stats card 2 -->
+        <!-- stats card 2 -->
         <div class="col-xl-12 col-sm-6">
+          <!-- Stats card -->
+          <div class="card card-stats border-0">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h6 class="text-muted mb-1">
+                    {{ "survey.totActive" | translate }}
+                  </h6>
+                  <span class="h3 font-weight-bold mb-0">{{
+                    totalActiveSurveys
+                  }}</span>
+                </div>
+                <div class="col-auto">
+                  <span class="h3 font-weight-bold mb-0 text-success">
+                    <i class="far fa-chart-line fa-2x"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats card 3 -->
+        <div class="col-xl-12 col-sm-6 text-right">
           <button
             type="button"
             class="btn btn-lg btn-danger rounded-pill text-sm"

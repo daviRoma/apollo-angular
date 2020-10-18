@@ -1,37 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { User, UserRequest } from 'src/app/models/user.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { AppState } from 'src/app/state/app.state';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+
+import { AppState } from '../../../../state/app.state';
 import {
   UserLoadAction,
   UserDeleteAction,
 } from 'src/app/features/users/store/actions/user.actions';
-import { DeleteUserComponent } from 'src/app/features/users/components/dialogs/delete-user/delete-user.component';
+import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
+
 import * as fromUser from 'src/app/features/users/store/selectors/user.selectors';
 import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
-import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
+
+import { DeleteUserComponent } from 'src/app/features/users/components/dialogs/delete-user/delete-user.component';
+
 import { SurveyRequest, Survey } from 'src/app/models/survey.model';
-import {
-  selectSurveyTotal,
-  selectEntitiesByID,
-} from 'src/app/features/surveys/store/selectors/survey.selectors';
-import { MatTableDataSource } from '@angular/material/table';
-import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { merge, from } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { User, UserRequest } from '../../../../models/user.model';
 
 @Component({
   selector: 'app-useroverview',
   templateUrl: './useroverview.component.html',
   styleUrls: ['./useroverview.component.scss'],
 })
-export class UseroverviewComponent implements OnInit {
+export class UseroverviewComponent implements OnInit, OnDestroy {
   public user: User;
-  routeParamsSubscription: any;
 
   public surveyTotal: number;
+  public totalActiveSurveys: number;
+
   public router: Router;
+
+  private routeParamsSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,35 +49,46 @@ export class UseroverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadSurveys();
+    this.store
+      .pipe(select(fromSurvey.selectSurveyTotal))
+      .subscribe((total) => (this.surveyTotal = total));
 
     this.store
-      .pipe(select(selectSurveyTotal))
-      .subscribe((total) => (this.surveyTotal = total));
+      .pipe(select(fromSurvey.selectAllSurvey))
+      .subscribe((surveys: Survey[]) => {
+        this.totalActiveSurveys = surveys.filter(survey => survey.active).length;
+      });
   }
 
-  public ngAfterViewInit(): void {}
+  ngOnDestroy(): void {
+    this.routeParamsSubscription.unsubscribe();
+  }
 
   private loadSurveys(): void {
     this.store.dispatch(
-      new SurveyLoadAction(({
-        user_id: this.user.id,
-      } as unknown) as SurveyRequest)
+      new SurveyLoadAction({user_id: this.user.id} as SurveyRequest)
     );
   }
 
-  private loadData(userId: string): void {
+  private loadData(userId: number): void {
     this.store
       .pipe(select(fromUser.selectEntity, { id: userId }))
       .subscribe((user: User) => {
         if (user) {
           this.user = user;
+          this.loadSurveys();
         } else {
           this.store.dispatch(
-            new UserLoadAction(({
-              user_id: userId,
-            } as unknown) as UserRequest)
+            new UserLoadAction({user_id: userId} as UserRequest)
           );
+          this.store
+            .pipe(select(fromUser.selectEntity, { id: userId }))
+            .subscribe((u: User) => {
+              if (user) {
+                this.user = u;
+                this.loadSurveys();
+              }
+            });
         }
       });
   }

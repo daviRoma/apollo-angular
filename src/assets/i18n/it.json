@@ -173,6 +173,7 @@
   "survey": {
     "create": "Nuovo Sondaggio",
     "created": "Sondaggi Creati",
+    "totActive": "Sondaggi Attivi",
     "edit": "Modifica Sondaggio",
     "icon" : "Icona",
     "secret": "Privato",
