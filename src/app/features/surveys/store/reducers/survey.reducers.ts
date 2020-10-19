@@ -11,7 +11,7 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
         ...state,
         error: false,
         loading: false,
-        total: action.payload.meta ? action.payload.meta.total : action.payload.data.length,
+        total: action.payload.meta.total
       });
     }
     case SurveyActionTypes.LOAD_FAILURE: {
@@ -24,7 +24,12 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
     }
 
     case SurveyActionTypes.LOADONE_SUCCESS: {
-      return surveyAdapter.setOne(dataTransform([action.payload.data])[0], { ...state });
+
+      return state.entities ?
+        surveyAdapter.updateOne(
+          { id: action.payload.data.id, changes: dataTransform([action.payload.data])[0] },
+          { ...state }) :
+        surveyAdapter.setOne(dataTransform([action.payload.data])[0], { ...state });
     }
 
     case SurveyActionTypes.NEW: {

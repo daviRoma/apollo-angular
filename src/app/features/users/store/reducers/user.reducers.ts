@@ -33,14 +33,6 @@ export function userReducer(state = initialUserState, action: UserActionsAll): U
     case UserActionTypes.NEW: {
       return { ...state, loading: true };
     }
-    // case UserActionTypes.NEW_SUCCESS: {
-    //   console.log('reducer new success', action.payload);
-    //   return state;
-    //   // return userAdapter.addOne(
-    //   //   { ...action.payload, createDate: new Date() },
-    //   //   { ...state }
-    //   // );
-    // }
     case UserActionTypes.NEW_FAILURE: {
       return state;
     }
