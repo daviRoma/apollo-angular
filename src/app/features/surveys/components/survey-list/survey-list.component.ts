@@ -63,18 +63,6 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
     this.pageSize = 5;
     this.pageSizeOptions = [5, 10, 20];
-  }
-
-  ngOnInit(): void {
-    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe(
-      (user: User) => {
-        if (user) {
-          this.user = user;
-          this.loadSurveys();
-        }
-      }
-    );
-
     this.displayedColumns = [
       'icon',
       'name',
@@ -83,14 +71,17 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       'createDate',
       'action',
     ];
+  }
 
-    this.store
-      .pipe(select(fromSurvey.selectAllSurvey))
-      .subscribe((surveys) => this.initializeData(surveys));
-
-    this.store
-      .pipe(select(fromSurvey.selectSurveyTotal))
-      .subscribe((total) => (this.surveyTotal = total));
+  ngOnInit(): void {
+    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe(
+      (user: User) => {
+        if (user) {
+          this.user = user;
+          this.selectSurveys();
+        }
+      }
+    );
 
     this.subscription.add(
       this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
@@ -110,7 +101,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     ); // we should reset page index
 
     let filter$ = this.filterSubject.pipe(
-      debounceTime(150),
+      debounceTime(250),
       distinctUntilChanged(),
       tap((value: string) => {
         this.paginator.pageIndex = 0; // we should reset page index
@@ -133,29 +124,38 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  public openDeleteDialog(survey: Survey): void {
+  openDeleteDialog(survey: Survey): void {
     const dialogRef = this.confirmDialog.open(DeleteSurveyComponent, {
       minWidth: '20%',
       position: { top: '14%' },
       data: {
-        item: { ...survey }, // clone object
+        item: { ...survey },
         dialogConfig: {
           title: this.translate.instant('survey.delete'),
           content: this.translate.instant('survey.deletemessage'),
         },
       },
     });
+  }
 
-    dialogRef.afterClosed().subscribe((response) => {
-      if (response.result === 'close_after_delete') {
-        // Delete action
-        // this.store.dispatch(new SurveyDeleteAction(survey.id));
-      }
-    });
+  private selectSurveys(): void {
+    this.store
+      .pipe(select(fromSurvey.selectAllSurvey))
+      .subscribe((surveys: Survey[]) => {
+        if (surveys.length) {
+          this.isLoading = false;
+          this.initializeData(surveys);
+        } else {
+          this.loadSurveys();
+        }
+      });
+
+    this.store
+      .pipe(select(fromSurvey.selectSurveyTotal))
+      .subscribe((total) => this.surveyTotal = total);
   }
 
   private initializeData(surveys: Survey[]): void {
-    if (surveys.length) this.isLoading = false;
     this.dataSource = new MatTableDataSource(surveys.length ? surveys : []);
   }
 

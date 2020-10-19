@@ -72,16 +72,18 @@
                   role="button"
                   data-toggle="dropdown"
                   aria-haspopup="true"
-                  aria-expanded="false"
-                >
+                  aria-expanded="false">
                   <img
+                    *ngIf="currentLang == 'it'"
                     class="locale-image"
                     alt="Image placeholder"
-                    src="{{
-                      currentLang == 'en'
-                        ? 'assets/dist/img/icons/flags/en.svg'
-                        : 'assets/dist/img/icons/flags/it.svg'
-                    }}"
+                    src="assets/dist/img/icons/flags/it.svg"
+                  />
+                  <img
+                    *ngIf="currentLang == 'en'"
+                    class="locale-image"
+                    alt="Image placeholder"
+                    src="assets/dist/img/icons/flags/en.svg"
                   />
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
