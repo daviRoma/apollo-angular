@@ -33,6 +33,9 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
   public isLoading: boolean;
 
   public surveySubmitted = false;
+  public surveyId: number;
+
+  private subscription: Subscription = new Subscription();
 
   private routeParamsSubscription: Subscription;
 
@@ -41,30 +44,47 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
   ) {
     const self = this;
+    this.isLoading = true;
     this.questionGroups = [];
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params.survey_id) {
         // Select survey from store by url parameter
         self.loadData(params.survey_id);
-
-        // Read only survey
-        if (params.answer_id) {
-          this.surveyAnswerId = params.answer_id;
-        }
+        this.surveyId = params.survey_id;
       }
     });
 
-    this.isLoading = true;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subscription.add(
+      this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
+        this.isLoading = loading;
+      })
+    );
+    this.store
+      .pipe(select(fromSurvey.selectEntity, { id: this.surveyId }))
+      .subscribe((survey: Survey) => {
+        if (survey) {
+          this.survey = survey;
+          this.isLoading = false;
+          this.initializeSelectors();
+        }
+      });
+
+    this.store
+      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.surveyId }))
+      .subscribe((response: QuestionGroup[]) => {
+        this.survey = { ...this.survey, questionGroups: response };
+        this.questionGroups = response;
+      });
+  }
 
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
   }
 
   login(): void {
-
     this.surveyActive = true;
   }
 
@@ -94,7 +114,6 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
       this.surveySubmitted = true;
       this.surveyActive = false;
       this.surveyUnlocked = false;
-
     }
 
   }
@@ -105,20 +124,13 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true }));
 
     this.store
-      .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
+      .pipe(select(fromSurvey.selectEntity, { id: this.surveyId }))
       .subscribe((survey: Survey) => {
         if (survey) {
           this.survey = survey;
           this.isLoading = false;
           this.initializeSelectors();
         }
-      });
-
-    this.store
-      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId }))
-      .subscribe((response: QuestionGroup[]) => {
-        this.survey = { ...this.survey, questionGroups: response };
-        this.questionGroups = response;
       });
   }
 
