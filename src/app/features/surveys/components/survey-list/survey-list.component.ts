@@ -40,7 +40,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public dataSource: MatTableDataSource<Survey>;
   public selectionList: Survey[];
-  public noData: Survey[] = [{} as Survey];
+  public noData: Survey[] = [];
   public surveyTotal: number;
   public isLoading: boolean;
 
@@ -78,6 +78,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       (user: User) => {
         if (user) {
           this.user = user;
+          this.loadSurveys();
           this.selectSurveys();
         }
       }
@@ -142,11 +143,9 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store
       .pipe(select(fromSurvey.selectAllSurvey))
       .subscribe((surveys: Survey[]) => {
+        this.isLoading = false;
         if (surveys.length) {
-          this.isLoading = false;
           this.initializeData(surveys);
-        } else {
-          this.loadSurveys();
         }
       });
 

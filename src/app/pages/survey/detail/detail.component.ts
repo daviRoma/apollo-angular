@@ -73,6 +73,15 @@ export class DetailComponent implements OnInit, OnDestroy {
           this.loadQuestionGroups();
         } else {
           this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true } as SurveyRequest));
+          this.store
+            .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
+            .subscribe((resp: Survey) => {
+              if (resp) {
+                this.survey = resp;
+                this.isLoading = false;
+                this.loadQuestionGroups();
+              }
+            });
         }
       });
 
