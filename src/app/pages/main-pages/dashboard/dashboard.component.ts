@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app.state';
 
 import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,8 @@ import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs
 export class DashboardComponent implements OnInit {
 
   constructor(
-    public newSurveyDialog: MatDialog,
+    public newSurveyDialog: MatDialog, 
+    private translate: TranslateService,
     private store: Store<AppState>
   ) { }
 
@@ -26,7 +28,7 @@ export class DashboardComponent implements OnInit {
       position: { top: '3%' },
       data: {
         dialogConfig: {
-          title: 'New Survey',
+          title: this.translate.instant('survey.newSurvey'),
           operation: 'new'
         }
       }
