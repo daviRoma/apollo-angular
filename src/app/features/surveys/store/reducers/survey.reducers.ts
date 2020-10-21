@@ -24,7 +24,7 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
     }
 
     case SurveyActionTypes.LOADONE_SUCCESS: {
-      return state.entities ?
+      return state.total ?
         surveyAdapter.updateOne(
           { id: action.payload.data.id, changes: dataTransform([action.payload.data])[0] },
           { ...state, loading: false, error: false, total: state.total }) :

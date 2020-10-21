@@ -26,8 +26,12 @@ export class DetailComponent implements OnInit, OnDestroy {
   public survey: Survey;
   public questionGroups: QuestionGroup[];
   public user: User;
+
+  public params: any;
+
   public isLoading: boolean;
 
+  private subscription: Subscription = new Subscription();
   private routeParamsSubscription: Subscription;
 
   constructor(
@@ -46,7 +50,8 @@ export class DetailComponent implements OnInit, OnDestroy {
           .subscribe((user: User) => {
             if (user) {
               self.user = user;
-              self.loadSurveyData(params.survey_id);
+              self.params = { surveyId: parseInt(params.survey_id, 10) };
+              self.loadSurveyData();
             }
           });
       }
@@ -54,42 +59,40 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    this.subscription.add(
+      this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
+        if (!loading) {
+          this.loadWithSelectors();
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
-  private loadSurveyData(surveyId: number): void {
-    this.store.dispatch(new QuestionGroupLoadAction(surveyId));
-
+  private loadWithSelectors(): void {
     this.store
-      .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
+      .pipe(select(fromSurvey.selectEntity, { id: this.params.surveyId }))
       .subscribe((survey: Survey) => {
         if (survey) {
-          this.survey = survey;
-          this.isLoading = false;
+          this.survey = { ...survey };
           this.loadQuestionGroups();
-        } else {
-          this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true } as SurveyRequest));
-          this.store
-            .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
-            .subscribe((resp: Survey) => {
-              if (resp) {
-                this.survey = resp;
-                this.isLoading = false;
-                this.loadQuestionGroups();
-              }
-            });
         }
-      });
+        this.isLoading = false;
+    });
+  }
 
+  private loadSurveyData(): void {
+    this.store.dispatch(new SurveyLoadOneAction({ id: this.params.surveyId, dispatch: true } as SurveyRequest));
+    this.store.dispatch(new QuestionGroupLoadAction(this.params.surveyId));
   }
 
   private loadQuestionGroups(): void {
     this.store
-      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.survey.id }))
+      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.params.surveyId }))
       .subscribe((response: QuestionGroup[]) => {
         this.survey = { ...this.survey, questionGroups: response };
         this.questionGroups = response;

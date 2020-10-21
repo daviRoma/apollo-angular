@@ -200,7 +200,8 @@
     "searchsurvey": "Search survey...",
     "invitationPoolTitle": "Send invitations and publish",
     "setInvitationPool": "Set invitation pool",
-    "enterSecret": "Enter to the private survey"
+    "enterSecret": "Enter to the private survey",
+    "notfound": "Sorry, we couldn't find the survey you requested."
   },
 
   "group": {

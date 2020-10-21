@@ -1,5 +1,6 @@
 <div *ngIf="!isLoading">
 
+  <div *ngIf="survey; else surveyNotFound">
     <div class="col-lg-8 col-md-11 col-sm-12 mx-auto mx-auto mb-4" *ngIf="surveyActive && surveyUnlocked">
 
         <!-- Page title -->
@@ -41,12 +42,10 @@
 
     </div>
 
-
     <!-- Listing -->
     <div *ngIf="surveyActive && !surveyUnlocked">
         <app-survey-private [survey]="survey" (unlock)="unlockAccess($event)"></app-survey-private>
     </div>
-
 
     <div *ngIf="!surveyActive && !surveySubmitted">
         <app-survey-not-active></app-survey-not-active>
@@ -55,8 +54,26 @@
     <div *ngIf="surveySubmitted">
         <app-survey-submitted></app-survey-submitted>
     </div>
+  </div>
 
+  <ng-template #surveyNotFound>
+    <div class="card error-card">
+      <div class="card-header actions-toolbar">
+        <div class="row justify-content-between">
+          {{ 'survey.notfound' | translate }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
-<div  *ngIf="isLoading" class="spinner-border text-success" style="width: 3rem; height: 3rem" role="status">
-  <span class="sr-only">Loading...</span>
+
+<div *ngIf="isLoading" class="card">
+  <div class="card-header actions-toolbar">
+    <div class="row justify-content-between">
+      <div class="spinner-border text-success" style="width: 3rem; height: 3rem" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
 </div>
+
