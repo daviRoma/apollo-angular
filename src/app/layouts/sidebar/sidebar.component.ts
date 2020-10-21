@@ -63,7 +63,7 @@ export class SidebarComponent implements OnInit {
       position: { top: '3%' },
       data: {
         dialogConfig: {
-          title: 'New Survey',
+          title: this.translate.instant('survey.newSurvey'),
           operation: 'new'
         }
       }

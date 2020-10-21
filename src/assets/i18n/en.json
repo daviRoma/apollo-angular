@@ -200,7 +200,9 @@
     "searchsurvey": "Search survey...",
     "invitationPoolTitle": "Send invitations and publish",
     "setInvitationPool": "Set invitation pool",
-    "enterSecret": "Enter to the private survey"
+    "enterSecret": "Enter to the private survey",
+    "newSurvey": "New Survey"
+
   },
 
   "group": {
