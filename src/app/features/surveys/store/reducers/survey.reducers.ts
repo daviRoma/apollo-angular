@@ -1,3 +1,4 @@
+import { act } from '@ngrx/effects';
 import { SurveyState, initialSurveyState, surveyAdapter } from '../../../../state/survey.state';
 import { SurveyActionsAll, SurveyActionTypes } from '../actions/survey.actions';
 
@@ -11,7 +12,7 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
         ...state,
         error: false,
         loading: false,
-        total: action.payload.meta.total
+        total: action.payload.meta ? action.payload.meta.total : action.payload.data.length
       });
     }
     case SurveyActionTypes.LOAD_FAILURE: {
@@ -23,6 +24,15 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
       });
     }
 
+    case SurveyActionTypes.LOADONE: {
+      return { ...state, loading: true };
+    }
+    case SurveyActionTypes.LOADONE_REDIRECT: {
+      return state.total ?
+        surveyAdapter.addOne(dataTransform([action.payload.data])[0],
+          { ...state, loading: false, error: false, total: state.total + 1 }) :
+        surveyAdapter.setOne(dataTransform([action.payload.data])[0], { ...state, loading: false, error: false, total: 1 });
+    }
     case SurveyActionTypes.LOADONE_SUCCESS: {
       return state.total ?
         surveyAdapter.updateOne(

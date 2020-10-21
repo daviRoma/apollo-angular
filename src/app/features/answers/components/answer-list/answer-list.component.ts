@@ -35,7 +35,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   public pageEvent: PageEvent;
 
   public dataSource: MatTableDataSource<SurveyAnswer>;
-  public noData: SurveyAnswer[] = [];
+
   public answerTotal: number;
   public isLoading: boolean;
 
@@ -80,7 +80,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(
       this.store.pipe(select(fromSurveyAnswer.selectSurveyAnswerLoading)).subscribe((loading) => {
         if (loading) {
-          this.dataSource = new MatTableDataSource(this.noData);
+          this.dataSource = new MatTableDataSource([]);
         }
         this.isLoading = loading;
       })

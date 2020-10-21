@@ -27,8 +27,25 @@ export function surveyAnswerReducer(state = initialSurveyAnswerState, action: Su
       });
     }
 
+    case SurveyAnswerActionTypes.LOADONE: {
+      return { ...state, loading: true };
+    }
+
     case SurveyAnswerActionTypes.LOADONE_SUCCESS: {
-      return surveyAnswerAdapter.addOne(dataTransform([action.payload.data])[0], { ...state });
+      return state.total ?
+        surveyAnswerAdapter.addOne(
+          dataTransform([action.payload.data])[0],
+          { ...state, loading: false, error: false, total: state.total }) :
+        surveyAnswerAdapter.setOne(dataTransform([action.payload.data])[0], { ...state, loading: false, error: false, total: 1 });
+    }
+
+    case SurveyAnswerActionTypes.LOADONE_FAILURE: {
+      return surveyAnswerAdapter.removeAll({
+        ...state,
+        error: true,
+        loading: false,
+        total: 0,
+      });
     }
 
     default:

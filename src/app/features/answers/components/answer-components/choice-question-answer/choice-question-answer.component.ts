@@ -42,7 +42,7 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     this.checkAnswer.answers = [];
 
     // View answer
-    if (this.answers) {
+    if (this.answers && this.answers.length) {
       this.readOnly = true;
     }
 

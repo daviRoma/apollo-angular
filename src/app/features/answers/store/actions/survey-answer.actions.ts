@@ -44,6 +44,6 @@ export type SurveyAnswerActionsAll =
   | SurveyAnswerLoadAction
   | SurveyAnswerLoadSuccessAction
   | SurveyAnswerLoadFailAction
-  | SurveyAnswerLoadAction
+  | SurveyAnswerLoadOneAction
   | SurveyAnswerLoadOneSuccessAction
   | SurveyAnswerLoadOneFailAction;

@@ -3,10 +3,11 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
 import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
+import { SurveyAnswerLoadOneAction } from '../../store/actions/survey-answer.actions';
 
 import { AnswersWrapper } from 'src/app/models/answer.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
-import { SurveyAnswer } from 'src/app/models/survey-answer.model';
+import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
 
 @Component({
   selector: 'app-question-group-answer-detail',
@@ -28,16 +29,42 @@ export class QuestionGroupAnswerDetailComponent implements OnInit {
   constructor(private store: Store<AppState>) {
     this.answerGroup = new AnswersWrapper();
     this.answerGroup.answers = [];
+    this.surveyAnswer = new SurveyAnswer();
+    this.surveyAnswer.answers = [];
   }
 
   ngOnInit(): void {
-    if (this.answerId) this.loadSurveyAnswerData(this.answerId);
+
+    if (this.answerId) {
+      this.store
+        .pipe(select(fromSurveyAnswer.selectSurveyAnswerTotal))
+        .subscribe((total: number) => {
+          if (!total) {
+            this.store
+              .pipe(select(fromSurveyAnswer.selectEntity, { id: this.answerId }))
+              .subscribe((surveyAnswer: SurveyAnswer) => {
+                if (!surveyAnswer) {
+                  this.store.dispatch( new SurveyAnswerLoadOneAction({
+                    id: this.answerId,
+                    surveyId: this.questionGroup.survey
+                  } as SurveyAnswerRequest));
+                }
+              }).unsubscribe();
+          }
+        });
+      this.store
+        .pipe(select(fromSurveyAnswer.selectSurveyAnswerLoading))
+        .subscribe((loading: boolean) => {
+          if (!loading) {
+            this.loadSurveyAnswerData(this.answerId);
+            this.isLoading = loading;
+          }
+        });
+    }
 
   }
 
   updateWrapper(event): void {
-
-    console.log("Updating", event);
 
     let result = this.answerGroup.answers.find(
       (item) =>

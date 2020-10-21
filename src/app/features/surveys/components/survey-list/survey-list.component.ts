@@ -40,9 +40,10 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public dataSource: MatTableDataSource<Survey>;
   public selectionList: Survey[];
-  public noData: Survey[] = [];
+
   public surveyTotal: number;
   public isLoading: boolean;
+  public isStart: boolean;
 
   public pageSizeOptions: number[];
   public pageSize: number;
@@ -61,6 +62,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public confirmDialog: MatDialog, private store: Store<AppState>, private translate: TranslateService,
   ) {
+    this.isStart = true;
     this.pageSize = 5;
     this.pageSizeOptions = [5, 10, 20];
     this.displayedColumns = [
@@ -78,8 +80,10 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       (user: User) => {
         if (user) {
           this.user = user;
-          this.loadSurveys();
-          this.selectSurveys();
+          if (this.isStart) {
+            this.loadSurveys();
+            this.isStart = false;
+          }
         }
       }
     );
@@ -87,7 +91,10 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(
       this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
         if (loading) {
-          this.dataSource = new MatTableDataSource(this.noData);
+          this.dataSource = new MatTableDataSource([]);
+        } else {
+          this.selectSurveys();
+
         }
         this.isLoading = loading;
       })
@@ -123,11 +130,12 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.store.complete();
   }
 
   openDeleteDialog(survey: Survey): void {
     const dialogRef = this.confirmDialog.open(DeleteSurveyComponent, {
-      minWidth: '20%',
+      width: '30%',
       position: { top: '14%' },
       data: {
         item: { ...survey },
@@ -137,13 +145,21 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
         },
       },
     });
+
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if (response.result === 'close_after_delete') {
+          this.paginator.pageIndex = 0;
+          this.paginator.pageSize = 5;
+          this.loadSurveys();
+        }
+      });
   }
 
   private selectSurveys(): void {
     this.store
       .pipe(select(fromSurvey.selectAllSurvey))
       .subscribe((surveys: Survey[]) => {
-        this.isLoading = false;
         if (surveys.length) {
           this.initializeData(surveys);
         }

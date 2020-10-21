@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
@@ -51,7 +51,15 @@ export class DetailComponent implements OnInit, OnDestroy {
             if (user) {
               self.user = user;
               self.params = { surveyId: parseInt(params.survey_id, 10) };
-              self.loadSurveyData();
+              self.store
+                .pipe(select(fromSurvey.selectEntity, { id: self.params.surveyId }))
+                .subscribe((survey: Survey) => {
+                  if (survey) {
+                    self.survey = { ...survey };
+                    self.loadQuestionGroups();
+                    self.isLoading =false;
+                  } else self.loadSurveyData();
+                }).unsubscribe();
             }
           });
       }
@@ -71,6 +79,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
     this.subscription.unsubscribe();
+    this.store.complete();
   }
 
   private loadWithSelectors(): void {
