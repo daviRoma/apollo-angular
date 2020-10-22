@@ -29,14 +29,14 @@
           *ngIf="!readOnly"
           type="radio"
           id="{{'customRadio_' + i  + '_' + question.id}}"
-          name="customRadio"
+          name="{{'customRadio_' + question.id}}"
           class="custom-control-input" value="{{option}}"
           (change)="choiceRadioAnswerChange($event, option.value)">
         <input
           *ngIf="readOnly"
           type="radio"
           id="{{'customRadio_' + i  + '_' + question.id}}"
-          name="customRadio"
+          name="{{'customRadio_' + question.id}}"
           class="custom-control-input" value="{{option}}"
           [checked]="isChecked(option)"
           [disabled]="readOnly">

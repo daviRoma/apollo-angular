@@ -27,7 +27,7 @@ export class InputQuestionAnswerComponent implements OnInit {
     this.inputAnswer.questionType = this.question.questionType;
 
     // View answer
-    if (this.answers) {
+    if (this.answers.length) {
       this.readOnly = true;
       this.showAnswer();
     }

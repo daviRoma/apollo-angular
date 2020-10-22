@@ -42,7 +42,7 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     this.checkAnswer.answers = [];
 
     // View answer
-    if (this.answers && this.answers.length) {
+    if (this.answers.length != 0 && this.answers.length) {
       this.readOnly = true;
     }
 
@@ -82,29 +82,31 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   }
 
   getSelected(): string {
-    if (!this.answers) return null;
-    let options = [...this.question.options].map(op => ({ id: op.id, value: op.value, selected: false }));
-    let selectedValue;
-    const answer = this.answers.find(
-      answ => (
-        answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
-      )
-    );
+    if (this.answers.length != 0) {
+      let options = [...this.question.options].map(op => ({ id: op.id, value: op.value, selected: false }));
+      let selectedValue;
+      const answer = this.answers.find(
+        answ => (
+          answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
+        )
+      );
 
-    answer.answers.forEach(value => {
-      if (options.find(op => op.value === value)) {
-        options.find(op => op.value === value).selected = true;
-        selectedValue = value;
-        return;
-      }
-    });
+      answer.answers.forEach(value => {
+        if (options.find(op => op.value === value)) {
+          options.find(op => op.value === value).selected = true;
+          selectedValue = value;
+          return;
+        }
+      });
 
-    this.question = {
-      ...this.question,
-      options: [ ...options ]
-    };
+      this.question = {
+        ...this.question,
+        options: [...options]
+      };
 
-    return selectedValue;
+      return selectedValue;
+    }
+    else return null;
   }
 
   // GESTIRE LA RIMOZIONE

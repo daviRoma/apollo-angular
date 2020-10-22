@@ -86,6 +86,8 @@ export class PublishSurveyComponent implements OnInit {
           }));
       }
     }
+
+    this.closeDialog();
   }
 
   hasQuestions(): boolean {

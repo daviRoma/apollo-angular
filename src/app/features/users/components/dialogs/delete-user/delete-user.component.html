@@ -12,6 +12,6 @@
   <div class="mat-dialog-actions">
     <div class="text-right buttons-container">
       <button type="button" class="btn btn-sm btn-link text-danger" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
-      <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="confirm()">{{ 'common.confirm' | translate }}</button>
+      <button type="button" class="btn btn-sm btn-primary rounded-pill" (click)="confirm()" [routerLink]="['/users/administration/list']">{{ 'common.confirm' | translate }}</button>
     </div>
   </div>

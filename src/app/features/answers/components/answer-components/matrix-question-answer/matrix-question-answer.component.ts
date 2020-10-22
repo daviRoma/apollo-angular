@@ -33,9 +33,11 @@ export class MatrixQuestionAnswerComponent implements OnInit {
     this.matrixMultiAnswer.answersPair = [];
 
     // View answer
-    if (this.answers) {
+    if (this.answers.length !== 0) {
       this.readOnly = true;
     }
+
+    console.log(this.answers.length)
 
   }
 

@@ -62,5 +62,5 @@ export class AnswersWrapper{
   email?: string;
   password?: string;
   totAnswers?: number;
-  answers: Answer[];
+  answers: any[];
 }

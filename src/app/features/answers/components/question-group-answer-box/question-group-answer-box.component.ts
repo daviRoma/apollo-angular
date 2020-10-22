@@ -7,7 +7,6 @@ import { MatrixQuestion, Question } from 'src/app/models/question.model';
 import { AppState } from 'src/app/state/app.state';
 import { SubmitAnswersAction } from '../../store/actions/answer.actions';
 
-
 @Component({
   selector: 'app-question-group-answer-box',
   templateUrl: './question-group-answer-box.component.html',
@@ -36,7 +35,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   private surveyEnd: boolean;
   private answerWrapper: AnswersWrapper;
 
-  private mandatoryCompleted = false;
+  private mandatoryCompleted = true;
   private mandatoryQuestion: Question[];
 
   private canContinue = false;
@@ -62,9 +61,13 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   onNextGroup(): void {
-    if ((this.pageIndex < this.questionGroups.length - 1 && this.canContinue) || this.answerId) {
+    if (
+      (this.pageIndex < this.questionGroups.length - 1 && this.canContinue) ||
+      this.answerId
+    ) {
       this.pageIndex += 1;
       this.group = this.questionGroups[this.pageIndex];
+      this.updateMandatoryQuestion();
 
       if (this.pageIndex === this.questionGroups.length - 1) {
         this.surveyEnd = true;
@@ -79,55 +82,78 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   submitSurveyAnswers(): void {
-    let payload: any;
 
-    if (this.userUnlocked != null) {
-      payload = {
-        email: this.userUnlocked.email,
-        password: this.userUnlocked.password,
-        answers: [...this.answerWrapper.answers],
-      };
-    } else {
-      payload = { answers: [...this.answerWrapper.answers] };
+    if (this.canContinue) {
+
+      let payload: any;
+
+      if (this.userUnlocked != null) {
+        payload = {
+          email: this.userUnlocked.email,
+          password: this.userUnlocked.password,
+          answers: [...this.answerWrapper.answers],
+        };
+      } else {
+        payload = { answers: [...this.answerWrapper.answers] };
+      }
+
+      this.store.dispatch(
+        new SubmitAnswersAction({
+          surveyId: this.surveyId,
+          answerWrapper: payload,
+        } as AnswerRequest)
+      );
+
+      this.submitted.emit(true);
+
     }
-
-    this.store.dispatch(
-      new SubmitAnswersAction({
-        surveyId: this.surveyId,
-        answerWrapper: payload,
-      } as AnswerRequest)
-    );
-
-    this.submitted.emit(true);
   }
 
   updateMandatoryQuestion(): void {
     this.mandatoryQuestion = this.questionGroups[
       this.pageIndex
     ].questions.filter((item) => item.mandatory == true);
+
+    if (this.mandatoryQuestion.length !== 0) {
+      this.mandatoryCompleted = true;
+      this.canContinue = false;
+    }
   }
 
   updateWrapper(event): void {
 
-    console.log("EVENT", event);
-
+    this.mandatoryCompleted = true;
 
     const notEmptyAnswer = event.answers.filter(
       (item) =>
         (item.answer && item.answer.length > 0) ||
         (item.answers && item.answers.length > 0) ||
         (item.answerPair && item.answerPair.length > 0) ||
-        (item.answersPair && item.answersPair.length > 0) 
+        (item.answersPair && item.answersPair.length > 0)
     );
-    this.mandatoryCompleted = this.areMandatoryCompleted(notEmptyAnswer);
+
+    // this.mandatoryCompleted = this.areMandatoryCompleted(notEmptyAnswer);
 
     this.isMatrixCheckAnswerCompleted(notEmptyAnswer);
     this.isMatrixRadioAnswerCompleted(notEmptyAnswer);
 
-    if (this.mandatoryCompleted) {
-      if (this.matrixCheckCompleted && this.matrixRadioCompleted) {
+    this.answerWrapper.answers = notEmptyAnswer;
 
-        this.answerWrapper.answers = notEmptyAnswer;
+    if (this.matrixCheckCompleted && this.matrixRadioCompleted) {
+      this.answerWrapper.answers = this.answerWrapper.answers.filter(
+        (item) =>
+          (item.answer && item.answer.length > 0) ||
+          (item.answers && item.answers.length > 0) ||
+          (item.answerPair && item.answerPair.length > 0) ||
+          (item.answersPair && item.answersPair.length > 0)
+      );
+
+      this.mandatoryCompleted = this.areMandatoryCompleted(
+        this.answerWrapper.answers
+      );
+
+      if (this.mandatoryCompleted) {
+        // this.answerWrapper.answers = notEmptyAnswer;
 
         this.canContinue = true;
       } else {
@@ -137,22 +163,29 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   areMandatoryCompleted(answerList): boolean {
+
+    console.log(this.mandatoryCompleted);
+
+    console.log("checking mandatory");
+
     if (this.mandatoryQuestion.length !== 0) {
-      for (
-        let i = 0;
-        i < this.mandatoryQuestion.length && this.mandatoryCompleted;
-        i++
-      ) {
-        if (
-          !answerList.find(
-            (obj) =>
-              obj.questionId === this.mandatoryQuestion[i].id &&
-              obj.questionType === this.mandatoryQuestion[i].questionType
-          )
-        ) {
+
+      console.log("mandatory", this.mandatoryQuestion);
+
+
+      console.log("there are mandatory");
+
+      for (let i = 0; i < this.mandatoryQuestion.length && this.mandatoryCompleted; i++) {
+
+        console.log("searching for ", this.mandatoryQuestion[i]);
+
+        if (!answerList.find((obj) =>
+          obj.questionId === this.mandatoryQuestion[i].id &&
+          obj.questionType === this.mandatoryQuestion[i].questionType)) {
           return false;
         }
       }
+
       return true;
     } else return true;
   }

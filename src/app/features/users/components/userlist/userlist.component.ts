@@ -142,12 +142,14 @@ export class UserListComponent implements OnInit {
     );
   }
 
-  public openDeleteDialog(): void {
+  public openDeleteDialog(userToDelete): void {
+
+    console.log("User to delete", userToDelete)
     const dialogRef = this.dialog.open(DeleteUserComponent, {
       minWidth: '20%',
       position: { top: '14%' },
       data: {
-        user: { ...this.user }, // clone object
+        user: { ...userToDelete }, // clone object
         dialogConfig: {
           title: 'Delete User',
           content: 'Are you sure to delete this User?',
@@ -158,7 +160,7 @@ export class UserListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((response) => {
       if (response.result === 'close_after_delete') {
         // Delete action
-        this.store.dispatch(new UserDeleteAction(this.user.id));
+        this.store.dispatch(new UserDeleteAction(userToDelete.id));
         this.router.navigateByUrl('users/administration/list');
       }
     });

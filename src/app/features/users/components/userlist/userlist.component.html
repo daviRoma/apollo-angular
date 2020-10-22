@@ -51,7 +51,7 @@
 			<td mat-cell *matCellDef="let user" class="action-td">
 				<a *ngIf="!user.active" title="Delete User" data-toggle="tooltip" href="#" data-action="delete-open"
 					data-toggle="tooltip" title="Delete" data-target="#actions-deletem"
-					(click)="openDeleteDialog()">&nbsp;<i class="fas fa-trash"></i>&nbsp;</a>
+					(click)="openDeleteDialog(user)">&nbsp;<i class="fas fa-trash"></i>&nbsp;</a>
 			</td>
 		</ng-container>
 
