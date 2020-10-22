@@ -164,20 +164,9 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
   areMandatoryCompleted(answerList): boolean {
 
-    console.log(this.mandatoryCompleted);
-
-    console.log("checking mandatory");
-
     if (this.mandatoryQuestion.length !== 0) {
 
-      console.log("mandatory", this.mandatoryQuestion);
-
-
-      console.log("there are mandatory");
-
       for (let i = 0; i < this.mandatoryQuestion.length && this.mandatoryCompleted; i++) {
-
-        console.log("searching for ", this.mandatoryQuestion[i]);
 
         if (!answerList.find((obj) =>
           obj.questionId === this.mandatoryQuestion[i].id &&

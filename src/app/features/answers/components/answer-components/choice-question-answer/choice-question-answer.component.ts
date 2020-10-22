@@ -15,7 +15,18 @@ import { ChoiceQuestion } from 'src/app/models/question.model';
 })
 export class ChoiceQuestionAnswerComponent implements OnInit {
   @Input() question: ChoiceQuestion;
-  @Input() answers: any[];
+
+  @Input()
+  set answers(answers: any[]) {
+    // View answer
+    if (answers) {
+      this.readOnly = true;
+      if (answers.length) this._answers = [ ...answers ];
+    }
+  }
+  get answers(): any[] {
+    return this._answers;
+  }
 
   @Output() optionSelected = new EventEmitter();
 
@@ -25,7 +36,11 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   public readOnly: boolean;
   public otherChoice: string;
 
+  public selectedInput: boolean;
+  public otherInput: boolean;
+
   private otherStatus = false;
+  private _answers: any[];
 
   constructor() {
     this.otherChoice = null;
@@ -40,52 +55,50 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     this.checkAnswer.questionId = this.question.id;
     this.checkAnswer.questionType = this.question.questionType;
     this.checkAnswer.answers = [];
-
-    // View answer
-    if (this.answers.length != 0 && this.answers.length) {
-      this.readOnly = true;
-    }
-
   }
 
   isChecked(option: any): boolean {
     let checked = false;
-    const answer = this.answers.find(
+    const answer = this._answers.find(
       answ => (
         answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
       )
     );
 
-    answer.answers.forEach(value => {
-      if (value === option.value) {
-        checked = true;
-      }
-    });
+    if (answer) {
+      answer.answers.forEach(value => {
+        if (value === option.value) {
+          checked = true;
+        }
+      });
+    }
     return checked;
   }
 
   hasOtherChoice(): boolean {
-    const answer = this.answers.find(
+    const answer = this._answers.find(
       answ => (
         answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
       )
     );
 
-    answer.answers.forEach(value => {
-      if (!this.question.options.find(op => op.value === value)) {
-        this.otherChoice = value;
-        return;
-      }
-    });
+    if (answer) {
+      answer.answers.forEach(value => {
+        if (!this.question.options.find(op => op.value === value)) {
+          this.otherChoice = value;
+          return;
+        }
+      });
+    }
 
     return this.otherChoice !== null;
   }
 
   getSelected(): string {
-    if (this.answers.length != 0) {
+    if (this._answers.length) {
       let options = [...this.question.options].map(op => ({ id: op.id, value: op.value, selected: false }));
       let selectedValue;
-      const answer = this.answers.find(
+      const answer = this._answers.find(
         answ => (
           answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
         )
@@ -105,18 +118,27 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
       };
 
       return selectedValue;
-    }
-    else return null;
+    } else
+      return null;
   }
 
+  onOtherValueChange(event): void {
+    if (event.target.value !== '') {
+      this.otherInput = true;
+      this.selectedInput = false;
+    }
+    else this.otherInput = false;
+  }
   // GESTIRE LA RIMOZIONE
 
   choiceRadioAnswerChange(event, option): void {
+    this.otherInput = false;
     this.choiceAnswer.answer = option;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
   choiceRadioOtherAnswerChange(event): void {
+    this.selectedInput = false;
     this.choiceAnswer.answer = event.target.value;
     this.optionSelected.emit(this.choiceAnswer);
   }

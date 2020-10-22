@@ -41,7 +41,7 @@ export class AdvancedComponent implements OnInit, DoCheck {
   }
 
   onMandatoryChange(event): void {
-    this.advancedOptions.emit({ name: 'mandatory', value: Boolean(event.target.value)});
+    this.advancedOptions.emit({ name: 'mandatory', value: Boolean(event.target.checked)});
   }
 
   onFileChange(event): void {

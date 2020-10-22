@@ -40,7 +40,6 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
-    this.choiceQuestion = new ChoiceQuestion();
     this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
@@ -52,7 +51,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
 
     // Edit case
     if (this.data.question) {
-      this.choiceQuestion = { ...this.data.question };
+      this.choiceQuestion = { ...this.data.question } as ChoiceQuestion;
     } else {
       this.choiceQuestion = {
         options: [],
@@ -115,7 +114,12 @@ export class ChoiceQuestionDialogComponent implements OnInit {
         )
       : this.store.dispatch(
           new ChoiceQuestionUpdateAction({
-            question: { ...payload, id: this.choiceQuestion.id, options: this.choiceQuestion.options.map(op => op.value) },
+            question: {
+              ...payload,
+              id: this.choiceQuestion.id,
+              options: this.choiceQuestion.options.map(op => op.value),
+              mandatory: this.choiceQuestion.mandatory
+            },
             questionGroupId: this.choiceQuestion.questionGroup,
             surveyId: this.choiceQuestion.survey,
           } as QuestionRequest)

@@ -44,7 +44,6 @@ export class MatrixQuestionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
-    this.matrixQuestion = new MatrixQuestion();
     this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
@@ -58,13 +57,14 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
     // Edit case
     if (this.data.question) {
-      this.matrixQuestion = { ...this.data.question };
+      this.matrixQuestion = { ...this.data.question } as MatrixQuestion;
     } else {
       this.matrixQuestion = {
         options: [],
         elements: [],
         type: this.data.type,
-        questionGroup: this.data.questionGroupId
+        questionGroup: this.data.questionGroupId,
+        mandatory: false
       } as MatrixQuestion;
     }
 
@@ -116,7 +116,8 @@ export class MatrixQuestionDialogComponent implements OnInit {
               ...payload,
               id: this.matrixQuestion.id,
               options: this.matrixQuestion.options.map(op => op.value),
-              elements: this.matrixQuestion.elements.map(el => el.title)
+              elements: this.matrixQuestion.elements.map(el => el.title),
+              mandatory: this.matrixQuestion.mandatory
             },
             questionGroupId: this.matrixQuestion.questionGroup,
             surveyId: this.matrixQuestion.survey,

@@ -9,7 +9,19 @@ import { MatrixQuestion } from 'src/app/models/question.model';
 })
 export class MatrixQuestionAnswerComponent implements OnInit {
   @Input() question: MatrixQuestion;
-  @Input() answers: any[];
+
+  @Input()
+  set answers(answers: any[]) {
+    // View answer
+    if (answers) {
+      this.readOnly = true;
+      if (answers.length) this._answers = [ ...answers ];
+
+    }
+  }
+  get answers(): any[] {
+    return this._answers;
+  }
 
   @Output() optionSelected = new EventEmitter();
 
@@ -17,6 +29,8 @@ export class MatrixQuestionAnswerComponent implements OnInit {
   public matrixMultiAnswer: MatrixMultiAnswer;
 
   public readOnly: boolean;
+
+  private _answers: any[];
 
   constructor() {}
 
@@ -26,24 +40,16 @@ export class MatrixQuestionAnswerComponent implements OnInit {
     this.matrixSingleAnswer.questionType = this.question.questionType;
     this.matrixSingleAnswer.answerPair = [];
 
-
     this.matrixMultiAnswer = new MatrixMultiAnswer();
     this.matrixMultiAnswer.questionId = this.question.id;
     this.matrixMultiAnswer.questionType = this.question.questionType;
     this.matrixMultiAnswer.answersPair = [];
 
-    // View answer
-    if (this.answers.length !== 0) {
-      this.readOnly = true;
-    }
-
-    console.log(this.answers.length)
-
   }
 
   isChecked(option: any, element: any): boolean {
     let checked = false;
-    const answer = this.answers.find(
+    const answer = this._answers.find(
       answ => (
         answ.question.id === this.question.id && answ.question.questionType === 'App\\MatrixQuestion'
       )

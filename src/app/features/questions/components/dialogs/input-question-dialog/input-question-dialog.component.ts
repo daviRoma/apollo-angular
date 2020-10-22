@@ -35,7 +35,6 @@ export class InputQuestionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = this.data.dialogConfig;
-    this.inputQuestion = new InputQuestion();
     this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
@@ -48,9 +47,12 @@ export class InputQuestionDialogComponent implements OnInit {
 
     // Edit case
     if (this.data.question) {
-      this.inputQuestion = { ...this.data.question };
+      this.inputQuestion = { ...this.data.question } as InputQuestion;
     } else {
-      this.inputQuestion.questionGroup = this.data.questionGroupId;
+      this.inputQuestion = {
+        mandatory: false,
+        questionGroup: this.data.questionGroupId
+      } as InputQuestion;
     }
 
     this.questionForm.patchValue(this.inputQuestion);
@@ -110,7 +112,7 @@ export class InputQuestionDialogComponent implements OnInit {
         )
       : this.store.dispatch(
           new InputQuestionUpdateAction({
-            question: { ...payload, id: this.inputQuestion.id },
+            question: { ...payload, id: this.inputQuestion.id, mandatory: this.inputQuestion.mandatory },
             questionGroupId: this.inputQuestion.questionGroup,
             surveyId: this.inputQuestion.survey,
           } as QuestionRequest)

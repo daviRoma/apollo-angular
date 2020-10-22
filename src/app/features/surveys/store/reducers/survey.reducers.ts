@@ -45,21 +45,21 @@ export function surveyReducer(state = initialSurveyState, action: SurveyActionsA
       return { ...state, loading: true };
     }
     case SurveyActionTypes.NEW_FAILURE: {
-      return state;
+      return { ...state, loading: false, error: true, total: state.total };
     }
 
     case SurveyActionTypes.UPDATE: {
       return { ...state, loading: true };
     }
     case SurveyActionTypes.UPDATE_FAILURE: {
-      return state;
+      return { ...state, loading: false, error: true, total: state.total };
     }
 
     case SurveyActionTypes.DELETE: {
       return { ...state, loading: true };
     }
     case SurveyActionTypes.DELETE_SUCCESS: {
-      return surveyAdapter.removeOne(action.payload, { ...state });
+      return surveyAdapter.removeOne(action.payload, { ...state, loading: false, error: false, total: state.total - 1 });
     }
     case SurveyActionTypes.DELETE_FAILURE: {
       return surveyAdapter.setAll([], {

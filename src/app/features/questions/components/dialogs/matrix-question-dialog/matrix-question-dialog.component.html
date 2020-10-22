@@ -120,8 +120,7 @@
 
         <!-- Advanced option -->
         <div class="form-group mt-3">
-          <app-advanced [mandatory]="matrixQuestion ? matrixQuestion.mandatory : false"
-            [file]="matrixQuestion ? matrixQuestion.icon : null" (advancedOptions)="advancedOptionChange($event)"></app-advanced>
+          <app-advanced *ngIf="matrixQuestion" [mandatory]="matrixQuestion.mandatory" [file]="matrixQuestion.icon" (advancedOptions)="advancedOptionChange($event)"></app-advanced>
         </div>
       </div>
     </div>

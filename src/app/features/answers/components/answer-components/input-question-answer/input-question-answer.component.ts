@@ -9,15 +9,30 @@ import { InputQuestion } from 'src/app/models/question.model';
 })
 export class InputQuestionAnswerComponent implements OnInit {
   @Input() question: InputQuestion;
-  @Input() answers: any[];
-
   @Output() inputInjected = new EventEmitter();
+
+  @Input()
+  set answers(answers: any[]) {
+    // View answer
+    if (answers) {
+      this.readOnly = true;
+      if (answers.length) {
+        this._answers = [ ...answers ];
+        this.showAnswer();
+      }
+    }
+  }
+  get answers(): any[] {
+    return this._answers;
+  }
 
   public inputAnswer: SingleAnswer;
 
   public inputvalue: string;
 
   public readOnly: boolean;
+
+  private _answers: any[];
 
   constructor() {}
 
@@ -27,15 +42,15 @@ export class InputQuestionAnswerComponent implements OnInit {
     this.inputAnswer.questionType = this.question.questionType;
 
     // View answer
-    if (this.answers.length) {
+    if (this._answers.length) {
       this.readOnly = true;
-      this.showAnswer();
+
     }
 
   }
 
   showAnswer(): void {
-    const answer = this.answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\InputQuestion'));
+    const answer = this._answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\InputQuestion'));
     if (answer) this.inputvalue = answer.answers[0];
   }
 

@@ -30,7 +30,6 @@ export class QuestionGroupAnswerDetailComponent implements OnInit {
     this.answerGroup = new AnswersWrapper();
     this.answerGroup.answers = [];
     this.surveyAnswer = new SurveyAnswer();
-    this.surveyAnswer.answers = [];
   }
 
   ngOnInit(): void {

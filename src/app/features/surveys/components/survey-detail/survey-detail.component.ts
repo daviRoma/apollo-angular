@@ -68,7 +68,7 @@ export class SurveyDetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       response => {
         if (response.result === 'close_after_delete') {
-          this.router.navigate(['dashboard/surveys/list']);
+          this.router.navigate(['/dashboard']);
         }
       });
   }

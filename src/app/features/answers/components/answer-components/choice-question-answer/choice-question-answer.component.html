@@ -31,6 +31,7 @@
           id="{{'customRadio_' + i  + '_' + question.id}}"
           name="{{'customRadio_' + question.id}}"
           class="custom-control-input" value="{{option}}"
+          [checked]="selectedInput"
           (change)="choiceRadioAnswerChange($event, option.value)">
         <input
           *ngIf="readOnly"
@@ -46,11 +47,12 @@
       <!-- Other -->
       <div *ngIf="question.other" class="custom-control custom-radio">
         <input *ngIf="readOnly" type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" [checked]="hasOtherChoice()" [disabled]="readOnly">
-        <input *ngIf="!readOnly" type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" (click)="choiceRadioOtherAnswerChange($event)">
+        <input *ngIf="!readOnly" type="radio" id="{{'other_choice-' + question.id}}" name="customRadio" class="custom-control-input" [value]="otherInput" [checked]="otherInput" (click)="choiceRadioOtherAnswerChange($event)">
 
         <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
           <div class="border-bottom custom-input-text">
-            <input type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" id="{{'other_choice-answer-' + question.id}}" [value]="otherChoice" [disabled]="readOnly"/>
+            <input *ngIf="!readOnly" type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" id="{{'other_choice-answer-' + question.id}}" (keyup)="onOtherValueChange($event)"/>
+            <input *ngIf="readOnly" type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" id="{{'other_choice-answer-' + question.id}}" [value]="otherChoice" [disabled]="readOnly"/>
           </div>
         </label>
 
@@ -78,11 +80,12 @@
 
       <!-- Other -->
       <div *ngIf="question.other" class="custom-control custom-checkbox">
-        <input *ngIf="!readOnly" type="checkbox" id="{{'other_choice-' + question.id }}" name="customCheck" class="custom-control-input" (click)="choiceCheckOtherAnswerChange($event)">
+        <input *ngIf="!readOnly" type="checkbox" id="{{'other_choice-' + question.id }}" name="customCheck" class="custom-control-input" [checked]="otherInput" (click)="choiceCheckOtherAnswerChange($event)">
         <input *ngIf="readOnly" type="checkbox" id="{{'other_choice-' + question.id }}" name="customCheck" class="custom-control-input" [checked]="hasOtherChoice()" [disabled]="readOnly">
         <label class="custom-control-label" for="{{'other_choice-' + question.id}}">
           <div class="border-bottom custom-input-text">
-            <input type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" id="{{'other_choice-answer-' + question.id}}" [value]="otherChoice" [disabled]="readOnly"/>
+            <input *ngIf="!readOnly" type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" id="{{'other_choice-answer-' + question.id}}" (keyup)="onOtherValueChange($event)"/>
+            <input *ngIf="readOnly" type="text" placeholder="Other" name="otherInput" class="input-text-other mt-n1" id="{{'other_choice-answer-' + question.id}}" [value]="otherChoice" [disabled]="readOnly"/>
           </div>
         </label>
       </div>

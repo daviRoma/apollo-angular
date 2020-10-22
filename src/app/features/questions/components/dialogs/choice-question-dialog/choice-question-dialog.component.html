@@ -68,8 +68,7 @@
 
         <!-- Advanced option -->
         <div class="form-group mt-4">
-          <app-advanced [mandatory]="choiceQuestion ? choiceQuestion.mandatory : false"
-            [file]="choiceQuestion ? choiceQuestion.icon : null" (advancedOptions)="advancedOptionChange($event)"></app-advanced>
+          <app-advanced *ngIf="choiceQuestion" [mandatory]="choiceQuestion.mandatory" [file]="choiceQuestion.icon" (advancedOptions)="advancedOptionChange($event)"></app-advanced>
         </div>
       </div>
     </div>
