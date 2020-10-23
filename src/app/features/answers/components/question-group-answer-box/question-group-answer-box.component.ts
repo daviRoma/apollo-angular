@@ -48,7 +48,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.group = this.questionGroups[0];
-    this.surveyId = this.group.survey;
+    if (this.group) this.surveyId = this.group.survey;
 
     if (this.questionGroups.length === 1) {
       this.surveyEnd = true;
