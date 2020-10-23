@@ -95,7 +95,7 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   }
 
   getSelected(): string {
-    if (this._answers.length) {
+    if (this._answers && this._answers.length) {
       let options = [...this.question.options].map(op => ({ id: op.id, value: op.value, selected: false }));
       let selectedValue;
       const answer = this._answers.find(
@@ -122,24 +122,35 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
       return null;
   }
 
-  onOtherValueChange(event): void {
-    if (event.target.value !== '') {
-      this.otherInput = true;
-      this.selectedInput = false;
-    }
-    else this.otherInput = false;
-  }
-  // GESTIRE LA RIMOZIONE
+  // onOtherValueChange(event): void {
+  //   if (event.target.value !== '') {
+  //     this.otherInput = true;
+  //     this.selectedInput = false;
+  //   }
+  //   else this.otherInput = false;
+  // }
 
   choiceRadioAnswerChange(event, option): void {
-    this.otherInput = false;
+    let otherInputHTML = <HTMLInputElement>(
+      document.getElementById('other_choice-answer-' + this.question.id)
+    );
+
+    otherInputHTML.disabled = false;
+
     this.choiceAnswer.answer = option;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
   choiceRadioOtherAnswerChange(event): void {
-    this.selectedInput = false;
-    this.choiceAnswer.answer = event.target.value;
+
+      let otherInputHTML = <HTMLInputElement>(
+      document.getElementById('other_choice-answer-' + this.question.id)
+    );
+
+    otherInputHTML.disabled = true;
+
+    // this.selectedInput = false;
+    this.choiceAnswer.answer = event.path[0].offsetParent.children[1].children[0].children[0].value;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
