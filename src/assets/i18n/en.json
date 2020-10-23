@@ -101,7 +101,8 @@
     "save": "Save",
     "endDate": "End Date",
     "action": "Action",
-    "digitemail": "Digit an email..."
+    "digitemail": "Digit an email...",
+    "unabletopublish": "Unable to publish"
      },
 
   "placeholder": {

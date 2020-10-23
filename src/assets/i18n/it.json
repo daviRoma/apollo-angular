@@ -101,7 +101,8 @@
     "save": "Salva",
     "endDate": "Data Fine",
     "action": "Azione",
-    "digitemail": "Inserisci un indirizzo email..."
+    "digitemail": "Inserisci un indirizzo email...",
+    "unabletopublish": "Impossibile pubblicare"
 
   },
 
