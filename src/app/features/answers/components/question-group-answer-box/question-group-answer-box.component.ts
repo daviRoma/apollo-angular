@@ -47,8 +47,10 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.group = this.questionGroups[0];
-    if (this.group) this.surveyId = this.group.survey;
+    if (this.questionGroups && this.questionGroups.length) {
+      this.group = this.questionGroups[0];
+      this.surveyId = this.group.survey;
+    }
 
     if (this.questionGroups.length === 1) {
       this.surveyEnd = true;
@@ -112,7 +114,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   updateMandatoryQuestion(): void {
     this.mandatoryQuestion = this.questionGroups[
       this.pageIndex
-    ].questions.filter((item) => item.mandatory == true);
+    ].questions.filter((item) => item.mandatory);
 
     if (this.mandatoryQuestion.length !== 0) {
       this.mandatoryCompleted = true;
@@ -182,12 +184,12 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   isMatrixCheckAnswerCompleted(answerList): void {
     let multiCheckQuestion: MatrixQuestion[] = this.group.questions.filter(
       (item) =>
-        item.questionType === 'App\\MatrixQuestion' &&
-        item.type == 'CHECK' &&
-        item.mandatory === true
+        (item.questionType === 'App\\MatrixQuestion' &&
+        item.type === 'CHECK' &&
+        item.mandatory)
     ) as MatrixQuestion[];
 
-    if (multiCheckQuestion.length != 0) {
+    if (multiCheckQuestion.length !== 0) {
       multiCheckQuestion.forEach((item) => {
         let questionNumber = item.elements.length;
         let result = answerList.find(
@@ -209,9 +211,9 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   isMatrixRadioAnswerCompleted(answerList): void {
     let multiRadioQuestion: MatrixQuestion[] = this.group.questions.filter(
       (item) =>
-        item.questionType === 'App\\MatrixQuestion' &&
-        item.type == 'RADIO' &&
-        item.mandatory == true
+        (item.questionType === 'App\\MatrixQuestion' &&
+        item.type === 'RADIO' &&
+        item.mandatory)
     ) as MatrixQuestion[];
 
     if (multiRadioQuestion.length != 0) {

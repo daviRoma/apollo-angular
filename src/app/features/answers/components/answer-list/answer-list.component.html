@@ -1,11 +1,14 @@
 <mat-toolbar>
   <mat-toolbar-row>
     <div class="card-header pt-0">
-      <!-- <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-12"> -->
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
           <h3 class="force-margin-0">{{answerTotal}}</h3>
-        <!-- </div>
-      </div> -->
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 text-right">
+          <span class="m-1 p-1 refresh-icon" title="Refresh" (click)="refreshData()"><i class="fas fa-sync fa-2x"></i></span>
+        </div>
+      </div>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

@@ -56,13 +56,18 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
+    this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
+      if (!loading) {
+        this.loadWithSelectors();
+      }
+    });
+
+    this.store.select(fromQuestionGroup.selectQuestionGroupLoading)
+      .subscribe((loading: boolean) => {
         if (!loading) {
-          this.loadWithSelectors();
+          this.loadGroupsWithSelectors();
         }
-      })
-    );
+    });
   }
 
   ngOnDestroy(): void {
@@ -122,8 +127,13 @@ export class SurveyanswerComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.params.survey_id }))
       .subscribe((response: QuestionGroup[]) => {
-        this.survey = { ...this.survey, questionGroups: response };
-        this.questionGroups = response;
+        if (response && response.length) {
+          this.survey = { ...this.survey, questionGroups: [ ...response ] };
+          this.questionGroups = [ ...response ];
+        } else {
+          this.survey = { ...this.survey, questionGroups: [] };
+          this.questionGroups = [];
+        }
       });
   }
 

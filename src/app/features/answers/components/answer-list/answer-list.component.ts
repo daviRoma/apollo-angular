@@ -66,9 +66,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-
     this.loadAnswers();
-
     this.store
       .pipe(select(fromSurveyAnswer.selectAllSurveyAnswer))
       .subscribe((surveyAnswer) => this.initializeData(surveyAnswer));
@@ -116,11 +114,12 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  retry(): void {
+  refreshData(): void {
+    this.paginator.pageIndex = 0;
+    this.paginator.pageSize = 5;
     this.loadAnswers();
   }
 
-  // TO DO: Get total questions
   getPercentageCompletition(totAnswers: number): string {
     return ((totAnswers / this.questionGroups.map(g => g.questions.length).reduce((g1, g2) => g1 + g2)) * 100).toFixed(2);
   }

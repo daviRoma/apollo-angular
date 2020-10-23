@@ -41,12 +41,6 @@ export class InputQuestionAnswerComponent implements OnInit {
     this.inputAnswer.questionId = this.question.id;
     this.inputAnswer.questionType = this.question.questionType;
 
-    // View answer
-    if (this._answers.length) {
-      this.readOnly = true;
-
-    }
-
   }
 
   showAnswer(): void {

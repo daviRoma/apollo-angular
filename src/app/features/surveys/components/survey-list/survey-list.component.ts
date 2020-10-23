@@ -94,7 +94,6 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
           this.dataSource = new MatTableDataSource([]);
         } else {
           this.selectSurveys();
-
         }
         this.isLoading = loading;
       })

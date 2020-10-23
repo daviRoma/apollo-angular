@@ -131,19 +131,19 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   // }
 
   choiceRadioAnswerChange(event, option): void {
-    let otherInputHTML = <HTMLInputElement>(
-      document.getElementById('other_choice-answer-' + this.question.id)
-    );
-
-    otherInputHTML.disabled = false;
+    if (this.question.other) {
+      let otherInputHTML = <HTMLInputElement>(
+        document.getElementById('other_choice-' + this.question.id)
+      );
+      otherInputHTML.disabled = false;
+    }
 
     this.choiceAnswer.answer = option;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
   choiceRadioOtherAnswerChange(event): void {
-
-      let otherInputHTML = <HTMLInputElement>(
+    let otherInputHTML = <HTMLInputElement>(
       document.getElementById('other_choice-answer-' + this.question.id)
     );
 

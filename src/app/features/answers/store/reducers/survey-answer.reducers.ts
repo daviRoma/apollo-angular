@@ -33,8 +33,8 @@ export function surveyAnswerReducer(state = initialSurveyAnswerState, action: Su
 
     case SurveyAnswerActionTypes.LOADONE_SUCCESS: {
       return state.total ?
-        surveyAnswerAdapter.addOne(
-          dataTransform([action.payload.data])[0],
+        surveyAnswerAdapter.updateOne(
+          { id: action.payload.data.id, changes: dataTransform([action.payload.data])[0] },
           { ...state, loading: false, error: false, total: state.total }) :
         surveyAnswerAdapter.setOne(dataTransform([action.payload.data])[0], { ...state, loading: false, error: false, total: 1 });
     }
