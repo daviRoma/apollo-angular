@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="col-2 align-self-end text-right">
-    <span data-toggle="tooltip" title="{{item.label}}" class="h6 mb-0"> {{(item.value / data.total) * 100}} %</span>
+    <span data-toggle="tooltip" title="{{item.label}}" class="h6 mb-0"> {{ ((item.value / data.total) * 100).toFixed(2) }} %</span>
   </div>
 </div>
 

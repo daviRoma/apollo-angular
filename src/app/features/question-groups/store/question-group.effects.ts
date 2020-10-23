@@ -55,12 +55,6 @@ export class QuestionGroupEffects {
     ))
   );
 
-  @Effect({ dispatch: false })
-  public loadOneSuccess = this.actions.pipe(
-    ofType<QuestionGroupLoadOneAction>(QuestionGroupActionTypes.LOADONE_SUCCESS),
-    tap((action) => { return null; })
-  );
-
   @Effect()
   public createQuestionGroup = this.actions.pipe(
     ofType<QuestionGroupNewAction>(QuestionGroupActionTypes.NEW),

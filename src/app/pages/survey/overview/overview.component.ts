@@ -78,9 +78,16 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   onQuestionGroupChange(event): void {
-    this.questionGroupId = event.target.value;
     this.isLoadingAnswers = true;
     this.questions = [];
+
+    // Check valid question group id
+    if (event.target.value === '' || event.target.value === null) {
+      this.questionGroupId = null;
+      return;
+    }
+
+    this.questionGroupId = event.target.value;
 
     // Get questions
     this.store.dispatch(
