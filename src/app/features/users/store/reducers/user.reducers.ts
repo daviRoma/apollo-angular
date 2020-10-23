@@ -23,18 +23,23 @@ export function userReducer(state = initialUserState, action: UserActionsAll): U
       });
     }
 
+    case UserActionTypes.LOADONE: {
+      return { ...state, loading: true };
+    }
+
     case UserActionTypes.LOADONE_SUCCESS: {
-      return userAdapter.addOne(
-        { ...action.payload.data },
-        { ...state }
-      );
+      return state.total ?
+        userAdapter.addOne(
+          action.payload.data,
+          { ...state, loading: false, error: false, total: state.total }) :
+        userAdapter.setOne(action.payload.data, { ...state, loading: false, error: false, total: 1 });
     }
 
     case UserActionTypes.NEW: {
       return { ...state, loading: true };
     }
     case UserActionTypes.NEW_FAILURE: {
-      return state;
+      return { ...state, loading: false, error: true};
     }
 
     case UserActionTypes.UPDATE: {
@@ -43,11 +48,11 @@ export function userReducer(state = initialUserState, action: UserActionsAll): U
     case UserActionTypes.UPDATE_SUCCESS: {
       return userAdapter.updateOne(
         { id: action.payload.id, changes: action.payload },
-        { ...state }
+        { ...state, loading: false, error: false }
       );
     }
     case UserActionTypes.UPDATE_FAILURE: {
-      return state;
+      return { ...state, loading: false, error: true };
     }
 
     case UserActionTypes.DELETE: {

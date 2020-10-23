@@ -1,19 +1,22 @@
-import { Component, KeyValueChanges, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
-import { User, UserRequest } from 'src/app/models/user.model';
+import { Component, DoCheck, KeyValueChanges, KeyValueDiffer, KeyValueDiffers, OnChanges, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
+
 import { AppState } from 'src/app/state/app.state';
-import { UserLoadAction, UserLoadOneAction, UserUpdateAction } from '../../store/actions/user.actions';
-import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
-import { IconData } from 'src/app/models/icon.model';
+import { UserLoadAction, UserUpdateAction } from '../../store/actions/user.actions';
 import { LoadSessionUser } from 'src/app/core/auth/store/auth.actions';
+
+import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
+
+import { IconData } from 'src/app/models/icon.model';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-edituser',
   templateUrl: './edituser.component.html',
   styleUrls: ['./edituser.component.scss'],
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent implements OnInit, DoCheck {
   public user: User;
   public editProfileForm: FormGroup;
 
@@ -31,9 +34,6 @@ export class EditUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store<AppState>,
     private differs: KeyValueDiffers
-
-
-
   ) {
     this.editProfileForm = this.formBuilder.group({
       firstname: [''],
@@ -49,7 +49,6 @@ export class EditUserComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select(fromAuth.selectAuthUser)).subscribe((user: User) => {
       this.user = user;
-      console.log('user in edit ', user);
 
       if (this.user) {
         this.editProfileForm.patchValue(this.user);
@@ -68,7 +67,6 @@ export class EditUserComponent implements OnInit {
   }
 
   fileChanged(changes: KeyValueChanges<string, any>): void {
-    console.log('changes', this.iconData);
     this.isfileChanged = true;
   }
 

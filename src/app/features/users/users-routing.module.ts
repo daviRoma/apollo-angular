@@ -19,14 +19,6 @@ const UsersRoutes: Routes = [
     path: 'list',
     component: UserListComponent,
   }
-  // {
-  //   path: 'edit/:survey_id',
-  //   component: SurveyDetailComponent,
-  // },
-  // {
-  //   path: 'summary/:survey_id',
-  //   component: SurveyOverviewComponent
-  // }
 ];
 
 @NgModule({

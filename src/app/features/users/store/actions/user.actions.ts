@@ -36,7 +36,7 @@ export class UserLoadFailAction implements Action {
 
 export class UserLoadOneAction implements Action {
   public readonly type = UserActionTypes.LOADONE;
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
 }
 
 export class UserLoadOneSuccessAction implements Action {

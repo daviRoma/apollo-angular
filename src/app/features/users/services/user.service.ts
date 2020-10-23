@@ -25,6 +25,7 @@ export class UserService {
    * @param request : UserRequest
    */
   public getUsers(request: UserRequest): Observable<UserResponse> {
+    this.logger.debug('UserService', 'getUsers', 'retrieving...');
     const url = `${this.BASE_URL}/users`;
     const options = {
       headers: this.authService.setHttpSecurityHeaders(),
@@ -38,7 +39,8 @@ export class UserService {
    * Get user by userId
    * @param userId : UserRequest
    */
-  public getUser(userId: string): Observable<UserResponse> {
+  public getUser(userId: number): Observable<UserResponse> {
+    this.logger.debug('UserService', 'getUser', userId);
     const url = `${this.BASE_URL}/users/${userId}`;
     return this.httpClient.get<UserResponse>(url, { headers: this.authService.setHttpSecurityHeaders() });
   }

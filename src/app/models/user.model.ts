@@ -1,3 +1,4 @@
+import { ApolloResponse } from './apollo-response.model';
 import { Icon } from './icon.model';
 
 /**
@@ -29,9 +30,4 @@ export class UserRequest {
   sortField?: string;
 }
 
-export class UserResponse {
-  data?: any;
-  self?: string;
-  links?: any;
-  meta?: any;
-}
+export class UserResponse extends ApolloResponse {}

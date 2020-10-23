@@ -6,8 +6,8 @@ import { Subscription } from 'rxjs';
 
 import { AppState } from '../../../../state/app.state';
 import {
-  UserLoadAction,
   UserDeleteAction,
+  UserLoadOneAction,
 } from 'src/app/features/users/store/actions/user.actions';
 import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
 
@@ -17,7 +17,7 @@ import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.sel
 import { DeleteUserComponent } from 'src/app/features/users/components/dialogs/delete-user/delete-user.component';
 
 import { SurveyRequest, Survey } from 'src/app/models/survey.model';
-import { User, UserRequest } from '../../../../models/user.model';
+import { User } from '../../../../models/user.model';
 
 @Component({
   selector: 'app-useroverview',
@@ -30,8 +30,9 @@ export class UseroverviewComponent implements OnInit, OnDestroy {
   public surveyTotal: number;
   public totalActiveSurveys: number;
 
-  public router: Router;
+  public isLoading: boolean;
 
+  private router: Router;
   private routeParamsSubscription: Subscription;
 
   constructor(
@@ -40,15 +41,20 @@ export class UseroverviewComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
   ) {
     const self = this;
+    this.totalActiveSurveys = 0;
+    this.surveyTotal = 0;
+    this.isLoading = true;
+
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
       if (params.user_id) {
-        // Select survey from store by url parameter
-        self.loadData(params.user_id);
+        // Select user from store
+        self.loadUserWithSelectors(parseInt(params.user_id));
       }
     });
   }
 
   ngOnInit(): void {
+
     this.store
       .pipe(select(fromSurvey.selectSurveyTotal))
       .subscribe((total) => (this.surveyTotal = total));
@@ -56,7 +62,7 @@ export class UseroverviewComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromSurvey.selectAllSurvey))
       .subscribe((surveys: Survey[]) => {
-        this.totalActiveSurveys = surveys.filter(survey => survey.active).length;
+        if (surveys) this.totalActiveSurveys = surveys.filter(survey => survey.active).length;
       });
   }
 
@@ -64,33 +70,30 @@ export class UseroverviewComponent implements OnInit, OnDestroy {
     this.routeParamsSubscription.unsubscribe();
   }
 
+  private loadUserWithSelectors(userId: number): void {
+    this.store
+      .pipe(select(fromUser.selectUserLoading))
+      .subscribe((loading: boolean) => {
+        if (!loading) {
+          this.store
+            .pipe(select(fromUser.selectEntity, { id: userId }))
+            .subscribe((user: User) => {
+              if (user) {
+                this.user = user;
+                this.loadSurveys();
+              }
+          });
+          this.isLoading = false;
+        } else {
+          this.store.dispatch(new UserLoadOneAction(userId));
+        }
+      });
+  }
+
   private loadSurveys(): void {
     this.store.dispatch(
       new SurveyLoadAction({user_id: this.user.id} as SurveyRequest)
     );
-  }
-
-  private loadData(userId: number): void {
-    this.store
-      .pipe(select(fromUser.selectEntity, { id: userId }))
-      .subscribe((user: User) => {
-        if (user) {
-          this.user = user;
-          this.loadSurveys();
-        } else {
-          this.store.dispatch(
-            new UserLoadAction({user_id: userId} as UserRequest)
-          );
-          this.store
-            .pipe(select(fromUser.selectEntity, { id: userId }))
-            .subscribe((u: User) => {
-              if (user) {
-                this.user = u;
-                this.loadSurveys();
-              }
-            });
-        }
-      });
   }
 
   public openDeleteDialog(): void {
@@ -110,7 +113,7 @@ export class UseroverviewComponent implements OnInit, OnDestroy {
       if (response.result === 'close_after_delete') {
         // Delete action
         this.store.dispatch(new UserDeleteAction(this.user.id));
-        this.router.navigateByUrl('users/administration/list');
+        this.router.navigateByUrl('/users/administration/list');
       }
     });
   }

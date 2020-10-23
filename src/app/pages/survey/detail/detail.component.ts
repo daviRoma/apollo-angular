@@ -30,8 +30,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   public params: any;
 
   public isLoading: boolean;
+  public isStart: boolean;
 
-  private subscription: Subscription = new Subscription();
   private routeParamsSubscription: Subscription;
 
   constructor(
@@ -40,6 +40,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   ) {
     const self = this;
     this.isLoading = true;
+    this.isStart = true;
     this.questionGroups = [];
 
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
@@ -51,15 +52,11 @@ export class DetailComponent implements OnInit, OnDestroy {
             if (user) {
               self.user = user;
               self.params = { surveyId: parseInt(params.survey_id, 10) };
-              self.store
-                .pipe(select(fromSurvey.selectEntity, { id: self.params.surveyId }))
-                .subscribe((survey: Survey) => {
-                  if (survey) {
-                    self.survey = { ...survey };
-                    self.loadQuestionGroups();
-                    self.isLoading =false;
-                  } else self.loadSurveyData();
-                }).unsubscribe();
+              if (this.isStart) {
+                this.loadSurveyData();
+                this.isStart = false;
+              }
+
             }
           });
       }
@@ -67,28 +64,30 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
+    this.store.select(fromSurvey.selectSurveyLoading).subscribe((loading) => {
+      if (!loading) {
+        this.loadWithSelectors();
+      }
+    });
+
+    this.store.select(fromQuestionGroup.selectQuestionGroupLoading)
+      .subscribe((loading: boolean) => {
         if (!loading) {
-          this.loadWithSelectors();
+          this.loadQuestionGroupsWithSelectors();
         }
-      })
-    );
+      });
   }
 
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
-    this.subscription.unsubscribe();
     this.store.complete();
   }
 
   private loadWithSelectors(): void {
-    this.store
-      .pipe(select(fromSurvey.selectEntity, { id: this.params.surveyId }))
+    this.store.select(fromSurvey.selectEntity, { id: this.params.surveyId })
       .subscribe((survey: Survey) => {
         if (survey) {
           this.survey = { ...survey };
-          this.loadQuestionGroups();
         }
         this.isLoading = false;
     });
@@ -99,13 +98,18 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new QuestionGroupLoadAction(this.params.surveyId));
   }
 
-  private loadQuestionGroups(): void {
-    this.store
-      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.params.surveyId }))
+  private loadQuestionGroupsWithSelectors(): void {
+    this.store.select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.params.surveyId })
       .subscribe((response: QuestionGroup[]) => {
-        this.survey = { ...this.survey, questionGroups: response };
-        this.questionGroups = response;
+        if (response && response.length) {
+          this.survey = { ...this.survey, questionGroups: [ ...response ] };
+          this.questionGroups = [ ...response ];
+        } else {
+          this.survey = { ...this.survey, questionGroups: [] };
+          this.questionGroups = [];
+        }
       });
+
   }
 
 }

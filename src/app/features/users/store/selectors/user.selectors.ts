@@ -42,7 +42,7 @@ export const selectUserTotal = createSelector(
 
 export const selectEntity = createSelector(
   selectAllUser,
-  (entities, props) => entities.find((elem) => elem.id == props.id)
+  (entities, props) => entities.find((elem) => elem.id === props.id)
 );
 
 export const selectEntitiesByID = createSelector(

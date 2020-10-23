@@ -41,7 +41,7 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
             survey: parseInt(action.payload.data.survey.split('/')[action.payload.data.survey.split('/').length - 1], 0),
           },
         },
-        { ...state }
+        { ...state, loading: false, error: false }
       );
     }
 
@@ -49,7 +49,7 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
       return { ...state, loading: true };
     }
     case QuestionGroupActionTypes.NEW_FAILURE: {
-      return state;
+      return { ...state, loading: false, error: false };
     }
 
     case QuestionGroupActionTypes.UPDATE: {
@@ -58,18 +58,18 @@ export function questionGroupReducer(state = initialQuestionGroupState, action: 
     case QuestionGroupActionTypes.UPDATE_SUCCESS: {
       return questionGroupAdapter.updateOne(
         { id: action.payload.id, changes: action.payload },
-        { ...state }
+        { ...state, loading: false,  error: false }
       );
     }
     case QuestionGroupActionTypes.UPDATE_FAILURE: {
-      return state;
+      return { ...state, loading: false, error: false };
     }
 
     case QuestionGroupActionTypes.DELETE: {
       return { ...state, loading: true };
     }
     case QuestionGroupActionTypes.DELETE_SUCCESS: {
-      return questionGroupAdapter.removeOne(action.payload, { ...state });
+      return questionGroupAdapter.removeOne(action.payload, { ...state, loading: false, error: false, total: state.total - 1 });
     }
     case QuestionGroupActionTypes.DELETE_FAILURE: {
       return questionGroupAdapter.setAll([], {

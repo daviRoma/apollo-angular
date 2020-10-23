@@ -34,7 +34,7 @@ export class UserEffects {
   public loadOne = this.actions.pipe(
     ofType<UserLoadOneAction>(UserActionTypes.LOADONE),
     map((action) => action.payload),
-    switchMap((params: string) =>
+    switchMap((params: number) =>
       this.userService.getUser(params).pipe(
         map((response: UserResponse) => new UserLoadOneSuccessAction(response)),
         catchError((error) => of(new UserLoadOneFailAction(error)))
@@ -48,8 +48,7 @@ export class UserEffects {
     map((action) => action.payload),
     switchMap((params: User) =>
       this.userService.createUser(params).pipe(
-        map(
-          (response: UserResponse) =>
+        map((response: any) =>
             new UserLoadOneAction(
               response.self.split('/')[response.self.split('/').length - 1]
             )
@@ -59,13 +58,13 @@ export class UserEffects {
     )
   );
 
-  @Effect({ dispatch: false })
-  public loadOneSuccess = this.actions.pipe(
-    ofType<UserLoadOneSuccessAction>(UserActionTypes.LOADONE_SUCCESS),
-    tap((action) =>
-      this.router.navigate(['/user/detail', action.payload.data.id])
-    )
-  );
+  // @Effect({ dispatch: false })
+  // public loadOneSuccess = this.actions.pipe(
+  //   ofType<UserLoadOneSuccessAction>(UserActionTypes.LOADONE_SUCCESS),
+  //   tap((action) =>
+  //     this.router.navigate(['/user/detail', action.payload.data.id])
+  //   )
+  // );
 
   @Effect()
   public updateUser = this.actions.pipe(

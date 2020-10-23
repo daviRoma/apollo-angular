@@ -32,7 +32,7 @@
             <div class="card-body pb-0">
 
                 <!-- GROUPS CONTAINER -->
-                <div id="question_group_section">
+                <div *ngIf="questionGroups" id="question_group_section">
                     <app-question-group-answer-box [questionGroups]="questionGroups" [answerId]="surveyAnswerId" [userUnlocked]="userUnlocked" (submitted)="showSubmittedView($event)"></app-question-group-answer-box>
                 </div>
 
