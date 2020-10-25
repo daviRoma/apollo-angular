@@ -55,15 +55,18 @@ export class MatrixQuestionAnswerComponent implements OnInit {
       )
     );
 
-    answer.answers.forEach(value => {
-      if (value.element === element.title) {
-        value.answers.forEach(item => {
-          if (option.value === item) {
-            checked = true;
-          }
-        });
-      }
-    });
+    if (answer) {
+      answer.answers.forEach(value => {
+        if (value.element === element.title) {
+          value.answers.forEach(item => {
+            if (option.value === item) {
+              checked = true;
+            }
+          });
+        }
+      });
+    }
+
     return checked;
   }
 

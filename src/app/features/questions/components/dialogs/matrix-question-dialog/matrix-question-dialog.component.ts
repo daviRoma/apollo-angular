@@ -54,10 +54,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
     this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(12),
-      ]),
+      title: ['', Validators.required],
       mandatory: [false],
       type: ['', Validators.required],
     });

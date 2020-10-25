@@ -102,13 +102,15 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
           answ.question.questionType === 'App\\MultiQuestion'
       );
 
-      answer.answers.forEach((value) => {
-        if (options.find((op) => op.value === value)) {
-          options.find((op) => op.value === value).selected = true;
-          selectedValue = value;
-          return;
-        }
-      });
+      if (answer) {
+        answer.answers.forEach((value) => {
+          if (options.find((op) => op.value === value)) {
+            options.find((op) => op.value === value).selected = true;
+            selectedValue = value;
+            return;
+          }
+        });
+      }
 
       this.question = {
         ...this.question,

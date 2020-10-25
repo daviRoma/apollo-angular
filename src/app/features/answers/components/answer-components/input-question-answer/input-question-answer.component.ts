@@ -45,7 +45,7 @@ export class InputQuestionAnswerComponent implements OnInit {
 
   showAnswer(): void {
     const answer = this._answers.find( answ => (answ.question.id === this.question.id && answ.question.questionType === 'App\\InputQuestion'));
-    if (answer) this.inputvalue = answer.answers[0];
+    if (answer && answer.answers) this.inputvalue = answer.answers[0];
   }
 
   inputAnswerChange(event): void {

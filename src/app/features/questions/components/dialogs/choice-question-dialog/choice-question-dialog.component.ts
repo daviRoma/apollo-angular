@@ -37,7 +37,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(12)]],
+      title: ['', Validators.required],
       other: [false],
       mandatory: [false],
       type: ['', Validators.required],

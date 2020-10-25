@@ -12,7 +12,7 @@
           <input type="text" class="form-control" placeholder="{{ 'question.placeholdertitle' | translate }}" data-toggle="autosize" required
             size="255" maxlength="255" minlength="12" formControlName="title"/>
           <mat-error class="font-weight-bold text-danger text-xs mx-1"
-            *ngIf="(questionForm.get('title').hasError('required') || questionForm.get('title').hasError('minlength')) && questionForm.get('title').touched">{{ 'error.questionSize' | translate}}</mat-error>
+            *ngIf="questionForm.get('title').hasError('required') && questionForm.get('title').touched">{{ 'error.questionSize' | translate}}</mat-error>
         </div>
 
         <!-- Other option -->

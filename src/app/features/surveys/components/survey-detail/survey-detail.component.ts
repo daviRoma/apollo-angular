@@ -2,15 +2,9 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
-import { Store, select } from '@ngrx/store';
-import {
-  SurveyLoadAction,
-  SurveyUpdateAction,
-  SurveyDeleteAction,
-} from 'src/app/features/surveys/store/actions/survey.actions';
+import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
-import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
 
 /* COMPONENTS */
 import { EditSurveyComponent } from 'src/app/features/surveys/components/dialogs/edit-survey/edit-survey.component';
@@ -127,7 +121,7 @@ export class SurveyDetailComponent implements OnInit, OnDestroy {
   }
 
   public openInvitationPoolDialog(): void {
-    const invitationPoolDialogRef = this.dialog.open(InvitationPoolComponent, {
+    this.dialog.open(InvitationPoolComponent, {
       minWidth: '30%',
       position: { top: '5%' },
       data: {
@@ -136,11 +130,6 @@ export class SurveyDetailComponent implements OnInit, OnDestroy {
           title: this.translate.instant('survey.setInvitationPool'),
         },
       },
-    });
-
-    invitationPoolDialogRef.afterClosed().subscribe((response) => {
-      if (response.result === 'close_after_set_invitation') {
-      }
     });
   }
 }

@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
 
+import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
+
 import { SurveyDeleteAction } from '../../../store/actions/survey.actions';
 
 import { Survey } from 'src/app/models/survey.model';
@@ -39,7 +41,13 @@ export class DeleteSurveyComponent implements OnInit {
    */
   confirm(): void {
     this.store.dispatch(new SurveyDeleteAction(this.survey.id));
-    this.dialogRef.close({result: 'close_after_delete' });
+    this.store
+      .pipe(select(fromSurvey.selectSurveyLoading))
+      .subscribe((loading: boolean) => {
+        if (!loading) {
+          this.dialogRef.close({result: 'close_after_delete' });
+        }
+      });
   }
 
   cancel(): void {

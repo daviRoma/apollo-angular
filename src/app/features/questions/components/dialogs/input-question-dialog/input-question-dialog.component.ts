@@ -49,10 +49,7 @@ export class InputQuestionDialogComponent implements OnInit {
     this.iconFile = new Icon();
 
     this.questionForm = this.formBuilder.group({
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(12),
-      ]),
+      title: new FormControl('',  Validators.required),
       type: new FormControl('', [Validators.required]),
     });
 
