@@ -1,6 +1,12 @@
 <!-- QUESTION GROUP BOX -->
 <div class="card-body pb-0 pt-3 mb-3" title="group-container">
 
+  <div id="alert_message" *ngIf="!mandatoryCompleted" class="mb-4">
+    <div class="alert alert-danger" role="alert">
+      <strong><i class="far fa-exclamation-circle"></i>&nbsp;{{ 'common.attention' | translate }}</strong> {{ 'error.answer.mandatory' | translate }}
+    </div>
+  </div>
+
   <app-question-group-answer-detail [questionGroup]="group" [answerId]="answerId" (answerChange)="updateWrapper($event)"></app-question-group-answer-detail>
 
 </div>

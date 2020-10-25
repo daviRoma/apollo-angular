@@ -32,10 +32,11 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
 
   public pageIndex: number;
 
+  public mandatoryCompleted = true;
+
   private surveyEnd: boolean;
   private answerWrapper: AnswersWrapper;
 
-  private mandatoryCompleted = true;
   private mandatoryQuestion: Question[];
 
   private canContinue = false;
@@ -84,6 +85,7 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   submitSurveyAnswers(): void {
+    this.mandatoryCompleted = this.areMandatoryCompleted(this.answerWrapper.answers);
 
     if (this.canContinue) {
 
@@ -150,17 +152,9 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
           (item.answersPair && item.answersPair.length > 0)
       );
 
-      this.mandatoryCompleted = this.areMandatoryCompleted(
-        this.answerWrapper.answers
-      );
+      this.mandatoryCompleted = this.areMandatoryCompleted(this.answerWrapper.answers);
 
-      if (this.mandatoryCompleted) {
-        // this.answerWrapper.answers = notEmptyAnswer;
-
-        this.canContinue = true;
-      } else {
-        this.canContinue = false;
-      }
+      this.canContinue = this.mandatoryCompleted;
     }
   }
 
@@ -189,16 +183,15 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
         item.mandatory)
     ) as MatrixQuestion[];
 
-    if (multiCheckQuestion.length !== 0) {
+    if (multiCheckQuestion.length) {
       multiCheckQuestion.forEach((item) => {
-        let questionNumber = item.elements.length;
-        let result = answerList.find(
+        const result = answerList.find(
           (obj) =>
             obj.questionId === item.id && obj.questionType === item.questionType
         );
 
         if (result) {
-          if (result.answers.length !== questionNumber) {
+          if (result.answers && result.answers.length !== item.elements.length) {
             this.matrixCheckCompleted = false;
           } else {
             this.matrixCheckCompleted = true;
@@ -209,24 +202,24 @@ export class QuestionGroupAnswerBoxComponent implements OnInit {
   }
 
   isMatrixRadioAnswerCompleted(answerList): void {
-    let multiRadioQuestion: MatrixQuestion[] = this.group.questions.filter(
+    const multiRadioQuestion: MatrixQuestion[] = this.group.questions.filter(
       (item) =>
         (item.questionType === 'App\\MatrixQuestion' &&
         item.type === 'RADIO' &&
         item.mandatory)
     ) as MatrixQuestion[];
 
-    if (multiRadioQuestion.length != 0) {
+    if (multiRadioQuestion.length) {
       multiRadioQuestion.forEach((item) => {
-        let questionNumber = item.elements.length;
 
-        let result = answerList.find(
+        const result = answerList.find(
           (obj) =>
             obj.questionId === item.id && obj.questionType === item.questionType
         );
 
         if (result) {
-          if (result.answerPair.length !== questionNumber) {
+          // Check question number
+          if (result.answerPair && result.answerPair.length !== item.elements.length) {
             this.matrixRadioCompleted = false;
           } else {
             this.matrixRadioCompleted = true;

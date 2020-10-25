@@ -57,7 +57,7 @@
         </div>
 
         <div *ngIf="question.type == 'SELECT'" class="col-12 px-3 py-2">
-            <select class="custom-select col-4">
+            <select class="custom-select col-4" disabled>
               <option value="" selected disabled hidden>{{ 'question.chooseOption' | translate }}</option>
               <option *ngFor="let option of question.options" [value]="option.value" disabled>
                 {{option.value}}

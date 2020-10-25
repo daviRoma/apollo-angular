@@ -67,10 +67,15 @@ export class PublishSurveyComponent implements OnInit {
   }
 
   handleSubmit(): void {
-    if (!this.hasQuestions()) {
-      this.isError = true;
-      return;
+
+    // Check questions only if the survey is not acttive
+    if (!this.survey.active) {
+      if (!this.hasQuestions()) {
+        this.isError = true;
+        return;
+      }
     }
+
     if (this.survey.secret && !this.survey.active) {
       this.dialogRef.close({ result: 'close_send_invitation' });
     } else {
@@ -85,9 +90,9 @@ export class PublishSurveyComponent implements OnInit {
             url: `${Paths.surveyAnswer.publicLink}/${this.survey.id}/${this.survey.urlId}`
           }));
       }
+      this.closeDialog();
     }
 
-    this.closeDialog();
   }
 
   hasQuestions(): boolean {

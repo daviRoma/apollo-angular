@@ -141,6 +141,10 @@
     "unabletopublish": "The survey must contains groups and questions!",
     "usernotabilithated": "User not abilithated for this survey",
 
+    "answer": {
+      "mandatory": "Please complete all mandatory questions before moving on."
+    },
+
     "file": {
       "invalid": "File not valid",
       "invalidsize": "Invalid file size",

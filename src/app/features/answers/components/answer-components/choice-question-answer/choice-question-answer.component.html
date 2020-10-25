@@ -186,9 +186,8 @@
         class="custom-select"
         (change)="choiceSelectAnswerChange($event.target.value)"
         [value]="getSelected()"
-        [disabled]="readOnly"
-      >
-        <option value="" selected disabled hidden>
+        [disabled]="readOnly">
+        <option value="" selected>
           {{ "common.choose" | translate }}
         </option>
         <option

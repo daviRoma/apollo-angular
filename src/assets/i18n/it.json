@@ -142,6 +142,9 @@
     "unabletopublish": "Il sondaggio non contiene gruppi o domande complete!",
     "usernotabilithated": "Utente non abilitato al sondaggio",
 
+    "answer": {
+      "mandatory": "Per favore completare tutte le domande obbligatorie prima di andare avanti."
+    },
 
     "file": {
       "invalid": "File non valido",
