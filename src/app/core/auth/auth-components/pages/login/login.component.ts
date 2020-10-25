@@ -8,7 +8,7 @@ import { AppState } from 'src/app/state/app.state';
 import { selectAuthState } from 'src/app/core/auth/store/auth.selectors';
 
 import { LogIn } from '../../../store/auth.actions';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -17,11 +17,11 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   public loginForm: FormGroup;
-  public loginResult: { error: boolean, errorMessage: string };
+  public loginResult: { error: boolean; errorMessage: string };
 
   private getAuthState: Observable<any>;
+  private subscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,7 +33,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required]],
-      password: ['',
+      password: [
+        '',
         [
           Validators.required,
           Validators.minLength(6),
@@ -44,23 +45,24 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getAuthState.subscribe((state) => {
+    this.subscription = this.getAuthState.subscribe((state) => {
       this.loginResult.error = state.error;
-      this.loginResult.errorMessage = this.translate.instant('error.session.loginerror');
+      this.loginResult.errorMessage = this.translate.instant(
+        'error.session.loginerror'
+      );
     });
   }
 
   ngOnDestroy(): void {
-    // this.getAuthState.un
+    this.subscription.unsubscribe();
   }
 
   onSubmit(event): void {
     event.preventDefault();
     const payload = {
       email: this.loginForm.value.email,
-      password: this.loginForm.value.password
+      password: this.loginForm.value.password,
     };
     this.store.dispatch(new LogIn(payload));
   }
-
 }

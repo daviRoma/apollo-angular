@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Observable, Subject, merge, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
@@ -14,10 +21,12 @@ import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/surv
 
 import { SurveyAnswerLoadAction } from '../../store/actions/survey-answer.actions';
 
-import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
+import {
+  SurveyAnswer,
+  SurveyAnswerRequest,
+} from 'src/app/models/survey-answer.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Survey } from 'src/app/models/survey.model';
-
 
 @Component({
   selector: 'app-answer-list',
@@ -76,15 +85,19 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((total) => (this.answerTotal = total));
 
     this.subscription.add(
-      this.store.pipe(select(fromSurveyAnswer.selectSurveyAnswerLoading)).subscribe((loading) => {
-        if (loading) {
-          this.dataSource = new MatTableDataSource([]);
-        }
-        this.isLoading = loading;
-      })
+      this.store
+        .pipe(select(fromSurveyAnswer.selectSurveyAnswerLoading))
+        .subscribe((loading) => {
+          if (loading) {
+            this.dataSource = new MatTableDataSource([]);
+          }
+          this.isLoading = loading;
+        })
     );
 
-    this.error$ = this.store.pipe(select(fromSurveyAnswer.selectSurveyAnswerError));
+    this.error$ = this.store.pipe(
+      select(fromSurveyAnswer.selectSurveyAnswerError)
+    );
   }
 
   ngAfterViewInit(): void {
@@ -121,21 +134,32 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getPercentageCompletition(totAnswers: number): string {
-    return ((totAnswers / this.questionGroups.map(g => g.questions.length).reduce((g1, g2) => g1 + g2)) * 100).toFixed(2);
+    return (
+      (totAnswers /
+        this.questionGroups
+          .map((g) => g.questions.length)
+          .reduce((g1, g2) => g1 + g2)) *
+      100
+    ).toFixed(2);
   }
 
   private initializeData(answers: SurveyAnswer[]): void {
-    this.dataSource = new MatTableDataSource(answers.length ? answers.map( a => ({...a, questionGroups: this.questionGroups})) : []);
+    this.dataSource = new MatTableDataSource(
+      answers.length
+        ? answers.map((a) => ({ ...a, questionGroups: this.questionGroups }))
+        : []
+    );
   }
 
   private loadAnswers(): void {
-    this.store.dispatch( new SurveyAnswerLoadAction({
-      params: {
-        page: this.paginator ? (this.paginator.pageIndex + 1) : 1,
-        pag_size: this.paginator ? this.paginator.pageSize : 5,
-      },
-      surveyId: this.survey.id
-    } as SurveyAnswerRequest));
-
+    this.store.dispatch(
+      new SurveyAnswerLoadAction({
+        params: {
+          page: this.paginator ? this.paginator.pageIndex + 1 : 1,
+          pag_size: this.paginator ? this.paginator.pageSize : 5,
+        },
+        surveyId: this.survey.id,
+      } as SurveyAnswerRequest)
+    );
   }
 }

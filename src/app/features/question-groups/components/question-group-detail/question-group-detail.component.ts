@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
 
@@ -10,18 +10,29 @@ import { InputQuestionDialogComponent } from 'src/app/features/questions/compone
 import { ChoiceQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/choice-question-dialog/choice-question-dialog.component';
 import { MatrixQuestionDialogComponent } from 'src/app/features/questions/components/dialogs/matrix-question-dialog/matrix-question-dialog.component';
 
-import { QuestionGroup, QuestionGroupRequest } from 'src/app/models/question-group.model';
-import { QuestionGroupLoadAction, QuestionGroupLoadOneAction } from '../../store/question-group.actions';
+import {
+  QuestionGroup,
+  QuestionGroupRequest,
+} from 'src/app/models/question-group.model';
+import {
+  QuestionGroupLoadAction,
+  QuestionGroupLoadOneAction,
+} from '../../store/question-group.actions';
 
-import { QuestionGroupDialogConf, QuestionDialogConf, DeleteDialogConf } from 'src/app/shared/config/dialog.conf';
+import {
+  QuestionGroupDialogConf,
+  QuestionDialogConf,
+  DeleteDialogConf,
+} from 'src/app/shared/config/dialog.conf';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-question-group-detail',
   templateUrl: './question-group-detail.component.html',
   styleUrls: ['./question-group-detail.component.scss'],
 })
-export class QuestionGroupDetailComponent implements OnInit {
+export class QuestionGroupDetailComponent implements OnInit, OnDestroy {
   @Input() questionGroup: QuestionGroup;
   @Input() readonly: boolean;
 
@@ -29,53 +40,73 @@ export class QuestionGroupDetailComponent implements OnInit {
 
   public isLoading: boolean;
 
+  private choiceQuestionSubscription: Subscription;
+  private inputQuestionSubscription: Subscription;
+  private matrixQuestionSubscription: Subscription;
+
   constructor(
     public questionGroupDialog: MatDialog,
     private translate: TranslateService,
     private store: Store<AppState>
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.questionGroupDialogConfig = { ...QuestionGroupDialogConf };
   }
 
   openEditQuestionGroupModal(): void {
-    this.questionGroupDialogConfig.data.questionGroup = { ...this.questionGroup };
-    this.questionGroupDialogConfig.data.dialogConfig.title = this.translate.instant('group.edit');
+    this.questionGroupDialogConfig.data.questionGroup = {
+      ...this.questionGroup,
+    };
+    this.questionGroupDialogConfig.data.dialogConfig.title = this.translate.instant(
+      'group.edit'
+    );
     this.questionGroupDialogConfig.data.dialogConfig.operation = 'edit';
 
-    this.questionGroupDialog.open(EditQuestionGroupComponent, this.questionGroupDialogConfig);
+    this.questionGroupDialog.open(
+      EditQuestionGroupComponent,
+      this.questionGroupDialogConfig
+    );
   }
 
   openDeleteQuestionGroupDialog(): void {
     const deleteDialogConfig = { ...DeleteDialogConf };
-    deleteDialogConfig.data.dialogConfig.title = this.translate.instant('group.delete');
-    deleteDialogConfig.data.dialogConfig.content = this.translate.instant('group.deletemessage');
+    deleteDialogConfig.data.dialogConfig.title = this.translate.instant(
+      'group.delete'
+    );
+    deleteDialogConfig.data.dialogConfig.content = this.translate.instant(
+      'group.deletemessage'
+    );
     deleteDialogConfig.data.item = { ...this.questionGroup };
 
-    this.questionGroupDialog.open(DeleteQuestionGroupComponent, deleteDialogConfig);
+    this.questionGroupDialog.open(
+      DeleteQuestionGroupComponent,
+      deleteDialogConfig
+    );
   }
 
   openChoiceQuestionDialog(choiceType: string): void {
     const dialogRef = this.questionGroupDialog.open(
       ChoiceQuestionDialogComponent,
       this.buildQuestionDialogConfig(
-        `${this.translate.instant('common.new')} ${this.translate.instant('question.singlechoicequestion')}`,
-         'new', choiceType
-        )
+        `${this.translate.instant('common.new')} ${this.translate.instant(
+          'question.singlechoicequestion'
+        )}`,
+        'new',
+        choiceType
+      )
     );
 
-    dialogRef.afterClosed().subscribe(
-      response => {
+    this.choiceQuestionSubscription = dialogRef
+      .afterClosed()
+      .subscribe((response) => {
         if (response.result === 'close_after_submit') {
-          this.store.dispatch(new QuestionGroupLoadOneAction(
-            {
+          this.store.dispatch(
+            new QuestionGroupLoadOneAction({
               questionGroup: this.questionGroup,
-              surveyId: this.questionGroup.survey
-            } as QuestionGroupRequest
-          ));
+              surveyId: this.questionGroup.survey,
+            } as QuestionGroupRequest)
+          );
         }
       });
   }
@@ -84,20 +115,24 @@ export class QuestionGroupDetailComponent implements OnInit {
     const dialogRef = this.questionGroupDialog.open(
       InputQuestionDialogComponent,
       this.buildQuestionDialogConfig(
-        `${this.translate.instant('common.new')} ${this.translate.instant('question.inputquestion')}`,
-        'new', null
-        )
-      );
+        `${this.translate.instant('common.new')} ${this.translate.instant(
+          'question.inputquestion'
+        )}`,
+        'new',
+        null
+      )
+    );
 
-    dialogRef.afterClosed().subscribe(
-      response => {
+    this.inputQuestionSubscription = dialogRef
+      .afterClosed()
+      .subscribe((response) => {
         if (response.result === 'close_after_submit') {
-          this.store.dispatch(new QuestionGroupLoadOneAction(
-            {
+          this.store.dispatch(
+            new QuestionGroupLoadOneAction({
               questionGroup: this.questionGroup,
-              surveyId: this.questionGroup.survey
-            } as QuestionGroupRequest
-          ));
+              surveyId: this.questionGroup.survey,
+            } as QuestionGroupRequest)
+          );
         }
       });
   }
@@ -106,24 +141,45 @@ export class QuestionGroupDetailComponent implements OnInit {
     const dialogRef = this.questionGroupDialog.open(
       MatrixQuestionDialogComponent,
       this.buildQuestionDialogConfig(
-        `${this.translate.instant('common.new')} ${this.translate.instant('question.matrixquestion')}`,
-         'new', choiceType)
+        `${this.translate.instant('common.new')} ${this.translate.instant(
+          'question.matrixquestion'
+        )}`,
+        'new',
+        choiceType
+      )
     );
 
-    dialogRef.afterClosed().subscribe(
-      response => {
+    this.matrixQuestionSubscription = dialogRef
+      .afterClosed()
+      .subscribe((response) => {
         if (response.result === 'close_after_submit') {
-          this.store.dispatch(new QuestionGroupLoadOneAction(
-            {
+          this.store.dispatch(
+            new QuestionGroupLoadOneAction({
               questionGroup: this.questionGroup,
-              surveyId: this.questionGroup.survey
-            } as QuestionGroupRequest
-          ));
+              surveyId: this.questionGroup.survey,
+            } as QuestionGroupRequest)
+          );
         }
       });
   }
 
-  private buildQuestionDialogConfig(title: string, operation: string, type: string): any {
+  ngOnDestroy(): void {
+    if (this.choiceQuestionSubscription) {
+      this.choiceQuestionSubscription.unsubscribe();
+    }
+    if (this.inputQuestionSubscription) {
+      this.inputQuestionSubscription.unsubscribe();
+    }
+    if (this.matrixQuestionSubscription) {
+      this.matrixQuestionSubscription.unsubscribe();
+    }
+  }
+
+  private buildQuestionDialogConfig(
+    title: string,
+    operation: string,
+    type: string
+  ): any {
     const questionDialogConfig = { ...QuestionDialogConf };
     questionDialogConfig.data.surveyId = this.questionGroup.survey;
     questionDialogConfig.data.questionGroupId = this.questionGroup.id;
@@ -133,5 +189,4 @@ export class QuestionGroupDetailComponent implements OnInit {
     questionDialogConfig.data.type = type;
     return questionDialogConfig;
   }
-
 }

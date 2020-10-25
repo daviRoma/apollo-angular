@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MultiAnswer, SingleAnswer } from 'src/app/models/answer.model';
 import { ChoiceQuestion } from 'src/app/models/question.model';
 
@@ -21,7 +15,7 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     // View answer
     if (answers) {
       this.readOnly = true;
-      if (answers.length) this._answers = [ ...answers ];
+      if (answers.length) this._answers = [...answers];
     }
   }
   get answers(): any[] {
@@ -60,13 +54,13 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   isChecked(option: any): boolean {
     let checked = false;
     const answer = this._answers.find(
-      answ => (
-        answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
-      )
+      (answ) =>
+        answ.question.id === this.question.id &&
+        answ.question.questionType === 'App\\MultiQuestion'
     );
 
     if (answer) {
-      answer.answers.forEach(value => {
+      answer.answers.forEach((value) => {
         if (value === option.value) {
           checked = true;
         }
@@ -77,14 +71,14 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
 
   hasOtherChoice(): boolean {
     const answer = this._answers.find(
-      answ => (
-        answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
-      )
+      (answ) =>
+        answ.question.id === this.question.id &&
+        answ.question.questionType === 'App\\MultiQuestion'
     );
 
     if (answer) {
-      answer.answers.forEach(value => {
-        if (!this.question.options.find(op => op.value === value)) {
+      answer.answers.forEach((value) => {
+        if (!this.question.options.find((op) => op.value === value)) {
           this.otherChoice = value;
           return;
         }
@@ -96,17 +90,21 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
 
   getSelected(): string {
     if (this._answers && this._answers.length) {
-      let options = [...this.question.options].map(op => ({ id: op.id, value: op.value, selected: false }));
+      let options = [...this.question.options].map((op) => ({
+        id: op.id,
+        value: op.value,
+        selected: false,
+      }));
       let selectedValue;
       const answer = this._answers.find(
-        answ => (
-          answ.question.id === this.question.id && answ.question.questionType === 'App\\MultiQuestion'
-        )
+        (answ) =>
+          answ.question.id === this.question.id &&
+          answ.question.questionType === 'App\\MultiQuestion'
       );
 
-      answer.answers.forEach(value => {
-        if (options.find(op => op.value === value)) {
-          options.find(op => op.value === value).selected = true;
+      answer.answers.forEach((value) => {
+        if (options.find((op) => op.value === value)) {
+          options.find((op) => op.value === value).selected = true;
           selectedValue = value;
           return;
         }
@@ -114,21 +112,12 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
 
       this.question = {
         ...this.question,
-        options: [...options]
+        options: [...options],
       };
 
       return selectedValue;
-    } else
-      return null;
+    } else return null;
   }
-
-  // onOtherValueChange(event): void {
-  //   if (event.target.value !== '') {
-  //     this.otherInput = true;
-  //     this.selectedInput = false;
-  //   }
-  //   else this.otherInput = false;
-  // }
 
   choiceRadioAnswerChange(event, option): void {
     if (this.question.other) {
@@ -150,7 +139,8 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
     otherInputHTML.disabled = true;
 
     // this.selectedInput = false;
-    this.choiceAnswer.answer = event.path[0].offsetParent.children[1].children[0].children[0].value;
+    this.choiceAnswer.answer =
+      event.path[0].offsetParent.children[1].children[0].children[0].value;
     this.optionSelected.emit(this.choiceAnswer);
   }
 
@@ -160,7 +150,6 @@ export class ChoiceQuestionAnswerComponent implements OnInit {
   }
 
   choiceSelectAnswerChange(option): void {
-
     this.choiceAnswer.answer = option;
     this.optionSelected.emit(this.choiceAnswer);
   }

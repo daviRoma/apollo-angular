@@ -1,23 +1,17 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
-import { ChoiceQuestionNewAction, ChoiceQuestionUpdateAction } from '../../../store/actions/choice-question.actions';
-
-import { AppState } from 'src/app/state/app.state';
-
-import { ChoiceQuestion, QuestionRequest } from 'src/app/models/question.model';
-import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Icon } from 'src/app/models/icon.model';
-
+import { QuestionGroup } from 'src/app/models/question-group.model';
+import { ChoiceQuestion, QuestionRequest } from 'src/app/models/question.model';
 import Utils from 'src/app/shared/utils';
+import { AppState } from 'src/app/state/app.state';
+import {
+  ChoiceQuestionNewAction,
+  ChoiceQuestionUpdateAction,
+} from '../../../store/actions/choice-question.actions';
 
 @Component({
   selector: 'app-choice-question-dialog',
@@ -57,7 +51,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
         options: [],
         type: this.data.type,
         questionGroup: this.data.questionGroupId,
-        mandatory: false
+        mandatory: false,
       } as ChoiceQuestion;
     }
 
@@ -77,7 +71,8 @@ export class ChoiceQuestionDialogComponent implements OnInit {
           })
         )
         .subscribe((response: QuestionGroup) => {
-          if (response) this.choiceQuestion.position = response.questions.length + 1;
+          if (response)
+            this.choiceQuestion.position = response.questions.length + 1;
         });
     }
   }
@@ -104,7 +99,7 @@ export class ChoiceQuestionDialogComponent implements OnInit {
           new ChoiceQuestionNewAction({
             question: {
               ...payload,
-              options: this.choiceQuestion.options.map(op => op.value),
+              options: this.choiceQuestion.options.map((op) => op.value),
               position: this.choiceQuestion.position,
               mandatory: this.choiceQuestion.mandatory,
             },
@@ -117,8 +112,8 @@ export class ChoiceQuestionDialogComponent implements OnInit {
             question: {
               ...payload,
               id: this.choiceQuestion.id,
-              options: this.choiceQuestion.options.map(op => op.value),
-              mandatory: this.choiceQuestion.mandatory
+              options: this.choiceQuestion.options.map((op) => op.value),
+              mandatory: this.choiceQuestion.mandatory,
             },
             questionGroupId: this.choiceQuestion.questionGroup,
             surveyId: this.choiceQuestion.survey,
@@ -144,7 +139,10 @@ export class ChoiceQuestionDialogComponent implements OnInit {
     if (this.choiceQuestion.options.length < 2) {
       this.isMinOptionsLengthError = true;
       watcher = false;
-    } else if ( this.choiceQuestion.options.find(op => op == null ) !== undefined || Utils.hasDuplicates(this.choiceQuestion.options.map(op => op.value))) {
+    } else if (
+      this.choiceQuestion.options.find((op) => op == null) !== undefined ||
+      Utils.hasDuplicates(this.choiceQuestion.options.map((op) => op.value))
+    ) {
       this.isMinOptionsLengthError = true;
       watcher = false;
     }
@@ -153,7 +151,10 @@ export class ChoiceQuestionDialogComponent implements OnInit {
   }
 
   addOption(): void {
-    this.choiceQuestion.options = [...this.choiceQuestion.options, { value: ''}];
+    this.choiceQuestion.options = [
+      ...this.choiceQuestion.options,
+      { value: '' },
+    ];
   }
 
   deleteOption(index: number): void {

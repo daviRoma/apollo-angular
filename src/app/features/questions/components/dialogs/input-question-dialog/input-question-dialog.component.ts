@@ -1,18 +1,27 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
 import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
 
 import { AppState } from 'src/app/state/app.state';
-import { InputQuestionNewAction, InputQuestionUpdateAction } from '../../../store/actions/input-question.actions';
+import {
+  InputQuestionNewAction,
+  InputQuestionUpdateAction,
+} from '../../../store/actions/input-question.actions';
 
 import { InputQuestion, QuestionRequest } from 'src/app/models/question.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Icon } from 'src/app/models/icon.model';
 
 import Utils from 'src/app/shared/utils';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-input-question-dialog',
@@ -27,6 +36,8 @@ export class InputQuestionDialogComponent implements OnInit {
 
   public iconFile: Icon;
   public inputType: any[];
+
+  private subscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<InputQuestionDialogComponent>,
@@ -51,12 +62,11 @@ export class InputQuestionDialogComponent implements OnInit {
     } else {
       this.inputQuestion = {
         mandatory: false,
-        questionGroup: this.data.questionGroupId
+        questionGroup: this.data.questionGroupId,
       } as InputQuestion;
     }
 
     this.questionForm.patchValue(this.inputQuestion);
-
   }
 
   ngOnInit(): void {
@@ -90,7 +100,10 @@ export class InputQuestionDialogComponent implements OnInit {
     // Form validation
     if (!this.isFieldValid()) return;
 
-    const payload = Utils.deleteNullKey({ ...this.questionForm.value, icon: this.inputQuestion.icon });
+    const payload = Utils.deleteNullKey({
+      ...this.questionForm.value,
+      icon: this.inputQuestion.icon,
+    });
 
     if (this.iconFile.data) {
       payload.icon = this.iconFile;
@@ -104,7 +117,7 @@ export class InputQuestionDialogComponent implements OnInit {
             question: {
               ...payload,
               position: this.inputQuestion.position,
-              mandatory: this.inputQuestion.mandatory
+              mandatory: this.inputQuestion.mandatory,
             },
             questionGroupId: this.data.questionGroupId,
             surveyId: this.data.surveyId,
@@ -112,7 +125,11 @@ export class InputQuestionDialogComponent implements OnInit {
         )
       : this.store.dispatch(
           new InputQuestionUpdateAction({
-            question: { ...payload, id: this.inputQuestion.id, mandatory: this.inputQuestion.mandatory },
+            question: {
+              ...payload,
+              id: this.inputQuestion.id,
+              mandatory: this.inputQuestion.mandatory,
+            },
             questionGroupId: this.inputQuestion.questionGroup,
             surveyId: this.inputQuestion.survey,
           } as QuestionRequest)
@@ -151,5 +168,4 @@ export class InputQuestionDialogComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
-
 }

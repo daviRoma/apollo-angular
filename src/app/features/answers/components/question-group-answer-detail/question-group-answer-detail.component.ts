@@ -1,13 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
-
-import { AppState } from 'src/app/state/app.state';
+import { Subscription } from 'rxjs';
 import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/survey-answer.selectors';
-import { SurveyAnswerLoadOneAction } from '../../store/actions/survey-answer.actions';
-
 import { AnswersWrapper } from 'src/app/models/answer.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
-import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
+import {
+  SurveyAnswer,
+  SurveyAnswerRequest,
+} from 'src/app/models/survey-answer.model';
+import { AppState } from 'src/app/state/app.state';
+import { SurveyAnswerLoadOneAction } from '../../store/actions/survey-answer.actions';
 
 @Component({
   selector: 'app-question-group-answer-detail',
@@ -33,24 +42,29 @@ export class QuestionGroupAnswerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     if (this.answerId) {
       this.store
         .pipe(select(fromSurveyAnswer.selectSurveyAnswerTotal))
         .subscribe((total: number) => {
           if (!total) {
             this.store
-              .pipe(select(fromSurveyAnswer.selectEntity, { id: this.answerId }))
+              .pipe(
+                select(fromSurveyAnswer.selectEntity, { id: this.answerId })
+              )
               .subscribe((surveyAnswer: SurveyAnswer) => {
                 if (!surveyAnswer) {
-                  this.store.dispatch( new SurveyAnswerLoadOneAction({
-                    id: this.answerId,
-                    surveyId: this.questionGroup.survey
-                  } as SurveyAnswerRequest));
+                  this.store.dispatch(
+                    new SurveyAnswerLoadOneAction({
+                      id: this.answerId,
+                      surveyId: this.questionGroup.survey,
+                    } as SurveyAnswerRequest)
+                  );
                 }
-              }).unsubscribe();
+              })
+              .unsubscribe();
           }
         });
+
       this.store
         .pipe(select(fromSurveyAnswer.selectSurveyAnswerLoading))
         .subscribe((loading: boolean) => {
@@ -60,11 +74,9 @@ export class QuestionGroupAnswerDetailComponent implements OnInit {
           }
         });
     }
-
   }
 
   updateWrapper(event): void {
-
     let result = this.answerGroup.answers.find(
       (item) =>
         item.questionId == event.questionId &&

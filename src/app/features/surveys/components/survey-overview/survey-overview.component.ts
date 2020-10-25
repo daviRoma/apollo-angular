@@ -8,28 +8,31 @@ import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/surv
 import { Survey } from 'src/app/models/survey.model';
 
 import { Paths } from 'src/app/shared/config/path.conf';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-survey-overview',
   templateUrl: './survey-overview.component.html',
-  styleUrls: ['./survey-overview.component.scss']
+  styleUrls: ['./survey-overview.component.scss'],
 })
 export class SurveyOverviewComponent implements OnInit {
-
   @Input() survey: Survey;
 
   public totSurveyAnswers: number;
   public publicLink: string;
 
-  constructor(
-    private store: Store<AppState>
-  ) { }
+  private subscription: Subscription;
+
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.publicLink = `${Paths.surveyAnswer.page}/${this.survey.id}/${this.survey.urlId}`;
-    this.store
+    this.subscription = this.store
       .pipe(select(fromSurveyAnswer.selectSurveyAnswerTotal))
       .subscribe((total) => (this.totSurveyAnswers = total));
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

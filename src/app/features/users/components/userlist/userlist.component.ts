@@ -143,8 +143,7 @@ export class UserListComponent implements OnInit {
   }
 
   public openDeleteDialog(userToDelete): void {
-
-    console.log("User to delete", userToDelete)
+    console.log('User to delete', userToDelete);
     const dialogRef = this.dialog.open(DeleteUserComponent, {
       minWidth: '20%',
       position: { top: '14%' },
@@ -157,12 +156,14 @@ export class UserListComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((response) => {
-      if (response.result === 'close_after_delete') {
-        // Delete action
-        this.store.dispatch(new UserDeleteAction(userToDelete.id));
-        this.router.navigateByUrl('users/administration/list');
-      }
-    });
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.result === 'close_after_delete') {
+          // Delete action
+          this.store.dispatch(new UserDeleteAction(userToDelete.id));
+          this.router.navigateByUrl('users/administration/list');
+        }
+      })
+    );
   }
 }

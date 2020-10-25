@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -17,13 +17,14 @@ import { Survey } from 'src/app/models/survey.model';
 
 import { Paths } from 'src/app/shared/config/path.conf';
 import Utils from 'src/app/shared/utils';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-publish-survey',
   templateUrl: './publish-survey.component.html',
   styleUrls: ['./publish-survey.component.scss'],
 })
-export class PublishSurveyComponent implements OnInit {
+export class PublishSurveyComponent implements OnInit, OnDestroy {
   public dialogConfig: any;
   public survey: Survey;
 
@@ -31,6 +32,8 @@ export class PublishSurveyComponent implements OnInit {
 
   public isError: any;
   public isLoading: boolean;
+
+  private subscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<PublishSurveyComponent>,
@@ -45,11 +48,10 @@ export class PublishSurveyComponent implements OnInit {
       this.survey = { ...this.data.survey };
       this.isLoading = false;
     }
-
   }
 
   ngOnInit(): void {
-    this.store
+    this.subscription = this.store
       .select(fromSurvey.selectEntity, { id: this.survey.id })
       .subscribe((survey: Survey) => {
         if (survey) {
@@ -57,6 +59,10 @@ export class PublishSurveyComponent implements OnInit {
           this.isLoading = false;
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   copyToClipboard(event: any): void {
@@ -82,13 +88,16 @@ export class PublishSurveyComponent implements OnInit {
       if (this.survey.active) {
         const payload = Utils.deleteNullKey({ ...this.survey });
         delete payload.icon;
-        this.store.dispatch(new SurveyUpdateAction({ ...payload, active: false }));
+        this.store.dispatch(
+          new SurveyUpdateAction({ ...payload, active: false })
+        );
       } else {
-        this.store.dispatch(new SurveyPublishAction(
-          {
+        this.store.dispatch(
+          new SurveyPublishAction({
             id: this.survey.id,
-            url: `${Paths.surveyAnswer.publicLink}/${this.survey.id}/${this.survey.urlId}`
-          }));
+            url: `${Paths.surveyAnswer.publicLink}/${this.survey.id}/${this.survey.urlId}`,
+          })
+        );
       }
       this.closeDialog();
     }
@@ -96,8 +105,15 @@ export class PublishSurveyComponent implements OnInit {
   }
 
   hasQuestions(): boolean {
-    if (this.data.survey.questionGroups && this.data.survey.questionGroups.length) {
-      return !(this.data.survey.questionGroups.find(group => (group.questions == null)) !== undefined);
+    if (
+      this.data.survey.questionGroups &&
+      this.data.survey.questionGroups.length
+    ) {
+      return !(
+        this.data.survey.questionGroups.find(
+          (group) => group.questions == null
+        ) !== undefined
+      );
     }
     return false;
   }
@@ -109,5 +125,4 @@ export class PublishSurveyComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
-
 }

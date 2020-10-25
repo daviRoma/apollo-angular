@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
@@ -9,18 +9,20 @@ import { SurveyPublishAction } from '../../../store/actions/survey.actions';
 
 import { Survey } from 'src/app/models/survey.model';
 import { Paths } from 'src/app/shared/config/path.conf';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-invitation-confirm',
   templateUrl: './invitation-confirm.component.html',
   styleUrls: ['./invitation-confirm.component.scss'],
 })
-export class InvitationConfirmComponent implements OnInit {
+export class InvitationConfirmComponent implements OnInit, OnDestroy {
   public dialogConfig: any;
   public survey: Survey;
 
   public publicLink: string;
   public isError: boolean;
+  private subscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<InvitationConfirmComponent>,
@@ -34,7 +36,8 @@ export class InvitationConfirmComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(fromSurvey.selectEntity, { id: this.survey.id })
+    this.subscription = this.store
+      .select(fromSurvey.selectEntity, { id: this.survey.id })
       .subscribe((survey: Survey) => {
         if (survey) {
           this.survey = { ...survey };
@@ -42,10 +45,22 @@ export class InvitationConfirmComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   sendInvitationAndPublish(): void {
-    if (this.survey.invitationPool && this.survey.invitationPool.emails.length) {
-      this.store.dispatch(new SurveyPublishAction({ id: this.survey.id, url: `${Paths.surveyAnswer.publicLink}/${this.survey.id}/${this.survey.urlId}` }));
-      this.dialogRef.close({ result: 'close_after_invitation_confirm '});
+    if (
+      this.survey.invitationPool &&
+      this.survey.invitationPool.emails.length
+    ) {
+      this.store.dispatch(
+        new SurveyPublishAction({
+          id: this.survey.id,
+          url: `${Paths.surveyAnswer.publicLink}/${this.survey.id}/${this.survey.urlId}`,
+        })
+      );
+      this.dialogRef.close({ result: 'close_after_invitation_confirm ' });
     } else {
       this.isError = true;
     }
@@ -58,5 +73,4 @@ export class InvitationConfirmComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
-
 }

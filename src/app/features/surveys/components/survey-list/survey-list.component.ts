@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -60,7 +66,10 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscription: Subscription = new Subscription();
   private user: User;
 
-  constructor(public confirmDialog: MatDialog, private store: Store<AppState>, private translate: TranslateService,
+  constructor(
+    public confirmDialog: MatDialog,
+    private store: Store<AppState>,
+    private translate: TranslateService
   ) {
     this.isStart = true;
     this.pageSize = 5;
@@ -76,27 +85,27 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe(
-      (user: User) => {
-        if (user) {
-          this.user = user;
-          if (this.isStart) {
-            this.loadSurveys();
-            this.isStart = false;
-          }
+    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe((user: User) => {
+      if (user) {
+        this.user = user;
+        if (this.isStart) {
+          this.loadSurveys();
+          this.isStart = false;
         }
       }
-    );
+    });
 
     this.subscription.add(
-      this.store.pipe(select(fromSurvey.selectSurveyLoading)).subscribe((loading) => {
-        if (loading) {
-          this.dataSource = new MatTableDataSource([]);
-        } else {
-          this.selectSurveys();
-        }
-        this.isLoading = loading;
-      })
+      this.store
+        .pipe(select(fromSurvey.selectSurveyLoading))
+        .subscribe((loading) => {
+          if (loading) {
+            this.dataSource = new MatTableDataSource([]);
+          } else {
+            this.selectSurveys();
+          }
+          this.isLoading = loading;
+        })
     );
 
     this.error$ = this.store.pipe(select(fromSurvey.selectSurveyError));
@@ -145,14 +154,15 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(
-      response => {
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((response) => {
         if (response.result === 'close_after_delete') {
           this.paginator.pageIndex = 0;
           this.paginator.pageSize = 5;
           this.loadSurveys();
         }
-      });
+      })
+    );
   }
 
   private selectSurveys(): void {
@@ -166,7 +176,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.store
       .pipe(select(fromSurvey.selectSurveyTotal))
-      .subscribe((total) => this.surveyTotal = total);
+      .subscribe((total) => (this.surveyTotal = total));
   }
 
   private initializeData(surveys: Survey[]): void {
@@ -176,14 +186,13 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   private loadSurveys(): void {
     const request = {
       user_id: this.user.id,
-      page: this.paginator ? (this.paginator.pageIndex + 1) : 1,
+      page: this.paginator ? this.paginator.pageIndex + 1 : 1,
       pag_size: this.paginator ? this.paginator.pageSize : 5,
     } as SurveyRequest;
 
-    if (this.filter && this.filter !== '') request.name = this.filter.toLocaleLowerCase();
+    if (this.filter && this.filter !== '')
+      request.name = this.filter.toLocaleLowerCase();
 
-    this.store.dispatch(
-      new SurveyLoadAction(request)
-    );
+    this.store.dispatch(new SurveyLoadAction(request));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -8,17 +8,24 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import * as fromQuestionGroup from 'src/app/features/question-groups/store/question-group.selectors';
-import { MatrixQuestionNewAction, MatrixQuestionUpdateAction } from '../../../store/actions/matrix-question.actions';
+import {
+  MatrixQuestionNewAction,
+  MatrixQuestionUpdateAction,
+} from '../../../store/actions/matrix-question.actions';
 
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
 
-import { ChoiceQuestion, MatrixQuestion, QuestionRequest } from 'src/app/models/question.model';
+import {
+  ChoiceQuestion,
+  MatrixQuestion,
+  QuestionRequest,
+} from 'src/app/models/question.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Icon } from 'src/app/models/icon.model';
 
 import Utils from 'src/app/shared/utils';
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-matrix-question-dialog',
@@ -52,7 +59,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
         Validators.minLength(12),
       ]),
       mandatory: [false],
-      type: ['', Validators.required]
+      type: ['', Validators.required],
     });
 
     // Edit case
@@ -64,7 +71,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
         elements: [],
         type: this.data.type,
         questionGroup: this.data.questionGroupId,
-        mandatory: false
+        mandatory: false,
       } as MatrixQuestion;
     }
 
@@ -73,9 +80,16 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     // Calculate question position
-    if (this.matrixQuestion.position == null || this.matrixQuestion.position === undefined) {
+    if (
+      this.matrixQuestion.position == null ||
+      this.matrixQuestion.position === undefined
+    ) {
       this.store
-        .pipe(select(fromQuestionGroup.selectEntity, { id: this.matrixQuestion.questionGroup }))
+        .pipe(
+          select(fromQuestionGroup.selectEntity, {
+            id: this.matrixQuestion.questionGroup,
+          })
+        )
         .subscribe((response: QuestionGroup) => {
           this.matrixQuestion.position = response.questions.length + 1;
         });
@@ -88,7 +102,10 @@ export class MatrixQuestionDialogComponent implements OnInit {
     // Form validation
     if (!this.isFieldValid()) return;
 
-    const payload = Utils.deleteNullKey({ ...this.questionForm.value, icon: this.matrixQuestion.icon });
+    const payload = Utils.deleteNullKey({
+      ...this.questionForm.value,
+      icon: this.matrixQuestion.icon,
+    });
 
     if (this.iconFile.data) {
       payload.icon = this.iconFile;
@@ -101,10 +118,10 @@ export class MatrixQuestionDialogComponent implements OnInit {
           new MatrixQuestionNewAction({
             question: {
               ...payload,
-              options: this.matrixQuestion.options.map(op => op.value),
-              elements: this.matrixQuestion.elements.map(el => el.title),
+              options: this.matrixQuestion.options.map((op) => op.value),
+              elements: this.matrixQuestion.elements.map((el) => el.title),
               position: this.matrixQuestion.position,
-              mandatory: this.matrixQuestion.mandatory
+              mandatory: this.matrixQuestion.mandatory,
             },
             questionGroupId: this.data.questionGroupId,
             surveyId: this.data.surveyId,
@@ -115,9 +132,9 @@ export class MatrixQuestionDialogComponent implements OnInit {
             question: {
               ...payload,
               id: this.matrixQuestion.id,
-              options: this.matrixQuestion.options.map(op => op.value),
-              elements: this.matrixQuestion.elements.map(el => el.title),
-              mandatory: this.matrixQuestion.mandatory
+              options: this.matrixQuestion.options.map((op) => op.value),
+              elements: this.matrixQuestion.elements.map((el) => el.title),
+              mandatory: this.matrixQuestion.mandatory,
             },
             questionGroupId: this.matrixQuestion.questionGroup,
             surveyId: this.matrixQuestion.survey,
@@ -126,7 +143,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
 
     this.dialogRef.close({
       result: 'close_after_submit',
-      data: this.matrixQuestion.questionGroup
+      data: this.matrixQuestion.questionGroup,
     });
   }
 
@@ -144,7 +161,9 @@ export class MatrixQuestionDialogComponent implements OnInit {
     if (this.matrixQuestion.options.length < 2) {
       this.isMinOptionsLengthError = true;
       watcher = false;
-    } else if (this.matrixQuestion.options.find( (op) => op == null) !== undefined) {
+    } else if (
+      this.matrixQuestion.options.find((op) => op == null) !== undefined
+    ) {
       this.isMinOptionsLengthError = true;
       watcher = false;
     }
@@ -153,7 +172,9 @@ export class MatrixQuestionDialogComponent implements OnInit {
     if (this.matrixQuestion.elements.length < 2) {
       this.isMinElementsLengthError = true;
       watcher = false;
-    } else if (this.matrixQuestion.options.find( (el) => el == null) !== undefined) {
+    } else if (
+      this.matrixQuestion.options.find((el) => el == null) !== undefined
+    ) {
       this.isMinElementsLengthError = true;
       watcher = false;
     }
@@ -162,11 +183,17 @@ export class MatrixQuestionDialogComponent implements OnInit {
   }
 
   addOption(): void {
-    this.matrixQuestion.options = [...this.matrixQuestion.options, { value: ''}];
+    this.matrixQuestion.options = [
+      ...this.matrixQuestion.options,
+      { value: '' },
+    ];
   }
 
   addElement(): void {
-    this.matrixQuestion.elements = [...this.matrixQuestion.elements, { title: ''}];
+    this.matrixQuestion.elements = [
+      ...this.matrixQuestion.elements,
+      { title: '' },
+    ];
   }
 
   deleteOption(index: number): void {
@@ -176,7 +203,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
   }
 
   deleteElement(index: number): void {
-    const elements = [ ...this.matrixQuestion.elements];
+    const elements = [...this.matrixQuestion.elements];
     elements.splice(index, 1);
     this.matrixQuestion.elements = [...elements];
   }
@@ -188,7 +215,7 @@ export class MatrixQuestionDialogComponent implements OnInit {
   }
 
   onElementChange(event: any, index: number): void {
-    const elements = [ ...this.matrixQuestion.elements];
+    const elements = [...this.matrixQuestion.elements];
     elements[index] = { title: event.target.value };
     this.matrixQuestion.elements = [...elements];
   }
@@ -209,5 +236,4 @@ export class MatrixQuestionDialogComponent implements OnInit {
   cancel(): void {
     this.closeDialog();
   }
-
 }
