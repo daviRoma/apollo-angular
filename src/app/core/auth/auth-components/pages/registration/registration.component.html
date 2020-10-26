@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
 
       <div class="col-sm-8 col-lg-5">
-        <div class="card shadow zindex-100 mb-0">
+        <div *ngIf="!success" class="card shadow zindex-100 mb-0">
           <div class="card-body px-md-5 py-5">
             <div class="mb-5">
               <h6 class="h3">{{ 'user.create' | translate }}</h6>
@@ -48,8 +48,8 @@
 										<span class="input-group-text"><i class="far fa-user"></i></span>
 									</div>
                   <input type="text" formControlName="username" class="form-control" placeholder="Username" required />
-                  <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="(registrationForm.get('username').hasError('required') || registrationForm.get('username').hasError('minlength')) && registrationForm.get('username').touched">*{{ 'error.session.usernameSize' | translate }}</mat-error>
 								</div>
+                <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="(registrationForm.get('username').hasError('required') || registrationForm.get('username').hasError('minlength')) && registrationForm.get('username').touched">*{{ 'error.session.usernameSize' | translate }}</mat-error>
 							</div>
 
               <div class="form-group">
@@ -59,8 +59,8 @@
 										<span class="input-group-text"><i class="far fa-at"></i></span>
 									</div>
                   <input type="email" class="form-control" formControlName="email" placeholder="name@example.com" required />
-                  <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="(registrationForm.get('email').hasError('required') || invalidEmail) && registrationForm.get('email').touched">*{{ 'error.invalidEmail' | translate }}</mat-error>
 								</div>
+                <mat-error class="font-weight-bold text-danger text-xs mx-1" *ngIf="(registrationForm.get('email').hasError('required') || invalidEmail) && registrationForm.get('email').touched">*{{ 'error.invalidEmail' | translate }}</mat-error>
               </div>
 
 							<div class="form-group mb-4">
@@ -99,7 +99,19 @@
 					<div class="card-footer px-md-5">
 							<small>{{ 'common.alreadyregistered' | translate }}</small> <a href="#" [routerLink]="['/auth/login']" class="small font-weight-bold">&nbsp;{{ 'user.signIn' | translate }}</a>
 					</div>
-				</div>
+        </div>
+
+        <div *ngIf="success" class="card shadow zindex-100 mb-0">
+          <div class="card-body px-md-5 py-5">
+            <div class="mb-5">
+              <h6 class="h3">{{ 'user.create' | translate }}</h6>
+            </div>
+            <div class="alert alert-success" role="alert">
+              <strong><i class="far fa-check-circle"></i></strong>&nbsp; {{ 'user.registered' | translate }}
+            </div>
+            <span class="clearfix"></span>
+          </div>
+        </div>
 			</div>
 		</div>
 	</div>

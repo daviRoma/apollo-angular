@@ -2,14 +2,17 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import { AppState } from 'src/app/state/app.state';
-import { selectAuthState } from 'src/app/core/auth/store/auth.selectors';
+import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
+
 import { Registration } from 'src/app/core/auth/store/auth.actions';
 import { RegistrationRequest } from 'src/app/models/user.model';
 
 import Utils from 'src/app/shared/utils';
+import { AuthState } from 'src/app/state/auth.state';
 
 @Component({
   selector: 'app-registration',
@@ -20,17 +23,18 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public registrationForm: FormGroup;
 
   public invalidEmail: boolean;
-  private subscription: Subscription;
 
-  getState: Observable<any>;
-  errorMessage: string | null;
+  public success: boolean;
+
+  public message: string;
+
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private formBuilder: FormBuilder,
+    private router: Router,
     private store: Store<AppState>
   ) {
-    this.getState = this.store.select(selectAuthState);
-
     this.registrationForm = this.formBuilder.group(
       {
         firstname: ['', [Validators.required]],
@@ -52,9 +56,24 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.getState.subscribe((state) => {
-      this.errorMessage = state.errorMessage;
-    });
+    this.subscription = this.store
+      .pipe(select(fromAuth.selectAuthState))
+      .subscribe((state: AuthState) => {
+        if (!state.loading) {
+          if (state.message === 'registered') {
+            this.success = true;
+            setTimeout(() => {
+              this.router.navigateByUrl('/auth/login');
+            }, 2000);
+          } else if (state.error) {
+            this.message = state.message;
+          }
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onSubmit(event): void {
@@ -74,6 +93,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         password: this.registrationForm.value.password,
       } as RegistrationRequest)
     );
+
+    // this.store
+    //   .pipe(select(fromAuth.selectAuthLoading))
+    //   .subscribe((loading: boolean) => {
+    //     if (!loading) {
+    //       this.store
+    //         .pipe(select(fromAuth.selectAuthError))
+    //         .subscribe()
+    //     }
+    //   });
   }
 
   private checkPasswords(group: FormGroup): any {
@@ -84,7 +113,4 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     return password === passwordConfirm ? null : { notSame: true };
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 }

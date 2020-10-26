@@ -8,7 +8,8 @@ export interface AuthState {
   auth: Auth;
   isAuthenticated: boolean;
   error: boolean;
-  errorMessage: string;
+  message: string;
+  loading: boolean;
 }
 
 export const authAdapter: EntityAdapter<Auth> = createEntityAdapter<Auth>(
@@ -21,5 +22,6 @@ export const initialAuthState: AuthState = {
   auth: null,
   isAuthenticated: false,
   error: false,
-  errorMessage: null
+  message: null,
+  loading: false
 };

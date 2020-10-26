@@ -65,13 +65,13 @@ export class AuthEffects {
     ))
   );
 
-  @Effect({ dispatch: false })
-  RegistrationSuccess: Observable<any> = this.actions.pipe(
-    ofType(AuthActionTypes.REGISTRATION_SUCCESS),
-    tap((user) => {
-      this.router.navigateByUrl('/auth/login');
-    })
-  );
+  // @Effect({ dispatch: false })
+  // RegistrationSuccess: Observable<any> = this.actions.pipe(
+  //   ofType(AuthActionTypes.REGISTRATION_SUCCESS),
+  //   tap((user) => {
+  //     this.router.navigateByUrl('/auth/login');
+  //   })
+  // );
 
   @Effect({ dispatch: false })
   SignUpFailure: Observable<Action> = this.actions.pipe(

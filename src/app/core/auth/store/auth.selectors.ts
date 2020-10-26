@@ -27,3 +27,13 @@ export const selectAuthError = createSelector(
   selectAuthState,
   (state: AuthState) => state.error
 );
+
+export const selectAuthMessage = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.message
+);
+
+export const selectAuthLoading = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.loading
+);

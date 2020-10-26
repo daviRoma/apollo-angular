@@ -267,7 +267,8 @@
     "delete": "Cancella Account",
     "deletemessage": "Sei sicuro di voler cancellare il tuo account? \nQuesta operazione è irreversibile.",
     "signIn": "Registrati!",
-    "role": "Ruolo"
+    "role": "Ruolo",
+    "registered": "Account creato con successo!\nVerrai reindirizzato alla pagina di login automaticamente..."
   },
 
   "email": {

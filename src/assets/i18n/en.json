@@ -267,7 +267,8 @@
     "delete": "Delete account",
     "deletemessage": "Are you sure to delete your account? This operation is not reversible",
     "signIn": "Sign In!",
-    "role": "Role"
+    "role": "Role",
+    "registered": "Account succesfully created! You will be automatically redirected to the login page..."
   },
 
   "email": {
