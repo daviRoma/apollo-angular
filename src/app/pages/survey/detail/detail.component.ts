@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
 
@@ -15,6 +15,7 @@ import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { User } from 'src/app/models/user.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-detail',
@@ -33,6 +34,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   public isStart: boolean;
 
   private routeParamsSubscription: Subscription;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private route: ActivatedRoute,
@@ -47,7 +49,8 @@ export class DetailComponent implements OnInit, OnDestroy {
       if (params.survey_id) {
         // Select survey from store by url parameter
         self.store
-          .pipe(select(fromAuth.selectAuthUser))
+          .select(fromAuth.selectAuthUser)
+          .pipe(takeUntil(this.destroy))
           .subscribe((user: User) => {
             if (user) {
               self.user = user;
@@ -64,13 +67,18 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.select(fromSurvey.selectSurveyLoading).subscribe((loading) => {
+    this.store
+      .select(fromSurvey.selectSurveyLoading)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((loading) => {
       if (!loading) {
         this.loadWithSelectors();
       }
     });
 
-    this.store.select(fromQuestionGroup.selectQuestionGroupLoading)
+    this.store
+      .select(fromQuestionGroup.selectQuestionGroupLoading)
+      .pipe(takeUntil(this.destroy))
       .subscribe((loading: boolean) => {
         if (!loading) {
           this.loadQuestionGroupsWithSelectors();
@@ -81,10 +89,14 @@ export class DetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
     this.store.complete();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 
   private loadWithSelectors(): void {
-    this.store.select(fromSurvey.selectEntity, { id: this.params.surveyId })
+    this.store
+      .select(fromSurvey.selectEntity, { id: this.params.surveyId })
+      .pipe(takeUntil(this.destroy))
       .subscribe((survey: Survey) => {
         if (survey) {
           this.survey = { ...survey };
@@ -99,7 +111,9 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   private loadQuestionGroupsWithSelectors(): void {
-    this.store.select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.params.surveyId })
+    this.store
+      .select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.params.surveyId })
+      .pipe(takeUntil(this.destroy))
       .subscribe((response: QuestionGroup[]) => {
         if (response && response.length) {
           this.survey = { ...this.survey, questionGroups: [ ...response ] };

@@ -38,7 +38,6 @@ export class SurveyDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private store: Store<AppState>,
     private router: Router,
     private translate: TranslateService
   ) {

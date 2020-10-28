@@ -1,22 +1,24 @@
-import { Component, DoCheck, KeyValueChanges, KeyValueDiffer, KeyValueDiffers, OnChanges, OnInit } from '@angular/core';
+import { Component, DoCheck, KeyValueChanges, KeyValueDiffer, KeyValueDiffers, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
-import { UserLoadAction, UserUpdateAction } from '../../store/actions/user.actions';
+import { UserUpdateAction } from '../../store/actions/user.actions';
 import { LoadSessionUser } from 'src/app/core/auth/store/auth.actions';
 
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 
 import { IconData } from 'src/app/models/icon.model';
 import { User } from 'src/app/models/user.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edituser',
   templateUrl: './edituser.component.html',
   styleUrls: ['./edituser.component.scss'],
 })
-export class EditUserComponent implements OnInit, DoCheck {
+export class EditUserComponent implements OnInit, OnDestroy, DoCheck {
   public user: User;
   public editProfileForm: FormGroup;
 
@@ -26,9 +28,8 @@ export class EditUserComponent implements OnInit, DoCheck {
 
   private isfileChanged = false;
 
-
   private fileDiffer: KeyValueDiffer<string, any>;
-
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,12 +48,15 @@ export class EditUserComponent implements OnInit, DoCheck {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe((user: User) => {
-      this.user = user;
+    this.store
+      .select(fromAuth.selectAuthUser)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((user: User) => {
+        this.user = user;
 
-      if (this.user) {
-        this.editProfileForm.patchValue(this.user);
-      }
+        if (this.user) {
+          this.editProfileForm.patchValue(this.user);
+        }
     });
 
     this.iconData = new IconData();
@@ -66,12 +70,16 @@ export class EditUserComponent implements OnInit, DoCheck {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
+  }
+
   fileChanged(changes: KeyValueChanges<string, any>): void {
     this.isfileChanged = true;
   }
 
   onFileChange(event): void {
-    console.log('File Change Event', event);
 
     if (this.fileValidation(event.target.files[0])) {
       this.file = event.target.files[0];
@@ -102,7 +110,6 @@ export class EditUserComponent implements OnInit, DoCheck {
     this.iconData.base64 = btoa(binaryString);
   }
 
-  ngAfterInit(): void { }
 
   onSubmit(event): void {
     event.preventDefault();
@@ -119,8 +126,7 @@ export class EditUserComponent implements OnInit, DoCheck {
     });
     this.store.dispatch(new UserUpdateAction(payload));
 
-
-    this.store.dispatch(new LoadSessionUser())
+    this.store.dispatch(new LoadSessionUser());
 
   }
 

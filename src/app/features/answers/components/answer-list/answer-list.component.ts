@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Observable, Subject, merge, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -60,6 +60,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   public defaultSort: Sort = { active: 'id', direction: 'asc' };
 
   private subscription: Subscription = new Subscription();
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store<AppState>) {
     this.pageSize = 5;
@@ -77,16 +78,19 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.loadAnswers();
     this.store
-      .pipe(select(fromSurveyAnswer.selectAllSurveyAnswer))
+      .select(fromSurveyAnswer.selectAllSurveyAnswer)
+      .pipe(takeUntil(this.destroy))
       .subscribe((surveyAnswer) => this.initializeData(surveyAnswer));
 
     this.store
-      .pipe(select(fromSurveyAnswer.selectSurveyAnswerTotal))
+      .select(fromSurveyAnswer.selectSurveyAnswerTotal)
+      .pipe(takeUntil(this.destroy))
       .subscribe((total) => (this.answerTotal = total));
 
     this.subscription.add(
       this.store
-        .pipe(select(fromSurveyAnswer.selectSurveyAnswerLoading))
+        .select(fromSurveyAnswer.selectSurveyAnswerLoading)
+        .pipe(takeUntil(this.destroy))
         .subscribe((loading) => {
           if (loading) {
             this.dataSource = new MatTableDataSource([]);
@@ -95,9 +99,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
         })
     );
 
-    this.error$ = this.store.pipe(
-      select(fromSurveyAnswer.selectSurveyAnswerError)
-    );
+    this.error$ = this.store.select(fromSurveyAnswer.selectSurveyAnswerError);
   }
 
   ngAfterViewInit(): void {
@@ -125,6 +127,8 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 
   refreshData(): void {
@@ -137,7 +141,7 @@ export class AnswerListComponent implements OnInit, OnDestroy, AfterViewInit {
     return (
       (totAnswers /
         this.questionGroups
-          .map((g) => g.questions.length)
+          .map((g) => (g.questions && g.questions.length ? g.questions.length : 0))
           .reduce((g1, g2) => g1 + g2)) *
       100
     ).toFixed(2);

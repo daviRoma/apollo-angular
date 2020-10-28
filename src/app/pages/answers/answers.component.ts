@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { AppState } from 'src/app/state/app.state';
 import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
@@ -15,6 +15,7 @@ import * as fromSurveyAnswer from 'src/app/features/answers/store/selectors/surv
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { Survey } from 'src/app/models/survey.model';
 import { SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-answers',
@@ -31,6 +32,7 @@ export class AnswersComponent implements OnInit, OnDestroy {
   public isLoading: boolean;
 
   private routeParamsSubscription: Subscription;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +57,8 @@ export class AnswersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 
   showSubmittedView(event): void{}
@@ -65,7 +69,8 @@ export class AnswersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SurveyLoadOneAction({ id: surveyId, dispatch: true }));
 
     this.store
-      .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
+      .select(fromSurvey.selectEntity, { id: surveyId })
+      .pipe(takeUntil(this.destroy))
       .subscribe((survey: Survey) => {
         if (survey) {
           this.survey = survey;
@@ -75,7 +80,8 @@ export class AnswersComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .pipe(select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId }))
+      .select(fromQuestionGroup.selectEntitiesBySurvey, { id: surveyId })
+      .pipe(takeUntil(this.destroy))
       .subscribe((response: QuestionGroup[]) => {
         this.survey = { ...this.survey, questionGroups: response };
         this.questionGroups = response;
@@ -84,7 +90,8 @@ export class AnswersComponent implements OnInit, OnDestroy {
 
   private loadAnswerData(): void {
     this.store
-      .pipe(select(fromSurveyAnswer.selectEntity, { id: this.surveyAnswerId }))
+      .select(fromSurveyAnswer.selectEntity, { id: this.surveyAnswerId })
+      .pipe(takeUntil(this.destroy))
       .subscribe((surveyAnswer: SurveyAnswer) => {
         if (!surveyAnswer) {
           this.store.dispatch( new SurveyAnswerLoadOneAction({

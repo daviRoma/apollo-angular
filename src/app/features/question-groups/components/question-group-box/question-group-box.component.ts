@@ -9,7 +9,8 @@ import * as fromQuestionGroup from 'src/app/features/question-groups/store/quest
 import { EditQuestionGroupComponent } from '../dialogs/edit-question-group/edit-question-group.component';
 
 import { QuestionGroup } from 'src/app/models/question-group.model';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-question-group-box',
@@ -22,6 +23,7 @@ export class QuestionGroupBoxComponent implements OnInit, OnDestroy {
   @Input() readonly: boolean;
 
   private subscription: Subscription;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     public questionGroupDialog: MatDialog,
@@ -50,7 +52,8 @@ export class QuestionGroupBoxComponent implements OnInit, OnDestroy {
     this.subscription = dialogRef.afterClosed().subscribe((response) => {
       if (response.result === 'close_after_submit') {
         this.store
-          .pipe(select(fromQuestionGroup.selectQuestionGroupError))
+          .select(fromQuestionGroup.selectQuestionGroupError)
+          .pipe(takeUntil(this.destroy))
           .subscribe((error: any) => {
             if (error) console.error('Create Question Group');
           });
@@ -62,5 +65,7 @@ export class QuestionGroupBoxComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 }

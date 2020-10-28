@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
 
@@ -15,14 +15,14 @@ import { QuestionLoadAction } from 'src/app/features/questions/store/actions/que
 import { AppState } from 'src/app/state/app.state';
 
 import { QuestionGroupLoadAction } from 'src/app/features/question-groups/store/question-group.actions';
-import { SurveyLoadAction, SurveyLoadOneAction } from 'src/app/features/surveys/store/actions/survey.actions';
-import { SurveyAnswerLoadAction } from 'src/app/features/answers/store/actions/survey-answer.actions';
+import { SurveyLoadOneAction } from 'src/app/features/surveys/store/actions/survey.actions';
 
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
-import { QuestionAnswer, SurveyAnswer, SurveyAnswerRequest } from 'src/app/models/survey-answer.model';
+import { QuestionAnswer } from 'src/app/models/survey-answer.model';
 import { QuestionGroup } from 'src/app/models/question-group.model';
 import { QuestionRequest, Question } from 'src/app/models/question.model';
 import { User } from 'src/app/models/user.model';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -47,6 +47,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   public isLoadingAnswers: boolean;
 
   private routeParamsSubscription: Subscription;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {
     const self = this;
@@ -60,7 +61,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
       if (params.survey_id) {
         // Select survey from store by url parameter
         self.store
-          .pipe(select(fromAuth.selectAuthUser))
+          .select(fromAuth.selectAuthUser)
+          .pipe(takeUntil(this.destroy))
           .subscribe((user: User) => {
             if (user) {
               self.user = user;
@@ -75,6 +77,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 
   onQuestionGroupChange(event): void {
@@ -106,8 +110,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
       q => (q.id + '-' + q.idDB === event.target.value)
     )};
 
-    this.store.pipe(
-      select(fromSurveyAnswer.selectAnswersByQuestion, { id: this.question.idDB, type: this.question.questionType }))
+    this.store
+      .select(fromSurveyAnswer.selectAnswersByQuestion, { id: this.question.idDB, type: this.question.questionType })
+      .pipe(takeUntil(this.destroy))
       .subscribe((response: QuestionAnswer[]) => {
         if (response.length) {
           this.questionAnswers = [ ...response ];
@@ -120,7 +125,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.store.dispatch(new QuestionGroupLoadAction(surveyId));
 
     this.store
-      .pipe(select(fromSurvey.selectEntity, { id: surveyId }))
+      .select(fromSurvey.selectEntity, { id: surveyId })
+      .pipe(takeUntil(this.destroy))
       .subscribe((survey: Survey) => {
         if (survey) {
           this.survey = survey;
@@ -134,9 +140,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   private loadQuestionGroupsData(): void {
     this.store
-      .pipe(
-        select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.survey.id })
-      )
+      .select(fromQuestionGroup.selectEntitiesBySurvey, { id: this.survey.id })
+      .pipe(takeUntil(this.destroy))
       .subscribe((response: QuestionGroup[]) => {
         this.survey = { ...this.survey, questionGroups: response };
         this.questionGroups = [ ...response ];
@@ -146,9 +151,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   private loadQuestionsData(): void {
     this.store
-      .pipe(
-        select(fromQuestion.selectEntitiesByGroup, { id: this.questionGroupId })
-      )
+      .select(fromQuestion.selectEntitiesByGroup, { id: this.questionGroupId })
+      .pipe(takeUntil(this.destroy))
       .subscribe((response: Question[]) => {
         if (response && response.length) {
           this.questions = [...response];

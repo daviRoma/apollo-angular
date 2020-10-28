@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from 'src/app/state/app.state';
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './survey-overview.component.html',
   styleUrls: ['./survey-overview.component.scss'],
 })
-export class SurveyOverviewComponent implements OnInit {
+export class SurveyOverviewComponent implements OnInit, OnDestroy {
   @Input() survey: Survey;
 
   public totSurveyAnswers: number;
@@ -28,7 +28,7 @@ export class SurveyOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.publicLink = `${Paths.surveyAnswer.page}/${this.survey.id}/${this.survey.urlId}`;
     this.subscription = this.store
-      .pipe(select(fromSurveyAnswer.selectSurveyAnswerTotal))
+      .select(fromSurveyAnswer.selectSurveyAnswerTotal)
       .subscribe((total) => (this.totSurveyAnswers = total));
   }
 

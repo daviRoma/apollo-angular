@@ -10,24 +10,25 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Store, select } from '@ngrx/store';
 import { SurveyLoadAction } from 'src/app/features/surveys/store/actions/survey.actions';
-import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
 import { AppState } from 'src/app/state/app.state';
+
+import * as fromSurvey from 'src/app/features/surveys/store/selectors/survey.selectors';
 import * as fromAuth from 'src/app/core/auth/store/auth.selectors';
 
 /* COMPONENTS */
 import { DeleteSurveyComponent } from 'src/app/features/surveys/components/dialogs/delete-survey/delete-survey.component';
 
 import { Observable, Subject, merge, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Survey, SurveyRequest } from 'src/app/models/survey.model';
 
 import { Paths } from 'src/app/shared/config/path.conf';
 import { User } from 'src/app/models/user.model';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-survey-list',
@@ -64,6 +65,8 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   public defaultSort: Sort = { active: 'id', direction: 'asc' };
 
   private subscription: Subscription = new Subscription();
+  private destroy: Subject<boolean> = new Subject<boolean>();
+
   private user: User;
 
   constructor(
@@ -85,7 +88,7 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe((user: User) => {
+    this.store.select(fromAuth.selectAuthUser).pipe(takeUntil(this.destroy)).subscribe((user: User) => {
       if (user) {
         this.user = user;
         if (this.isStart) {
@@ -97,7 +100,8 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscription.add(
       this.store
-        .pipe(select(fromSurvey.selectSurveyLoading))
+        .select(fromSurvey.selectSurveyLoading)
+        .pipe(takeUntil(this.destroy))
         .subscribe((loading) => {
           if (loading) {
             this.dataSource = new MatTableDataSource([]);
@@ -138,7 +142,8 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.store.complete();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 
   openDeleteDialog(survey: Survey): void {
@@ -167,7 +172,8 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private selectSurveys(): void {
     this.store
-      .pipe(select(fromSurvey.selectAllSurvey))
+      .select(fromSurvey.selectAllSurvey)
+      .pipe(takeUntil(this.destroy))
       .subscribe((surveys: Survey[]) => {
         if (surveys.length) {
           this.initializeData(surveys);
@@ -175,7 +181,8 @@ export class SurveyListComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.store
-      .pipe(select(fromSurvey.selectSurveyTotal))
+      .select(fromSurvey.selectSurveyTotal)
+      .pipe(takeUntil(this.destroy))
       .subscribe((total) => (this.surveyTotal = total));
   }
 

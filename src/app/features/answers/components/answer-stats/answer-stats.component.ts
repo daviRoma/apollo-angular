@@ -35,7 +35,7 @@ export class AnswerStatsComponent implements OnInit {
   }
 
 
-  constructor(private store: Store<AppState>) { }
+  constructor() { }
 
   ngOnInit(): void { }
 

@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subject, Subscription, merge } from 'rxjs';
-import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { tap, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
@@ -32,9 +32,12 @@ import { Paths } from 'src/app/shared/config/path.conf';
   templateUrl: './userlist.component.html',
   styleUrls: ['./userlist.component.scss'],
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
+
+  public user: User;
+  public router: Router;
 
   // MatPaginator Output
   public pageEvent: PageEvent;
@@ -59,8 +62,7 @@ export class UserListComponent implements OnInit {
   public defaultSort: Sort = { active: 'id', direction: 'asc' };
 
   private subscription: Subscription = new Subscription();
-  public user: User;
-  public router: Router;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     public confirmDialog: MatDialog,
@@ -71,27 +73,35 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select(fromAuth.selectAuthUser)).subscribe((user: User) => {
-      this.user = user;
-      this.loadUsers();
+    this.store
+      .select(fromAuth.selectAuthUser)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((user: User) => {
+        this.user = user;
+        this.loadUsers();
     });
 
     this.displayedColumns = ['icon', 'username', 'email', 'action'];
 
     this.store
-      .pipe(select(selectAllUser))
+      .select(selectAllUser)
+      .pipe(takeUntil(this.destroy))
       .subscribe((users) => this.initializeData(users));
 
     this.store
-      .pipe(select(selectUserTotal))
+      .select(selectUserTotal)
+      .pipe(takeUntil(this.destroy))
       .subscribe((total) => (this.userTotal = total));
 
     this.subscription.add(
-      this.store.pipe(select(selectUserLoading)).subscribe((loading) => {
-        if (loading) {
-          this.dataSource = new MatTableDataSource(this.noData);
-        }
-        this.loading = loading;
+      this.store
+        .select(selectUserLoading)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((loading) => {
+          if (loading) {
+            this.dataSource = new MatTableDataSource(this.noData);
+          }
+          this.loading = loading;
       })
     );
 
@@ -123,6 +133,8 @@ export class UserListComponent implements OnInit {
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 
   public retry(): void {
@@ -143,7 +155,6 @@ export class UserListComponent implements OnInit {
   }
 
   public openDeleteDialog(userToDelete): void {
-    console.log('User to delete', userToDelete);
     const dialogRef = this.dialog.open(DeleteUserComponent, {
       minWidth: '20%',
       position: { top: '14%' },
