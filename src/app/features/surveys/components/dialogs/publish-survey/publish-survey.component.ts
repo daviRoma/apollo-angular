@@ -111,7 +111,7 @@ export class PublishSurveyComponent implements OnInit, OnDestroy {
     ) {
       return !(
         this.data.survey.questionGroups.find(
-          (group) => group.questions == null
+          (group) => (group.questions == null || !group.questions.length)
         ) !== undefined
       );
     }

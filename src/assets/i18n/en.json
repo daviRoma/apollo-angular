@@ -102,7 +102,7 @@
     "endDate": "End Date",
     "action": "Action",
     "digitemail": "Digit an email...",
-    "unabletopublish": "Unable to publish"
+    "unabletopublish": "Unable to publish. The survey does not contains questions."
      },
 
   "placeholder": {

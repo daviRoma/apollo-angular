@@ -102,7 +102,7 @@
     "endDate": "Data Fine",
     "action": "Azione",
     "digitemail": "Inserisci un indirizzo email...",
-    "unabletopublish": "Impossibile pubblicare"
+    "unabletopublish": "Impossibile pubblicare. Il sondaggio non contiene domande."
 
   },
 
