@@ -99,7 +99,9 @@ export class DetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((survey: Survey) => {
         if (survey) {
-          this.survey = { ...survey };
+          this.survey = this.questionGroups && this.questionGroups.length ?
+            { ...survey, questionGroups: [ ...this.questionGroups ] }
+            : { ...survey };
         }
         this.isLoading = false;
     });
